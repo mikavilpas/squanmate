@@ -5,12 +5,12 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
   :min-lein-version "2.7.1"
-  
+
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.9.229"]
                  [devcards "0.2.3"]
                  [sablono "0.7.4"]
-                 
+
                  ;; need to specify this for sablono
                  ;; when not using devcards
                  [cljsjs/react "15.3.1-0"]
@@ -24,7 +24,7 @@
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled"
                                     "target"]
-  
+
   :source-paths ["src"]
 
   :cljsbuild {
@@ -37,10 +37,10 @@
                                    ;; Comment this out once it no longer serves you.
                                    :open-urls ["http://localhost:3449/cards.html"]}
                         :compiler { :main       "squanmate.core"
-                                    :asset-path "js/compiled/devcards_out"
-                                    :output-to  "resources/public/js/compiled/squanmate_devcards.js"
-                                    :output-dir "resources/public/js/compiled/devcards_out"
-                                    :source-map-timestamp true }}
+                                   :asset-path "js/compiled/devcards_out"
+                                   :output-to  "resources/public/js/compiled/squanmate_devcards.js"
+                                   :output-dir "resources/public/js/compiled/devcards_out"
+                                   :source-map-timestamp true }}
                        {:id "dev"
                         :source-paths ["src"]
                         :figwheel true
