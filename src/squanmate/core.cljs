@@ -1,21 +1,22 @@
 (ns squanmate.core
-  (:require
-   #_[om.core :as om :include-macros true]
-   [sablono.core :as sab :include-macros true])
+  (:require [reagent.core :as reagent])
   (:require-macros
-   [devcards.core :as dc :refer [defcard deftest]]))
+   [devcards.core :as dc :refer [defcard-rg]]))
 
 (enable-console-print!)
 
-(defcard first-card
-  (sab/html [:div
-             [:h1 "This is your first devcard!"]]))
+(def poc-url "http://localhost:9292/cubeshape/cececece?colors=yrb_yb_ybo_yo_yog_yr_ygr_yg")
+
+(defcard-rg render-layer-proof-of-concept
+  [:div [:div
+         "It should be possible to display a layer of the puzzle."]
+   [:div [:img {:src poc-url}]]])
 
 (defn main []
   ;; conditionally start the app based on whether the #main-app-area
   ;; node is on the page
   (if-let [node (.getElementById js/document "main-app-area")]
-    (.render js/ReactDOM (sab/html [:div "This is working"]) node)))
+    (reagent/render [:div "This is working"] node)))
 
 (main)
 
