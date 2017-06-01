@@ -9,4 +9,4 @@
   (is (= 1 (p/piece-value p/corner))))
 
 (deftest layer-sliceable?-test []
-  (is (p/layer-sliceable? p/square-layer)))
+  (is (true? (p/layer-sliceable? p/square-layer))))
