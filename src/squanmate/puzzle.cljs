@@ -2,6 +2,8 @@
   (:require [cats.monad.either :as either]
             [cats.core :as m]))
 
+(defrecord Puzzle [top-layer bottom-layer])
+
 ;; the order of the pieces starts at the front equator, and goes clockwise
 (defrecord Layer [pieces])
 (defrecord Piece [type])
