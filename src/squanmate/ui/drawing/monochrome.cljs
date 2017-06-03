@@ -1,13 +1,13 @@
 (ns squanmate.ui.drawing.monochrome
   (:require [reagent.core :as reagent]))
 
+(def ^:const size 100)
+
 (defn- make-layer-url [layer]
-  (let [size 100
-        piece-letters (map :type (:pieces layer))]
+  (let [piece-letters (map :type (:pieces layer))]
     (str "http://localhost:9292/cubeshape/cececece"
          "?"
-         "size=" size
-         )))
+         "size=" size)))
 
 (defn- layer-component [layer]
   [:img {:src (make-layer-url layer)}])
@@ -17,4 +17,4 @@
         bottom-img (layer-component (:bottom-layer puzzle))]
     [:div.puzzle
      [:div.layer.top top-img]
-     [:div.layer.bottom bottom-img]]))
+     [:div.layer.bottom {:style {:margin-top "-40px"}} bottom-img]]))
