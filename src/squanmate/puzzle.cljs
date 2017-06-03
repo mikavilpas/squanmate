@@ -29,31 +29,3 @@
         sums (reductions + values)]
     (some (partial = 6) sums)))
 
-(defn- rotate-layer-clockwise [layer amount]
-  (if (zero? amount)
-    (either/right layer)
-    (let [pieces (:pieces layer)
-          this-piece (first pieces)
-          piece-amount (piece-value this-piece)
-          new-amount (- amount piece-amount)]
-      (if (< new-amount 0)
-        (either/left (LayerError. (str "cannot turn "
-                                       amount
-                                       " when the next piece is worth "
-                                       piece-amount)
-                                  layer))
-        (let [new-layer (assoc-in layer [:pieces]
-                                  (conj (vec (next pieces))
-                                        this-piece))]
-          (recur new-layer new-amount))))))
-
-(defn- rotate-layer-counterclockwise [layer amount]
-  (either/right layer))
-
-(defn rotate-layer [layer amount]
-  (cond
-    (= 0 amount) (either/right layer)
-    (pos-int? amount) (rotate-layer-clockwise layer amount)
-    (neg-int? amount) (rotate-layer-counterclockwise layer amount)
-    :else (either/left (LayerError. "rotate-layer: unknown case"
-                                    layer))))
