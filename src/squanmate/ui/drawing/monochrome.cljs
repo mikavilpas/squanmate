@@ -1,4 +1,4 @@
-(ns squanmate.drawing.monochrome
+(ns squanmate.ui.drawing.monochrome
   (:require [reagent.core :as reagent]))
 
 (defn- make-layer-url [layer]
