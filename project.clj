@@ -10,7 +10,8 @@
                  [org.clojure/clojurescript "1.9.229"]
                  [devcards "0.2.3"]
                  [reagent "0.6.0"]
-                 [funcool/cats "2.1.0"]]
+                 [funcool/cats "2.1.0"]
+                 [the/parsatron "0.0.7"]]
 
   :plugins [[lein-figwheel "0.5.9"]
             [lein-cljsbuild "1.1.5" :exclusions [org.clojure/clojure]]]
