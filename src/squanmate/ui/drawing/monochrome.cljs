@@ -17,5 +17,5 @@
   (let [top-img (layer-component (:top-layer puzzle))
         bottom-img (layer-component (:bottom-layer puzzle))]
     [:div.puzzle
-     [:div.layer.top top-img]
-     [:div.layer.bottom {:style {:margin-top "-40px"}} bottom-img]]))
+     [:span.layer.top top-img]
+     [:span.layer.bottom {:style {:margin-left "-20px"}} bottom-img]]))
