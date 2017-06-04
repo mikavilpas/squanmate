@@ -16,8 +16,8 @@
 (def top-layer-slice
   (reify SliceStrategy
     (slice-pieces [this top-layer]
-      (loop [slice-pieces []
-             remaining-pieces (->> top-layer :pieces reverse)
+      (loop [slice-pieces (list)
+             remaining-pieces (->> top-layer :pieces)
              collected-pieces-value 0]
         (if (= collected-pieces-value 6)
           [slice-pieces remaining-pieces]
@@ -30,8 +30,8 @@
 (def bottom-layer-slice
   (reify SliceStrategy
     (slice-pieces [this bottom-layer]
-      (loop [slice-pieces []
-             remaining-pieces (->> bottom-layer :pieces reverse)
+      (loop [slice-pieces (list)
+             remaining-pieces (->> bottom-layer :pieces)
              collected-pieces-value 0]
         (if (>= collected-pieces-value 6)
           [slice-pieces remaining-pieces]
@@ -61,11 +61,11 @@
           new-top-layer (assoc-in (:top-layer puzzle)
                                   [:pieces]
                                   (vec (concat top-static-pieces
-                                               (reverse bottom-slice-pieces))))
+                                               bottom-slice-pieces)))
           new-bottom-layer (assoc-in (:bottom-layer puzzle)
                                      [:pieces]
-                                     (vec (concat bottom-static-pieces
-                                                  (reverse top-slice-pieces))))]
+                                     (vec (concat top-slice-pieces
+                                                  bottom-static-pieces)))]
       (-> puzzle
           (assoc-in [:top-layer] new-top-layer)
           (assoc-in [:bottom-layer] new-bottom-layer)
