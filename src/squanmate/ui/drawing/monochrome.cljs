@@ -34,9 +34,14 @@
 (defn- layer-component [layer]
   [:img {:src (make-layer-url layer)}])
 
-(defn monochrome-puzzle [puzzle]
+(defn monochrome-puzzle [puzzle & debug?]
   (let [top-img (layer-component (:top-layer puzzle))
         bottom-img (layer-component (:bottom-layer puzzle))]
     [:div.puzzle
      [:span.layer.top top-img]
-     [:span.layer.bottom {:style {:margin-left "-20px"}} bottom-img]]))
+     [:span.layer.bottom {:style {:margin-left "-20px"}} bottom-img]
+     (when debug?
+       [:div
+        "Top:" (p/pieces-str (:top-layer puzzle))
+        ", "
+        "Bottom: " (p/pieces-str (:bottom-layer puzzle))])]))
