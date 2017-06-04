@@ -6,7 +6,7 @@
 (defn- make-layer-url [layer]
   (let [piece-letters (map :type (:pieces layer))]
     (str "http://localhost:9292/cubeshape/"
-         piece-letters
+         (apply str piece-letters)
          "?"
          "size=" size)))
 
