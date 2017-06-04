@@ -8,6 +8,3 @@
 (deftest piece-value-test []
   (is (= 2 (p/piece-value p/edge)))
   (is (= 1 (p/piece-value p/corner))))
-
-(deftest layer-sliceable?-test []
-  (is (true? (p/layer-sliceable? p/square-layer))))

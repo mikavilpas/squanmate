@@ -33,5 +33,5 @@
       "rotate -2 over a corner piece")
 
   (let [result (r/rotate-layer p/square-layer -1)]
-    (is (instance? either/Left result)
+    (is (either/left? result)
         "trying to rotate -1 when the first piece is a corner piece (worth 2)")))
