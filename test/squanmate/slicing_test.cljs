@@ -8,20 +8,18 @@
   (:require-macros
    [devcards.core :as dc :refer [deftest defcard-rg]]))
 
-(def square-square (p/Puzzle. p/square-layer p/square-layer))
-
 (defcard-rg square-square
   [:div
    "slicing square square..."
-   (monochrome/monochrome-puzzle square-square)
+   (monochrome/monochrome-puzzle p/square-square)
    "result:"
-   (m/mlet [result (slicing/slice square-square)]
+   (m/mlet [result (slicing/slice p/square-square)]
            (monochrome/monochrome-puzzle result))])
 
 (deftest slice-test []
-  (let [result (slicing/slice square-square)]
+  (let [result (slicing/slice p/square-square)]
     (is (either/right? result))
     (is (= "TODO kite kite" result))))
 
 (deftest layer-sliceable?-test []
-  (is (true? (slicing/layer-sliceable? p/square-layer))))
+  (is (true? (slicing/layer-sliceable? (:top-layer p/square-square)))))

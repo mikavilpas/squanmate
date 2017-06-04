@@ -4,19 +4,25 @@
 
 (defrecord Puzzle [top-layer bottom-layer])
 
-;; the order of the pieces starts at the front equator, and goes clockwise
-(defrecord Layer [pieces])
+;; the order of the pieces starts at the bottom left corner (sort of), and goes clockwise
+(defrecord TopLayer [pieces])
+(defrecord BottomLayer [pieces])
+
 (defrecord Piece [type])
 (defrecord LayerError [msg layer])
 
 (def edge (Piece. "e"))
 (def corner (Piece. "c"))
 
-(def square-layer
+;; todo make a module that knows different shapes
+(def square-square
   (let [e edge
         c corner]
-    (Layer. [c e c e
-             c e c e])))
+    (Puzzle.
+     (TopLayer. [c e c e
+                 c e c e])
+     (BottomLayer. [c e c e
+                    c e c e]))))
 
 (defn piece-value [piece]
   (condp = (:type piece)
