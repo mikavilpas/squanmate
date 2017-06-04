@@ -5,7 +5,7 @@
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg]]))
 
-(def cube-puzzle (p/Puzzle. p/square-layer p/square-layer))
+(def cube-puzzle p/square-square)
 
 (defcard-rg poc
   [:div

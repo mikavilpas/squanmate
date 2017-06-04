@@ -21,11 +21,17 @@
     (Puzzle.
      (TopLayer. [c e c e
                  c e c e])
-     (BottomLayer. [c e c e
-                    c e c e]))))
+     (BottomLayer. [e c e c
+                    e c e c]))))
 
 (defn piece-value [piece]
   (condp = (:type piece)
     "e" 2
     "c" 1
     (throw (str "unknown piece " (pr-str piece)))))
+
+(defn pieces-str [layer]
+  (->> layer
+       :pieces
+       (map :type)
+       (apply str)))

@@ -10,50 +10,47 @@
     (some (partial = 6) sums)))
 
 ;; always slices the right hand side
-(defprotocol SliceStrategy
-  (slice-pieces [layer]))
+(defprotocol Sliceable
+  (slice-and-static-pieces [layer]))
+
+(defn split-at-6 [layer]
+  (loop [taken-pieces []
+         remaining-pieces (:pieces layer)
+         collected-pieces-value 0]
+    (if (= collected-pieces-value 6)
+      [taken-pieces remaining-pieces]
+      (let [this-piece (first remaining-pieces)]
+        (recur (conj taken-pieces this-piece)
+               (next remaining-pieces)
+               (+ collected-pieces-value
+                  (p/piece-value this-piece)))))))
 
 (extend-type p/TopLayer
-  SliceStrategy
-  (slice-pieces [layer]
-    (loop [slice-pieces (list)
-           remaining-pieces (->> layer :pieces)
-           collected-pieces-value 0]
-      (if (= collected-pieces-value 6)
-        [slice-pieces remaining-pieces]
-        (let [this-piece (first remaining-pieces)]
-          (recur (conj slice-pieces this-piece)
-                 (next remaining-pieces)
-                 (+ collected-pieces-value
-                    (p/piece-value this-piece))))))))
+  Sliceable
+  (slice-and-static-pieces [layer]
+    (let [[left right] (split-at-6 layer)]
+      ;; slice on the right
+      [right left])))
 
 (extend-type p/BottomLayer
-  SliceStrategy
-  (slice-pieces [bottom-layer]
-    (loop [slice-pieces (list)
-           remaining-pieces (->> bottom-layer :pieces)
-           collected-pieces-value 0]
-      (if (>= collected-pieces-value 6)
-        [slice-pieces remaining-pieces]
-        (let [this-piece (first remaining-pieces)]
-          (recur (conj slice-pieces this-piece)
-                 (next remaining-pieces)
-                 (+ collected-pieces-value
-                    (p/piece-value this-piece))))))))
+  Sliceable
+  (slice-and-static-pieces [layer]
+    (let [[left right] (split-at-6 layer)]
+      [left right])))
 
 (defn- do-slice [puzzle]
   (let [[top-slice-pieces
-         top-static-pieces] (slice-pieces (:top-layer puzzle))
+         top-static-pieces] (slice-and-static-pieces (:top-layer puzzle))
         [bottom-slice-pieces
-         bottom-static-pieces] (slice-pieces (:bottom-layer puzzle))
+         bottom-static-pieces] (slice-and-static-pieces (:bottom-layer puzzle))
         new-top-layer (assoc-in (:top-layer puzzle)
                                 [:pieces]
                                 (vec (concat top-static-pieces
                                              bottom-slice-pieces)))
         new-bottom-layer (assoc-in (:bottom-layer puzzle)
                                    [:pieces]
-                                   (vec (concat top-slice-pieces
-                                                bottom-static-pieces)))]
+                                   (vec (concat (reverse top-slice-pieces)
+                                                (reverse bottom-static-pieces))))]
     (-> puzzle
         (assoc-in [:top-layer] new-top-layer)
         (assoc-in [:bottom-layer] new-bottom-layer)
