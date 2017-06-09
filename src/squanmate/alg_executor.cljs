@@ -25,7 +25,7 @@
 ;; tokens used in parsing
 
 (defn optional [p]
-  (p/either p (p/always "")))
+  (p/either p (p/always nil)))
 
 (defparser integer []
   (let->> [sign (optional (p/char "-"))
@@ -34,12 +34,15 @@
                                 (apply str digits))))))
 
 (defparser slice []
-  (p/char "/"))
+  (p/>> (p/char "/")
+        (p/always (Slice.))))
+
+(defn whitespace? [character]
+  (re-matches #"\s" character))
 
 (defparser whitespace []
   (optional
-   (p/choice (p/many (p/char " "))
-             (p/many (p/char "\t"))
+   (p/choice (p/many (p/token whitespace?))
              ;; This character is used in some algorithms to show that
              ;; the algorithm flips the middle layer. It's currently
              ;; ignored by the parser.
@@ -58,12 +61,27 @@
     (p/always [(RotateTopLayer. top-amount)
                (RotateBottomLayer. bottom-amount)])))
 
+(defparser rotation-and-slice []
+  (let->> [_ (whitespace)
+           [top bottom] (rotation-instruction)
+           s (slice)
+           _ (whitespace)]
+    (p/always [top bottom s])))
+
+(defparser algorithm []
+  (let->> [s (optional (slice))
+           step-vectors (p/many (rotation-and-slice))]
+    (let [steps (flatten step-vectors)]
+      (if s
+        (p/always (conj steps s))
+        (p/always steps)))))
+
 (defn parse
   "Supported formats:
-  - TODO / 1, -2 /
+  - / 1, -2 /
   - TODO / 1 / (allows leaving out bottom layer rotation)
   - TODO / (1, -2) /
   - TODO / UD' / U' / D /
   "
   [algorithm-string]
-  )
+  (p/run (algorithm) algorithm-string))
