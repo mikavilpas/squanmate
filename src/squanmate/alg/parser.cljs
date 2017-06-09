@@ -1,28 +1,11 @@
-(ns squanmate.alg-executor
+(ns squanmate.alg.parser
   (:require [the.parsatron :as p]
+            [squanmate.alg.types :as types]
             [cljs.reader :refer [read-string]])
   (:require-macros [the.parsatron :refer [let->> >> defparser]]))
 
 ;; here all algorithms are converted into steps,
 ;; which can then be executed later.
-
-(defprotocol AlgorithmStep
-  (execute [this puzzle]))
-
-(defrecord Slice []
-  AlgorithmStep
-  (execute [this puzzle]))
-
-(defrecord RotateTopLayer [amount]
-  AlgorithmStep
-  (execute [this puzzle]))
-
-(defrecord RotateBottomLayer [amount]
-  AlgorithmStep
-  (execute [this puzzle]))
-
-;;
-;; tokens used in parsing
 
 (defn optional [p]
   (p/either p (p/always nil)))
@@ -35,7 +18,7 @@
 
 (defparser slice []
   (p/>> (p/char "/")
-        (p/always (Slice.))))
+        (p/always (types/Slice.))))
 
 (defn whitespace? [character]
   (re-matches #"\s" character))
@@ -62,8 +45,8 @@
 (defparser rotation-instruction-top-layer-only []
   (let->> [top-amount (integer)
            _ (whitespace)]
-    (p/always [(RotateTopLayer. top-amount)
-               (RotateBottomLayer. 0)])))
+    (p/always [(types/RotateTopLayer. top-amount)
+               (types/RotateBottomLayer. 0)])))
 
 (defparser rotation-instruction []
   (let->> [top-amount (integer)
@@ -72,8 +55,8 @@
            _ (whitespace)
            bottom-amount (integer)
            _ (whitespace)]
-    (p/always [(RotateTopLayer. top-amount)
-               (RotateBottomLayer. bottom-amount)])))
+    (p/always [(types/RotateTopLayer. top-amount)
+               (types/RotateBottomLayer. bottom-amount)])))
 
 (defparser rotation-and-slice []
   (let->> [_ (whitespace)
