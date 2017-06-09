@@ -48,8 +48,22 @@
              ;; ignored by the parser.
              (p/many (p/char "*")))))
 
+(defparser in-parens-maybe [p]
+  (let->> [_ (whitespace)
+           _ (optional (p/char "("))
+           result p
+           _ (optional (p/char ")"))
+           _ (whitespace)]
+    (p/always result)))
+
 (defparser comma []
   (p/char ","))
+
+(defparser rotation-instruction-top-layer-only []
+  (let->> [top-amount (integer)
+           _ (whitespace)]
+    (p/always [(RotateTopLayer. top-amount)
+               (RotateBottomLayer. 0)])))
 
 (defparser rotation-instruction []
   (let->> [top-amount (integer)
@@ -63,7 +77,10 @@
 
 (defparser rotation-and-slice []
   (let->> [_ (whitespace)
-           [top bottom] (rotation-instruction)
+           [top bottom] (p/either (p/attempt (in-parens-maybe
+                                              (rotation-instruction)))
+                                  (in-parens-maybe
+                                   (rotation-instruction-top-layer-only)))
            s (slice)
            _ (whitespace)]
     (p/always [top bottom s])))
@@ -79,9 +96,8 @@
 (defn parse
   "Supported formats:
   - / 1, -2 /
-  - TODO / 1 / (allows leaving out bottom layer rotation)
-  - TODO / (1, -2) /
-  - TODO / UD' / U' / D /
+  - / 1 / (allows leaving out bottom layer rotation)
+  - / (1, -2) /
   "
   [algorithm-string]
   (p/run (algorithm) algorithm-string))

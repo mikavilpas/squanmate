@@ -15,6 +15,12 @@
           (a/RotateBottomLayer. 3)]
          (p/run (a/rotation-instruction) "-2, 3"))))
 
+(deftest rotation-instruction-top-layer-only-test []
+  (is (= [(a/RotateTopLayer. -3)
+          (a/RotateBottomLayer. 0)]
+         (p/run (a/rotation-instruction-top-layer-only)
+           "-3"))))
+
 (deftest algorithm-test []
   (is (= [(a/RotateTopLayer. 1)
           (a/RotateBottomLayer. 2)
@@ -27,6 +33,20 @@
           (a/RotateBottomLayer. 2)
           (a/Slice.)]
          (a/parse "/1,2/")))
+
+  "an alg that leaves out the bottom layer 0 value"
+  (is (= [(a/Slice.)
+          (a/RotateTopLayer. 3)
+          (a/RotateBottomLayer. 0)
+          (a/Slice.)]
+         (a/parse "/3/")))
+
+  "an alg that has rotation steps in (parentheses)"
+  (is (= [(a/Slice.)
+          (a/RotateTopLayer. 3)
+          (a/RotateBottomLayer. 3)
+          (a/Slice.)]
+         (a/parse "/ (3, 3) /")))
 
   "adjacent parity algorithm on many lines, including a * at the end"
   (is (= [(a/Slice.)
@@ -79,5 +99,5 @@
 
           (a/Slice.)]
          (a/parse "/ -3,0/0,3/0,-3/0,3/
-                  2,0/0,2/-2,0/4,0
-                  /0,-2/ 0,2/-1,4/0,-3/*"))))
+                    2,0/0,2/-2,0/4,0
+                   /0,-2/ 0,2/-1,4/0,-3/*"))))
