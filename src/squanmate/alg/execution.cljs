@@ -2,7 +2,9 @@
   (:require [squanmate.alg.types :as types]
             [squanmate.rotation :as rotation]
             [squanmate.slicing :as slicing]
-            [cats.core :as m]))
+            [cats.core :as m]
+            [squanmate.alg.parser :as parser]
+            [cats.monad.either :as either]))
 
 (defprotocol AlgorithmStep
   (execute [this puzzle]))
@@ -25,3 +27,13 @@
   AlgorithmStep
   (execute [this puzzle]
     (slicing/slice puzzle)))
+
+(defn transformations [starting-puzzle algorithm-string]
+  (let [start (either/right starting-puzzle)
+        puzzle-states (m/mlet [algorithm-steps (parser/parse algorithm-string)]
+                              (reductions (fn [previous-result step]
+                                            (m/mlet [current previous-result]
+                                                    (execute step current)))
+                                          start
+                                          algorithm-steps))]
+    (list* start puzzle-states)))
