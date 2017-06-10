@@ -1,16 +1,19 @@
 (ns squanmate.ui.alg-visualizer
-  (:require [reagent.core :as reagent]
-            [squanmate.puzzle :as p]
-            [squanmate.slicing :as slicing]
-            [clojure.string :as string]
-            [squanmate.alg.parser :as parser]
-            [squanmate.ui.drawing.monochrome :as monochrome]
-            [cats.core :as m]
+  (:require [cats.monad.either :as either]
             [squanmate.alg.execution :as execution]
-            [cats.monad.either :as either]))
+            [squanmate.ui.drawing.monochrome :as monochrome]))
 
 (defn algorithm-visualization [puzzle alg-string]
-  (let [steps (execution/transformations puzzle alg-string)]
+  (let [steps (execution/transformations puzzle alg-string)
+        key (gensym)]
     [:div
-     (for [step steps]
-       (either/branch-right step monochrome/monochrome-puzzle))]))
+     (for [[step-either index] (zipmap steps (range))]
+       ^{:key (str key index)}
+       [:div
+        (either/branch step-either
+                       (fn [step]
+                         (println "error encountered: " step)
+                         [:div (pr-str step)])
+
+                       (fn [step]
+                         [monochrome/monochrome-puzzle (:puzzle step)]))])]))

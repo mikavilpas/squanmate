@@ -4,9 +4,10 @@
             [cats.monad.either :as either]
             [squanmate.alg.types :as types]
             [squanmate.puzzle :as puzzle]
-            [cats.core :as m])
+            [cats.core :as m]
+            [reagent.core :as reagent])
   (:require-macros
-   [devcards.core :as dc :refer [defcard-rg deftest]]))
+   [devcards.core :as dc :refer [defcard defcard-rg deftest]]))
 
 (deftest rotate-top []
   "top layer"
@@ -35,3 +36,14 @@
     (m/mlet [result rotation-result]
             (is (= (types/Slice.)
                    (:previously-applied-step result))))))
+
+(deftest transformations-test []
+  "test turning 3/"
+  (let [result (e/transformations puzzle/square-square "3/")]
+    (is (= (count result)
+           (count (either/rights result)))
+        "all results should be Right in this case")))
+
+(defcard-rg inspect-result
+  [:div
+   (e/transformations puzzle/square-square "3/")])
