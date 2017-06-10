@@ -3,19 +3,35 @@
             [clojure.test :as t :refer [is]]
             [cats.monad.either :as either]
             [squanmate.alg.types :as types]
-            [squanmate.puzzle :as puzzle])
+            [squanmate.puzzle :as puzzle]
+            [cats.core :as m])
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg deftest]]))
 
-(deftest can-rotate []
-  (is (either/right? (e/execute (types/RotateTopLayer. 3)
-                                puzzle/square-square))
-      "top layer")
+(deftest rotate-top []
+  "top layer"
+  (let [rotation-result (e/execute (types/RotateTopLayer. 3)
+                                   puzzle/square-square)]
+    (is (either/right? rotation-result))
+    ;; the rest of the test is a hack with mlet. if rotation-result were a Left,
+    ;; the rest of the test would not get rendered. This is why it's important
+    ;; to have (is (either/right? rotation-result)) above.
+    (m/mlet [result rotation-result]
+            (is (= (types/RotateTopLayer. 3)
+                   (:previously-applied-step result))))))
 
-  (is (either/right? (e/execute (types/RotateBottomLayer. 3)
-                                puzzle/square-square))
-      "bottom layer"))
+(deftest rotate-bottom []
+  (let [rotation-result (e/execute (types/RotateBottomLayer. 3)
+                                   puzzle/square-square)]
+    (is (either/right? rotation-result))
+    (m/mlet [result rotation-result]
+            (is (= (types/RotateBottomLayer. 3)
+                   (:previously-applied-step result))))))
 
 (deftest can-slice []
-  (is (either/right? (e/execute (types/Slice.)
-                                puzzle/square-square))))
+  (let [rotation-result (e/execute (types/Slice.)
+                                   puzzle/square-square)]
+    (is (either/right? rotation-result))
+    (m/mlet [result rotation-result]
+            (is (= (types/Slice.)
+                   (:previously-applied-step result))))))

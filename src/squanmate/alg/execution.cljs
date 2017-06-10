@@ -6,6 +6,8 @@
             [squanmate.alg.parser :as parser]
             [cats.monad.either :as either]))
 
+(defrecord ExecutionState [puzzle previously-applied-step])
+
 (defprotocol AlgorithmStep
   (execute [this puzzle]))
 
@@ -14,19 +16,22 @@
   (execute [this puzzle]
     (m/mlet [new-layer (rotation/rotate-layer (:top-layer puzzle)
                                               (:amount this))]
-            (m/return (assoc-in puzzle [:top-layer] new-layer)))))
+            (let [new-puzzle (assoc-in puzzle [:top-layer] new-layer)]
+              (m/return (ExecutionState. new-puzzle this))))))
 
 (extend-type types/RotateBottomLayer
   AlgorithmStep
   (execute [this puzzle]
     (m/mlet [new-layer (rotation/rotate-layer (:bottom-layer puzzle)
                                               (:amount this))]
-            (m/return (assoc-in puzzle [:bottom-layer] new-layer)))))
+            (let [new-puzzle (assoc-in puzzle [:bottom-layer] new-layer)]
+              (m/return (ExecutionState. new-puzzle this))))))
 
 (extend-type types/Slice
   AlgorithmStep
   (execute [this puzzle]
-    (slicing/slice puzzle)))
+    (m/mlet [new-puzzle (slicing/slice puzzle)]
+            (m/return (ExecutionState. new-puzzle this)))))
 
 (defn transformations [starting-puzzle algorithm-string]
   (let [start (either/right starting-puzzle)
