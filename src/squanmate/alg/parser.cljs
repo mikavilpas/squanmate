@@ -1,8 +1,10 @@
 (ns squanmate.alg.parser
   (:require [the.parsatron :as p]
             [squanmate.alg.types :as types]
-            [cljs.reader :refer [read-string]])
-  (:require-macros [the.parsatron :refer [let->> >> defparser]]))
+            [cljs.reader :refer [read-string]]
+            [cats.monad.either :as either])
+  (:require-macros [the.parsatron :refer [let->> >> defparser]]
+                   [cats.monad.either :refer [try-either]]))
 
 ;; here all algorithms are converted into steps,
 ;; which can then be executed later.
@@ -83,4 +85,5 @@
   - / (1, -2) /
   "
   [algorithm-string]
-  (p/run (algorithm) algorithm-string))
+  (either/try-either
+   (p/run (algorithm) algorithm-string)))
