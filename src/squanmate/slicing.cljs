@@ -42,6 +42,8 @@
 ;; always slices the right hand side
 (defn slice [puzzle]
   (cond
+
+    ;; validation
     (->> puzzle :top-layer layer-sliceable? not)
     (either/left (p/LayerError. "cannot slice, because the top layer is not aligned"
                                 (:top-layer puzzle)))
