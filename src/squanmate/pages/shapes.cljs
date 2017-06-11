@@ -7,15 +7,17 @@
 (def e puzzle/edge)
 (def c puzzle/corner)
 
-(def four-four [e c e e e, e c e e e])
-(def five-three [e c e e e, e e c e e])
-(def six-two [c e e e e, e e c e e])
-(def seven-one [c e e e e, e e e c e])
-(def eight [c e e e e e, e e e c])
+(defrecord Shape [name pieces])
 
-(defn shape [name pieces]
-  [:span name [monochrome/layer-component
-               (puzzle/TopLayer. pieces)]])
+(def four-four (Shape. "4-4" [e c e e e, e c e e e]))
+(def five-three (Shape. "5-3" [e c e e e, e e c e e]))
+(def six-two (Shape. "6-2" [c e e e e, e e c e e]))
+(def seven-one (Shape. "7-1" [c e e e e, e e e c e]))
+(def eight (Shape. "8" [c e e e e e, e e e c]))
+
+(defn shape [shape]
+  [:span (:name shape) [monochrome/layer-component
+                        (puzzle/TopLayer. (:pieces shape))]])
 
 (defcard-rg introduction
   "This page contains a listing of all possible shapes a layer can have.")
@@ -23,81 +25,81 @@
 (defcard-rg flowers
   [:div
    [:div "2 corners, 8 edges (5 shapes)"]
-   [shape "4-4" four-four]
-   [shape "5-3" five-three]
-   [shape "6-2" six-two]
-   [shape "7-1" seven-one]
-   [shape "8" eight]])
+   [shape four-four]
+   [shape five-three]
+   [shape six-two]
+   [shape seven-one]
+   [shape eight]])
 
-(def two-two-two [e e c e e, c e e c])
-(def three-three [e e e c c e e e c])
-(def three-two-one [c e e e c e e c e])
-(def three-one-two [c e e c e e e c e])
-(def left-four-two [c e e e e c e e c])
-(def right-four-two [c e e c e e e e c])
-(def four-one-one [e c e e e e c e c])
-(def left-five-one [c e e e e e c e c])
-(def right-five-one [c e c e e e e e c])
-(def six [c e e e e e e c c])
+(def two-two-two (Shape. "2-2-2" [e e c e e, c e e c]))
+(def three-three (Shape. "3-3" [e e e c c e e e c]))
+(def three-two-one (Shape. "3-2-1" [c e e e c e e c e]))
+(def three-one-two (Shape. "3-1-2" [c e e c e e e c e]))
+(def left-four-two (Shape. "Left 4-2" [c e e e e c e e c]))
+(def right-four-two (Shape. "Right 4-2" [c e e c e e e e c]))
+(def four-one-one (Shape. "4-1-1" [e c e e e e c e c]))
+(def left-five-one (Shape. "Left 5-1" [c e e e e e c e c]))
+(def right-five-one (Shape. "Right 5-1" [c e c e e e e e c]))
+(def six (Shape. "6" [c e e e e e e c c]))
 
 (defcard-rg three-corners
   [:div
    "3 corners, 6 edges (10 shapes)"
    [:div
-    [shape "2-2-2" two-two-two]
-    [shape "3-3" three-three]
-    [shape "3-2-1" three-two-one]
-    [shape "3-1-2" three-one-two]
-    [shape "Left 4-2" left-four-two]
-    [shape "Right 4-2" right-four-two]
-    [shape "4-1-1" four-one-one]
-    [shape "Left 5-1" left-five-one]
-    [shape "Right 5-1" right-five-one]
-    [shape "6" six]]])
+    [shape two-two-two]
+    [shape three-three]
+    [shape three-two-one]
+    [shape three-one-two]
+    [shape left-four-two]
+    [shape right-four-two]
+    [shape four-one-one]
+    [shape left-five-one]
+    [shape right-five-one]
+    [shape six]]])
 
-(def kite [c e c e e c e c])
-(def barrel [c e e c c e e c])
-(def shield [e e c c c e e c])
-(def left-fist [c e c e c e e c])
-(def right-fist [c e e c e c e c])
-(def left-pawn [c c e e e c e c])
-(def right-pawn [c e c e e e c c])
-(def mushroom [c c e e e c c e])
-(def scallop [c c e e e e c c])
+(def kite (Shape. "Kite" [c e c e e c e c]))
+(def barrel (Shape. "Barrel" [c e e c c e e c]))
+(def shield (Shape. "Shield" [e e c c c e e c]))
+(def left-fist (Shape. "Left fist" [c e c e c e e c]))
+(def right-fist (Shape. "Right fist" [c e e c e c e c]))
+(def left-pawn (Shape. "Left pawn" [c c e e e c e c]))
+(def right-pawn (Shape. "Right pawn" [c e c e e e c c]))
+(def mushroom (Shape. "Mushroom" [c c e e e c c e]))
+(def scallop (Shape. "Scallop" [c c e e e e c c]))
 
 (defcard-rg four-corners
   [:div
    "4 corners, 4 edges (10 shapes)"
    [:div
-    [shape "Kite" kite]
-    [shape "Barrel" barrel]
-    [shape "Shield" shield]
-    [shape "Left fist" left-fist]
-    [shape "Right fist" right-fist]
-    [shape "Left pawn" left-pawn]
-    [shape "Right pawn" right-pawn]
-    [shape "Mushroom" mushroom]
-    [shape "Scallop" scallop]]])
+    [shape kite]
+    [shape barrel]
+    [shape shield]
+    [shape left-fist]
+    [shape right-fist]
+    [shape left-pawn]
+    [shape right-pawn]
+    [shape mushroom]
+    [shape scallop]]])
 
-(def paired-edges [c c c c c e e])
-(def perpendicular-edges [e c c c c e c])
-(def parallel-edges [e c c c c e c])
+(def paired-edges (Shape. "Paired edges" [c c c c c e e]))
+(def perpendicular-edges (Shape. "Perpendicular edges" [e c c c c e c]))
+(def parallel-edges (Shape. "Parallel edges" [e c c c c e c]))
 
 (defcard-rg five-corners
   [:div
    "5 corners, 2 edges (3 shapes)"
    [:div
-    [shape "Paired edges" paired-edges]
-    [shape "Perpendicular edges" perpendicular-edges]
-    [shape "Parallel edges" parallel-edges]]])
+    [shape paired-edges]
+    [shape perpendicular-edges]
+    [shape parallel-edges]]])
 
-(def star [c c c c c c])
+(def star (Shape. "Star" [c c c c c c]))
 
 (defcard-rg six-corners
   [:div
    "6 corners, 0 edges (1 shape)"
    [:div
-    [shape "Star" star]]])
+    [shape star]]])
 
 (defcard-rg source
   [:div
