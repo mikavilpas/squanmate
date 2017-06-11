@@ -31,7 +31,7 @@
        "?"
        "size=" size))
 
-(defn- layer-component [layer]
+(defn layer-component [layer]
   [:img {:src (make-layer-url layer)}])
 
 (defn monochrome-puzzle [puzzle & debug?]
