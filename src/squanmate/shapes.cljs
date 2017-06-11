@@ -17,6 +17,9 @@
   [:span name [monochrome/layer-component
                (puzzle/TopLayer. pieces)]])
 
+(defcard-rg introduction
+  "This page contains a listing of all possible shapes a layer can have.")
+
 (defcard-rg flowers
   [:div
    [:div "2 corners, 8 edges (5 shapes)"]
