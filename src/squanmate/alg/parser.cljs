@@ -67,7 +67,9 @@
                                 (rotation-instruction-top-layer-only)))
            s (slice)
            _ (whitespace)]
-    (p/always (conj rotations s))))
+    (let [nonzero (filterv #(not (= 0 (:amount %)))
+                           rotations)]
+      (p/always (conj nonzero s)))))
 
 (defparser algorithm []
   (let->> [s (optional (slice))
