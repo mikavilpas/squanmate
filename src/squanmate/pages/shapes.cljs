@@ -1,4 +1,4 @@
-(ns squanmate.shapes
+(ns squanmate.pages.shapes
   (:require [squanmate.puzzle :as puzzle]
             [squanmate.ui.drawing.monochrome :as monochrome])
   (:require-macros
