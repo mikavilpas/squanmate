@@ -27,8 +27,7 @@
          (p/run (a/rotation-instruction) "-2, 3"))))
 
 (deftest rotation-instruction-top-layer-only-test []
-  (is (= [(rotate-top -3)
-          (rotate-bottom 0)]
+  (is (= [(rotate-top -3)]
          (p/run (a/rotation-instruction-top-layer-only)
            "-3"))))
 
@@ -48,7 +47,6 @@
   "an alg that leaves out the bottom layer 0 value"
   (is (= (either/right [slice
                         (rotate-top 3)
-                        (rotate-bottom 0)
                         slice])
          (a/parse "/3/")))
 
