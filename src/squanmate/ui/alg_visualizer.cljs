@@ -13,14 +13,13 @@
                      (interesting (type s))))))
 
 (defn algorithm-visualization [puzzle alg-string]
-  (let [steps (execution/transformations puzzle alg-string)
-        key (gensym)]
+  (let [steps (execution/transformations puzzle alg-string)]
     [:div
      alg-string
      [:div
       (for [[step-either index] (zipmap steps (range))
             :when (interesting-step? step-either)]
-        ^{:key (str key index)}
+        ^{:key (str index)}
         [:div
          (either/branch step-either
                         (fn [step]
