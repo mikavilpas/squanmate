@@ -4,7 +4,7 @@
 
 (defrecord Puzzle [top-layer bottom-layer])
 
-;; the order of the pieces starts at the bottom left corner (sort of), and goes clockwise
+;; the order of the pieces starts at the bottom left corner and goes clockwise
 (defrecord TopLayer [pieces])
 (defrecord BottomLayer [pieces])
 
