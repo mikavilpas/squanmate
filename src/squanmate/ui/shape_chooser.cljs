@@ -1,6 +1,5 @@
 (ns squanmate.ui.shape-chooser
-  (:require [cljsjs.react-select]
-            [clojure.walk :as walk]))
+  (:require [cljsjs.react-select]))
 
 ;; based on example code from
 ;; https://gist.github.com/pesterhazy/4a4198a9cc040bf6fe13a476f25bac2c
