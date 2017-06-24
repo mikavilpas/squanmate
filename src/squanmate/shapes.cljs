@@ -39,3 +39,33 @@
 (def parallel-edges (Shape. "Parallel edges" [e c c c c e c]))
 
 (def star (Shape. "Star" [c c c c c c]))
+
+(def all-shapes {"four-four" four-four
+                 "five-three" five-three
+                 "six-two" six-two
+                 "seven-one" seven-one
+                 "eight" eight
+                 "two-two-two" two-two-two
+                 "three-three" three-three
+                 "three-two-one" three-two-one
+                 "three-one-two" three-one-two
+                 "left-four-two" left-four-two
+                 "right-four-two" right-four-two
+                 "four-one-one" four-one-one
+                 "left-five-one" left-five-one
+                 "right-five-one" right-five-one
+                 "six" six
+                 "square" square
+                 "kite" kite
+                 "barrel" barrel
+                 "shield" shield
+                 "left-fist" left-fist
+                 "right-fist" right-fist
+                 "left-pawn" left-pawn
+                 "right-pawn" right-pawn
+                 "mushroom" mushroom
+                 "scallop" scallop
+                 "paired-edges" paired-edges
+                 "perpendicular-edges" perpendicular-edges
+                 "parallel-edges" parallel-edges
+                 "star" star})
