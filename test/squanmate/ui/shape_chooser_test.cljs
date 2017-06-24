@@ -12,3 +12,6 @@
    :selectable-values [(sut/make-value :id "value1" :label "Value 1")
                        (sut/make-value :id "value2" :label "Value 2")]
    :state test-state])
+
+(defcard-rg shape-chooser
+  [sut/shape-chooser])
