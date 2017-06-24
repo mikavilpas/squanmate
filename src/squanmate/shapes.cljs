@@ -23,6 +23,7 @@
 (def right-five-one (Shape. "Right 5-1" [c e c e e e e e c]))
 (def six (Shape. "6" [c e e e e e e c c]))
 
+(def square (Shape. "Square" [c e c e c e c e]))
 (def kite (Shape. "Kite" [c e c e e c e c]))
 (def barrel (Shape. "Barrel" [c e e c c e e c]))
 (def shield (Shape. "Shield" [e e c c c e e c]))
