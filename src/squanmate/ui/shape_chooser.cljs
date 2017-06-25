@@ -12,7 +12,7 @@
         shape (get shapes/all-shapes shape-key)]
     (reagent/as-element
      [:div (when shape
-             [monochrome/layer-component shape])
+             [monochrome/layer-component shape :size 30])
       (.-label s)])))
 
 (defn- select
