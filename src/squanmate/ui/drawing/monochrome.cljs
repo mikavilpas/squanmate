@@ -2,7 +2,8 @@
   (:require [reagent.core :as reagent]
             [squanmate.puzzle :as p]
             [squanmate.slicing :as slicing]
-            [clojure.string :as string]))
+            [clojure.string :as string]
+            [squanmate.shapes :as shapes]))
 
 (def ^:const size 100)
 
@@ -11,28 +12,30 @@
 (defprotocol CubeshapePiecesString
   (cubeshape-app-string [layer]))
 
-(extend-type p/TopLayer
-  CubeshapePiecesString
-  (cubeshape-app-string [layer]
-    (p/pieces-str layer)))
+(extend-protocol CubeshapePiecesString
+  shapes/Shape
+  (cubeshape-app-string [shape]
+    (p/pieces-str shape))
 
-(extend-type p/BottomLayer
-  CubeshapePiecesString
-  (cubeshape-app-string [layer]
-    (let [[left right] (slicing/split-at-6 layer)
+  p/TopLayer
+  (cubeshape-app-string [top-layer]
+    (p/pieces-str top-layer))
+
+  p/BottomLayer
+  (cubeshape-app-string [bottom-layer]
+    (let [[left right] (slicing/split-at-6 bottom-layer)
           left-string (string/join (map :type left))
           right-string (string/join (map :type right))
           layer-string (str left-string right-string)]
       layer-string)))
 
-(defn- make-layer-url [layer]
-  (str "http://localhost:9292/cubeshape/"
-       (cubeshape-app-string layer)
-       "?"
-       "size=" size))
-
 (defn layer-component [layer]
-  [:img {:src (make-layer-url layer)}])
+  (when layer
+    (let [url (str "http://localhost:9292/cubeshape/"
+                   (cubeshape-app-string layer)
+                   "?"
+                   "size=" size)]
+      [:img {:src url}])))
 
 (defn monochrome-puzzle [puzzle & debug?]
   (let [top-img (layer-component (:top-layer puzzle))

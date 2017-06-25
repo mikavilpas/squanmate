@@ -9,9 +9,10 @@
 
 (defcard-rg chooser
   [sut/chooser
-   :selectable-values [(sut/make-value :id "value1" :label "Value 1")
-                       (sut/make-value :id "value2" :label "Value 2")]
+   :options [(sut/make-value :id "value1" :label "Value 1")
+             (sut/make-value :id "value2" :label "Value 2")]
    :state test-state])
 
+(defonce test-state2 (reagent/atom nil))
 (defcard-rg shape-chooser
-  [sut/shape-chooser])
+  [sut/shape-chooser :state test-state2])
