@@ -5,8 +5,6 @@
             [clojure.string :as string]
             [squanmate.shapes :as shapes]))
 
-(def ^:const size 100)
-
 ;; Note: cubeshape is the app that draws the puzzle. So this is for building a
 ;; cubeshape app specific request string.
 (defprotocol CubeshapePiecesString
@@ -29,7 +27,8 @@
           layer-string (str left-string right-string)]
       layer-string)))
 
-(defn layer-component [layer]
+(defn layer-component [layer & {:keys [size]
+                                :or {size 100}}]
   (when layer
     (let [url (str "http://localhost:9292/cubeshape/"
                    (cubeshape-app-string layer)
