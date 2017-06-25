@@ -25,7 +25,8 @@
        (assoc :value @state
               :on-change (fn [x]
                            (reset! state (when x (.-value x))))
-              :option-renderer render-shape-option))])
+              :option-renderer render-shape-option
+              :value-renderer render-shape-option))])
 
 (defn make-value [& {:keys [id label]}]
   {:value id :label label})
