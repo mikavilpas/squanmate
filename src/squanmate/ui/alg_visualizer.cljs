@@ -3,7 +3,8 @@
             [squanmate.alg.execution :as execution]
             [squanmate.ui.drawing.monochrome :as monochrome]
             [reagent.core :as reagent]
-            [squanmate.ui.shape-chooser :as shape-chooser]))
+            [squanmate.ui.shape-chooser :as shape-chooser]
+            [squanmate.puzzle :as puzzle]))
 
 (defn- interesting-step? [step-either]
   (either/branch step-either
@@ -32,13 +33,10 @@
                           [monochrome/monochrome-puzzle (:puzzle step)]))])]]))
 
 (defn alg-visualizer []
-  (let [state (reagent/atom {:puzzle nil})]
+  (let [state (reagent/atom {:puzzle (puzzle/Puzzle. nil nil)})]
     (fn render []
       [:div.row
        [:div.col-xs-8
         [shape-chooser/puzzle-chooser state]]
        [:div.col-xs-5
-        (when-let [p (:puzzle @state)]
-          (println (pr-str p))
-          (pr-str p)
-          [monochrome/monochrome-puzzle p])]])))
+        [monochrome/monochrome-puzzle (:puzzle @state)]]])))

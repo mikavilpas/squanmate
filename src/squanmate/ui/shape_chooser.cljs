@@ -42,7 +42,7 @@
                                    :label (:name s))))]
     [chooser :options options :state state]))
 
-(defn- puzzle-from-layer-names [top-name bottom-name]
+(defn- layers-from-layer-names [top-name bottom-name]
   (when (and top-name bottom-name)
     (let [top-layer (-> shapes/all-shapes
                         (get top-name)
@@ -52,14 +52,15 @@
                            (get bottom-name)
                            :pieces
                            puzzle/BottomLayer.)]
-      (puzzle/Puzzle. top-layer bottom-layer))))
+      [top-layer bottom-layer])))
 
 (defn puzzle-chooser [puzzle-state]
   (let [top-name (reagent/atom nil)
         bottom-name (reagent/atom nil)]
     (fn render [puzzle-state]
-      (when-let [p (puzzle-from-layer-names @top-name @bottom-name)]
-        (swap! puzzle-state assoc-in [:puzzle] p))
+      (when-let [[top bottom] (layers-from-layer-names @top-name @bottom-name)]
+        (swap! puzzle-state assoc-in [:puzzle :top-layer] top)
+        (swap! puzzle-state assoc-in [:puzzle :bottom-layer] bottom))
       [:div.row
        [shape-chooser :state top-name]
        [shape-chooser :state bottom-name]])))
