@@ -54,11 +54,12 @@
                            puzzle/BottomLayer.)]
       (puzzle/Puzzle. top-layer bottom-layer))))
 
-(defn puzzle-chooser [& {:keys [state]}]
-  (let [top-name (reagent/cursor state [:puzzle :top-layer])
-        bottom-name (reagent/cursor state [:puzzle :bottom-layer])]
-    [:div
-     [shape-chooser :state top-name]
-     [shape-chooser :state bottom-name]
-     (when-let [p (puzzle-from-layer-names @top-name @bottom-name)]
-       [monochrome/monochrome-puzzle p])]))
+(defn puzzle-chooser [puzzle-state]
+  (let [top-name (reagent/atom nil)
+        bottom-name (reagent/atom nil)]
+    (fn render [puzzle-state]
+      (when-let [p (puzzle-from-layer-names @top-name @bottom-name)]
+        (swap! puzzle-state assoc-in [:puzzle] p))
+      [:div.row
+       [shape-chooser :state top-name]
+       [shape-chooser :state bottom-name]])))

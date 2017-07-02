@@ -19,4 +19,6 @@
 
 (defonce test-state3 (reagent/atom nil))
 (defcard-rg puzzle-chooser
-  [sut/puzzle-chooser :state test-state3])
+  [:div
+   "this will change the given state to contain the puzzle"
+   [sut/puzzle-chooser test-state3]])

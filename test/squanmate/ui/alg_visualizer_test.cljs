@@ -13,3 +13,6 @@
   [:div
    "this is the lin method algorithm for the CP+DF opposite corners case"
    [v/algorithm-visualization puzzle/square-square "1,0 / -4,-3 / -3,0 / -3,-3 / -3,0 / -2,-3 /"]])
+
+(defcard-rg alg-visualizer
+  [v/alg-visualizer])
