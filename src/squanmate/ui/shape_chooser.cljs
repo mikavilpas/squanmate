@@ -2,7 +2,8 @@
   (:require [cljsjs.react-select]
             [squanmate.shapes :as shapes]
             [reagent.core :as reagent]
-            [squanmate.ui.drawing.monochrome :as monochrome]))
+            [squanmate.ui.drawing.monochrome :as monochrome]
+            [squanmate.puzzle :as puzzle]))
 
 ;; based on example code from
 ;; https://gist.github.com/pesterhazy/4a4198a9cc040bf6fe13a476f25bac2c
@@ -40,3 +41,24 @@
                        (make-value :id id
                                    :label (:name s))))]
     [chooser :options options :state state]))
+
+(defn- puzzle-from-layer-names [top-name bottom-name]
+  (when (and top-name bottom-name)
+    (let [top-layer (-> shapes/all-shapes
+                        (get top-name)
+                        :pieces
+                        puzzle/TopLayer.)
+          bottom-layer (-> shapes/all-shapes
+                           (get bottom-name)
+                           :pieces
+                           puzzle/BottomLayer.)]
+      (puzzle/Puzzle. top-layer bottom-layer))))
+
+(defn puzzle-chooser [& {:keys [state]}]
+  (let [top-name (reagent/cursor state [:puzzle :top-layer])
+        bottom-name (reagent/cursor state [:puzzle :bottom-layer])]
+    [:div
+     [shape-chooser :state top-name]
+     [shape-chooser :state bottom-name]
+     (when-let [p (puzzle-from-layer-names @top-name @bottom-name)]
+       [monochrome/monochrome-puzzle p])]))

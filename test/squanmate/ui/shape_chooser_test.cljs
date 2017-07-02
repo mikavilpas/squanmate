@@ -16,3 +16,7 @@
 (defonce test-state2 (reagent/atom nil))
 (defcard-rg shape-chooser
   [sut/shape-chooser :state test-state2])
+
+(defonce test-state3 (reagent/atom nil))
+(defcard-rg puzzle-chooser
+  [sut/puzzle-chooser :state test-state3])
