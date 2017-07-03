@@ -42,7 +42,8 @@
   the algorithm, and returns a list of steps that demonstrate how the algorithm
   was executed, step by step.
 
-  Returns a vector of Eithers. "
+  Returns a vector of Eithers. Lefts are printable errors, rights are e.g.
+  StartingStepResult etc. "
   [starting-puzzle algorithm-string]
   (let [start (either/right (StartingStepResult. starting-puzzle))]
 
