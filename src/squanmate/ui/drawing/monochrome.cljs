@@ -21,11 +21,7 @@
 
   p/BottomLayer
   (cubeshape-app-string [bottom-layer]
-    (let [[left right] (slicing/split-at-6 bottom-layer)
-          left-string (string/join (map :type left))
-          right-string (string/join (map :type right))
-          layer-string (str left-string right-string)]
-      layer-string)))
+    (p/pieces-str bottom-layer)))
 
 (defn layer-component [layer & {:keys [size]
                                 :or {size 100}}]
