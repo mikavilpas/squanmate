@@ -59,25 +59,27 @@
     (p/always [(types/RotateTopLayer. top-amount)
                (types/RotateBottomLayer. bottom-amount)])))
 
+(defn- non-nils [coll]
+  (filterv (comp not nil?) coll))
+
 (defparser rotation-and-slice []
   (let->> [_ (whitespace)
            rotations (p/either (p/attempt (in-parens-maybe
                                            (rotation-instruction)))
                                (in-parens-maybe
                                 (rotation-instruction-top-layer-only)))
-           s (slice)
+           s (optional (slice))
            _ (whitespace)]
     (let [nonzero (filterv #(not (= 0 (:amount %)))
-                           rotations)]
-      (p/always (conj nonzero s)))))
+                           rotations)
+          steps (conj nonzero s)]
+      (p/always (non-nils steps)))))
 
 (defparser algorithm []
   (let->> [s (optional (slice))
            step-vectors (p/many (rotation-and-slice))]
     (let [steps (flatten step-vectors)]
-      (if s
-        (p/always (conj steps s))
-        (p/always steps)))))
+      (p/always (non-nils (conj steps s))))))
 
 (defn parse
   "Supported formats:

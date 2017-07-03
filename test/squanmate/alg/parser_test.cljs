@@ -44,6 +44,11 @@
                         slice])
          (a/parse "/1,2/")))
 
+  "rotation only (no slice)"
+  (is (= (either/right [(rotate-top 3)
+                        (rotate-bottom -2)])
+         (a/parse "3, -2")))
+
   "an alg that leaves out the bottom layer 0 value"
   (is (= (either/right [slice
                         (rotate-top 3)
