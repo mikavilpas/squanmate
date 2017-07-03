@@ -48,5 +48,4 @@
                bottom (get-in @state [:puzzle :bottom-layer])]
            (when (and top bottom)
              [:div
-              [monochrome/monochrome-puzzle (:puzzle @state)]
               [algorithm-visualization (:puzzle @state) (:algorithm @state)]]))]]])))
