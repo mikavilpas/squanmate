@@ -69,3 +69,31 @@
                  "perpendicular-edges" perpendicular-edges
                  "parallel-edges" parallel-edges
                  "star" star})
+
+(defn ordered-permutations
+  "Given a layer's pieces, returns a lazy seq of all the possible rotated states
+  the layer can have.
+
+  Actually works with any elements, not just pieces"
+  [elements]
+  (lazy-seq
+   (for [i (range (count elements))]
+     (let [[front back] (split-at i elements)]
+       ;; inverse order
+       (vec (concat back front))))))
+
+(defn- same-piece-type-order? [pieces-a pieces-b]
+  (= (map :type pieces-a)
+     (map :type pieces-b)))
+
+(defn same-shape? [layer-a layer-b]
+  (let [a-perms (ordered-permutations (:pieces layer-a))]
+    (->> a-perms
+         (some (partial same-piece-type-order?
+                  (:pieces layer-b))))))
+
+(defn layer-shape-name [layer]
+  (->> (vals all-shapes)
+       (filter (partial same-shape? layer))
+       first
+       :name))
