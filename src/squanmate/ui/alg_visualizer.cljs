@@ -17,16 +17,14 @@
                      (interesting (type s))))))
 
 (defn algorithm-visualization [puzzle alg-string]
-  (let [steps (execution/transformations puzzle alg-string)]
-    (println steps)
+  (let [step-eithers (execution/transformations puzzle alg-string)]
     [:div
-     (for [[step-either index] (zipmap steps (range))
+     (for [[step-either index] (zipmap step-eithers (range))
            :when (interesting-step? step-either)]
        ^{:key (str index)}
        [:div
         (either/branch step-either
                        (fn [step]
-                         (println "error encountered: " step)
                          [:div (pr-str step)])
 
                        (fn [step]

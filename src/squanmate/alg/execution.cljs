@@ -40,13 +40,19 @@
 (defn transformations
   "Takes a starting-puzzle and an algorithm as a string. Performs each step of
   the algorithm, and returns a list of steps that demonstrate how the algorithm
-  was executed, step by step."
+  was executed, step by step.
+
+  Returns a vector of Eithers. "
   [starting-puzzle algorithm-string]
   (let [start (either/right (StartingStepResult. starting-puzzle))]
 
-    (m/mlet [algorithm-steps (parser/parse algorithm-string)]
-            (reductions (fn [previous-result step]
-                          (m/mlet [current previous-result]
-                                  (execute step (:puzzle current))))
-                        start
-                        algorithm-steps))))
+    (let [steps-either (parser/parse algorithm-string)]
+      (either/branch steps-either
+                     (fn [error]
+                       (vector (either/left error)))
+                     (fn [algorithm-steps]
+                       (reductions (fn [previous-result step]
+                                     (m/mlet [current previous-result]
+                                             (execute step (:puzzle current))))
+                                   start
+                                   algorithm-steps))))))
