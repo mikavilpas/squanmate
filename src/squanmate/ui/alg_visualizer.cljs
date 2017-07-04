@@ -45,25 +45,26 @@
         result-step-either (last step-eithers)]
     (m/bind result-step-either (comp either/right :puzzle))))
 
-(defn alg-visualizer [& state]
-  (let [state (or state (reagent/atom {:puzzle (puzzle/Puzzle. nil nil)
-                                       :initial-rotation ""
-                                       :algorithm ""}))]
-    (fn render []
-      [:div.row
-       [:form
-        [:div.form-group.col-xs-8
-         [shape-chooser/puzzle-chooser state]]
+(defn default-alg-visualizer-state []
+  (reagent/atom {:puzzle (puzzle/Puzzle. nil nil)
+                 :initial-rotation ""
+                 :algorithm ""}))
 
-        [:div.form-group
-         [input-box (reagent/cursor state [:initial-rotation]) "Initial rotation"]
-         [input-box (reagent/cursor state [:algorithm]) "Algorithm"]]
-        [:div.col-xs-5
-         (when-let [initial-puzzle (and (both-layers-present? (:puzzle @state))
-                                        (apply-initial-transformation-alg (:puzzle @state)
-                                                                          (:initial-rotation @state)))]
-           (either/branch
-            initial-puzzle
-            show-error
-            (fn [initial-puzzle]
-              [algorithm-visualization initial-puzzle (:algorithm @state)])))]]])))
+(defn alg-visualizer [state]
+  [:div.row
+   [:form
+    [:div.form-group.col-xs-8
+     [shape-chooser/puzzle-chooser (reagent/cursor state [:puzzle])]]
+
+    [:div.form-group
+     [input-box (reagent/cursor state [:initial-rotation]) "Initial rotation"]
+     [input-box (reagent/cursor state [:algorithm]) "Algorithm"]]
+    [:div.col-xs-5
+     (when-let [initial-puzzle (and (both-layers-present? (:puzzle @state))
+                                    (apply-initial-transformation-alg (:puzzle @state)
+                                                                      (:initial-rotation @state)))]
+       (either/branch
+        initial-puzzle
+        show-error
+        (fn [initial-puzzle]
+          [algorithm-visualization initial-puzzle (:algorithm @state)])))]]])

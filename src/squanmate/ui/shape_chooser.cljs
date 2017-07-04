@@ -59,8 +59,8 @@
         bottom-name (reagent/atom nil)]
     (fn render [puzzle-state]
       (when-let [[top bottom] (layers-from-layer-names @top-name @bottom-name)]
-        (swap! puzzle-state assoc-in [:puzzle :top-layer] top)
-        (swap! puzzle-state assoc-in [:puzzle :bottom-layer] bottom))
+        (swap! puzzle-state assoc-in [:top-layer] top)
+        (swap! puzzle-state assoc-in [:bottom-layer] bottom))
       [:div.row
        [shape-chooser :state top-name]
        [shape-chooser :state bottom-name]])))

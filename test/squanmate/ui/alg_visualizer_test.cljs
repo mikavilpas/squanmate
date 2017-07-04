@@ -15,9 +15,9 @@
    "this is the lin method algorithm for the CP+DF opposite corners case"
    [v/algorithm-visualization puzzle/square-square "1,0 / -4,-3 / -3,0 / -3,-3 / -3,0 / -2,-3 /"]])
 
-(defonce alg-visualizer-state (reagent/atom {:puzzle (puzzle/Puzzle. nil nil)
-                                             :initial-rotation ""
-                                             :algorithm ""}))
+(defonce alg-visualizer-state (v/default-alg-visualizer-state))
 
 (defcard-rg alg-visualizer
-  [v/alg-visualizer])
+  [v/alg-visualizer alg-visualizer-state]
+  alg-visualizer-state
+  {:inspect-data true})
