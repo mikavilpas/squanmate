@@ -47,8 +47,8 @@
   [starting-puzzle algorithm-string]
   (let [start (either/right (StartingStepResult. starting-puzzle))]
 
-    (let [steps-either (parser/parse algorithm-string)]
-      (either/branch steps-either
+    (let [step-eithers (parser/parse algorithm-string)]
+      (either/branch step-eithers
                      (fn [error]
                        (vector (either/left error)))
                      (fn [algorithm-steps]
