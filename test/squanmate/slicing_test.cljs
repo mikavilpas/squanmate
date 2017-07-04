@@ -4,7 +4,9 @@
             [squanmate.puzzle :as p]
             [squanmate.ui.drawing.monochrome :as monochrome]
             [cats.monad.either :as either]
-            [cats.core :as m])
+            [cats.core :as m]
+            [squanmate.rotation :as r]
+            [squanmate.alg.execution :as execution])
   (:require-macros
    [devcards.core :as dc :refer [deftest defcard-rg]]))
 
@@ -37,4 +39,8 @@
           (is (= "ececceec" (p/pieces-str (:bottom-layer result))))))
 
 (deftest layer-sliceable?-test []
-  (is (true? (slicing/layer-sliceable? (:top-layer p/square-square)))))
+  (is (true? (slicing/layer-sliceable? (:top-layer p/square-square))))
+
+  "This should go to left-fist right-fist but be unable to slice the top layer"
+  (m/mlet [position (execution/transformation-result kite-kite "/-1")]
+          (is (not (slicing/layer-sliceable? (:top-layer position))))))
