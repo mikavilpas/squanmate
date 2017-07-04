@@ -25,28 +25,29 @@
 (def clockwise-rotation
   (reify LayerRotationStrategy
     (first-piece [this layer]
-      (first (:pieces layer)))
-    (rotate-one-piece [this layer]
-      (let [pieces (:pieces layer)]
-        (assoc-in layer [:pieces]
-                  (conj (vec (next pieces))
-                        (first-piece this layer)))))))
-
-(def counterclockwise-rotation
-  (reify LayerRotationStrategy
-    (first-piece [this layer]
       (last (:pieces layer)))
     (rotate-one-piece [this layer]
       (let [pieces (:pieces layer)]
         (assoc-in layer [:pieces]
                   (apply vector
-                         (first-piece this layer)
-                         (vec (butlast pieces))))))))
+                         (last pieces)
+                         (butlast pieces)))))))
+
+(def counterclockwise-rotation
+  (reify LayerRotationStrategy
+    (first-piece [this layer]
+      (first (:pieces layer)))
+    (rotate-one-piece [this layer]
+      (let [pieces (:pieces layer)]
+        (assoc-in layer [:pieces]
+                  (into (vec (next pieces))
+                        (vector (first-piece this layer))))))))
 
 (defn rotate-layer [layer amount]
   (cond
     (= 0 amount) (either/right layer)
     (pos-int? amount) (rotate-layer-worker clockwise-rotation layer amount)
     (neg-int? amount) (rotate-layer-worker counterclockwise-rotation layer (- amount))
-    :else (either/left (p/LayerError. "rotate-layer: unknown case"
+    :else (either/left (p/LayerError. (str "rotate-layer: unknown case when rotating by "
+                                           amount)
                                       layer))))

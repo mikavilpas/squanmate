@@ -26,8 +26,8 @@
 
 (defn piece-value [piece]
   (condp = (:type piece)
-    "e" 2
-    "c" 1
+    "c" 2
+    "e" 1
     (throw (str "unknown piece " (pr-str piece)))))
 
 (defn pieces-str [layer]
