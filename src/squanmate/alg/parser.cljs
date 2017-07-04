@@ -47,7 +47,7 @@
 (defparser rotation-instruction-top-layer-only []
   (let->> [top-amount (integer)
            _ (whitespace)]
-    (p/always [(types/RotateTopLayer. top-amount)])))
+    (p/always [(types/Rotations. top-amount 0)])))
 
 (defparser rotation-instruction []
   (let->> [top-amount (integer)
@@ -56,8 +56,7 @@
            _ (whitespace)
            bottom-amount (integer)
            _ (whitespace)]
-    (p/always [(types/RotateTopLayer. top-amount)
-               (types/RotateBottomLayer. bottom-amount)])))
+    (p/always [(types/Rotations. top-amount bottom-amount)])))
 
 (defn- non-nils [coll]
   (filterv (comp not nil?) coll))
@@ -70,9 +69,7 @@
                                 (rotation-instruction-top-layer-only)))
            s (optional (slice))
            _ (whitespace)]
-    (let [nonzero (filterv #(not (= 0 (:amount %)))
-                           rotations)
-          steps (conj nonzero s)]
+    (let [steps (conj rotations s)]
       (p/always (non-nils steps)))))
 
 (defparser algorithm []

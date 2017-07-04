@@ -15,20 +15,16 @@
 (defprotocol AlgorithmStep
   (execute [this puzzle]))
 
-(extend-type types/RotateTopLayer
+(extend-type types/Rotations
   AlgorithmStep
   (execute [this puzzle]
-    (m/mlet [new-layer (rotation/rotate-layer (:top-layer puzzle)
-                                              (:amount this))]
-            (let [new-puzzle (assoc-in puzzle [:top-layer] new-layer)]
-              (m/return (RotationStepResult. new-puzzle this))))))
-
-(extend-type types/RotateBottomLayer
-  AlgorithmStep
-  (execute [this puzzle]
-    (m/mlet [new-layer (rotation/rotate-layer (:bottom-layer puzzle)
-                                              (:amount this))]
-            (let [new-puzzle (assoc-in puzzle [:bottom-layer] new-layer)]
+    (m/mlet [new-top (rotation/rotate-layer (:top-layer puzzle)
+                                            (:top-amount this))
+             new-bottom (rotation/rotate-layer (:bottom-layer puzzle)
+                                               (:bottom-amount this))]
+            (let [new-puzzle (-> puzzle
+                                 (assoc-in [:top-layer] new-top)
+                                 (assoc-in [:bottom-layer] new-bottom))]
               (m/return (RotationStepResult. new-puzzle this))))))
 
 (extend-type types/Slice

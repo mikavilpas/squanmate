@@ -11,22 +11,22 @@
 
 (deftest rotate-top []
   "top layer"
-  (let [rotation-result (e/execute (types/RotateTopLayer. 3)
+  (let [rotation-result (e/execute (types/Rotations. 3 0)
                                    puzzle/square-square)]
     (is (either/right? rotation-result))
     ;; the rest of the test is a hack with mlet. if rotation-result were a Left,
     ;; the rest of the test would not get rendered. This is why it's important
     ;; to have (is (either/right? rotation-result)) above.
     (m/mlet [result rotation-result]
-            (is (= (types/RotateTopLayer. 3)
+            (is (= (types/Rotations. 3 0)
                    (:previously-applied-step result))))))
 
 (deftest rotate-bottom []
-  (let [rotation-result (e/execute (types/RotateBottomLayer. 3)
+  (let [rotation-result (e/execute (types/Rotations. 0 3)
                                    puzzle/square-square)]
     (is (either/right? rotation-result))
     (m/mlet [result rotation-result]
-            (is (= (types/RotateBottomLayer. 3)
+            (is (= (types/Rotations. 0 3)
                    (:previously-applied-step result))))))
 
 (deftest can-slice []
