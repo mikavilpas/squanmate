@@ -42,15 +42,13 @@
 
 (defn- apply-initial-transformation-alg [puzzle alg-string]
   (let [step-eithers (execution/transformations puzzle alg-string)
-        result-either (last step-eithers)]
-    (either/branch-right result-either
-                         (fn [result]
-                           (either/right (:puzzle result))))))
+        result-step-either (last step-eithers)]
+    (m/bind result-step-either (comp either/right :puzzle))))
 
-(defn alg-visualizer []
-  (let [state (reagent/atom {:puzzle (puzzle/Puzzle. nil nil)
-                             :initial-rotation ""
-                             :algorithm ""})]
+(defn alg-visualizer [& state]
+  (let [state (or state (reagent/atom {:puzzle (puzzle/Puzzle. nil nil)
+                                       :initial-rotation ""
+                                       :algorithm ""}))]
     (fn render []
       [:div.row
        [:form
