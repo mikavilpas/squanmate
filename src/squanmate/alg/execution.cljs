@@ -57,3 +57,7 @@
                                              (execute step (:puzzle current))))
                                    start
                                    algorithm-steps))))))
+
+(defn transformation-result [starting-puzzle algorithm-string]
+  (let [step-eithers (transformations starting-puzzle algorithm-string)]
+    (last step-eithers)))

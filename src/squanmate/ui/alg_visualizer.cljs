@@ -46,8 +46,7 @@
        (:bottom-layer puzzle)))
 
 (defn- apply-initial-transformation-alg [puzzle alg-string]
-  (let [step-eithers (execution/transformations puzzle alg-string)
-        result-step-either (last step-eithers)]
+  (let [result-step-either (execution/transformation-result puzzle alg-string)]
     (m/bind result-step-either (comp either/right :puzzle))))
 
 (defn default-alg-visualizer-state []
