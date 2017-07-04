@@ -6,8 +6,8 @@
    [devcards.core :as dc :refer [defcard-rg deftest]]))
 
 (deftest piece-value-test []
-  (is (= 2 (p/piece-value p/edge)))
-  (is (= 1 (p/piece-value p/corner))))
+  (is (= 1 (p/piece-value p/edge)))
+  (is (= 2 (p/piece-value p/corner))))
 
 (deftest square-square-pieces-str-test []
   (is (= "cececece" (p/pieces-str (:top-layer p/square-square))))
