@@ -15,7 +15,7 @@
                  (constantly true)
                  (fn [s]
                    (let [interesting #{execution/StartingStepResult
-                                       execution/SliceStepResult}]
+                                       execution/RotationStepResult}]
                      (interesting (type s))))))
 
 (def panel (reagent/adapt-react-class js/ReactBootstrap.Panel))
