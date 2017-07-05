@@ -36,8 +36,8 @@
                    "size=" size)
           shape-name (shapes/layer-shape-name layer)]
       [overlay-trigger
-       {:overlay (reagent/as-component [tooltip {:id "test"}
-                                        shape-name])
+       {:overlay (reagent/as-element [tooltip {:id "test"}
+                                      shape-name])
         :placement "top"}
        [:img {:src url}]])))
 
