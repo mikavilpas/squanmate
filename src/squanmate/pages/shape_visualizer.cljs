@@ -27,7 +27,8 @@
                :event-key 1}
       [:ul
        [:li "Select starting layers"]
-       [:li "Rotate the layers to your starting rotation with " [:strong "Initial rotation"] " (won't count as a drawn step)"]
+       [:li "Rotate the layers to your starting rotation with "
+        [:strong "Initial rotation"] " (won't count as a drawn step)"]
        [:li "Enter your " [:strong "algorithm"]]]]]]
 
    [:div.row
