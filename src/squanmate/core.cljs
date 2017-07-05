@@ -1,6 +1,7 @@
 (ns squanmate.core
   (:require [reagent.core :as reagent]
-            [squanmate.pages.all-possible-shapes])
+            [squanmate.pages.all-possible-shapes]
+            [squanmate.pages.shape-visualizer])
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg]]))
 
