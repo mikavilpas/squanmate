@@ -18,6 +18,9 @@
                                        execution/RotationStepResult}]
                      (interesting (type s))))))
 
+(defn- last-step? [index total-amount]
+  (= index (- total-amount 1)))
+
 (def panel (reagent/adapt-react-class js/ReactBootstrap.Panel))
 
 (defn- error-component [e]
@@ -29,7 +32,8 @@
   (let [step-eithers (execution/transformations puzzle alg-string)]
     [:div
      (for [[step-either index] (zipmap step-eithers (range))
-           :when (interesting-step? step-either)]
+           :when (or (interesting-step? step-either)
+                     (last-step? index (count step-eithers)))]
        ^{:key (str index)}
        [:div
         (either/branch step-either
