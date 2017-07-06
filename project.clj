@@ -50,7 +50,10 @@
                         :compiler {:main       "squanmate.core"
                                    :asset-path "js/compiled/out"
                                    :output-to  "resources/public/js/compiled/squanmate.js"
-                                   :optimizations :advanced}}]}
+                                   :optimizations :advanced
+                                   ;; required in order to display the UI, see
+                                   ;; https://github.com/bhauman/devcards#usage-without-figwheel
+                                   :devcards true}}]}
 
   :figwheel { :css-dirs ["resources/public/css"] }
 

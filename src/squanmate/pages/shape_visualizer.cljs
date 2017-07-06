@@ -3,6 +3,7 @@
             [squanmate.ui.drawing.monochrome :as monochrome]
             [squanmate.shapes :as s]
             [squanmate.ui.alg-visualizer :as v]
+            [devcards.core :as dc]      ; required
             [reagent.core :as reagent]
             [cljsjs.react-bootstrap])
   (:require-macros
