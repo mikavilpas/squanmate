@@ -13,7 +13,8 @@
                  [funcool/cats "2.1.0"]
                  [the/parsatron "0.0.7"]
                  [cljsjs/react-select "1.0.0-rc.3" :exclusions [cljsjs/react]]
-                 [cljsjs/react-bootstrap "0.31.0-0"]]
+                 [cljsjs/react-bootstrap "0.31.0-0"]
+                 [quil "2.6.0"]]
 
   :plugins [[lein-figwheel "0.5.9"]
             [lein-cljsbuild "1.1.5" :exclusions [org.clojure/clojure]]]
