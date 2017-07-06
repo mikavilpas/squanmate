@@ -10,4 +10,5 @@
 
 (defn- input-box [string-state placeholder]
   [:input.form-control {:on-change #(reset! string-state (-> % .-target .-value))
-                        :placeholder placeholder}])
+                        :placeholder placeholder
+                        :value @string-state}])
