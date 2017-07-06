@@ -2,15 +2,13 @@
   (:require [squanmate.puzzle :as puzzle]
             [squanmate.ui.drawing.monochrome :as monochrome]
             [squanmate.shapes :as s]
+            [squanmate.ui.common :as common]
             [squanmate.ui.alg-visualizer :as v]
             [devcards.core :as dc]      ; required
             [reagent.core :as reagent]
             [cljsjs.react-bootstrap])
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg]]))
-
-(def accordion (reagent/adapt-react-class js/ReactBootstrap.Accordion))
-(def glyphicon (reagent/adapt-react-class js/ReactBootstrap.Glyphicon))
 
 (defonce alg-visualizer-state (v/default-alg-visualizer-state))
 
@@ -22,10 +20,10 @@
   is easier than memorizing movements or numbers."]
 
    [:div.row
-    [accordion
-     [v/panel {:header (reagent/as-element [:span [glyphicon {:glyph :info-sign}] " Help"])
-               :bs-style "info"
-               :event-key 1}
+    [common/accordion
+     [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :info-sign}] " Help"])
+                    :bs-style "info"
+                    :event-key 1}
       [:ul
        [:li "Select starting layers"]
        [:li "Rotate the layers to your starting rotation with "

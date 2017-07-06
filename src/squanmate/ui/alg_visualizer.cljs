@@ -7,7 +7,8 @@
             [squanmate.puzzle :as puzzle]
             [cats.monad.either :as either]
             [cats.core :as m]
-            [cljsjs.react-bootstrap]))
+
+            [squanmate.ui.common :as common]))
 
 (defn- interesting-step? [step-either]
   (either/branch step-either
@@ -21,11 +22,9 @@
 (defn- last-step? [index total-amount]
   (= index (- total-amount 1)))
 
-(def panel (reagent/adapt-react-class js/ReactBootstrap.Panel))
-
 (defn- error-component [e]
-  [panel {:header "Error"
-          :bs-style "danger"}
+  [common/panel {:header "Error"
+                 :bs-style "danger"}
    (pr-str e)])
 
 (defn algorithm-visualization [puzzle alg-string]
@@ -40,10 +39,6 @@
                        error-component
                        (fn [step]
                          [monochrome/monochrome-puzzle (:puzzle step)]))])]))
-
-(defn- input-box [string-state placeholder]
-  [:input.form-control {:on-change #(reset! string-state (-> % .-target .-value))
-                        :placeholder placeholder}])
 
 (defn- both-layers-present? [puzzle]
   (and (:top-layer puzzle)
@@ -65,8 +60,8 @@
      [shape-chooser/puzzle-chooser (reagent/cursor state [:puzzle])]]
 
     [:div.form-group
-     [input-box (reagent/cursor state [:initial-rotation]) "Initial rotation"]
-     [input-box (reagent/cursor state [:algorithm]) "Algorithm"]]
+     [common/input-box (reagent/cursor state [:initial-rotation]) "Initial rotation"]
+     [common/input-box (reagent/cursor state [:algorithm]) "Algorithm"]]
     [:div
      (when-let [initial-puzzle (and (both-layers-present? (:puzzle @state))
                                     (apply-initial-transformation-alg (:puzzle @state)

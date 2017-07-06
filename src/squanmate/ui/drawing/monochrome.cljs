@@ -4,7 +4,8 @@
             [squanmate.slicing :as slicing]
             [clojure.string :as string]
             [squanmate.shapes :as shapes]
-            [cljsjs.react-bootstrap]))
+            [cljsjs.react-bootstrap]
+            [squanmate.ui.common :as common]))
 
 ;; Note: cubeshape is the app that draws the puzzle. So this is for building a
 ;; cubeshape app specific request string.
@@ -24,9 +25,6 @@
   (cubeshape-app-string [bottom-layer]
     (p/pieces-str bottom-layer)))
 
-(def tooltip (reagent/adapt-react-class js/ReactBootstrap.Tooltip))
-(def overlay-trigger (reagent/adapt-react-class js/ReactBootstrap.OverlayTrigger))
-
 (defn layer-component [layer & {:keys [size]
                                 :or {size 100}}]
   (when layer
@@ -35,8 +33,8 @@
                    "?"
                    "size=" size)
           shape-name (shapes/layer-shape-name layer)]
-      [overlay-trigger
-       {:overlay (reagent/as-element [tooltip {:id "test"}
+      [common/overlay-trigger
+       {:overlay (reagent/as-element [common/tooltip {:id "test"}
                                       shape-name])
         :placement "top"}
        [:img {:src url}]])))
