@@ -1,5 +1,5 @@
-(ns squanmate.ui.drawing.monochrome-test
-  (:require [squanmate.ui.drawing.monochrome :as draw]
+(ns squanmate.ui.drawing.newmonochrome-test
+  (:require [squanmate.ui.drawing.newmonochrome :as draw]
             [clojure.test :as t]
             [squanmate.puzzle :as p])
   (:require-macros
