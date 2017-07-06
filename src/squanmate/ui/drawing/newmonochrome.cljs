@@ -5,46 +5,57 @@
             [clojure.string :as string]
             [squanmate.shapes :as shapes]
             [cljsjs.react-bootstrap]
+            [squanmate.ui.drawing.util.quil-reagent :as quil-reagent]
+            [quil.core :as q]
+            [quil.middleware :as m]
             [squanmate.ui.common :as common]))
 
-;; Note: cubeshape is the app that draws the puzzle. So this is for building a
-;; cubeshape app specific request string.
-(defprotocol CubeshapePiecesString
-  (cubeshape-app-string [layer]))
+(defn- draw-top-layer [layer]
+  (print "drawing top layer")
 
-(extend-protocol CubeshapePiecesString
+  (q/background 0)
+  (q/background 255)
+
+  ;; This needs to be the last statement. After it no changes will be visible.
+  ;; Uncomment it to have a delicious developer hot load experience
+  #_(q/no-loop))
+
+(defprotocol Drawable
+  (draw [layer]))
+
+(extend-protocol Drawable
   shapes/Shape
-  (cubeshape-app-string [shape]
-    (p/pieces-str shape))
+  (draw [shape]
+    #'draw-top-layer)
 
   p/TopLayer
-  (cubeshape-app-string [top-layer]
-    (p/pieces-str top-layer))
+  (draw [top-layer]
+    #'draw-top-layer)
 
   p/BottomLayer
-  (cubeshape-app-string [bottom-layer]
-    (p/pieces-str bottom-layer)))
+  (draw [bottom-layer]
+    (throw (new js/Error "drawing the bottom layer is not implemented yet"))))
 
 (defn layer-component [layer & {:keys [size]
                                 :or {size 100}}]
-  (when layer
-    (let [url (str "//localhost:9292/cubeshape/"
-                   (cubeshape-app-string layer)
-                   "?"
-                   "size=" size)
-          shape-name (shapes/layer-shape-name layer)]
-      [common/overlay-trigger
-       {:overlay (reagent/as-element [common/tooltip {:id "test"}
-                                      shape-name])
-        :placement "top"}
-       [:img {:src url}]])))
+  [quil-reagent/sketch
+   :setup (fn []
+            ;; there is no need for animation at the moment. just a static image
+            ;; will do perfectly fine.
+            (q/frame-rate 1)
+            layer)
+   :draw (draw layer)
+   ;; no changes to state are needed / allowed
+   :update (constantly layer)
+   :middleware [m/fun-mode]
+   :size [size size]])
 
 (defn monochrome-puzzle [puzzle & debug?]
-  (let [top-img (layer-component (:top-layer puzzle))
-        bottom-img (layer-component (:bottom-layer puzzle))]
+  (let [top-canvas (layer-component (:top-layer puzzle))]
+    ;; bottom-canvas (layer-component (:bottom-layer puzzle))
     [:div.puzzle
-     [:span.layer.top top-img]
-     [:span.layer.bottom {:style {:margin-left "-20px"}} bottom-img]
+     [:span.layer.top top-canvas]
+     #_[:span.layer.bottom bottom-canvas]
      (when debug?
        [:div
         "Top:" (p/pieces-str (:top-layer puzzle))
