@@ -57,7 +57,7 @@
   [:div.row
    [:form
     [:div.form-group.col-xs-8
-     [shape-chooser/puzzle-chooser (reagent/cursor state [:puzzle])]]
+     [shape-chooser/puzzle-chooser state]]
 
     [:div.form-group
      [common/input-box (reagent/cursor state [:initial-rotation]) "Initial rotation"]
