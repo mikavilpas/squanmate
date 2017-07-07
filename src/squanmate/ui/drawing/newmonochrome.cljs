@@ -12,17 +12,32 @@
 
 (defrecord DrawLayerState [layer size])
 
-(defn- draw-edge-at [position-value {:keys [bot edge-width]}]
-  (let [position (+ 1 position-value)]
-    (q/rotate (q/radians (* position 30)))
-    (q/triangle 0 0, (- edge-width) bot, edge-width bot)))
+(defn- with-temporary-rotation [r function]
+  (q/rotate (q/radians r))
+  (function)
+  (q/rotate (q/radians (- r))))
+
+(defn- edge-coordinates [position {:keys [bot edge-width]}]
+  (let [coords {:x1 0 :y1 0
+                :x2 (- edge-width) :y2 bot
+                :x3 edge-width :y3 bot}]
+    coords))
+
+(defn- draw-edge-at [position data]
+  (let [coords (edge-coordinates position data)]
+    (with-temporary-rotation (* position 30)
+      #(apply q/triangle (vals coords)))
+    coords))
+
+(defn- draw-corner-at [position {:keys [bot edge-width]}]
+  (with-temporary-rotation (* position 30)
+    #(q/triangle 0 0, (- edge-width) bot, edge-width bot)))
 
 (defn- draw-top-layer [state]
   (let [size (:size state)
-        {:keys [size center] :as data} {:size size
-                                        :edge-width (/ size 10)
-                                        :center (/ size 2)
-                                        :bot (* size 0.375)}]
+        center (/ size 2)
+        data {:edge-width (/ size 10)
+              :bot (* size 0.375)}]
     (q/background 255)
     ;; to see the canvas edges when developing
     (q/fill 255)
@@ -33,7 +48,8 @@
     ;; start drawing from the center
     (q/translate center center)
 
-    (draw-edge-at 2 data)
+    (draw-corner-at 1 data)
+    (draw-edge-at 3 data)
     )
 
   ;; This needs to be the last statement. After it no changes will be visible.
@@ -46,15 +62,15 @@
 (extend-protocol Drawable
   shapes/Shape
   (draw [shape]
-    #'draw-top-layer)
+        #'draw-top-layer)
 
   p/TopLayer
   (draw [top-layer]
-    #'draw-top-layer)
+        #'draw-top-layer)
 
   p/BottomLayer
   (draw [bottom-layer]
-    (throw (new js/Error "drawing the bottom layer is not implemented yet"))))
+        (throw (new js/Error "drawing the bottom layer is not implemented yet"))))
 
 (defn layer-component [layer & {:keys [size]
                                 :or {size 400}}]
