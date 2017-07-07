@@ -10,11 +10,20 @@
             [quil.middleware :as m]
             [squanmate.ui.common :as common]))
 
-(defn- draw-top-layer [layer]
-  (print "drawing top layer")
+(defrecord DrawLayerState [layer size])
 
-  (q/background 0)
-  (q/background 255)
+(defn- draw-top-layer [state]
+  (let [size (:size state)
+        center (/ size 2)
+        edge-width (/ size 10)
+        bot (* size 0.870)]
+    (q/background 255)
+    ;; to see the edges when developing
+    (q/fill 255)
+    (q/rect 0 0 (- size 1) (- size 1))
+
+    (q/fill 169 169 169)
+    (q/triangle center center, (- center edge-width) bot, (+ center edge-width) bot))
 
   ;; This needs to be the last statement. After it no changes will be visible.
   ;; Uncomment it to have a delicious developer hot load experience
@@ -37,18 +46,21 @@
     (throw (new js/Error "drawing the bottom layer is not implemented yet"))))
 
 (defn layer-component [layer & {:keys [size]
-                                :or {size 100}}]
-  [quil-reagent/sketch
-   :setup (fn []
-            ;; there is no need for animation at the moment. just a static image
-            ;; will do perfectly fine.
-            (q/frame-rate 1)
-            layer)
-   :draw (draw layer)
-   ;; no changes to state are needed / allowed
-   :update (constantly layer)
-   :middleware [m/fun-mode]
-   :size [size size]])
+                                :or {size 400}}]
+  (let [state (DrawLayerState. layer size)
+        draw-function-var (draw layer)]
+    [quil-reagent/sketch
+     :setup (fn []
+              ;; there is no need for animation at the moment. just a static image
+              ;; will do perfectly fine.
+              (q/frame-rate 1)
+              (q/smooth)
+              state)
+     :draw draw-function-var
+     ;; no changes to state are needed / allowed
+     :update (constantly state)
+     :middleware [m/fun-mode]
+     :size [size size]]))
 
 (defn monochrome-puzzle [puzzle & debug?]
   (let [top-canvas (layer-component (:top-layer puzzle))]

@@ -9,5 +9,4 @@
 
 (defcard-rg poc
   [:div
-   "this should draw a square-square"
    (draw/monochrome-puzzle cube-puzzle)])
