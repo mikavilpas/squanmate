@@ -12,18 +12,29 @@
 
 (defrecord DrawLayerState [layer size])
 
+(defn- draw-edge-at [position-value {:keys [bot edge-width]}]
+  (let [position (+ 1 position-value)]
+    (q/rotate (q/radians (* position 30)))
+    (q/triangle 0 0, (- edge-width) bot, edge-width bot)))
+
 (defn- draw-top-layer [state]
   (let [size (:size state)
-        center (/ size 2)
-        edge-width (/ size 10)
-        bot (* size 0.870)]
+        {:keys [size center] :as data} {:size size
+                                        :edge-width (/ size 10)
+                                        :center (/ size 2)
+                                        :bot (* size 0.375)}]
     (q/background 255)
-    ;; to see the edges when developing
+    ;; to see the canvas edges when developing
     (q/fill 255)
     (q/rect 0 0 (- size 1) (- size 1))
 
-    (q/fill 169 169 169)
-    (q/triangle center center, (- center edge-width) bot, (+ center edge-width) bot))
+    ;; color
+    (q/fill 169)
+    ;; start drawing from the center
+    (q/translate center center)
+
+    (draw-edge-at 2 data)
+    )
 
   ;; This needs to be the last statement. After it no changes will be visible.
   ;; Uncomment it to have a delicious developer hot load experience
