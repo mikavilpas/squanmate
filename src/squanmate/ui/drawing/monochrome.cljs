@@ -28,7 +28,7 @@
 (defn layer-component [layer & {:keys [size]
                                 :or {size 100}}]
   (when layer
-    (let [url (str "//localhost:9292/cubeshape/"
+    (let [url (str "http://localhost:9292/cubeshape/"
                    (cubeshape-app-string layer)
                    "?"
                    "size=" size)
