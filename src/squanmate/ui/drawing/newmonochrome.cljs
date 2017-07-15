@@ -96,21 +96,46 @@
   ;; Comment it to have a delicious developer hot load experience
   #_(q/no-loop))
 
+(defn- draw-bottom-layer [state]
+  (let [size (:size state)
+        center (/ size 2)
+        layer (:layer state)
+        data {:edge-width (/ size 10)
+              :bot (* size 0.375)
+              :size size}]
+
+    (q/stroke 0)
+    (q/background 255)
+    (q/fill monochrome-color)
+    ;; start drawing from the center
+    (q/translate center center)
+    (q/scale 0.95)
+
+    (doseq [[piece position] (slicing/pieces-and-their-positions layer)]
+      (condp = (:type piece)
+        "c"
+        (draw-corner-at position data)
+
+        "e"
+        (draw-edge-at position data)
+
+        (println (new js/Error (str "warning: cannot draw unknown top layer piece " piece)))))))
+
 (defprotocol Drawable
   (draw [layer]))
 
 (extend-protocol Drawable
   shapes/Shape
   (draw [shape]
-        #'draw-top-layer)
+    #'draw-top-layer)
 
   p/TopLayer
   (draw [top-layer]
-        #'draw-top-layer)
+    #'draw-top-layer)
 
   p/BottomLayer
   (draw [bottom-layer]
-        (throw (new js/Error "drawing the bottom layer is not implemented yet"))))
+    #'draw-bottom-layer))
 
 (defn layer-component [layer & {:keys [size]
                                 :or {size 400}}]
@@ -128,6 +153,10 @@
                 ;; will do perfectly fine.
                 (q/frame-rate 1)
                 (q/smooth)
+                (q/stroke 0)
+                (q/background 255)
+                (q/fill monochrome-color)
+
                 state)
        :draw draw-function-var
        ;; no changes to state are needed / allowed
@@ -136,11 +165,11 @@
        :size [size size]]]]))
 
 (defn monochrome-puzzle [puzzle & debug?]
-  (let [top-canvas (layer-component (:top-layer puzzle))]
-    ;; bottom-canvas (layer-component (:bottom-layer puzzle))
+  (let [top-canvas (layer-component (:top-layer puzzle))
+        bottom-canvas (layer-component (:bottom-layer puzzle))]
     [:div.puzzle
      [:span.layer.top top-canvas]
-     #_[:span.layer.bottom bottom-canvas]
+     [:span.layer.bottom bottom-canvas]
      (when debug?
        [:div
         "Top:" (p/pieces-str (:top-layer puzzle))
