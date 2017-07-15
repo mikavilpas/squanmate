@@ -6,5 +6,5 @@
             [squanmate.rotation-test]
             [squanmate.slicing-test]
             [squanmate.shapes-test]
-            [squanmate.ui.drawing.monochrome-test]
+            [squanmate.ui.drawing.newmonochrome-test]
             [squanmate.ui.shape-chooser-test]))
