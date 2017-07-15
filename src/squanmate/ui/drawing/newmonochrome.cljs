@@ -27,53 +27,63 @@
 (defn- draw-edge-at [position data]
   (let [coords (edge-coordinates data)]
     (with-temporary-rotation (* position 30)
-      #(apply q/triangle (vals coords)))
+      #(do
+         (q/no-fill)
+         (apply q/triangle (vals coords))))
     coords))
 
-(def magic-numbers (memoize (fn [size]
-                              {:a (/ size 110)})))
+(def magic-numbers "( ͡° ͜ʖ ͡°)"
+  (memoize (fn [size]
+             {:a (* size (/ 110 400))
+              :b (* size (/ -55 400))
+              :c (* size (/ 205 400))})))
 
 (defn- draw-corner-at [position {:keys [size bot edge-width]
                                  :as data}]
   (with-temporary-rotation (* position 30)
-    #(do
+    #(let [{:keys [a b c] :as magic} (magic-numbers size)]
        (q/no-stroke)
+
+       ;; these triangles should be used to set the fill color. not currently
+       ;; used, but planned in the future
+       (q/fill 150 205 105 200)
        (q/triangle 0 0
-                   -110 110
+                   (- a) a
                    edge-width bot)
-       (q/triangle -110 110
-                   -55 205
+       (q/triangle (- a) a
+                   b c
                    edge-width bot)
        (q/stroke 0)
-
        ;; stroke the edges of the piece so it looks the same as edges
-       (q/line 0 0 -110 110)
-       (q/line -110 110 -55 205)
-       (q/line -55 205 edge-width bot)
+
+       (q/line 0 0 (- a) a)
+       (q/line (- a) a b c)
+       (q/line b c edge-width bot)
        (q/line edge-width bot 0 0))))
 
 (defn- draw-top-layer [state]
   (let [size (:size state)
         center (/ size 2)
         data {:edge-width (/ size 10)
-              :bot (* size 0.375)}]
+              :bot (* size 0.375)
+              :size size}]
     (q/stroke 0)
     (q/background 255)
     ;; to see the canvas edges when developing
     (q/fill 255)
     (q/rect 0 0 (- size 1) (- size 1))
 
-    ;; color
-    (q/fill 169)
-    (q/no-fill)
     ;; start drawing from the center
     (q/translate center center)
 
     (draw-corner-at 1 data)
-    (q/no-fill)
     (draw-edge-at 3 data)
-    (draw-edge-at 12 data)
-    )
+    (draw-corner-at 4 data)
+    (draw-edge-at 6 data)
+    (draw-corner-at 7 data)
+    (draw-edge-at 9 data)
+    (draw-corner-at 10 data)
+    (draw-edge-at 12 data))
 
   ;; This needs to be the last statement. After it no changes will be visible.
   ;; Comment it to have a delicious developer hot load experience
