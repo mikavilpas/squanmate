@@ -12,32 +12,52 @@
 
 (defrecord DrawLayerState [layer size])
 
-(defn- with-temporary-rotation [r function]
-  (q/rotate (q/radians r))
+;; todo use q/with-rotation macro
+(defn- with-temporary-rotation [degrees function]
+  (q/rotate (q/radians degrees))
   (function)
-  (q/rotate (q/radians (- r))))
+  (q/rotate (q/radians (- degrees))))
 
-(defn- edge-coordinates [position {:keys [bot edge-width]}]
+(defn- edge-coordinates [{:keys [bot edge-width]}]
   (let [coords {:x1 0 :y1 0
                 :x2 (- edge-width) :y2 bot
                 :x3 edge-width :y3 bot}]
     coords))
 
 (defn- draw-edge-at [position data]
-  (let [coords (edge-coordinates position data)]
+  (let [coords (edge-coordinates data)]
     (with-temporary-rotation (* position 30)
       #(apply q/triangle (vals coords)))
     coords))
 
-(defn- draw-corner-at [position {:keys [bot edge-width]}]
+(def magic-numbers (memoize (fn [size]
+                              {:a (/ size 110)})))
+
+(defn- draw-corner-at [position {:keys [size bot edge-width]
+                                 :as data}]
   (with-temporary-rotation (* position 30)
-    #(q/triangle 0 0, (- edge-width) bot, edge-width bot)))
+    #(do
+       (q/no-stroke)
+       (q/triangle 0 0
+                   -110 110
+                   edge-width bot)
+       (q/triangle -110 110
+                   -55 205
+                   edge-width bot)
+       (q/stroke 0)
+
+       ;; stroke the edges of the piece so it looks the same as edges
+       (q/line 0 0 -110 110)
+       (q/line -110 110 -55 205)
+       (q/line -55 205 edge-width bot)
+       (q/line edge-width bot 0 0))))
 
 (defn- draw-top-layer [state]
   (let [size (:size state)
         center (/ size 2)
         data {:edge-width (/ size 10)
               :bot (* size 0.375)}]
+    (q/stroke 0)
     (q/background 255)
     ;; to see the canvas edges when developing
     (q/fill 255)
@@ -45,15 +65,18 @@
 
     ;; color
     (q/fill 169)
+    (q/no-fill)
     ;; start drawing from the center
     (q/translate center center)
 
     (draw-corner-at 1 data)
+    (q/no-fill)
     (draw-edge-at 3 data)
+    (draw-edge-at 12 data)
     )
 
   ;; This needs to be the last statement. After it no changes will be visible.
-  ;; Uncomment it to have a delicious developer hot load experience
+  ;; Comment it to have a delicious developer hot load experience
   #_(q/no-loop))
 
 (defprotocol Drawable
