@@ -1,14 +1,15 @@
 (ns squanmate.pages.all-possible-shapes
   (:require [squanmate.puzzle :as puzzle]
             [devcards.core :as dc]      ; required
-            [squanmate.ui.drawing.monochrome :as monochrome]
+            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [squanmate.shapes :as s])
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg]]))
 
 (defn shape [shape]
-  [:span (:name shape) [monochrome/layer-component
-                        (puzzle/TopLayer. (:pieces shape))]])
+  [:span (:name shape) [newmonochrome/layer-component
+                        (puzzle/TopLayer. (:pieces shape))
+                        :size 100]])
 
 (defcard-rg introduction
   "This page contains a listing of all possible shapes a layer can have.")
