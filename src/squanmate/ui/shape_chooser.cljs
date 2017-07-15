@@ -2,7 +2,7 @@
   (:require [cljsjs.react-select]
             [squanmate.shapes :as shapes]
             [reagent.core :as reagent]
-            [squanmate.ui.drawing.monochrome :as monochrome]
+            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [squanmate.puzzle :as puzzle]))
 
 ;; based on example code from
@@ -13,7 +13,7 @@
         shape (get shapes/all-shapes shape-key)]
     (reagent/as-element
      [:div (when shape
-             [monochrome/layer-component shape :size 30])
+             [newmonochrome/layer-component shape :size 30])
       (.-label s)])))
 
 (defn- select

@@ -8,10 +8,9 @@
 
 (defn shape [shape]
   [:span (:name shape)
-   [:div {:style { "display" "inline-block" }}
-    [newmonochrome/layer-component
-     (puzzle/TopLayer. (:pieces shape))
-     :size 100]]])
+   [newmonochrome/layer-component
+    (puzzle/TopLayer. (:pieces shape))
+    :size 100]])
 
 (defcard-rg introduction
   "This page contains a listing of all possible shapes a layer can have.")

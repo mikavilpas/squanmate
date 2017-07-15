@@ -1,6 +1,5 @@
 (ns squanmate.pages.shape-visualizer
   (:require [squanmate.puzzle :as puzzle]
-            [squanmate.ui.drawing.monochrome :as monochrome]
             [squanmate.shapes :as s]
             [squanmate.ui.common :as common]
             [squanmate.ui.alg-visualizer :as v]

@@ -2,7 +2,7 @@
   (:require [squanmate.slicing :as slicing]
             [clojure.test :as t :refer [is run-tests]]
             [squanmate.puzzle :as p]
-            [squanmate.ui.drawing.monochrome :as monochrome]
+            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [cats.monad.either :as either]
             [cats.core :as m]
             [squanmate.rotation :as r]
@@ -13,9 +13,9 @@
 
 (defcard-rg square-square-to-kite-kite
   [:div
-   (monochrome/monochrome-puzzle p/square-square)
+   (newmonochrome/monochrome-puzzle p/square-square)
    (m/mlet [result (slicing/slice p/square-square)]
-           (monochrome/monochrome-puzzle result))])
+           (newmonochrome/monochrome-puzzle result))])
 
 (deftest slice-square-square-to-kite-kite-test []
   (m/mlet [result (slicing/slice p/square-square)]
@@ -31,8 +31,8 @@
 (defcard-rg slicing-to-opposite-fist-visualization
   (m/mlet [result (slicing/slice kite-kite)]
           [:div "this test slices kite-kite to get opposite fists:"
-           (monochrome/monochrome-puzzle kite-kite)
-           (monochrome/monochrome-puzzle result)]))
+           (newmonochrome/monochrome-puzzle kite-kite)
+           (newmonochrome/monochrome-puzzle result)]))
 
 (deftest slice-kite-kite-to-opposite-fists-test []
   (m/mlet [result (slicing/slice kite-kite)]

@@ -18,19 +18,13 @@
   (function)
   (q/rotate (q/radians (- degrees))))
 
-(defn- edge-coordinates [{:keys [bot edge-width]}]
-  (let [coords {:x1 0 :y1 0
-                :x2 (- edge-width) :y2 bot
-                :x3 edge-width :y3 bot}]
-    coords))
-
-(defn- draw-edge-at [position data]
-  (let [coords (edge-coordinates data)]
-    (with-temporary-rotation (* (+ 1 position) 30)
-      #(do
-         ;; (q/no-fill)
-         (apply q/triangle (vals coords))))
-    coords))
+(defn- draw-edge-at [position {:keys [bot edge-width]}]
+  (with-temporary-rotation (* (+ 1 position) 30)
+    #(do
+       ;; (q/no-fill)
+       (q/triangle 0 0
+                   (- edge-width) bot
+                   edge-width bot))))
 
 (def magic-numbers "( ͡° ͜ʖ ͡°)"
   (memoize (fn [size]
@@ -115,7 +109,7 @@
     #'draw-bottom-layer))
 
 (defn layer-component [layer & {:keys [size]
-                                :or {size 400}}]
+                                :or {size 100}}]
   (let [state (DrawLayerState. layer size)
         draw-function-var (draw layer)
         shape-name (shapes/layer-shape-name layer)]
@@ -123,7 +117,7 @@
      {:overlay (reagent/as-element [common/tooltip {:id "test"}
                                     shape-name])
       :placement "top"}
-     [:div
+     [:div {:style { "display" "inline-block" }}
       [quil-reagent/sketch
        :setup (fn []
                 ;; there is no need for animation at the moment. just a static image

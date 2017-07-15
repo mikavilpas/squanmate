@@ -1,7 +1,7 @@
 (ns squanmate.ui.alg-visualizer
   (:require [cats.monad.either :as either]
             [squanmate.alg.execution :as execution]
-            [squanmate.ui.drawing.monochrome :as monochrome]
+            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [reagent.core :as reagent]
             [squanmate.ui.shape-chooser :as shape-chooser]
             [squanmate.puzzle :as puzzle]
@@ -38,7 +38,7 @@
         (either/branch step-either
                        error-component
                        (fn [step]
-                         [monochrome/monochrome-puzzle (:puzzle step)]))])]))
+                         [newmonochrome/monochrome-puzzle (:puzzle step)]))])]))
 
 (defn- both-layers-present? [puzzle]
   (and (:top-layer puzzle)
