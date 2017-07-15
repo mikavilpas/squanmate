@@ -36,7 +36,7 @@
 
 (def paired-edges (Shape. "Paired edges" [c c c c c e e]))
 (def perpendicular-edges (Shape. "Perpendicular edges" [e c c c c e c]))
-(def parallel-edges (Shape. "Parallel edges" [e c c c c e c]))
+(def parallel-edges (Shape. "Parallel edges" [c e c c c e c]))
 
 (def star (Shape. "Star" [c c c c c c]))
 
