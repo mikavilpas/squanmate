@@ -6,7 +6,8 @@
             [cats.monad.either :as either]
             [cats.core :as m]
             [squanmate.rotation :as r]
-            [squanmate.alg.execution :as execution])
+            [squanmate.alg.execution :as execution]
+            [squanmate.shapes :as shapes])
   (:require-macros
    [devcards.core :as dc :refer [deftest defcard-rg]]))
 
@@ -46,6 +47,12 @@
           (is (not (slicing/layer-sliceable? (:top-layer position))))))
 
 (deftest pieces-and-their-positions-test []
-  (is (= [{:type "e"} 1 {:type "c"} 3 {:type "c"} 5 {:type "e"} 6
-          {:type "c"} 8 {:type "e"} 9 {:type "e"} 10 {:type "c"} 12]
-         (slicing/pieces-and-their-positions (:top-layer kite-kite)))))
+  (is (= [[{:type "c"} 0]
+          [{:type "e"} 2]
+          [{:type "c"} 3]
+          [{:type "e"} 5]
+          [{:type "c"} 6]
+          [{:type "e"} 8]
+          [{:type "c"} 9]
+          [{:type "e"} 11]]
+         (slicing/pieces-and-their-positions shapes/square))))

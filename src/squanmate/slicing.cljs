@@ -3,12 +3,16 @@
             [cats.monad.either :as either]))
 
 (defn pieces-and-their-positions [layer]
+  ;; to get the pieces' positions return the piece count before each piece
   (let [pieces (:pieces layer)
-        successive-value-count (->> pieces
+        successive-value-count (->> (reverse pieces)
                                     (map p/piece-value)
-                                    (reductions +))]
-    (interleave pieces
-                successive-value-count)))
+                                    (reductions - 12)
+                                    reverse)]
+    ;; return pairs like [piece, index]
+    (partition 2
+               (interleave pieces
+                           successive-value-count))))
 
 (defn layer-sliceable? [layer]
   ;; Either the top or bottom layer can be sliced if it has an edge of a piece
