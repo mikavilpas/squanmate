@@ -28,7 +28,7 @@
   (let [coords (edge-coordinates data)]
     (with-temporary-rotation (* position 30)
       #(do
-         (q/no-fill)
+         ;; (q/no-fill)
          (apply q/triangle (vals coords))))
     coords))
 
@@ -46,7 +46,7 @@
 
        ;; these triangles should be used to set the fill color. not currently
        ;; used, but planned in the future
-       (q/fill 150 205 105 200)
+       ;; (q/fill 150 205 105 200)
        (q/triangle 0 0
                    (- a) a
                    edge-width bot)
@@ -69,9 +69,7 @@
               :size size}]
     (q/stroke 0)
     (q/background 255)
-    ;; to see the canvas edges when developing
-    (q/fill 255)
-    (q/rect 0 0 (- size 1) (- size 1))
+    (q/fill 169)
 
     ;; start drawing from the center
     (q/translate center center)
