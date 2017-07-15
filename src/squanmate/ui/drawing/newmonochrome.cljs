@@ -26,7 +26,7 @@
 
 (defn- draw-edge-at [position data]
   (let [coords (edge-coordinates data)]
-    (with-temporary-rotation (* position 30)
+    (with-temporary-rotation (* (+ 1 position) 30)
       #(do
          ;; (q/no-fill)
          (apply q/triangle (vals coords))))
@@ -42,7 +42,7 @@
 
 (defn- draw-corner-at [position {:keys [size bot edge-width]
                                  :as data}]
-  (with-temporary-rotation (* position 30)
+  (with-temporary-rotation (* (+ 1 position) 30)
     #(let [{:keys [a b c] :as magic} (magic-numbers size)]
 
        ;; drawing triangles without a store color makes them have a 1px wide
@@ -70,6 +70,7 @@
 (defn- draw-top-layer [state]
   (let [size (:size state)
         center (/ size 2)
+        layer (:layer state)
         data {:edge-width (/ size 10)
               :bot (* size 0.375)
               :size size}]
@@ -80,16 +81,17 @@
     ;; start drawing from the center
     (q/translate center center)
 
-    (draw-corner-at 1 data)
-    (draw-edge-at 3 data)
-    (draw-corner-at 4 data)
-    (draw-edge-at 6 data)
-    (draw-corner-at 7 data)
-    (draw-edge-at 9 data)
-    (draw-corner-at 10 data)
-    (draw-edge-at 12 data))
+    (doseq [[piece position] (slicing/pieces-and-their-positions layer)]
+      (condp = (:type piece)
+        "c"
+        (draw-corner-at position data)
 
-  ;; This needs to be the last statement. After it no changes will be visible.
+        "e"
+        (draw-edge-at position data)
+
+        (println (new js/Error (str "warning: cannot draw unknown top layer piece " piece))))))
+
+  ;; This needs to be the last statement. After it no animation changes will be visible.
   ;; Comment it to have a delicious developer hot load experience
   #_(q/no-loop))
 
