@@ -14,7 +14,6 @@
 (def edge (Piece. "e"))
 (def corner (Piece. "c"))
 
-;; todo make a module that knows different shapes
 (def square-square
   (let [e edge
         c corner]
