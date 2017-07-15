@@ -80,6 +80,7 @@
 
     ;; start drawing from the center
     (q/translate center center)
+    (q/scale 0.95)
 
     (doseq [[piece position] (slicing/pieces-and-their-positions layer)]
       (condp = (:type piece)
