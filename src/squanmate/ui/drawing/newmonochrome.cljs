@@ -115,19 +115,25 @@
 (defn layer-component [layer & {:keys [size]
                                 :or {size 400}}]
   (let [state (DrawLayerState. layer size)
-        draw-function-var (draw layer)]
-    [quil-reagent/sketch
-     :setup (fn []
-              ;; there is no need for animation at the moment. just a static image
-              ;; will do perfectly fine.
-              (q/frame-rate 1)
-              (q/smooth)
-              state)
-     :draw draw-function-var
-     ;; no changes to state are needed / allowed
-     :update (constantly state)
-     :middleware [m/fun-mode]
-     :size [size size]]))
+        draw-function-var (draw layer)
+        shape-name (shapes/layer-shape-name layer)]
+    [common/overlay-trigger
+     {:overlay (reagent/as-element [common/tooltip {:id "test"}
+                                    shape-name])
+      :placement "top"}
+     [:div
+      [quil-reagent/sketch
+       :setup (fn []
+                ;; there is no need for animation at the moment. just a static image
+                ;; will do perfectly fine.
+                (q/frame-rate 1)
+                (q/smooth)
+                state)
+       :draw draw-function-var
+       ;; no changes to state are needed / allowed
+       :update (constantly state)
+       :middleware [m/fun-mode]
+       :size [size size]]]]))
 
 (defn monochrome-puzzle [puzzle & debug?]
   (let [top-canvas (layer-component (:top-layer puzzle))]
