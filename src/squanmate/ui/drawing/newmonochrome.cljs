@@ -67,7 +67,7 @@
        (q/line b c edge-width bot)
        (q/line edge-width bot 0 0))))
 
-(defn- draw-top-layer [state]
+(defn- draw-layer-pieces [state]
   (let [size (:size state)
         center (/ size 2)
         layer (:layer state)
@@ -90,36 +90,13 @@
         "e"
         (draw-edge-at position data)
 
-        (println (new js/Error (str "warning: cannot draw unknown top layer piece " piece))))))
+        (println (new js/Error (str "warning: cannot draw unknown piece " piece)))))))
 
-  ;; This needs to be the last statement. After it no animation changes will be visible.
-  ;; Comment it to have a delicious developer hot load experience
-  #_(q/no-loop))
+(defn- draw-top-layer [state]
+  (draw-layer-pieces state))
 
 (defn- draw-bottom-layer [state]
-  (let [size (:size state)
-        center (/ size 2)
-        layer (:layer state)
-        data {:edge-width (/ size 10)
-              :bot (* size 0.375)
-              :size size}]
-
-    (q/stroke 0)
-    (q/background 255)
-    (q/fill monochrome-color)
-    ;; start drawing from the center
-    (q/translate center center)
-    (q/scale 0.95)
-
-    (doseq [[piece position] (slicing/pieces-and-their-positions layer)]
-      (condp = (:type piece)
-        "c"
-        (draw-corner-at position data)
-
-        "e"
-        (draw-edge-at position data)
-
-        (println (new js/Error (str "warning: cannot draw unknown top layer piece " piece)))))))
+  (draw-layer-pieces state))
 
 (defprotocol Drawable
   (draw [layer]))
