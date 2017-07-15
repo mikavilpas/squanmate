@@ -44,3 +44,8 @@
   "This should go to left-fist right-fist but be unable to slice the top layer"
   (m/mlet [position (execution/transformation-result kite-kite "/-1")]
           (is (not (slicing/layer-sliceable? (:top-layer position))))))
+
+(deftest pieces-and-their-positions-test []
+  (is (= [{:type "e"} 1 {:type "c"} 3 {:type "c"} 5 {:type "e"} 6
+          {:type "c"} 8 {:type "e"} 9 {:type "e"} 10 {:type "c"} 12]
+         (slicing/pieces-and-their-positions (:top-layer kite-kite)))))

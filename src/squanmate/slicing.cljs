@@ -2,6 +2,14 @@
   (:require [squanmate.puzzle :as p]
             [cats.monad.either :as either]))
 
+(defn pieces-and-their-positions [layer]
+  (let [pieces (:pieces layer)
+        successive-value-count (->> pieces
+                                    (map p/piece-value)
+                                    (reductions +))]
+    (interleave pieces
+                successive-value-count)))
+
 (defn layer-sliceable? [layer]
   ;; Either the top or bottom layer can be sliced if it has an edge of a piece
   ;; at the slice point. The slice always happens at a distance of 6.
