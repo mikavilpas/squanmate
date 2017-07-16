@@ -9,11 +9,11 @@
 ;; https://gist.github.com/pesterhazy/4a4198a9cc040bf6fe13a476f25bac2c
 
 (defn- render-shape-option [s]
-  (let [shape-key (.-value s)
-        shape (get shapes/all-shapes shape-key)]
+  (let [shape-key (.-value s)]
     (reagent/as-element
-     [:div (when shape
-             [newmonochrome/layer-component shape :size 30])
+     [:div [:img {:src (str "/img/shape-thumbnails/" shape-key ".png")
+                  :style {:margin-top "-3px" }
+                  :height "40px"}]
       (.-label s)])))
 
 (defn- select
