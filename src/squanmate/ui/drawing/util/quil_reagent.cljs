@@ -62,6 +62,7 @@
         ;; Use a go block so that the canvas exists before we attach the sketch
         ;; to it. (Needed on initial render; not on re-render.)
         (a/go
+          (println "redrawing sketch")
           (reset! saved-sketch-atom
                   (apply q/sketch
                          (apply concat sketch-args*)))))
@@ -75,4 +76,5 @@
               (a/<! (a/timeout 100))
               (recur))
             (q/with-sketch @saved-sketch-atom
+              (println "killing old sketch")
               (q/exit)))))}]))
