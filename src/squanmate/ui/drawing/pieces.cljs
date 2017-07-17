@@ -4,6 +4,30 @@
             [quil.middleware :as m]
             [squanmate.slicing :as slicing]))
 
+(def ^:private monochrome-color 169)
+
+(defrecord DrawLayerState [layer size])
+
+(defn setup [layer size]
+  (println "running outer setup")
+  (fn []
+    (println "running inner setup")
+    ;; there is no need for animation at the moment. just a static image
+    ;; will do perfectly fine.
+    (q/frame-rate 1)
+    (q/smooth)
+    (q/stroke 0)
+    (q/background 255)
+    (q/fill monochrome-color)
+
+    ;; this is the initial state. it's possibly changed in the
+    ;; update function below.
+    (DrawLayerState. layer size)))
+
+(defn update-sketch []
+  (fn [state]
+    (assoc-in state [:layer] layer)))
+
 ;; todo use q/with-rotation macro
 (defn- with-temporary-rotation [degrees function]
   (q/rotate (q/radians degrees))
@@ -27,8 +51,6 @@
              {:a (* size (/ 110 400))
               :b (* size (/ -55 400))
               :c (* size (/ 205 400))})))
-
-(def ^:private monochrome-color 169)
 
 (defn- draw-corner-at [position {:keys [size bot edge-width]
                                  :as data}]

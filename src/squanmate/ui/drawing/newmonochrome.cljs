@@ -9,8 +9,6 @@
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.pieces :as pieces]))
 
-(defrecord DrawLayerState [layer size])
-
 (defprotocol Drawable
   (draw [layer]))
 
@@ -29,8 +27,7 @@
 
 (defn layer-component [layer & {:keys [size]
                                 :or {size 100}}]
-  (let [state (DrawLayerState. layer size)
-        draw-function-var (draw layer)
+  (let [draw-function-var (draw layer)
         shape-name (shapes/layer-shape-name layer)]
     [common/overlay-trigger
      {:overlay (reagent/as-element [common/tooltip {:id "test"}
@@ -38,19 +35,9 @@
       :placement "top"}
      [:div {:style { "display" "inline-block" }}
       [quil-reagent/sketch
-       :setup (fn []
-                ;; there is no need for animation at the moment. just a static image
-                ;; will do perfectly fine.
-                (q/frame-rate 1)
-                (q/smooth)
-                (q/stroke 0)
-                (q/background 255)
-                (q/fill pieces/monochrome-color)
-
-                state)
+       :setup (pieces/setup layer size)
        :draw draw-function-var
-       ;; no changes to state are needed / allowed
-       :update (constantly state)
+       :update (pieces/update-sketch)
        :middleware [m/fun-mode]
        :size [size size]]]]))
 
