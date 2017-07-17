@@ -18,7 +18,7 @@
                    (- edge-width) bot
                    edge-width bot))))
 
-(def magic-numbers "( ͡° ͜ʖ ͡°)"
+(def ^:private magic-numbers "( ͡° ͜ʖ ͡°)"
   (memoize (fn [size]
              ;; these are the relative positions of a corner piece's points. I
              ;; used a test canvas of size 400 to get these with brute
@@ -57,7 +57,7 @@
        (q/line b c edge-width bot)
        (q/line edge-width bot 0 0))))
 
-(defn draw-layer-pieces [state]
+(defn- draw-layer-pieces [state]
   (let [size (:size state)
         center (/ size 2)
         layer (:layer state)
@@ -82,8 +82,8 @@
 
         (println (new js/Error (str "warning: cannot draw unknown piece " piece)))))))
 
-(defn- draw-top-layer [state]
+(defn draw-top-layer [state]
   (draw-layer-pieces state))
 
-(defn- draw-bottom-layer [state]
+(defn draw-bottom-layer [state]
   (draw-layer-pieces state))
