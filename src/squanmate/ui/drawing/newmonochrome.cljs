@@ -1,7 +1,6 @@
 (ns squanmate.ui.drawing.newmonochrome
   (:require [reagent.core :as reagent]
             [squanmate.puzzle :as p]
-            [squanmate.slicing :as slicing]
             [squanmate.shapes :as shapes]
             [cljsjs.react-bootstrap]
             [squanmate.ui.drawing.util.quil-reagent :as quil-reagent]
@@ -12,52 +11,21 @@
 
 (defrecord DrawLayerState [layer size])
 
-(defn- draw-layer-pieces [state]
-  (let [size (:size state)
-        center (/ size 2)
-        layer (:layer state)
-        data {:edge-width (/ size 10)
-              :bot (* size 0.375)
-              :size size}]
-    (q/stroke 0)
-    (q/background 255)
-    (q/fill pieces/monochrome-color)
-
-    ;; start drawing from the center
-    (q/translate center center)
-    (q/scale 0.95)
-
-    (doseq [[piece position] (slicing/pieces-and-their-positions layer)]
-      (condp = (:type piece)
-        "c"
-        (pieces/draw-corner-at position data)
-
-        "e"
-        (pieces/draw-edge-at position data)
-
-        (println (new js/Error (str "warning: cannot draw unknown piece " piece)))))))
-
-(defn- draw-top-layer [state]
-  (draw-layer-pieces state))
-
-(defn- draw-bottom-layer [state]
-  (draw-layer-pieces state))
-
 (defprotocol Drawable
   (draw [layer]))
 
 (extend-protocol Drawable
   shapes/Shape
   (draw [shape]
-    #'draw-top-layer)
+    #'pieces/draw-top-layer)
 
   p/TopLayer
   (draw [top-layer]
-    #'draw-top-layer)
+    #'pieces/draw-top-layer)
 
   p/BottomLayer
   (draw [bottom-layer]
-    #'draw-bottom-layer))
+    #'pieces/draw-bottom-layer))
 
 (defn layer-component [layer & {:keys [size]
                                 :or {size 100}}]
