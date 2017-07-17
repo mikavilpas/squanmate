@@ -37,7 +37,7 @@
       [quil-reagent/sketch
        :setup (pieces/setup layer size)
        :draw draw-function-var
-       :update (pieces/update-sketch)
+       :update identity
        :middleware [m/fun-mode]
        :size [size size]]]]))
 

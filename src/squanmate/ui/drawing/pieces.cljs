@@ -24,10 +24,6 @@
     ;; update function below.
     (DrawLayerState. layer size)))
 
-(defn update-sketch []
-  (fn [state]
-    (assoc-in state [:layer] layer)))
-
 ;; todo use q/with-rotation macro
 (defn- with-temporary-rotation [degrees function]
   (q/rotate (q/radians degrees))
