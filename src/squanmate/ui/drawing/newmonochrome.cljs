@@ -43,8 +43,6 @@
            :setup (pieces/setup @current-layer size)
            :draw draw-function-var
            :update (fn [old-state]
-                     (println "updating old state " (:debug-name (:layer old-state))
-                              " to new state " (:debug-name (:layer @current-layer)))
                      (assoc-in old-state [:layer] @current-layer))
            :middleware [m/fun-mode]
            :size [size size]]]]))))

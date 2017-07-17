@@ -17,7 +17,6 @@
     (q/stroke 0)
     (q/background 255)
     (q/fill monochrome-color)
-    (println "setup'd layer " layer)
     (DrawLayerState. layer size)))
 
 ;; todo use q/with-rotation macro
