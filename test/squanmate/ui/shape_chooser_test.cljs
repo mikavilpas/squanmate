@@ -21,4 +21,6 @@
 (defcard-rg puzzle-chooser
   [:div
    "this will change the given state to contain the puzzle"
-   [sut/puzzle-chooser test-state3]])
+   [sut/puzzle-chooser test-state3]]
+  test-state3
+  {:inspect-data true})
