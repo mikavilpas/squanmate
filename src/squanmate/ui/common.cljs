@@ -7,6 +7,7 @@
 (def glyphicon (reagent/adapt-react-class js/ReactBootstrap.Glyphicon))
 (def tooltip (reagent/adapt-react-class js/ReactBootstrap.Tooltip))
 (def overlay-trigger (reagent/adapt-react-class js/ReactBootstrap.OverlayTrigger))
+(def button (reagent/adapt-react-class js/ReactBootstrap.Button))
 
 (defn- input-box [string-state placeholder]
   [:input.form-control {:on-change #(reset! string-state (-> % .-target .-value))

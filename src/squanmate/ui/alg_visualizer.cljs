@@ -8,6 +8,8 @@
             [cats.monad.either :as either]
             [cats.core :as m]
 
+            [cljsjs.html2canvas]
+            [cljsjs.download :as download]
             [squanmate.ui.common :as common]))
 
 (defn- interesting-step? [step-either]
@@ -29,7 +31,7 @@
 
 (defn algorithm-visualization [puzzle alg-string]
   (let [step-eithers (execution/transformations puzzle alg-string)]
-    [:div
+    [:div#visualization
      (for [[step-either index] (zipmap step-eithers (range))
            :when (or (interesting-step? step-either)
                      (last-step? index (count step-eithers)))]
@@ -53,21 +55,48 @@
                  :initial-rotation ""
                  :algorithm ""}))
 
-(defn alg-visualizer [state]
-  [:div.row
-   [:form
-    [:div.form-group.col-xs-8
-     [shape-chooser/puzzle-chooser state]]
+;; todo have html->png functionality in its own module!
+(defn download-html-node-as-png [id-string]
+  (let [node (js/document.getElementById id-string)]
+    (js/html2canvas
+     node
+     (clj->js {:onrendered (fn [canvas]
+                             (js/download
+                              (.toDataURL canvas "image/png")
+                              "filename.png"
+                              "image/png"))}))))
 
-    [:div.form-group
-     [common/input-box (reagent/cursor state [:initial-rotation]) "Initial rotation"]
-     [common/input-box (reagent/cursor state [:algorithm]) "Algorithm"]]
-    [:div
-     (when-let [initial-puzzle (and (both-layers-present? (:puzzle @state))
-                                    (apply-initial-transformation-alg (:puzzle @state)
-                                                                      (:initial-rotation @state)))]
-       (either/branch
-        initial-puzzle
-        error-component
-        (fn [initial-puzzle]
-          [algorithm-visualization initial-puzzle (:algorithm @state)])))]]])
+(defn- export-visualization-button []
+  [common/button
+   {:on-click #(download-html-node-as-png "visualization")}
+   "Export as .PNG"])
+
+(defn alg-visualizer [state]
+  [:form
+   [:div.form-group.col-xs-8
+    [shape-chooser/puzzle-chooser state]]
+
+   [:div.form-group
+    [:div.row
+     [:div.col-xs-12
+      [common/input-box (reagent/cursor state [:initial-rotation]) "Initial rotation"]]]
+    [:div.row
+     [:div.col-xs-12
+      [common/input-box (reagent/cursor state [:algorithm]) "Algorithm"]]]]
+
+   [:div.form-group
+    [:div.row
+     [:div.col-xs-12
+      (when-let [initial-puzzle (and (both-layers-present? (:puzzle @state))
+                                     (apply-initial-transformation-alg (:puzzle @state)
+                                                                       (:initial-rotation @state)))]
+        (either/branch
+         initial-puzzle
+         error-component
+         (fn [initial-puzzle]
+           [:div
+            [:div.row
+             [:div.col-xs-3
+              [export-visualization-button]]]
+            [:div.row.col-xs-12
+             [algorithm-visualization initial-puzzle (:algorithm @state)]]])))]]]])
