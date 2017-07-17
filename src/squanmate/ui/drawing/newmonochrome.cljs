@@ -25,30 +25,36 @@
   (draw [bottom-layer]
     #'pieces/draw-bottom-layer))
 
-(defn layer-component [layer & {:keys [size]
-                                :or {size 100}}]
-  (let [draw-function-var (draw layer)
-        shape-name (shapes/layer-shape-name layer)]
-    [common/overlay-trigger
-     {:overlay (reagent/as-element [common/tooltip {:id "test"}
-                                    shape-name])
-      :placement "top"}
-     [:div {:style { "display" "inline-block" }}
-      [quil-reagent/sketch
-       :setup (pieces/setup layer size)
-       :draw draw-function-var
-       :update identity
-       :middleware [m/fun-mode]
-       :size [size size]]]]))
+(defn layer-component [initial-layer & {:keys [size]
+                                        :or {size 100}}]
+  (let [draw-function-var (draw initial-layer)
+        current-layer (reagent/atom initial-layer)]
+    (fn render [layer & {:keys [size]
+                        :or {size 100}}]
+      (reset! current-layer (assoc-in layer [:debug-name] (shapes/layer-shape-name @current-layer)))
+      (let [shape-name (shapes/layer-shape-name @current-layer)]
+        [common/overlay-trigger
+         {:overlay (reagent/as-element [common/tooltip {:id "test"}
+                                        shape-name])
+          :placement "top"}
+         [:div {:style { "display" "inline-block" }}
+          shape-name
+          [quil-reagent/sketch
+           :setup (pieces/setup @current-layer size)
+           :draw draw-function-var
+           :update (fn [old-state]
+                     (println "updating old state " (:debug-name (:layer old-state))
+                              " to new state " (:debug-name (:layer @current-layer)))
+                     (assoc-in old-state [:layer] @current-layer))
+           :middleware [m/fun-mode]
+           :size [size size]]]]))))
 
 (defn monochrome-puzzle [puzzle & debug?]
-  (let [top-canvas (layer-component (:top-layer puzzle))
-        bottom-canvas (layer-component (:bottom-layer puzzle))]
-    [:div.puzzle
-     [:span.layer.top top-canvas]
-     [:span.layer.bottom bottom-canvas]
-     (when debug?
-       [:div
-        "Top:" (p/pieces-str (:top-layer puzzle))
-        ", "
-        "Bottom: " (p/pieces-str (:bottom-layer puzzle))])]))
+  [:div.puzzle
+   [:span.layer.top [layer-component (:top-layer puzzle)]]
+   [:span.layer.bottom [layer-component (:bottom-layer puzzle)]]
+   (when debug?
+     [:div
+      "Top:" (p/pieces-str (:top-layer puzzle))
+      ", "
+      "Bottom: " (p/pieces-str (:bottom-layer puzzle))])])

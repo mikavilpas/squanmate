@@ -9,9 +9,7 @@
 (defrecord DrawLayerState [layer size])
 
 (defn setup [layer size]
-  (println "running outer setup")
   (fn []
-    (println "running inner setup")
     ;; there is no need for animation at the moment. just a static image
     ;; will do perfectly fine.
     (q/frame-rate 1)
@@ -19,9 +17,7 @@
     (q/stroke 0)
     (q/background 255)
     (q/fill monochrome-color)
-
-    ;; this is the initial state. it's possibly changed in the
-    ;; update function below.
+    (println "setup'd layer " layer)
     (DrawLayerState. layer size)))
 
 ;; todo use q/with-rotation macro
