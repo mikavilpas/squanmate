@@ -27,21 +27,21 @@
 
 (defn layer-component [initial-layer & {:keys [size]
                                         :or {size 100}}]
-  (let [draw-function-var (draw initial-layer)
-        current-layer (reagent/atom initial-layer)]
+  (let [current-layer (reagent/atom initial-layer)]
     (fn render [layer & {:keys [size]
                         :or {size 100}}]
-      (reset! current-layer (assoc-in layer [:debug-name] (shapes/layer-shape-name @current-layer)))
+      ;; It's a bit unfortunate but I can't get quil to see a change in the
+      ;; given layer without a local current-layer state
+      (reset! current-layer layer)
       (let [shape-name (shapes/layer-shape-name @current-layer)]
         [common/overlay-trigger
          {:overlay (reagent/as-element [common/tooltip {:id "test"}
                                         shape-name])
           :placement "top"}
          [:div {:style { "display" "inline-block" }}
-          shape-name
           [quil-reagent/sketch
            :setup (pieces/setup @current-layer size)
-           :draw draw-function-var
+           :draw (draw initial-layer)
            :update (fn [old-state]
                      (assoc-in old-state [:layer] @current-layer))
            :middleware [m/fun-mode]
