@@ -16,7 +16,6 @@
     (q/smooth)
     (q/stroke 0)
     (q/background 255)
-    (q/fill monochrome-color)
     (DrawLayerState. layer size)))
 
 ;; todo use q/with-rotation macro
@@ -25,9 +24,14 @@
   (function)
   (q/rotate (q/radians (- degrees))))
 
+(defn- piece-stroke []
+  (q/stroke-weight 1)
+  (q/stroke 40))
+
 (defn- draw-edge-at [position {:keys [bot edge-width]}]
   (with-temporary-rotation (* (+ 1 position) 30)
     #(do
+       (piece-stroke)
        ;; (q/no-fill)
        (q/triangle 0 0
                    (- edge-width) bot
@@ -43,6 +47,13 @@
               :b (* size (/ -55 400))
               :c (* size (/ 205 400))})))
 
+(defn- draw-slice-point [size]
+  (with-temporary-rotation -75
+    #(let [{:keys [c]} (magic-numbers size)]
+       (q/stroke-weight 2)
+       (q/stroke 200)
+       (q/line (- c) 0 c 0))))
+
 (defn- draw-corner-at [position {:keys [size bot edge-width]
                                  :as data}]
   (with-temporary-rotation (* (+ 1 position) 30)
@@ -51,6 +62,7 @@
        ;; drawing triangles without a store color makes them have a 1px wide
        ;; empty stroke that appears as white (the background color). Work around
        ;; this by using the fill color as the stroke color
+       (piece-stroke)
        (q/stroke monochrome-color)
        ;; these triangles should be used to set the fill color. not currently
        ;; used, but planned in the future
@@ -62,7 +74,7 @@
                    b c
                    edge-width bot)
        (q/line (- a) a edge-width bot)
-       (q/stroke 0)
+       (piece-stroke)
        ;; stroke the edges of the piece so it looks the same as edges
 
        (q/line 0 0 (- a) a)
@@ -77,13 +89,15 @@
         data {:edge-width (/ size 10)
               :bot (* size 0.375)
               :size size}]
-    (q/stroke 0)
+    (piece-stroke)
     (q/background 255)
     (q/fill monochrome-color)
 
     ;; start drawing from the center
     (q/translate center center)
     (q/scale 0.95)
+
+    (draw-slice-point size)
 
     (doseq [[piece position] (slicing/pieces-and-their-positions layer)]
       (condp = (:type piece)
