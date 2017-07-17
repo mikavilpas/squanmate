@@ -12,7 +12,7 @@
   (fn []
     ;; there is no need for animation at the moment. just a static image
     ;; will do perfectly fine.
-    (q/frame-rate 1)
+    (q/frame-rate 10)
     (q/smooth)
     (q/stroke 0)
     (q/background 255)
