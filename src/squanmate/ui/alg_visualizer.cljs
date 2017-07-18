@@ -7,10 +7,8 @@
             [squanmate.puzzle :as puzzle]
             [cats.monad.either :as either]
             [cats.core :as m]
-
-            [cljsjs.html2canvas]
-            [cljsjs.download :as download]
-            [squanmate.ui.common :as common]))
+            [squanmate.ui.common :as common]
+            [squanmate.ui.exporting :as exporting]))
 
 (defn- interesting-step? [step-either]
   (either/branch step-either
@@ -57,20 +55,10 @@
                  :initial-rotation ""
                  :algorithm ""}))
 
-;; todo have html->png functionality in its own module!
-(defn download-html-node-as-png [id-string]
-  (let [node (js/document.getElementById id-string)]
-    (js/html2canvas
-     node
-     (clj->js {:onrendered (fn [canvas]
-                             (js/download
-                              (.toDataURL canvas "image/png")
-                              "filename.png"
-                              "image/png"))}))))
-
 (defn- export-visualization-button []
   [common/button
-   {:on-click #(download-html-node-as-png "visualization")}
+   {:on-click #(exporting/download-html-node-as-png :id-string "visualization"
+                                                    :filename "foo.png")}
    "Export as .PNG"])
 
 (defn alg-visualizer [state]
