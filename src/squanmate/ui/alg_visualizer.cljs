@@ -58,7 +58,7 @@
 (defn- export-visualization-button []
   [common/button
    {:on-click #(exporting/download-html-node-as-png :id-string "visualization"
-                                                    :filename "foo.png")}
+                                                    :filename (str "squanmate-" (js/Date.) ".png"))}
    "Export as .PNG"])
 
 (defn alg-visualizer [state]
