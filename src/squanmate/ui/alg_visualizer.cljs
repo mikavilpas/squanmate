@@ -29,18 +29,18 @@
 
 (defn algorithm-visualization [puzzle alg-string]
   (let [step-eithers (execution/transformations puzzle alg-string)]
-    [:div#visualization
-     ;; take up as little space as possible
-     {:style {:display "inline-block"}}
-     (for [[step-either index] (zipmap step-eithers (range))
-           :when (or (interesting-step? step-either)
-                     (last-step? index (count step-eithers)))]
-       ^{:key (str index)}
-       [:div
-        (either/branch step-either
-                       error-component
-                       (fn [step]
-                         [newmonochrome/monochrome-puzzle (:puzzle step)]))])]))
+    ;; using into [] removes a react warning about a missing unique key
+    (into [:div#visualization
+           ;; take up as little space as possible
+           {:style {:display "inline-block"}}]
+          (for [[step-either index] (zipmap step-eithers (range))
+                :when (or (interesting-step? step-either)
+                          (last-step? index (count step-eithers)))]
+            [:div
+             (either/branch step-either
+                            error-component
+                            (fn [step]
+                              [newmonochrome/monochrome-puzzle (:puzzle step)]))]))))
 
 (defn- both-layers-present? [puzzle]
   (and (:top-layer puzzle)
