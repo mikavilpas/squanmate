@@ -26,7 +26,7 @@
 
 (defn- piece-stroke []
   (q/stroke-weight 1)
-  (q/stroke 40))
+  (q/stroke 0))
 
 (defn- draw-edge-at [position {:keys [bot edge-width]}]
   (with-temporary-rotation (* (+ 1 position) 30)
