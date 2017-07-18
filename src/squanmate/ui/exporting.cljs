@@ -1,6 +1,5 @@
 (ns squanmate.ui.exporting
-  (:require [cljsjs.html2canvas]
-            [cljsjs.download :as download]))
+  (:require [cljsjs.download :as download]))
 
 (defn download-html-node-as-png [& {:keys [id-string filename]}]
   (let [node (js/document.getElementById id-string)]
