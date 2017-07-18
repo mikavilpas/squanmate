@@ -32,6 +32,8 @@
 (defn algorithm-visualization [puzzle alg-string]
   (let [step-eithers (execution/transformations puzzle alg-string)]
     [:div#visualization
+     ;; take up as little space as possible
+     {:style {:display "inline-block"}}
      (for [[step-either index] (zipmap step-eithers (range))
            :when (or (interesting-step? step-either)
                      (last-step? index (count step-eithers)))]
