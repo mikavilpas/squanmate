@@ -60,7 +60,7 @@
                                    ;; code.
 
                                    ;; :pretty-print true
-                                   ;; :pseudo-names true
+                                   :pseudo-names true
 
                                    ;; required in order to display the UI, see
                                    ;; https://github.com/bhauman/devcards#usage-without-figwheel
