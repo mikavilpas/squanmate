@@ -53,6 +53,15 @@
                                    :asset-path "js/compiled/out"
                                    :output-to  "resources/public/js/compiled/squanmate.js"
                                    :optimizations :advanced
+
+                                   ;; these are very useful when there is an odd
+                                   ;; bug in the optimized production code, but
+                                   ;; no such bug exists in the development
+                                   ;; code.
+
+                                   ;; :pretty-print true
+                                   ;; :pseudo-names true
+
                                    ;; required in order to display the UI, see
                                    ;; https://github.com/bhauman/devcards#usage-without-figwheel
                                    :devcards true}}]}
