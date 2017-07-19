@@ -3,12 +3,10 @@
 *Squanmate* is a Square-1 training tool. It can help you:
 
 * learn and remember all different shapes and their names
-  * when you mouseover any shape, its name is shown
 * display cubeshape algorithms and the shapes the algorithm goes through
   * it's a good aid for memorizing algorithms!
 
-You can run it with a modern web browser.
-
+You can run it with a modern web browser right now.
 Try it [here][applink]!
 
 # Development dependencies
