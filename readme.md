@@ -2,7 +2,7 @@
 
 *Squanmate* is a Square-1 training tool. It can help you:
 
-<img align="right" src="https://rawgit.com/sp3ctum/squanmate/feature/preview-image/resources/readme/shape-visualizer.png">
+<img align="right" width="30%" src="https://rawgit.com/sp3ctum/squanmate/feature/preview-image/resources/readme/shape-visualizer.png">
 
 * learn and remember all different shapes and their names
 * display cubeshape algorithms and the shapes the algorithm goes through
