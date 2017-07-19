@@ -11,7 +11,7 @@
 (devcards.core/start-devcard-ui!)
 
 (defn- try-remove-node [id]
-  (let [element (js/document.getElementById id)]
+  (when-let [element (js/document.getElementById id)]
     (-> element .-parentElement (.removeChild element))))
 
 (defn main []
