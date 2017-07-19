@@ -9,15 +9,13 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.9.229"]
                  [devcards "0.2.3"]
-                 [sablono "0.7.4"]
-
-                 ;; need to specify this for sablono
-                 ;; when not using devcards
-                 [cljsjs/react "15.3.1-0"]
-                 [cljsjs/react-dom "15.3.1-0"]
-                 #_[org.omcljs/om "1.0.0-alpha46"]
-                 #_[reagent "0.6.0"]
-                 ]
+                 [reagent "0.6.0"]
+                 [funcool/cats "2.1.0"]
+                 [the/parsatron "0.0.7"]
+                 [cljsjs/react-select "1.0.0-rc.3" :exclusions [cljsjs/react]]
+                 [cljsjs/react-bootstrap "0.31.0-0"]
+                 [quil "2.6.0"]
+                 [cljsjs/download "1.4.6-0"]]
 
   :plugins [[lein-figwheel "0.5.9"]
             [lein-cljsbuild "1.1.5" :exclusions [org.clojure/clojure]]]
@@ -29,7 +27,7 @@
 
   :cljsbuild {
               :builds [{:id "devcards"
-                        :source-paths ["src"]
+                        :source-paths ["src" "test"]
                         :figwheel { :devcards true  ;; <- note this
                                    ;; :open-urls will pop open your application
                                    ;; in the default browser once Figwheel has
@@ -54,7 +52,19 @@
                         :compiler {:main       "squanmate.core"
                                    :asset-path "js/compiled/out"
                                    :output-to  "resources/public/js/compiled/squanmate.js"
-                                   :optimizations :advanced}}]}
+                                   :optimizations :advanced
+
+                                   ;; these are very useful when there is an odd
+                                   ;; bug in the optimized production code, but
+                                   ;; no such bug exists in the development
+                                   ;; code.
+
+                                   ;; :pretty-print true
+                                   :pseudo-names true
+
+                                   ;; required in order to display the UI, see
+                                   ;; https://github.com/bhauman/devcards#usage-without-figwheel
+                                   :devcards true}}]}
 
   :figwheel { :css-dirs ["resources/public/css"] }
 

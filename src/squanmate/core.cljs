@@ -1,23 +1,22 @@
 (ns squanmate.core
-  (:require
-   #_[om.core :as om :include-macros true]
-   [sablono.core :as sab :include-macros true])
+  (:require [reagent.core :as reagent]
+            [squanmate.pages.all-possible-shapes]
+            [squanmate.pages.shape-visualizer])
   (:require-macros
-   [devcards.core :as dc :refer [defcard deftest]]))
+   [devcards.core :as dc :refer [defcard-rg]]))
 
 (enable-console-print!)
 
-(defcard first-card
-  (sab/html [:div
-             [:h1 "This is your first devcard!"]]))
+;; for now just use the devcard ui, it's good enough
+(devcards.core/start-devcard-ui!)
 
-(defn main []
-  ;; conditionally start the app based on whether the #main-app-area
-  ;; node is on the page
-  (if-let [node (.getElementById js/document "main-app-area")]
-    (.render js/ReactDOM (sab/html [:div "This is working"]) node)))
+;; (defn main []
+;;   ;; conditionally start the app based on whether the #main-app-area
+;;   ;; node is on the page
+;;   (if-let [node (.getElementById js/document "main-app-area")]
+;;     (reagent/render [:div "This is working"] node)))
 
-(main)
+;; (main)
 
 ;; remember to run lein figwheel and then browse to
 ;; http://localhost:3449/cards.html

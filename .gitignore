@@ -1,4 +1,6 @@
 /.nrepl-port
 /figwheel_server.log
-/resources/public/js
+/resources/public/js/compiled
 /target
+/.cljs_rhino_repl/
+/.lein-repl-history
