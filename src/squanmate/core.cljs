@@ -10,13 +10,14 @@
 ;; for now just use the devcard ui, it's good enough
 (devcards.core/start-devcard-ui!)
 
-;; (defn main []
-;;   ;; conditionally start the app based on whether the #main-app-area
-;;   ;; node is on the page
-;;   (if-let [node (.getElementById js/document "main-app-area")]
-;;     (reagent/render [:div "This is working"] node)))
+(defn- try-remove-node [id]
+  (let [element (js/document.getElementById id)]
+    (-> element .-parentElement (.removeChild element))))
 
-;; (main)
+(defn main []
+  (try-remove-node "loading-area"))
+
+(main)
 
 ;; remember to run lein figwheel and then browse to
 ;; http://localhost:3449/cards.html
