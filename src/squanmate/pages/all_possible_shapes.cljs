@@ -1,6 +1,5 @@
 (ns squanmate.pages.all-possible-shapes
   (:require [squanmate.puzzle :as puzzle]
-            [devcards.core :as dc]      ; required
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [squanmate.shapes :as s])
   (:require-macros

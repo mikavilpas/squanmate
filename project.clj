@@ -9,13 +9,14 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.9.229"]
                  [devcards "0.2.3"]
-                 [reagent "0.6.0"]
+                 [reagent "0.7.0"]
                  [funcool/cats "2.1.0"]
                  [the/parsatron "0.0.7"]
-                 [cljsjs/react-select "1.0.0-rc.3" :exclusions [cljsjs/react]]
+                 [cljsjs/react-select "1.0.0-rc.3"]
                  [cljsjs/react-bootstrap "0.31.0-0"]
                  [quil "2.6.0"]
-                 [cljsjs/download "1.4.6-0"]]
+                 [cljsjs/download "1.4.6-0"]
+                 [secretary "1.2.3"]]
 
   :plugins [[lein-figwheel "0.5.9"]
             [lein-cljsbuild "1.1.5" :exclusions [org.clojure/clojure]]]
@@ -59,8 +60,8 @@
                                    ;; no such bug exists in the development
                                    ;; code.
 
-                                   ;; :pretty-print true
-                                   :pseudo-names true
+                                   :pretty-print true
+                                   ;; :pseudo-names true
 
                                    ;; required in order to display the UI, see
                                    ;; https://github.com/bhauman/devcards#usage-without-figwheel

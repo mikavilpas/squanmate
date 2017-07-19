@@ -1,7 +1,6 @@
 (ns squanmate.pages.shape-visualizer
   (:require [squanmate.ui.common :as common]
             [squanmate.ui.alg-visualizer :as v]
-            [devcards.core :as dc]      ; required
             [reagent.core :as reagent])
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg]]))
