@@ -13,11 +13,12 @@
 You can run it with a modern web browser right now.
 Try it [here][applink]!
 
-# Development dependencies
-- a clojure development environment
+# Development instructions
+As for dependencies, you need a clojure development environment. Check out
+figwheel, then how to load the tests into your interactive development
+environment, then start hacking something!
 
-# Development setup instructions
-- evaluate this
+- To start figwheel in your REPL, evaluate this
 
 ```clojure
     (do (require 'figwheel-sidecar.repl-api)
