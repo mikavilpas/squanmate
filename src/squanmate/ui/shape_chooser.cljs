@@ -11,7 +11,7 @@
 (defn- render-shape-option [s]
   (let [shape-key (.-value s)]
     (reagent/as-element
-     [:div [:img {:src (str "../../img/shape-thumbnails/" shape-key ".png")
+     [:div [:img {:src (str "../img/shape-thumbnails/" shape-key ".png")
                   :style {:margin-top "-3px" }
                   :height "40px"}]
       (.-label s)])))
