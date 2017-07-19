@@ -1,15 +1,14 @@
 (ns squanmate.pages.main-ui
   (:require [reagent.core :as reagent]
+            [squanmate.pages.all-possible-shapes :as all-possible-shapes]
             [squanmate.ui.common :as common]))
 
 (defmulti page-content (fn [app-state]
-                         (let [page (:page @app-state)]
-                           (println "currently recognized at page " page)
-                           page)))
+                         (:page @app-state)))
 
 ;; todo move this to shapes page
 (defmethod page-content :shapes []
-  [:div "todo: draw shapes page here"])
+  [all-possible-shapes/all-possible-shapes])
 
 (defmethod page-content :default []
   [:div])
@@ -24,6 +23,6 @@
      "All shapes"]]])
 
 (defn main-ui [app-state]
-  [:div
-   [navigation (:page @app-state)]
+  [:div.container
+   [navigation]
    [page-content app-state]])

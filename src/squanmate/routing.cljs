@@ -7,12 +7,17 @@
             [reagent.core :as reagent]
             [squanmate.pages.main-ui :as main-ui]))
 
-(defn hook-browser-navigation! []
-  (doto (History.)
-    (events/listen EventType/NAVIGATE
-                   (fn [event]
-                     (secretary/dispatch! (.-token event))))
-    (.setEnabled true)))
+(defonce browser-setup? (reagent/atom false))
+
+(defn- hook-browser-navigation! []
+  (when-not @browser-setup?
+    (println "hook-browser-navigation! firing")
+    (doto (History.)
+      (events/listen EventType/NAVIGATE
+                     (fn [event]
+                       (secretary/dispatch! (.-token event))))
+      (.setEnabled true))
+    (reset! browser-setup? true)))
 
 (defn app-routes [app-state]
   (secretary/set-config! :prefix "#")
