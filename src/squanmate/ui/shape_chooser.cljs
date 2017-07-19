@@ -16,18 +16,22 @@
                   :height "40px"}]
       (.-label s)])))
 
+(def select-component (reagent/adapt-react-class js/Select))
+
+;; something is amiss here!!
 (defn- select
   "Select based on an atom/cursor. Pass as state"
   [{:keys [state]
     :as props}]
-  [:> js/Select
-   (-> props
-       (dissoc state)
-       (assoc :value @state
-              :on-change (fn [x]
-                           (reset! state (when x (.-value x))))
-              :option-renderer render-shape-option
-              :value-renderer render-shape-option))])
+  (let [LUL (-> props
+                (dissoc state)
+                (assoc :value @state
+                       :on-change (fn [x]
+                                    (reset! state (when x (.-value x))))
+                       :option-renderer render-shape-option
+                       :value-renderer render-shape-option))]
+    (println "using props: " LUL)
+    [select-component LUL]))
 
 (defn make-value [& {:keys [id label]}]
   {:value id :label label})
@@ -47,11 +51,11 @@
     (let [top-layer (-> shapes/all-shapes
                         (get top-name)
                         :pieces
-                        puzzle/TopLayer.)
+                        puzzle/->TopLayer)
           bottom-layer (-> shapes/all-shapes
                            (get bottom-name)
                            :pieces
-                           puzzle/BottomLayer.)]
+                           puzzle/->BottomLayer)]
       [top-layer bottom-layer])))
 
 (defn puzzle-chooser [state]
