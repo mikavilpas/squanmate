@@ -27,6 +27,9 @@ Try it [here][applink]!
 
 - open http://localhost:3449/cards.html
 - changes to code should be hot reloaded in your UI, along with warnings displayed nicely
+- to view test pages (they are just like regular "feature" pages), load the file
+  `(repo root)/test/squanmate/test_loader.cljs` in your REPL. The files will be
+  displayed in the main view shortly after.
 
 # Build production js
 In the repl, run `(build-once prod)`
