@@ -1,3 +1,13 @@
+*Squanmate* is a Square-1 training tool. It can help you:
+
+* learn and remember all different shapes and their names
+* display cubeshape algorithms and the shapes the algorithm goes through
+  * it's a good aid for memorizing algorithms!
+
+You can run it with a modern web browser.
+
+Try it [here][applink]!
+
 # Development dependencies
 - a clojure development environment
 
@@ -13,3 +23,5 @@
 
 # Build production js
 In the repl, run `(build-once prod)`
+
+[applink]: https://rawgit.com/sp3ctum/squanmate/develop/resources/public/
