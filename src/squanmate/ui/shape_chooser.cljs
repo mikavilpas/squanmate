@@ -22,16 +22,15 @@
 (defn- select
   "Select based on an atom/cursor. Pass as state"
   [{:keys [state]
-    :as props}]
-  (let [LUL (-> props
+    :as initial-props}]
+  (let [props (-> initial-props
                 (dissoc state)
                 (assoc :value @state
                        :on-change (fn [x]
                                     (reset! state (when x (.-value x))))
                        :option-renderer render-shape-option
                        :value-renderer render-shape-option))]
-    (println "using props: " LUL)
-    [select-component LUL]))
+    [select-component props]))
 
 (defn make-value [& {:keys [id label]}]
   {:value id :label label})
