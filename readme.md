@@ -1,4 +1,6 @@
-<img align="right" width="30%" src="https://rawgit.com/sp3ctum/squanmate/feature/preview-image/resources/readme/shape-visualizer.png">
+<img align="right"
+     width="30%"
+     src="https://rawgit.com/sp3ctum/squanmate/feature/preview-image/resources/readme/shape-visualizer.png">
 
 ![logo][logolink]
 
