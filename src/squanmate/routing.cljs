@@ -11,7 +11,6 @@
 
 (defn- hook-browser-navigation! []
   (when-not @browser-setup?
-    (println "hook-browser-navigation! firing")
     (doto (History.)
       (events/listen EventType/NAVIGATE
                      (fn [event]
