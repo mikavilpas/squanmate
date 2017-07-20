@@ -8,7 +8,7 @@
 
 ;; todo move this to shapes page
 (defmethod page-content :shapes []
-  [all-possible-shapes/all-possible-shapes])
+  [all-possible-shapes/content])
 
 (defmethod page-content :main []
   [:div])

@@ -73,7 +73,7 @@
     "Lars Vandenbergh's CubeZone"]
    ". It is genious, and should be attributed to him."])
 
-(defn all-possible-shapes []
+(defn content []
   [:div.row.col-xs-12
    "This page contains a listing of all possible shapes a layer can have."
    [common/panel [flowers]]
