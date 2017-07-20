@@ -1,8 +1,8 @@
 (ns squanmate.pages.all-possible-shapes
   (:require [squanmate.puzzle :as puzzle]
-            [devcards.core :as dc]      ; required
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
-            [squanmate.shapes :as s])
+            [squanmate.shapes :as s]
+            [squanmate.ui.common :as common])
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg]]))
 
@@ -12,10 +12,7 @@
     (puzzle/TopLayer. (:pieces shape))
     :size 100]])
 
-(defcard-rg introduction
-  "This page contains a listing of all possible shapes a layer can have.")
-
-(defcard-rg flowers
+(defn- flowers []
   [:div
    [:div "2 corners, 8 edges (5 shapes)"]
    [shape s/four-four]
@@ -24,7 +21,7 @@
    [shape s/seven-one]
    [shape s/eight]])
 
-(defcard-rg three-corners
+(defn- three-corners []
   [:div
    "3 corners, 6 edges (10 shapes)"
    [:div
@@ -39,7 +36,7 @@
     [shape s/right-five-one]
     [shape s/six]]])
 
-(defcard-rg four-corners
+(defn- four-corners []
   [:div
    "4 corners, 4 edges (11 shapes)"
    [:div
@@ -54,7 +51,7 @@
     [shape s/mushroom]
     [shape s/scallop]]])
 
-(defcard-rg five-corners
+(defn- five-corners []
   [:div
    "5 corners, 2 edges (3 shapes)"
    [:div
@@ -62,16 +59,26 @@
     [shape s/perpendicular-edges]
     [shape s/parallel-edges]]])
 
-(defcard-rg six-corners
+(defn- six-corners []
   [:div
    "6 corners, 0 edges (1 shape)"
    [:div
     [shape s/star]]])
 
-(defcard-rg source
+(defn- source []
   [:div
    "The shape list and shape names were taken from "
    [:a {:href "http://www.cubezone.be/square1step1.html"
         :target "_blank"}
     "Lars Vandenbergh's CubeZone"]
    ". It is genious, and should be attributed to him."])
+
+(defn content []
+  [:div.row.col-xs-12
+   "This page contains a listing of all possible shapes a layer can have."
+   [common/panel [flowers]]
+   [common/panel [three-corners]]
+   [common/panel [four-corners]]
+   [common/panel [five-corners]]
+   [common/panel [six-corners]]
+   [source]])

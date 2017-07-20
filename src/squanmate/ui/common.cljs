@@ -13,3 +13,12 @@
   [:input.form-control {:on-change #(reset! string-state (-> % .-target .-value))
                         :placeholder placeholder
                         :value @string-state}])
+
+(def tabs (reagent/adapt-react-class js/ReactBootstrap.Tabs))
+(def tab (reagent/adapt-react-class js/ReactBootstrap.Tab))
+
+(def navbar (reagent/adapt-react-class js/ReactBootstrap.Navbar))
+(def nav (reagent/adapt-react-class js/ReactBootstrap.Nav))
+(def navbar-header (reagent/adapt-react-class js/ReactBootstrap.Navbar.Header))
+(def navbar-brand (reagent/adapt-react-class js/ReactBootstrap.Navbar.Brand))
+(def nav-item (reagent/adapt-react-class js/ReactBootstrap.NavItem))
