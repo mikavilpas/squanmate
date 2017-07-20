@@ -38,7 +38,7 @@
 (defn main-ui [app-state]
   [:div
    [:div.content
-    [:div.container
+    [:div
      [navigation]
      [:div.container
       [page-content app-state]]]]
