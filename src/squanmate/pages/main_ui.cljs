@@ -16,7 +16,9 @@
 (defn navigation []
   [common/navbar
    [common/navbar-header
-    [common/navbar-brand [:a {:href "#/"} "Squanmate"]]]
+    [common/navbar-brand [:a {:href "#/"}
+                          [:img {:src "readme/logo.png"
+                                 :style {:margin-top "-5px" :width "160px"}}]]]]
 
    [common/nav
     [common/nav-item {:event-key 1 :href "#/shapes"}
