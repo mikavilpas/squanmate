@@ -27,4 +27,7 @@
   (defroute "/shapes" []
     (swap! app-state assoc :page :shapes))
 
+  (defroute "/shape-visualizer" []
+    (swap! app-state assoc :page :shape-visualizer))
+
   (hook-browser-navigation!))

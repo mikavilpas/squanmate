@@ -7,7 +7,7 @@
 
 (defonce alg-visualizer-state (v/default-alg-visualizer-state))
 
-(defcard-rg introduction
+(defn content []
   [:div.container-fluid
 
    [:div.row "This page allows visualizing the different steps an algorithm has. It
