@@ -22,7 +22,16 @@
     [common/nav-item {:event-key 1 :href "#/shapes"}
      "All shapes"]]])
 
+(defn- footer []
+  ;; just some vertical space to make the page feel better
+  [:div.bottom30])
+
 (defn main-ui [app-state]
-  [:div.container
-   [navigation]
-   [page-content app-state]])
+  [:div
+   [:div.content
+    [:div.container
+     [navigation]
+     [:div.container
+      [page-content app-state]]]]
+
+   [footer]])
