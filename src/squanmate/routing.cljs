@@ -22,7 +22,7 @@
   (secretary/set-config! :prefix "#")
 
   (defroute "/" []
-    (swap! app-state assoc :page :empty))
+    (swap! app-state assoc :page :main))
 
   (defroute "/shapes" []
     (swap! app-state assoc :page :shapes))

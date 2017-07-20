@@ -10,8 +10,11 @@
 (defmethod page-content :shapes []
   [all-possible-shapes/all-possible-shapes])
 
-(defmethod page-content :default []
+(defmethod page-content :main []
   [:div])
+
+(defmethod page-content :default []
+  [:div "warning: page content not found"])
 
 (defn navigation []
   [common/navbar
