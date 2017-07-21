@@ -25,7 +25,7 @@
          [:div {:style { "display" "inline-block" }}
           [quil-reagent/sketch
            :setup (pieces/setup @current-layer size)
-           :draw pieces/draw-layer
+           :draw #'pieces/draw-layer
            :update (fn [old-state]
                      (assoc-in old-state [:layer] @current-layer))
            :middleware [m/fun-mode]
