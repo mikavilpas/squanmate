@@ -82,7 +82,7 @@
        (q/line b c edge-width bot)
        (q/line edge-width bot 0 0))))
 
-(defn- draw-layer-pieces [state]
+(defn draw-layer [state]
   (let [size (:size state)
         center (/ size 2)
         layer (:layer state)
@@ -108,9 +108,3 @@
         (draw-edge-at position data)
 
         (println (new js/Error (str "warning: cannot draw unknown piece " piece)))))))
-
-(defn draw-top-layer [state]
-  (draw-layer-pieces state))
-
-(defn draw-bottom-layer [state]
-  (draw-layer-pieces state))

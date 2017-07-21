@@ -9,22 +9,6 @@
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.pieces :as pieces]))
 
-(defprotocol Drawable
-  (draw [layer]))
-
-(extend-protocol Drawable
-  shapes/Shape
-  (draw [shape]
-    #'pieces/draw-top-layer)
-
-  p/TopLayer
-  (draw [top-layer]
-    #'pieces/draw-top-layer)
-
-  p/BottomLayer
-  (draw [bottom-layer]
-    #'pieces/draw-bottom-layer))
-
 (defn layer-component [initial-layer & {:keys [size]
                                         :or {size 100}}]
   (let [current-layer (reagent/atom initial-layer)]
@@ -41,7 +25,7 @@
          [:div {:style { "display" "inline-block" }}
           [quil-reagent/sketch
            :setup (pieces/setup @current-layer size)
-           :draw (draw initial-layer)
+           :draw pieces/draw-layer
            :update (fn [old-state]
                      (assoc-in old-state [:layer] @current-layer))
            :middleware [m/fun-mode]
