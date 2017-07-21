@@ -20,6 +20,7 @@
 (defn- edge [top a] (->Piece "e" (->PieceColors top a nil)))
 
 (def square-square
+  "This is in cube shape by default! This means slicing will go into kite kite."
   (Puzzle.
    (TopLayer. [(c ::top ::front ::left)
                (edge ::top ::left)
@@ -30,14 +31,14 @@
                (c ::top ::right ::front)
                (edge ::top ::front)])
 
-   (BottomLayer. [(c ::bottom ::front ::left)
-                  (edge ::bottom ::left)
-                  (c ::bottom ::left ::back)
+   (BottomLayer. [(edge ::bottom ::left)
+                  (c ::bottom ::front ::left)
                   (edge ::bottom ::back)
-                  (c ::bottom ::back ::right)
+                  (c ::bottom ::left ::back)
                   (edge ::bottom ::right)
-                  (c ::bottom ::right ::front)
-                  (edge ::bottom ::front)])))
+                  (c ::bottom ::back ::right)
+                  (edge ::bottom ::front)
+                  (c ::bottom ::right ::front)])))
 
 (def ^:private all-pieces
   (vec (concat (:pieces (:top-layer square-square))
