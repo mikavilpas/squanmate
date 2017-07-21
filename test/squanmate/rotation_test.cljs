@@ -3,14 +3,16 @@
             [cats.monad.either :as either]
             [squanmate.puzzle :as p]
             [squanmate.rotation :as r]
-            [squanmate.shapes :as shapes])
+            [squanmate.shapes :as shapes]
+            [cats.core :as m])
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg deftest]]))
 
-(def e p/edge)
-(def c p/corner)
+(def square-layer shapes/square)
 
-(def square-layer (:top-layer p/square-square))
+(defn- rotated-pieces [layer amount]
+  (m/fmap p/pieces-str
+          (r/rotate-layer layer amount)))
 
 (deftest first-piece-test []
   (is (= "e"
@@ -28,26 +30,24 @@
   (is (= (r/rotate-layer square-layer 0)
          (either/right square-layer)))
 
-  (is (= (r/rotate-layer square-layer 1)
-         (either/right (p/TopLayer. [e c e c
-                                     e c e c]))))
+  (is (= (rotated-pieces square-layer 1)
+         (either/right "ecececec")))
 
-  (let [expected-square (either/right square-layer)]
-    (is (= (r/rotate-layer square-layer 3) expected-square)
-        "rotating in 90 degree increments must preserve the square shape"))
+  (is (= (rotated-pieces square-layer 3)
+         (either/right "cececece"))
+      "rotating in 90 degree increments must preserve the square shape")
 
   "rotating by other amounts"
-  (is (= (r/rotate-layer square-layer 4)
-         (either/right (p/TopLayer. [e c e c
-                                     e c e c]))))
+  (is (= (rotated-pieces square-layer 4)
+         (either/right "ecececec")))
 
-  (is (either/left? (r/rotate-layer shapes/eight -1))
+  (is (either/left?
+       (r/rotate-layer shapes/eight -1))
       "it should be impossible to rotate by -1 if the next piece is worth 2"))
 
 (deftest rotate-layer-counterclockwise-test []
-  (is (= (r/rotate-layer square-layer -2)
-         (either/right (p/TopLayer. [e c e c
-                                     e c e c])))
+  (is (= (rotated-pieces square-layer -2)
+         (either/right "ecececec"))
       "rotate -2 over a corner piece")
 
   (is (either/left? (r/rotate-layer square-layer -1))
