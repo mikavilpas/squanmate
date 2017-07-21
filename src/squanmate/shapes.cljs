@@ -1,44 +1,45 @@
 (ns squanmate.shapes
   (:require [squanmate.puzzle :as puzzle]))
 
-(def e puzzle/edge)
-(def c puzzle/corner)
-
 (defrecord Shape [name pieces])
 
-(def four-four (Shape. "4-4" [e c e e e, e c e e e]))
-(def five-three (Shape. "5-3" [e c e e e, e e c e e]))
-(def six-two (Shape. "6-2" [c e e e e, e e c e e]))
-(def seven-one (Shape. "7-1" [c e e e e, e e e c e]))
-(def eight (Shape. "8" [c e e e e e, e e e c]))
+(defn- shape [name piece-types]
+  (->Shape name
+           (puzzle/layer-with-pieces piece-types)))
 
-(def two-two-two (Shape. "2-2-2" [e e c e e, c e e c]))
-(def three-three (Shape. "3-3" [e e e c c e e e c]))
-(def three-two-one (Shape. "3-2-1" [c e e e c e e c e]))
-(def three-one-two (Shape. "3-1-2" [c e e c e e e c e]))
-(def left-four-two (Shape. "Left 4-2" [c e e e e c e e c]))
-(def right-four-two (Shape. "Right 4-2" [c e e c e e e e c]))
-(def four-one-one (Shape. "4-1-1" [e c e e e e c e c]))
-(def left-five-one (Shape. "Left 5-1" [c e e e e e c e c]))
-(def right-five-one (Shape. "Right 5-1" [c e c e e e e e c]))
-(def six (Shape. "6" [c e e e e e e c c]))
+(def four-four (shape "4-4" "eceeeeceee"))
+(def five-three (shape "5-3" "eceeeeecee"))
+(def six-two (shape "6-2" "ceeeeeecee"))
+(def seven-one (shape "7-1" "ceeeeeeece"))
+(def eight (shape "8" "ceeeeeeeec"))
 
-(def square (Shape. "Square" [c e c e c e c e]))
-(def kite (Shape. "Kite" [c e c e e c e c]))
-(def barrel (Shape. "Barrel" [c e e c c e e c]))
-(def shield (Shape. "Shield" [e e c c c e e c]))
-(def left-fist (Shape. "Left fist" [c e c e c e e c]))
-(def right-fist (Shape. "Right fist" [c e e c e c e c]))
-(def left-pawn (Shape. "Left pawn" [c c e e e c e c]))
-(def right-pawn (Shape. "Right pawn" [c e c e e e c c]))
-(def mushroom (Shape. "Mushroom" [c c e e e c c e]))
-(def scallop (Shape. "Scallop" [c c e e e e c c]))
+(def two-two-two (shape "2-2-2" "eeceeceec"))
+(def three-three (shape "3-3" "eeecceeec"))
+(def three-two-one (shape "3-2-1" "ceeeceece"))
+(def three-one-two (shape "3-1-2" "ceeceeece"))
+(def left-four-two (shape "Left 4-2" "ceeeeceec"))
+(def right-four-two (shape "Right 4-2" "ceeceeeec"))
+(def four-one-one (shape "4-1-1" "eceeeecec"))
+(def left-five-one (shape "Left 5-1" "ceeeeecec"))
+(def right-five-one (shape "Right 5-1" "ceceeeeec"))
+(def six (shape "6" "ceeeeeecc"))
 
-(def paired-edges (Shape. "Paired edges" [c c c c c e e]))
-(def perpendicular-edges (Shape. "Perpendicular edges" [e c c c c e c]))
-(def parallel-edges (Shape. "Parallel edges" [c e c c c e c]))
+(def square (shape "Square" "cececece"))
+(def kite (shape "Kite" "ceceecec"))
+(def barrel (shape "Barrel" "ceecceec"))
+(def shield (shape "Shield" "eeccceec"))
+(def left-fist (shape "Left fist" "cececeec"))
+(def right-fist (shape "Right fist" "ceececec"))
+(def left-pawn (shape "Left pawn" "cceeecec"))
+(def right-pawn (shape "Right pawn" "ceceeecc"))
+(def mushroom (shape "Mushroom" "cceeecce"))
+(def scallop (shape "Scallop" "cceeeecc"))
 
-(def star (Shape. "Star" [c c c c c c]))
+(def paired-edges (shape "Paired edges" "cccccee"))
+(def perpendicular-edges (shape "Perpendicular edges" "eccccec"))
+(def parallel-edges (shape "Parallel edges" "cecccec"))
+
+(def star (shape "Star" "cccccc"))
 
 (def all-shapes {"four-four" four-four
                  "five-three" five-three
@@ -70,11 +71,13 @@
                  "parallel-edges" parallel-edges
                  "star" star})
 
+(def solved (puzzle/layer-with-pieces "cecececece"))
+
 (defn ordered-permutations
-  "Given a layer's pieces, returns a lazy seq of all the possible rotated states
+  "Given a layer's pieces returns a lazy seq of all the possible rotated states
   the layer can have.
 
-  Actually works with any elements, not just pieces"
+  Actually works with any elements not just pieces"
   [elements]
   (lazy-seq
    (for [i (range (count elements))]

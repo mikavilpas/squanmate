@@ -8,20 +8,68 @@
 (defrecord TopLayer [pieces])
 (defrecord BottomLayer [pieces])
 
-(defrecord Piece [type])
+(defrecord Piece [type colors])
 (defrecord LayerError [msg layer])
 
-(def edge (Piece. "e"))
-(def corner (Piece. "c"))
+;; edges will have a top color and one color,
+;; corners will have one additional color
+(defrecord PieceColors [top a b])
+
+;; piece constructors
+(defn c [top a b] (->Piece "c" (->PieceColors top a b)))
+(defn e [top a] (->Piece "c" (->PieceColors top a nil)))
 
 (def square-square
-  (let [e edge
-        c corner]
-    (Puzzle.
-     (TopLayer. [c e c e
-                 c e c e])
-     (BottomLayer. [e c e c
-                    e c e c]))))
+  (Puzzle.
+   (TopLayer. [(c ::top ::front ::left)
+               (e ::top ::left)
+               (c ::top ::left ::back)
+               (e ::top ::back)
+               (c ::top ::back ::right)
+               (e ::top ::right)
+               (c ::top ::right ::front)
+               (e ::top ::front)])
+
+   (BottomLayer. [(c ::bottom ::front ::left)
+                  (e ::bottom ::left)
+                  (c ::bottom ::left ::back)
+                  (e ::bottom ::back)
+                  (c ::bottom ::back ::right)
+                  (e ::bottom ::right)
+                  (c ::bottom ::right ::front)
+                  (e ::bottom ::front)])))
+
+(def ^:private all-pieces
+  (vec (concat (:top-layer square-square)
+               (:bottom-layer square-square))))
+
+(def ^:private corners (filterv #(= "c" (:type %)) all-pieces))
+(def ^:private edges (filterv #(= "e" (:type %)) all-pieces))
+
+(defn- take-piece [remaining-pieces piece-type]
+  (let [p (first (get remaining-pieces piece-type))
+        others (update remaining-pieces piece-type rest)]
+    [p others]))
+
+(defn layer-with-pieces
+  "Constructs a layer by querying its pieces in the order given in `piece-types-str`.
+  This has these benefits compared to constructing by hand:
+  - guarantees the pieces' colors are not duplicated
+  - layer definition is characterized by the layer's shape and not its colors
+  "
+  [piece-types-str]
+  (loop [remaining-pieces {"c" corners, "e" edges}
+         queried-piece-types piece-types-str
+         result-pieces []]
+    (if-let [q (first queried-piece-types)]
+      (let [[p remaining] (take-piece remaining-pieces q)]
+        (when (nil? p)
+          (throw (new js/Error
+                      (str "error: the layer '" piece-types-str "' is invalid"))))
+        (recur remaining
+               (rest queried-piece-types)
+               (conj result-pieces p)))
+      result-pieces)))
 
 (defn piece-value [piece]
   (condp = (:type piece)
