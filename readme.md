@@ -15,8 +15,7 @@ Try it [here][applink]!
 
 # Development instructions
 As for dependencies, you need a clojure development environment. Check out
-figwheel, then how to load the tests into your interactive development
-environment, then start hacking something!
+figwheel, then start hacking something!
 
 - To start figwheel in your REPL, evaluate this
 
@@ -26,11 +25,9 @@ environment, then start hacking something!
         (figwheel-sidecar.repl-api/cljs-repl))
 ```
 
-- open http://localhost:3449/cards.html
+- open http://localhost:3449/cards.html - this uses `squanmate.test-loader` to
+  load all tests that file knows about right into the devcards ui.
 - changes to code should be hot reloaded in your UI, along with warnings displayed nicely
-- to view test pages (they are just like regular "feature" pages), load the file
-  `(repo root)/test/squanmate/test_loader.cljs` in your REPL. The files will be
-  displayed in the main view shortly after.
 
 # Build production js
 In the repl, run `(build-once prod)`. The output file is tracked by git, so it
