@@ -40,8 +40,8 @@
                   (edge ::bottom ::front)])))
 
 (def ^:private all-pieces
-  (vec (concat (:top-layer square-square)
-               (:bottom-layer square-square))))
+  (vec (concat (:pieces (:top-layer square-square))
+               (:pieces (:bottom-layer square-square)))))
 
 (def ^:private corners (filterv #(= "c" (:type %)) all-pieces))
 (def ^:private edges (filterv #(= "e" (:type %)) all-pieces))
