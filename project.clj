@@ -61,12 +61,9 @@
                                    ;; no such bug exists in the development
                                    ;; code.
 
-                                   :pretty-print true
+                                   ;; :pretty-print true
                                    ;; :pseudo-names true
-
-                                   ;; required in order to display the UI, see
-                                   ;; https://github.com/bhauman/devcards#usage-without-figwheel
-                                   :devcards true}}]}
+                                   }}]}
 
   :figwheel { :css-dirs ["resources/public/css"] }
 
