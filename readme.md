@@ -25,9 +25,25 @@ figwheel, then start hacking something!
         (figwheel-sidecar.repl-api/cljs-repl))
 ```
 
-- open http://localhost:3449/cards.html - this uses `squanmate.test-loader` to
-  load all tests that file knows about right into the devcards ui.
-- changes to code should be hot reloaded in your UI, along with warnings displayed nicely
+## Development environments
+You have the option of choosing between two development environments:
+- *devcards* shows tests and isolated reagent components, allowing you to
+  manipulate both without seeing the main application at all (think "sandbox").
+  It can be accessed at http://localhost:3449/cards.html
+- *dev* is the main application, but can still be hot reloaded at will. Access
+  it at http://localhost:3449/
+- *prod* is not really a development environment, but I'll mention it here
+  anyway. If you build prod with `(build-once prod)`, it will actually be shown
+  in the place of the *dev* build. Do a `ctrl+f5` reload to force a change
+  between the *prod* and *dev* "environments" just to be sure.
+
+## How to preview live changes on multiple devices
+It's possible, thanks to figwheel magic, to hot reload your code changes e.g. on
+your main development desktop/laptop and your mobile device at the same time.
+
+To do this,
+- be on the same network as your host (e.g. on your home network)
+- eval `(switch-to-build ...)` with the id of your build (devcards / dev)
 
 # Build production js
 In the repl, run `(build-once prod)`. The output file is tracked by git, so it

@@ -34,7 +34,8 @@
                                    ;; in the default browser once Figwheel has
                                    ;; started and complied your application.
                                    ;; Comment this out once it no longer serves you.
-                                   :open-urls ["http://localhost:3449/cards.html"]}
+                                   :open-urls ["http://localhost:3449/cards.html"]
+                                   :websocket-host :js-client-host}
                         :compiler { :main       "squanmate.test-loader"
                                    :asset-path "js/compiled/devcards_out"
                                    :output-to  "resources/public/js/compiled/squanmate_devcards.js"
@@ -42,7 +43,7 @@
                                    :source-map-timestamp true }}
                        {:id "dev"
                         :source-paths ["src"]
-                        :figwheel true
+                        :figwheel {:websocket-host :js-client-host}
                         :compiler {:main       "squanmate.core"
                                    :asset-path "js/compiled/out"
                                    :output-to  "resources/public/js/compiled/squanmate.js"
