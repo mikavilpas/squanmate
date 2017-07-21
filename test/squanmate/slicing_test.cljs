@@ -23,8 +23,8 @@
           (is (= "ceceecec" (p/pieces-str (:top-layer result))))
           (is (= "ececcece" (p/pieces-str (:bottom-layer result))))))
 
-(def e p/edge)
-(def c p/corner)
+(def e (p/->Piece "e" nil))
+(def c (p/->Piece "c" nil))
 (def kite-kite (p/Puzzle. (p/TopLayer. [e c c e c e e c])
                           (p/BottomLayer. [e c e c c e c e])))
 
@@ -47,12 +47,14 @@
           (is (not (slicing/layer-sliceable? (:top-layer position))))))
 
 (deftest pieces-and-their-positions-test []
-  (is (= [[{:type "c"} 0]
-          [{:type "e"} 2]
-          [{:type "c"} 3]
-          [{:type "e"} 5]
-          [{:type "c"} 6]
-          [{:type "e"} 8]
-          [{:type "c"} 9]
-          [{:type "e"} 11]]
-         (slicing/pieces-and-their-positions shapes/square))))
+  (is (= [["c" 0]
+          ["e" 2]
+          ["c" 3]
+          ["e" 5]
+          ["c" 6]
+          ["e" 8]
+          ["c" 9]
+          ["e" 11]]
+         (map (fn [[p position]]
+                [(:type p) position])
+              (slicing/pieces-and-their-positions shapes/square)))))
