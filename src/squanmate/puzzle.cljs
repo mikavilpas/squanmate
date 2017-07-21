@@ -16,28 +16,28 @@
 (defrecord PieceColors [top a b])
 
 ;; piece constructors
-(defn c [top a b] (->Piece "c" (->PieceColors top a b)))
-(defn e [top a] (->Piece "c" (->PieceColors top a nil)))
+(defn- c [top a b] (->Piece "c" (->PieceColors top a b)))
+(defn- edge [top a] (->Piece "e" (->PieceColors top a nil)))
 
 (def square-square
   (Puzzle.
    (TopLayer. [(c ::top ::front ::left)
-               (e ::top ::left)
+               (edge ::top ::left)
                (c ::top ::left ::back)
-               (e ::top ::back)
+               (edge ::top ::back)
                (c ::top ::back ::right)
-               (e ::top ::right)
+               (edge ::top ::right)
                (c ::top ::right ::front)
-               (e ::top ::front)])
+               (edge ::top ::front)])
 
    (BottomLayer. [(c ::bottom ::front ::left)
-                  (e ::bottom ::left)
+                  (edge ::bottom ::left)
                   (c ::bottom ::left ::back)
-                  (e ::bottom ::back)
+                  (edge ::bottom ::back)
                   (c ::bottom ::back ::right)
-                  (e ::bottom ::right)
+                  (edge ::bottom ::right)
                   (c ::bottom ::right ::front)
-                  (e ::bottom ::front)])))
+                  (edge ::bottom ::front)])))
 
 (def ^:private all-pieces
   (vec (concat (:top-layer square-square)
