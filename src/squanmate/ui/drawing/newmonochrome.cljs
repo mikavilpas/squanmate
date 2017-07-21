@@ -32,7 +32,7 @@
            :size [size size]]]]))))
 
 (defn monochrome-puzzle [puzzle & debug?]
-  [:div.puzzle
+  [:div.puzzle {:style {:white-space :nowrap}}
    [:span.layer.top [layer-component (:top-layer puzzle)]]
    [:span.layer.bottom [layer-component (:bottom-layer puzzle)]]
    (when debug?
