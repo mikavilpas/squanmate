@@ -50,8 +50,8 @@
                                                 (+ (scale 3) edge-width) (+ (scale 14) bot)
                                                 edge-width bot]
                          :edge-color-edges [edge-width bot
-                                            (+ 4 edge-width) (+ 14 bot)
-                                            (- -4 edge-width) (+ 14 bot)
+                                            (+ (scale 4) edge-width) (+ (scale 14) bot)
+                                            (- (scale -4) edge-width) (+ (scale 14) bot)
                                             (- edge-width) bot]})))))
 
 (defn- draw-edge-at [piece
