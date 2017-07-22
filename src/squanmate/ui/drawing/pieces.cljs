@@ -142,7 +142,7 @@
                      :front [255, 166, 69] ;orange
                      :left [99, 96, 255]   ;blue
                      :back [255, 69, 69]   ;red
-                     :right [69, 255, 69]  ;green
+                     :right [69, 245, 69]  ;green
                      }}
            settings)))
 
