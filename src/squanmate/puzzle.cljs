@@ -22,23 +22,23 @@
 (def square-square
   "This is in cube shape by default! This means slicing will go into kite kite."
   (Puzzle.
-   (TopLayer. [(c ::top ::front ::left)
-               (edge ::top ::left)
-               (c ::top ::left ::back)
-               (edge ::top ::back)
-               (c ::top ::back ::right)
-               (edge ::top ::right)
-               (c ::top ::right ::front)
-               (edge ::top ::front)])
+   (TopLayer. [(c :top :front :left)
+               (edge :top :left)
+               (c :top :left :back)
+               (edge :top :back)
+               (c :top :back :right)
+               (edge :top :right)
+               (c :top :right :front)
+               (edge :top :front)])
 
-   (BottomLayer. [(edge ::bottom ::left)
-                  (c ::bottom ::front ::left)
-                  (edge ::bottom ::back)
-                  (c ::bottom ::left ::back)
-                  (edge ::bottom ::right)
-                  (c ::bottom ::back ::right)
-                  (edge ::bottom ::front)
-                  (c ::bottom ::right ::front)])))
+   (BottomLayer. [(edge :bottom :left)
+                  (c :bottom :front :left)
+                  (edge :bottom :back)
+                  (c :bottom :left :back)
+                  (edge :bottom :right)
+                  (c :bottom :back :right)
+                  (edge :bottom :front)
+                  (c :bottom :right :front)])))
 
 (def ^:private all-pieces
   "random on each initiation (typically a page reload)"

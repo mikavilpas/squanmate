@@ -4,11 +4,9 @@
             [quil.middleware :as m]
             [squanmate.slicing :as slicing]))
 
-(def ^:private monochrome-color 169)
-
 (defrecord DrawLayerState [layer size])
 
-(defn setup [layer size]
+(defn setup-fn [layer size]
   (fn []
     ;; there is no need for animation at the moment. just a static image
     ;; will do perfectly fine.
@@ -28,11 +26,18 @@
   (q/stroke-weight 1)
   (q/stroke 0))
 
-(defn- draw-edge-at [position {:keys [bot edge-width]}]
+(defn- get-color [draw-settings piece side]
+  (let [piece-side (-> piece :colors side)]
+    (get (:colors draw-settings) piece-side)))
+
+(defn- draw-edge-at [piece
+                     position
+                     {:keys [bot edge-width]
+                      :as data}]
   (with-temporary-rotation (* (+ 1 position) 30)
     #(do
        (piece-stroke)
-       ;; (q/no-fill)
+       (apply q/fill (get-color data piece :top))
        (q/triangle 0 0
                    (- edge-width) bot
                    edge-width bot))))
@@ -54,8 +59,13 @@
        (q/stroke 200)
        (q/line (- c) 0 c 0))))
 
-(defn- draw-corner-at [position {:keys [size bot edge-width]
-                                 :as data}]
+(defn- draw-corner-at [piece
+                       position
+                       {:keys [size
+                               bot
+                               edge-width
+                               monochrome?]
+                        :as data}]
   (with-temporary-rotation (* (+ 1 position) 30)
     #(let [{:keys [a b c] :as magic} (magic-numbers size)]
 
@@ -63,7 +73,8 @@
        ;; empty stroke that appears as white (the background color). Work around
        ;; this by using the fill color as the stroke color
        (piece-stroke)
-       (q/stroke monochrome-color)
+       (apply q/stroke (get-color data piece :top))
+       (apply q/fill (get-color data piece :top))
        ;; these triangles should be used to set the fill color. not currently
        ;; used, but planned in the future
        ;; (q/fill 150 205 105 200)
@@ -75,23 +86,37 @@
                    edge-width bot)
        (q/line (- a) a edge-width bot)
        (piece-stroke)
-       ;; stroke the edges of the piece so it looks the same as edges
 
+       ;; stroke the edges of the piece so it looks the same as edges
        (q/line 0 0 (- a) a)
        (q/line (- a) a b c)
        (q/line b c edge-width bot)
        (q/line edge-width bot 0 0))))
 
-(defn draw-layer [state]
+(defn draw-settings [settings]
+  (let [top-color (if (:monochrome? settings)
+                    [169]
+                    [255])]
+    ;; overwrite default settings with given ones
+    (merge {:colors {:top top-color
+                     :bottom [0 200 200]
+
+                     :front [150 200 240]
+                     :left [140 30 200]
+                     :back [25 70 80]
+                     :right [180 100 50]}}
+           settings)))
+
+(defn draw-layer [state draw-settings]
   (let [size (:size state)
         center (/ size 2)
         layer (:layer state)
-        data {:edge-width (/ size 10)
-              :bot (* size 0.375)
-              :size size}]
+        data (merge draw-settings
+                    {:edge-width (/ size 10)
+                     :bot (* size 0.375)
+                     :size size})]
     (piece-stroke)
     (q/background 255)
-    (q/fill monochrome-color)
 
     ;; start drawing from the center
     (q/translate center center)
@@ -102,9 +127,9 @@
     (doseq [[piece position] (slicing/pieces-and-their-positions layer)]
       (condp = (:type piece)
         "c"
-        (draw-corner-at position data)
+        (draw-corner-at piece position data)
 
         "e"
-        (draw-edge-at position data)
+        (draw-edge-at piece position data)
 
         (println (new js/Error (str "warning: cannot draw unknown piece " piece)))))))

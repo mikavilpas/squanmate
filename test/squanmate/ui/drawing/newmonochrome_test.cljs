@@ -6,9 +6,9 @@
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg]]))
 
-(def cube-puzzle (p/Puzzle. (p/TopLayer. (:pieces shapes/barrel))
-                            (p/BottomLayer. (:pieces shapes/shield))))
+(def sample-puzzle (p/Puzzle. (p/TopLayer. (:pieces shapes/barrel))
+                              (p/BottomLayer. (:pieces shapes/shield))))
 
 (defcard-rg poc
   [:div
-   (draw/monochrome-puzzle cube-puzzle)])
+   (draw/monochrome-puzzle sample-puzzle)])

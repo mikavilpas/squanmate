@@ -17,15 +17,17 @@
       ;; It's a bit unfortunate but I can't get quil to see a change in the
       ;; given layer without a local current-layer state
       (reset! current-layer layer)
-      (let [shape-name (shapes/layer-shape-name @current-layer)]
+      (let [shape-name (shapes/layer-shape-name @current-layer)
+            draw-settings (pieces/draw-settings {:monochrome? false})]
         [common/overlay-trigger
          {:overlay (reagent/as-element [common/tooltip {:id "test"}
                                         shape-name])
           :placement "top"}
          [:div {:style { "display" "inline-block" }}
           [quil-reagent/sketch
-           :setup (pieces/setup @current-layer size)
-           :draw #'pieces/draw-layer
+           :setup (pieces/setup-fn @current-layer size)
+           :draw (fn [state]
+                   (pieces/draw-layer state draw-settings))
            :update (fn [old-state]
                      (assoc-in old-state [:layer] @current-layer))
            :middleware [m/fun-mode]
