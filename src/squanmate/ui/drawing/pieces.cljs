@@ -133,11 +133,11 @@
 (defn draw-settings [settings]
   (let [top-side-color (if (:monochrome? settings)
                     [169]
-                    [255])]
+                    [253])]
     ;; overwrite default settings with given ones
     (merge {:colors {:top top-side-color
                      ;; http://paletton.com/#uid=7001c0knm++bq+PhV+Yt1+WH9ZC
-                     :bottom [255 209 69] ;yellow
+                     :bottom [255, 254, 69] ;yellow
 
                      :front [255, 166, 69] ;orange
                      :left [99, 96, 255]   ;blue
