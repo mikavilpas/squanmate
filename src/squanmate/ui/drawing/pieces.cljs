@@ -59,8 +59,7 @@
 
                 :corner-color-a-edges [b c
                                        (- b (scale 5)) (+ (scale 19) c)
-                                       edge-width (+ (scale 24) bot)
-                                       (+ (scale 7) edge-width) (+ 24 bot)
+                                       (+ (scale 3) edge-width) (+ (scale 14) bot)
                                        edge-width bot]}))))
 
 (defn- draw-slice-point [data]
@@ -76,29 +75,15 @@
                            {:keys [a b c] :as magic}]
   (q/stroke-weight 1)
 
+  ;; first color
+  (apply q/stroke (get-color data piece :a))
+  (apply q/fill (get-color data piece :a))
+  (apply q/quad (:corner-color-a-edges magic))
 
   ;; second color
   (apply q/stroke (get-color data piece :b))
   (apply q/fill (get-color data piece :b))
-  (apply q/quad (:corner-color-b-edges magic))
-
-  ;; first color
-  (apply q/stroke (get-color data piece :a))
-  (apply q/fill (get-color data piece :a))
-
-  #_(apply q/quad (:corner-color-a-edges magic))
-
-  ;; (q/stroke 20)
-  ;; (q/stroke-weight 1)
-  ;; (q/line b c
-  ;;         (- b 2) (+ 24 c))
-
-  ;; (q/line (- b 2) (+ 24 c)
-  ;;         edge-width (+ 24 bot))
-
-  ;; (q/line (+ 7 edge-width) (+ 24 bot)
-  ;;         edge-width bot)
-  )
+  (apply q/quad (:corner-color-b-edges magic)))
 
 (defn- draw-corner-at [piece
                        position
