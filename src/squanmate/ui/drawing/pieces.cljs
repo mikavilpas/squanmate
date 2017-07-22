@@ -48,9 +48,14 @@
              ;; used a test canvas of size 400 to get these with brute
              ;; force (I'm not the best at trigonometry), so that's why you see
              ;; a (/ foo 400)
-             {:a (* size (/ 110 400))
-              :b (* size (/ -55 400))
-              :c (* size (/ 205 400))})))
+             (let [scale #(* size (/ % 400))
+                   {:keys [a b c] :as m} {:a (scale 110)
+                                          :b (scale -55)
+                                          :c (scale 205)}]
+               (merge m {:corner-color-b-edges [(- a) a
+                                                (- (scale -10) a) (+ (scale 10) a)
+                                                (- b (scale 2)) (+ (scale 24) c)
+                                                b c]})))))
 
 (defn- draw-slice-point [size]
   (with-temporary-rotation -75
@@ -59,39 +64,51 @@
        (q/stroke 200)
        (q/line (- c) 0 c 0))))
 
+(defn- draw-corner-colors [piece
+                           data
+                           {:keys [a b c] :as magic}]
+  (q/stroke-weight 1)
+
+  ;; first color
+  (apply q/stroke (get-color data piece :b))
+  (apply q/fill (get-color data piece :b))
+  (apply q/quad (:corner-color-b-edges magic)))
+
 (defn- draw-corner-at [piece
                        position
-                       {:keys [size
-                               bot
-                               edge-width
-                               monochrome?]
+                       {:keys [size bot edge-width monochrome?]
                         :as data}]
-  (with-temporary-rotation (* (+ 1 position) 30)
-    #(let [{:keys [a b c] :as magic} (magic-numbers size)]
+  (let [{:keys [a b c] :as magic} (magic-numbers size)
+        rotation-amount (* (+ 1 position) 30)]
 
-       ;; drawing triangles without a store color makes them have a 1px wide
-       ;; empty stroke that appears as white (the background color). Work around
-       ;; this by using the fill color as the stroke color
-       (piece-stroke)
-       (apply q/stroke (get-color data piece :top))
-       (apply q/fill (get-color data piece :top))
-       ;; these triangles should be used to set the fill color. not currently
-       ;; used, but planned in the future
-       ;; (q/fill 150 205 105 200)
-       (q/triangle 0 0
-                   (- a) a
-                   edge-width bot)
-       (q/triangle (- a) a
-                   b c
-                   edge-width bot)
-       (q/line (- a) a edge-width bot)
-       (piece-stroke)
+    ;; drawing triangles without a store color makes them have a 1px wide
+    ;; empty stroke that appears as white (the background color). Work around
+    ;; this by using the fill color as the stroke color
+    (with-temporary-rotation rotation-amount
+      #(do
+         (piece-stroke)
+         (apply q/stroke (get-color data piece :top))
+         (apply q/fill (get-color data piece :top))
+         ;; these triangles should be used to set the fill color. not currently
+         ;; used, but planned in the future
+         ;; (q/fill 150 205 105 200)
+         (q/triangle 0 0
+                     (- a) a
+                     edge-width bot)
+         (q/triangle (- a) a
+                     b c
+                     edge-width bot)
+         (q/line (- a) a edge-width bot)
+         (piece-stroke)
 
-       ;; stroke the edges of the piece so it looks the same as edges
-       (q/line 0 0 (- a) a)
-       (q/line (- a) a b c)
-       (q/line b c edge-width bot)
-       (q/line edge-width bot 0 0))))
+         ;; stroke the edges of the piece so it looks the same as edges
+         (q/line 0 0 (- a) a)
+         (q/line (- a) a b c)
+         (q/line b c edge-width bot)
+         (q/line edge-width bot 0 0)
+
+         (when (not monochrome?)
+           (draw-corner-colors piece data magic))))))
 
 (defn draw-settings [settings]
   (let [top-color (if (:monochrome? settings)
@@ -99,12 +116,14 @@
                     [255])]
     ;; overwrite default settings with given ones
     (merge {:colors {:top top-color
-                     :bottom [0 200 200]
+                     ;; http://paletton.com/#uid=7001c0knm++bq+PhV+Yt1+WH9ZC
+                     :bottom [255 209 69] ;yellow
 
-                     :front [150 200 240]
-                     :left [140 30 200]
-                     :back [25 70 80]
-                     :right [180 100 50]}}
+                     :front [255, 166, 69] ;orange
+                     :left [99, 96, 255]   ;blue
+                     :back [255, 69, 69]   ;red
+                     :right [69, 255, 69]  ;green
+                     }}
            settings)))
 
 (defn draw-layer [state draw-settings]
@@ -120,7 +139,7 @@
 
     ;; start drawing from the center
     (q/translate center center)
-    (q/scale 0.95)
+    (q/scale 0.87)
 
     (draw-slice-point size)
 
