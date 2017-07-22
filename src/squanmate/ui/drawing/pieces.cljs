@@ -30,9 +30,33 @@
   (let [piece-side (-> piece :colors side)]
     (get (:colors draw-settings) piece-side)))
 
+(def ^:private magic-numbers "( ͡° ͜ʖ ͡°)"
+  (memoize (fn [{:keys [size edge-width bot] :as data}]
+             ;; these are the relative positions of a corner piece's points. I
+             ;; used a test canvas of size 400 to get these with brute
+             ;; force (I'm not the best at trigonometry), so that's why you see
+             ;; a (/ foo 400)
+             (let [scale #(* size (/ % 400))
+                   {:keys [a b c] :as m} {:a (scale 110)
+                                          :b (scale -55)
+                                          :c (scale 205)}]
+               (merge m {:corner-color-b-edges [(- a) a
+                                                (- (scale -10) a) (+ (scale 10) a)
+                                                (- b (scale 5)) (+ (scale 19) c)
+                                                b c]
+
+                         :corner-color-a-edges [b c
+                                                (- b (scale 5)) (+ (scale 19) c)
+                                                (+ (scale 3) edge-width) (+ (scale 14) bot)
+                                                edge-width bot]
+                         :edge-color-edges [edge-width bot
+                                            (+ 4 edge-width) (+ 14 bot)
+                                            (- -4 edge-width) (+ 14 bot)
+                                            (- edge-width) bot]})))))
+
 (defn- draw-edge-at [piece
                      position
-                     {:keys [bot edge-width]
+                     {:keys [bot edge-width monochrome?]
                       :as data}]
   (with-temporary-rotation (* (+ 1 position) 30)
     #(do
@@ -40,27 +64,12 @@
        (apply q/fill (get-color data piece :top))
        (q/triangle 0 0
                    (- edge-width) bot
-                   edge-width bot))))
-
-(def ^:private magic-numbers "( ͡° ͜ʖ ͡°)"
-  (fn [{:keys [size edge-width bot] :as data}]
-    ;; these are the relative positions of a corner piece's points. I
-    ;; used a test canvas of size 400 to get these with brute
-    ;; force (I'm not the best at trigonometry), so that's why you see
-    ;; a (/ foo 400)
-    (let [scale #(* size (/ % 400))
-          {:keys [a b c] :as m} {:a (scale 110)
-                                 :b (scale -55)
-                                 :c (scale 205)}]
-      (merge m {:corner-color-b-edges [(- a) a
-                                       (- (scale -10) a) (+ (scale 10) a)
-                                       (- b (scale 5)) (+ (scale 19) c)
-                                       b c]
-
-                :corner-color-a-edges [b c
-                                       (- b (scale 5)) (+ (scale 19) c)
-                                       (+ (scale 3) edge-width) (+ (scale 14) bot)
-                                       edge-width bot]}))))
+                   edge-width bot)
+       (when (not monochrome?)
+         (q/stroke-weight 1)
+         (apply q/stroke (get-color data piece :a))
+         (apply q/fill (get-color data piece :a))
+         (apply q/quad (:edge-color-edges (magic-numbers data)) )))))
 
 (defn- draw-slice-point [data]
   (with-temporary-rotation -75
