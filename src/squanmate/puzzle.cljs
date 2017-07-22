@@ -41,8 +41,9 @@
                   (c ::bottom ::right ::front)])))
 
 (def ^:private all-pieces
-  (vec (concat (:pieces (:top-layer square-square))
-               (:pieces (:bottom-layer square-square)))))
+  "random on each initiation (typically a page reload)"
+  (vec (shuffle (concat (:pieces (:top-layer square-square))
+                        (:pieces (:bottom-layer square-square))))))
 
 (def ^:private corners (filterv #(= "c" (:type %)) all-pieces))
 (def ^:private edges (filterv #(= "e" (:type %)) all-pieces))
