@@ -43,42 +43,68 @@
                    edge-width bot))))
 
 (def ^:private magic-numbers "( ͡° ͜ʖ ͡°)"
-  (memoize (fn [size]
-             ;; these are the relative positions of a corner piece's points. I
-             ;; used a test canvas of size 400 to get these with brute
-             ;; force (I'm not the best at trigonometry), so that's why you see
-             ;; a (/ foo 400)
-             (let [scale #(* size (/ % 400))
-                   {:keys [a b c] :as m} {:a (scale 110)
-                                          :b (scale -55)
-                                          :c (scale 205)}]
-               (merge m {:corner-color-b-edges [(- a) a
-                                                (- (scale -10) a) (+ (scale 10) a)
-                                                (- b (scale 2)) (+ (scale 24) c)
-                                                b c]})))))
+  (fn [{:keys [size edge-width bot] :as data}]
+    ;; these are the relative positions of a corner piece's points. I
+    ;; used a test canvas of size 400 to get these with brute
+    ;; force (I'm not the best at trigonometry), so that's why you see
+    ;; a (/ foo 400)
+    (let [scale #(* size (/ % 400))
+          {:keys [a b c] :as m} {:a (scale 110)
+                                 :b (scale -55)
+                                 :c (scale 205)}]
+      (merge m {:corner-color-b-edges [(- a) a
+                                       (- (scale -10) a) (+ (scale 10) a)
+                                       (- b (scale 5)) (+ (scale 19) c)
+                                       b c]
 
-(defn- draw-slice-point [size]
+                :corner-color-a-edges [b c
+                                       (- b (scale 5)) (+ (scale 19) c)
+                                       edge-width (+ (scale 24) bot)
+                                       (+ (scale 7) edge-width) (+ 24 bot)
+                                       edge-width bot]}))))
+
+(defn- draw-slice-point [data]
   (with-temporary-rotation -75
-    #(let [{:keys [c]} (magic-numbers size)]
+    #(let [{:keys [c]} (magic-numbers data)]
        (q/stroke-weight 2)
        (q/stroke 200)
        (q/line (- c) 0 c 0))))
 
 (defn- draw-corner-colors [piece
-                           data
+                           {:keys [size bot edge-width monochrome?]
+                            :as data}
                            {:keys [a b c] :as magic}]
   (q/stroke-weight 1)
 
-  ;; first color
+
+  ;; second color
   (apply q/stroke (get-color data piece :b))
   (apply q/fill (get-color data piece :b))
-  (apply q/quad (:corner-color-b-edges magic)))
+  (apply q/quad (:corner-color-b-edges magic))
+
+  ;; first color
+  (apply q/stroke (get-color data piece :a))
+  (apply q/fill (get-color data piece :a))
+
+  #_(apply q/quad (:corner-color-a-edges magic))
+
+  ;; (q/stroke 20)
+  ;; (q/stroke-weight 1)
+  ;; (q/line b c
+  ;;         (- b 2) (+ 24 c))
+
+  ;; (q/line (- b 2) (+ 24 c)
+  ;;         edge-width (+ 24 bot))
+
+  ;; (q/line (+ 7 edge-width) (+ 24 bot)
+  ;;         edge-width bot)
+  )
 
 (defn- draw-corner-at [piece
                        position
                        {:keys [size bot edge-width monochrome?]
                         :as data}]
-  (let [{:keys [a b c] :as magic} (magic-numbers size)
+  (let [{:keys [a b c] :as magic} (magic-numbers data)
         rotation-amount (* (+ 1 position) 30)]
 
     ;; drawing triangles without a store color makes them have a 1px wide
@@ -111,11 +137,11 @@
            (draw-corner-colors piece data magic))))))
 
 (defn draw-settings [settings]
-  (let [top-color (if (:monochrome? settings)
+  (let [top-side-color (if (:monochrome? settings)
                     [169]
                     [255])]
     ;; overwrite default settings with given ones
-    (merge {:colors {:top top-color
+    (merge {:colors {:top top-side-color
                      ;; http://paletton.com/#uid=7001c0knm++bq+PhV+Yt1+WH9ZC
                      :bottom [255 209 69] ;yellow
 
@@ -141,7 +167,7 @@
     (q/translate center center)
     (q/scale 0.87)
 
-    (draw-slice-point size)
+    (draw-slice-point data)
 
     (doseq [[piece position] (slicing/pieces-and-their-positions layer)]
       (condp = (:type piece)
