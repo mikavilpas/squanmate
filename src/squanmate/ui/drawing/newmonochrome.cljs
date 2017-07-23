@@ -9,16 +9,18 @@
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.pieces :as pieces]))
 
-(defn layer-component [initial-layer & {:keys [size]
-                                        :or {size 100}}]
+(defn layer-component [initial-layer & {:keys [size monochrome?]
+                                        :or {size 100
+                                             monochrome? true}}]
   (let [current-layer (reagent/atom initial-layer)]
     (fn render [layer & {:keys [size]
-                        :or {size 100}}]
+                        :or {size 100
+                             monochrome? true}}]
       ;; It's a bit unfortunate but I can't get quil to see a change in the
       ;; given layer without a local current-layer state
       (reset! current-layer layer)
       (let [shape-name (shapes/layer-shape-name @current-layer)
-            draw-settings (pieces/draw-settings {:monochrome? false})]
+            draw-settings (pieces/draw-settings {:monochrome? monochrome?})]
         [common/overlay-trigger
          {:overlay (reagent/as-element [common/tooltip {:id "test"}
                                         shape-name])
@@ -33,10 +35,11 @@
            :middleware [m/fun-mode]
            :size [size size]]]]))))
 
-(defn monochrome-puzzle [puzzle & debug?]
+(defn monochrome-puzzle [puzzle & {:keys [debug? size monochrome?]
+                                   :as settings}]
   [:div.puzzle {:style {:white-space :nowrap}}
-   [:span.layer.top [layer-component (:top-layer puzzle)]]
-   [:span.layer.bottom [layer-component (:bottom-layer puzzle)]]
+   [:span.layer.top [layer-component (:top-layer puzzle) settings]]
+   [:span.layer.bottom [layer-component (:bottom-layer puzzle) settings]]
    (when debug?
      [:div
       "Top:" (p/pieces-str (:top-layer puzzle))
