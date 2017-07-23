@@ -60,4 +60,8 @@
             :algorithm algorithm
             :initial-rotation initial-rotation})
     (fn render [& _]
+      ;; It's subtle, but we're ignoring changed args here in the render
+      ;; function. this makes it so that the state can only change when the page
+      ;; is opened or reloaded with these args in the url.
+      ;; Will have to experiment if this is desirable.
       [content local-state])))
