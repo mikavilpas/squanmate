@@ -31,14 +31,14 @@
                (c :top :right :front)
                (edge :top :front)])
 
-   (BottomLayer. [(edge :bottom :left)
-                  (c :bottom :front :left)
-                  (edge :bottom :back)
-                  (c :bottom :left :back)
-                  (edge :bottom :right)
-                  (c :bottom :back :right)
+   (BottomLayer. [(edge :bottom :back)
+                  (c :bottom :back :left)
+                  (edge :bottom :left)
+                  (c :bottom :left :front)
                   (edge :bottom :front)
-                  (c :bottom :right :front)])))
+                  (c :bottom :front :right)
+                  (edge :bottom :right)
+                  (c :bottom :right :back)])))
 
 (def ^:private all-pieces
   "random on each initiation (typically a page reload)"
