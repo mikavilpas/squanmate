@@ -5,7 +5,8 @@
 
 (enable-console-print!)
 
-(defonce app-state-atom (reagent/atom {:page nil}))
+(defonce app-state-atom (reagent/atom {:page nil
+                                       :route-args []}))
 
 (defn- try-remove-node [id]
   (when-let [element (js/document.getElementById id)]
@@ -14,14 +15,12 @@
 (defn main []
   (try-remove-node "loading-area")
 
-    (routing/app-routes app-state-atom)
+  (routing/app-routes app-state-atom)
 
-    ;; conditionally start the app based on whether the #main-app-area
-    ;; node is on the page
-    (if-let [node (.getElementById js/document "main-app-area")]
-      (reagent/render [main-ui/main-ui app-state-atom] node)))
+  ;; conditionally start the app based on whether the #main-app-area
+  ;; node is on the page
+  (if-let [node (.getElementById js/document "main-app-area")]
+    (reagent/render [main-ui/main-ui app-state-atom]
+                    node)))
 
 (main)
-
-;; remember to run lein figwheel and then browse to
-;; http://localhost:3449/cards.html

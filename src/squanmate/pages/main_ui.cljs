@@ -4,6 +4,7 @@
             [squanmate.pages.shape-visualizer :as shape-visualizer]
             [squanmate.ui.common :as common]))
 
+
 (defmulti page-content (fn [app-state]
                          (:page @app-state)))
 
@@ -16,6 +17,9 @@
 
 (defmethod page-content :shape-visualizer []
   [shape-visualizer/content])
+
+(defmethod page-content :shape-visualizer-from-args [app-state-atom]
+  (shape-visualizer/content-from-args (:route-args @app-state-atom)))
 
 (defmethod page-content :default []
   [:div "warning: page content not found"])
