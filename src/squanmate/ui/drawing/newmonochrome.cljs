@@ -9,9 +9,9 @@
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.pieces :as pieces]))
 
-(defn layer-component [initial-layer & {:keys [size monochrome?]
-                                        :or {size 100
-                                             monochrome? true}}]
+(defn layer-component [initial-layer {:keys [size monochrome?]
+                                      :or {size 100
+                                           monochrome? true}}]
   (let [current-layer (reagent/atom initial-layer)]
     (fn render [layer & {:keys [size]
                         :or {size 100
@@ -35,13 +35,17 @@
            :middleware [m/fun-mode]
            :size [size size]]]]))))
 
-(defn monochrome-puzzle [puzzle & {:keys [debug? size monochrome?]
-                                   :as settings}]
-  [:div.puzzle {:style {:white-space :nowrap}}
-   [:span.layer.top [layer-component (:top-layer puzzle) settings]]
-   [:span.layer.bottom [layer-component (:bottom-layer puzzle) settings]]
-   (when debug?
-     [:div
-      "Top:" (p/pieces-str (:top-layer puzzle))
-      ", "
-      "Bottom: " (p/pieces-str (:bottom-layer puzzle))])])
+(defn monochrome-puzzle
+  ([puzzle]
+   [monochrome-puzzle puzzle {}])
+
+  ([puzzle {:keys [debug? size monochrome?]
+            :as settings}]
+   [:div.puzzle {:style {:white-space :nowrap}}
+    [:span.layer.top [layer-component (:top-layer puzzle) settings]]
+    [:span.layer.bottom [layer-component (:bottom-layer puzzle) settings]]
+    (when debug?
+      [:div
+       "Top:" (p/pieces-str (:top-layer puzzle))
+       ", "
+       "Bottom: " (p/pieces-str (:bottom-layer puzzle))])]))

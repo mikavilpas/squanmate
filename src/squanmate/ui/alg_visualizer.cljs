@@ -27,20 +27,25 @@
                  :bs-style "danger"}
    (pr-str e)])
 
-(defn algorithm-visualization [puzzle alg-string]
-  (let [step-eithers (execution/transformations puzzle alg-string)]
-    ;; using into [] removes a react warning about a missing unique key
-    (into [:div#visualization
-           ;; take up as little space as possible
-           {:style {:display "inline-block"}}]
-          (for [[index step-either] (zipmap (range) step-eithers)
-                :when (or (interesting-step? step-either)
-                          (last-step? index (count step-eithers)))]
-            [:div
-             (either/branch step-either
-                            error-component
-                            (fn [step]
-                              [newmonochrome/monochrome-puzzle (:puzzle step)]))]))))
+(defn algorithm-visualization
+
+  ([puzzle alg-string]
+   [algorithm-visualization puzzle alg-string {}])
+
+  ([puzzle alg-string settings]
+   (let [step-eithers (execution/transformations puzzle alg-string)]
+     ;; using into [] removes a react warning about a missing unique key
+     (into [:div#visualization
+            ;; take up as little space as possible
+            {:style {:display "inline-block"}}]
+           (for [[index step-either] (zipmap (range) step-eithers)
+                 :when (or (interesting-step? step-either)
+                           (last-step? index (count step-eithers)))]
+             [:div
+              (either/branch step-either
+                             error-component
+                             (fn [step]
+                               [newmonochrome/monochrome-puzzle (:puzzle step) settings]))])))))
 
 (defn- both-layers-present? [puzzle]
   (and (:top-layer puzzle)
