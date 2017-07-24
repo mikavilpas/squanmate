@@ -78,12 +78,17 @@
 
 (def ^:private encode js/encodeURIComponent)
 
+(defn- alg-or-zero [alg]
+  (if (= "" alg)
+    "0"
+    alg))
+
 (defn- set-link-to-visualization [state]
   (set-route! (str/join "/" ["shape-visualizer"
                              (-> state :puzzle-chooser-layer-names :top)
                              (-> state :puzzle-chooser-layer-names :bottom)
-                             (encode (-> state :initial-rotation))
-                             (encode (-> state :algorithm))])))
+                             (encode (-> state :initial-rotation alg-or-zero))
+                             (encode (-> state :algorithm alg-or-zero))])))
 
 (defn- link-to-this-visualization [state]
   [common/button
