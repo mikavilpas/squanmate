@@ -10,8 +10,8 @@
 * display cubeshape algorithms and the shapes the algorithm goes through
   * it's a good aid for memorizing algorithms!
 
-You can run it with a modern web browser right now.
-Try it [here][applink]!
+**You can run it with a modern web browser right now.
+Try it [here][applink]!**
 
 # Development instructions
 As for dependencies, you need a clojure development environment. Check out
