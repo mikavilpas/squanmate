@@ -32,9 +32,6 @@
     ;; This route displays the visualization with the data provided in the URL
     ;; itself. Can be used to link visualizations to other users or for personal
     ;; reference.
-    ;; Test url:
-    ;; http://localhost:3449/#/shape-visualizer/scallop/square/0%2C1/algorithm
-    (println "hello world" route-args)
     (swap! app-state assoc :route-args route-args)
     (swap! app-state assoc :page :shape-visualizer-from-args))
 
