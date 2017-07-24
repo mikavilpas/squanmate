@@ -74,7 +74,6 @@
   (let [current-route (.-href js/window.location)
         [base route] (str/split current-route route-prefix)
         new-route (str/join [base route-prefix route-str])]
-    (println "setting route to " new-route)
     (set! js/window.location.href new-route)))
 
 (def ^:private encode js/encodeURIComponent)
