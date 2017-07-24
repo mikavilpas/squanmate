@@ -23,21 +23,8 @@
           (is (= "ceceecec" (p/pieces-str (:top-layer result))))
           (is (= "ececcece" (p/pieces-str (:bottom-layer result))))))
 
-(def e (p/->Piece "e" nil))
-(def c (p/->Piece "c" nil))
-(def kite-kite (p/Puzzle. (p/TopLayer. [e c c e c e e c])
-                          (p/BottomLayer. [e c e c c e c e])))
-
-(defcard-rg slicing-to-opposite-fist-visualization
-  (m/mlet [result (slicing/slice kite-kite)]
-          [:div "this test slices kite-kite to get opposite fists:"
-           (newmonochrome/monochrome-puzzle kite-kite)
-           (newmonochrome/monochrome-puzzle result)]))
-
-(deftest slice-kite-kite-to-opposite-fists-test []
-  (m/mlet [result (slicing/slice kite-kite)]
-          (is (= "eccecece" (p/pieces-str (:top-layer result))))
-          (is (= "ececceec" (p/pieces-str (:bottom-layer result))))))
+(def kite-kite (p/->Puzzle (p/->TopLayer shapes/kite)
+                           (p/->BottomLayer shapes/kite)))
 
 (deftest layer-sliceable?-test []
   (is (true? (slicing/layer-sliceable? (:top-layer p/square-square))))
