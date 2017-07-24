@@ -8,7 +8,8 @@
             [cats.monad.either :as either]
             [cats.core :as m]
             [squanmate.ui.common :as common]
-            [squanmate.ui.exporting :as exporting]))
+            [squanmate.ui.exporting :as exporting]
+            [clojure.string :as str]))
 
 (defn- interesting-step? [step-either]
   (either/branch step-either
@@ -66,6 +67,30 @@
                                                     :filename (str "squanmate-" (js/Date.) ".png"))}
    "Export as .PNG"])
 
+;; todo could get this from secretary config atom
+(def ^:private route-prefix "#/")
+
+(defn- set-route! [route-str]
+  (let [current-route (.-href js/window.location)
+        [base route] (str/split current-route route-prefix)
+        new-route (str/join [base route-prefix route-str])]
+    (println "setting route to " new-route)
+    (set! js/window.location.href new-route)))
+
+(def ^:private encode js/encodeURIComponent)
+
+(defn- set-link-to-visualization [state]
+  (set-route! (str/join "/" ["shape-visualizer"
+                             (-> state :puzzle-chooser-layer-names :top)
+                             (-> state :puzzle-chooser-layer-names :bottom)
+                             (encode (-> state :initial-rotation))
+                             (encode (-> state :algorithm))])))
+
+(defn- link-to-this-visualization [state]
+  [common/button
+   {:on-click #(set-link-to-visualization state)}
+   "Link to this visualization"])
+
 (defn alg-visualizer [state]
   [:form
    [:div.form-group.col-xs-8
@@ -92,6 +117,7 @@
            [:div
             [:div.row
              [:div.col-xs-3
+              [link-to-this-visualization @state]
               [export-visualization-button]]]
             [:div.row.col-xs-12
              [algorithm-visualization initial-puzzle (:algorithm @state)]]])))]]]])
