@@ -15,6 +15,11 @@
 ;; corners will have one additional color
 (defrecord PieceColors [top a b])
 
+(defn corner? [p] (= "c" (:type p)))
+(defn edge? [p] (= "e" (:type p)))
+(defn top-piece? [p] (= :top (-> p :colors :top)))
+(defn bottom-piece? [p] (= :bottom (-> p :colors :top)))
+
 ;; piece constructors
 (defn- c [top a b] (->Piece "c" (->PieceColors top a b)))
 (defn- edge [top a] (->Piece "e" (->PieceColors top a nil)))

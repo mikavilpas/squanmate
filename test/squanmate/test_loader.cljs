@@ -7,4 +7,5 @@
             [squanmate.slicing-test]
             [squanmate.shapes-test]
             [squanmate.ui.drawing.newmonochrome-test]
-            [squanmate.ui.shape-chooser-test]))
+            [squanmate.ui.shape-chooser-test]
+            [squanmate.alg.parity-counter-test]))
