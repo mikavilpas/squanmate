@@ -44,7 +44,6 @@
                         (vector (first-piece this layer))))))))
 
 (defn rotate-layer [layer amount]
-
   (cond
     (= 0 amount) (either/right layer)
     (pos-int? amount) (rotate-layer-worker clockwise-rotation layer amount)

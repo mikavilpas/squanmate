@@ -33,6 +33,13 @@
     (m/mlet [new-puzzle (slicing/slice puzzle)]
             (m/return (SliceStepResult. new-puzzle this)))))
 
+(defn- execute-alg [starting-puzzle algorithm-steps]
+  (reductions (fn [previous-result step]
+                (m/mlet [current previous-result]
+                        (execute step (:puzzle current))))
+              (either/right (StartingStepResult. starting-puzzle))
+              algorithm-steps))
+
 (defn transformations
   "Takes a starting-puzzle and an algorithm as a string. Performs each step of
   the algorithm, and returns a list of steps that demonstrate how the algorithm
@@ -41,19 +48,31 @@
   Returns a vector of Eithers. Lefts are printable errors, rights are e.g.
   StartingStepResult etc. "
   [starting-puzzle algorithm-string]
-  (let [start (either/right (StartingStepResult. starting-puzzle))]
-
-    (let [steps-either (parser/parse algorithm-string)]
-      (either/branch steps-either
-                     (fn [error]
-                       (vector (either/left error)))
-                     (fn [algorithm-steps]
-                       (reductions (fn [previous-result step]
-                                     (m/mlet [current previous-result]
-                                             (execute step (:puzzle current))))
-                                   start
-                                   algorithm-steps))))))
+  (let [steps-either (parser/parse algorithm-string)]
+    (either/branch steps-either
+                   (fn [error]
+                     (vector (either/left error)))
+                   (fn [algorithm-steps]
+                     (execute-alg starting-puzzle algorithm-steps)))))
 
 (defn transformation-result [starting-puzzle algorithm-string]
   (let [step-eithers (transformations starting-puzzle algorithm-string)]
     (last step-eithers)))
+
+(defn- reverse-steps [alg-steps]
+  (reverse (for [step alg-steps]
+             (if (= types/Slice (type step))
+               step
+               (-> step
+                   (update :top-amount -)
+                   (update :bottom-amount -))))))
+
+(defn transformations-reverse [starting-puzzle algorithm-string]
+  (either/branch (parser/parse algorithm-string)
+                 (fn [error]
+                   (vector (either/left error)))
+                 (fn [steps]
+                   (execute-alg starting-puzzle (reverse-steps steps)))))
+
+(defn transformation-result-reverse [starting-puzzle algorithm-string]
+  (last (transformations-reverse starting-puzzle algorithm-string)))
