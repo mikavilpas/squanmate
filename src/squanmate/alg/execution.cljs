@@ -75,4 +75,4 @@
                    (execute-alg starting-puzzle (reverse-steps steps)))))
 
 (defn transformation-result-reverse [starting-puzzle algorithm-string]
-  (last (transformations-reverse starting-puzzle algorithm-string)))
+  (first (transformations-reverse starting-puzzle algorithm-string)))
