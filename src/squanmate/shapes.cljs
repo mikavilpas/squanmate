@@ -95,8 +95,19 @@
          (some (partial same-piece-type-order?
                   (:pieces layer-b))))))
 
+(defn layer-shape [layer]
+  (->> all-shapes
+       (filter (fn [s]
+                 (same-shape? (val s) layer)))
+       first))
+
 (defn layer-shape-name [layer]
-  (->> (vals all-shapes)
-       (filter (partial same-shape? layer))
-       first
-       :name))
+  (:name (val (layer-shape layer))))
+
+(defn layer-shape-name-key [layer]
+  (key (layer-shape layer)))
+
+(defn puzzle-layer-shape-names [puzzle]
+  (let [top (layer-shape-name-key (:top-layer puzzle))
+        bottom (layer-shape-name-key (:bottom-layer puzzle))]
+    [top bottom]))

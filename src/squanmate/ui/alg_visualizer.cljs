@@ -3,6 +3,7 @@
             [squanmate.alg.execution :as execution]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [reagent.core :as reagent]
+            [squanmate.ui.parity :as parity]
             [squanmate.ui.shape-chooser :as shape-chooser]
             [squanmate.puzzle :as puzzle]
             [cats.monad.either :as either]
@@ -35,18 +36,20 @@
 
   ([puzzle alg-string settings]
    (let [step-eithers (execution/transformations puzzle alg-string)]
-     ;; using into [] removes a react warning about a missing unique key
-     (into [:div#visualization
-            ;; take up as little space as possible
-            {:style {:display "inline-block"}}]
-           (for [[index step-either] (zipmap (range) step-eithers)
-                 :when (or (interesting-step? step-either)
-                           (last-step? index (count step-eithers)))]
-             [:div
-              (either/branch step-either
-                             error-component
-                             (fn [step]
-                               [newmonochrome/monochrome-puzzle (:puzzle step) settings]))])))))
+     [:div
+      [parity/alg-parity-switched?-component step-eithers]
+      ;; using into [] removes a react warning about a missing unique key
+      (into [:div#visualization
+             ;; take up as little space as possible
+             {:style {:display "inline-block"}}]
+            (for [[index step-either] (zipmap (range) step-eithers)
+                  :when (or (interesting-step? step-either)
+                            (last-step? index (count step-eithers)))]
+              [:div
+               (either/branch step-either
+                              error-component
+                              (fn [step]
+                                [newmonochrome/monochrome-puzzle (:puzzle step) settings]))]))])))
 
 (defn- both-layers-present? [puzzle]
   (and (:top-layer puzzle)
