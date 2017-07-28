@@ -15,14 +15,29 @@
 
 (defn- parity-count-component [puzzle]
   (let [[parity? parity-data] (parity-counter/parity-count puzzle)]
-    (println (shapes/puzzle-layer-shape-names puzzle) [parity? parity-data])
     [:span (if parity?
              "odd"
              "even")]))
 
+(def misaligned-square-square (-> puzzle/square-square
+                                  (execution/transformation-result "1,-1")
+                                  m/extract
+                                  :puzzle))
+
+(defn- final-cubeshape-position [alg-string]
+  ;; Most cubeshape algs end up in either the positions 1,-1 or 0 (just the
+  ;; solved puzzle). To make things easier, the user doesn't have to add a final
+  ;; -1,1 to their algorithm in order to get a parity count.
+  (let [last-step (execution/transformation-result-reverse puzzle/square-square
+                                                           alg-string)
+        last-step2 (execution/transformation-result-reverse misaligned-square-square
+                                                            alg-string)
+        both [last-step last-step2]]
+    (or (either/first-right both)
+        (either/first-left both))))
+
 (defn- alg-parity-switched-at-cubeshape? [alg-string]
-  (let [transformation-eithers (execution/transformations-reverse puzzle/square-square alg-string)
-        starting-step-either (last transformation-eithers)]
+  (let [starting-step-either (final-cubeshape-position alg-string)]
     (m/mlet [start-transformation-step starting-step-either]
             (m/return [parity-count-component (:puzzle start-transformation-step)]))))
 
