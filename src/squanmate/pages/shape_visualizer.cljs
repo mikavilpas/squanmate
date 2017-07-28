@@ -13,7 +13,7 @@
   ;; if you need to change something with this, it's really easy to generate a
   ;; demo state with
   ;; http://localhost:3449/cards.html#!/squanmate.ui.alg_visualizer_test/alg-visualizer
-  (reset! alg-visualizer-state {:puzzle (p/->Puzzle shapes/scallop shapes/kite)
+  (reset! alg-visualizer-state {:puzzle (shapes/puzzle-with-layers "scallop" "kite")
                                 :initial-rotation "6"
                                 :algorithm "/5,4/0,-3/"
                                 :puzzle-chooser-layer-names {:bottom "kite"

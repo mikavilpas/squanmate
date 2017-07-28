@@ -6,8 +6,7 @@
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg]]))
 
-(def sample-puzzle (p/Puzzle. (p/TopLayer. (:pieces shapes/barrel))
-                              (p/BottomLayer. (:pieces shapes/shield))))
+(def sample-puzzle (shapes/puzzle-with-layers "barrel" "shield"))
 
 (defcard-rg poc
   [:div

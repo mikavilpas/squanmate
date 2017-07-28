@@ -23,8 +23,7 @@
           (is (= "ceceecec" (p/pieces-str (:top-layer result))))
           (is (= "ececcece" (p/pieces-str (:bottom-layer result))))))
 
-(def kite-kite (p/->Puzzle (p/->TopLayer shapes/kite)
-                           (p/->BottomLayer shapes/kite)))
+(def kite-kite (shapes/puzzle-with-layers "kite" "kite"))
 
 (deftest layer-sliceable?-test []
   (is (true? (slicing/layer-sliceable? (:top-layer p/square-square))))

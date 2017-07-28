@@ -71,7 +71,11 @@
                  "parallel-edges" parallel-edges
                  "star" star})
 
-(def solved (puzzle/layer-with-pieces "cecececece"))
+(defn puzzle-with-layers [top-key bottom-key]
+  (let [top-pieces (:pieces (get all-shapes top-key))
+        bottom-pieces (:pieces (get all-shapes bottom-key))]
+    (puzzle/->Puzzle (puzzle/->TopLayer top-pieces)
+                     (puzzle/->BottomLayer bottom-pieces))))
 
 (defn ordered-permutations
   "Given a layer's pieces returns a lazy seq of all the possible rotated states
