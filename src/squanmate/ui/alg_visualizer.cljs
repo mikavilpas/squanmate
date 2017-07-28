@@ -37,7 +37,7 @@
   ([puzzle alg-string settings]
    (let [step-eithers (execution/transformations puzzle alg-string)]
      [:div
-      [parity/alg-parity-switched?-component step-eithers]
+      [parity/alg-parity-switched-at-cubeshape?-component alg-string]
       ;; using into [] removes a react warning about a missing unique key
       (into [:div#visualization
              ;; take up as little space as possible
@@ -127,5 +127,4 @@
               [link-to-this-visualization @state]
               [export-visualization-button]]]
             [:div.row.col-xs-12
-             [algorithm-visualization initial-puzzle (:algorithm @state)
-              {:monochrome? false}]]])))]]]])
+             [algorithm-visualization initial-puzzle (:algorithm @state)]]])))]]]])

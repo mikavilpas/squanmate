@@ -24,6 +24,6 @@
 (defonce alg-visualizer-state (v/default-alg-visualizer-state))
 
 (defcard-rg alg-visualizer
-  [v/alg-visualizer alg-visualizer-state {:monochrome? false}]
+  [v/alg-visualizer alg-visualizer-state]
   alg-visualizer-state
   {:inspect-data true})
