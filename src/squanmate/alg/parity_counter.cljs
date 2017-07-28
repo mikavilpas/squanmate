@@ -1,6 +1,8 @@
 (ns squanmate.alg.parity-counter
   (:require [squanmate.puzzle :as p]
-            [squanmate.slicing :as slicing]))
+            [squanmate.slicing :as slicing]
+            [clojure.string :as str]
+            [squanmate.shapes :as shapes]))
 
 ;; todo describe the algorithm in a high level in these comments
 
@@ -61,13 +63,25 @@
 (defn- bottom-edge-order-parity [pieces]
   (parity-for-pieces (filter bottom-edge? pieces)))
 
+(defn- debug-pieces [pieces]
+  (str/join ", "
+            (for [p pieces]
+              (str (:type p) " "
+                   (-> p :colors :top)))))
+
 (defn pieces-in-count-order [puzzle]
   (let [[top-left top-right] (slicing/split-at-6 (:top-layer puzzle))
-        [bottom-left bottom-right] (slicing/split-at-6 (:bottom-layer puzzle))]
-    (vec (flatten [top-right
-                   top-left
-                   bottom-right
-                   bottom-left]))))
+        [bottom-left bottom-right] (slicing/split-at-6 (:bottom-layer puzzle))
+        result-pieces (vec (flatten [top-right
+                              top-left
+                              bottom-right
+                              bottom-left]))]
+    (println "asserting for puzzle shapes " (shapes/puzzle-layer-shape-names puzzle))
+    (assert (= 16 (count result-pieces)) "should have 16 total pieces")
+    (assert (= 8 (count (filter #(= :top (-> % :colors :top))
+                                result-pieces))))
+    ;; (println (debug-pieces result-pieces))
+    result-pieces))
 
 (defprotocol PiecesInOddPositions
   (corner-or-edge? [this piece])
@@ -90,8 +104,8 @@
 (defn- pieces-in-odd-piece-positions [strategy pieces]
   (let [indices-and-pieces (zipmap (range 1 100)
                                    (filter #(corner-or-edge? strategy %) pieces))
-        odd-positioned-pieces (filter (fn [[i piece]]
-                                        (and (odd? i)
+        odd-positioned-pieces (filter (fn [[index piece]]
+                                        (and (odd? index)
                                              (correct-top-side? strategy piece)))
                                       indices-and-pieces)]
     (count odd-positioned-pieces)))

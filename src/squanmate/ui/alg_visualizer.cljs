@@ -127,4 +127,5 @@
               [link-to-this-visualization @state]
               [export-visualization-button]]]
             [:div.row.col-xs-12
-             [algorithm-visualization initial-puzzle (:algorithm @state)]]])))]]]])
+             [algorithm-visualization initial-puzzle (:algorithm @state)
+              {:monochrome? false}]]])))]]]])

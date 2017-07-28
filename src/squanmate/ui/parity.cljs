@@ -9,12 +9,11 @@
   (let [layers (shapes/puzzle-layer-shape-names puzzle)
         result (= layers
                   ["square" "square"])]
-    (println "layers: " layers)
     result))
 
 (defn- parity-count-component [puzzle]
   (let [[parity? parity-data] (parity-counter/parity-count puzzle)]
-    (println [parity? parity-data])
+    (println (shapes/puzzle-layer-shape-names puzzle) [parity? parity-data])
     [:span (if parity?
              "odd"
              "even")]))
@@ -28,7 +27,7 @@
                                     (when (square-square? finish)
                                       [:div
                                        [:div "Parity count at start: " [parity-count-component start]]
-                                       [:div "Parity count at finish: " [parity-count-component finish]]]))))]
+                                       [:div "Parity count at finish (todo: this needs to be switched for square square since it counts at the odd position): " [parity-count-component finish]]]))))]
     (either/branch result-component
                    (fn [error]
                      (println "could not determine if the parity has changed due to an error"))
