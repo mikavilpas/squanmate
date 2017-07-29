@@ -75,12 +75,7 @@
         result-pieces (vec (flatten [top-right
                               top-left
                               bottom-right
-                              bottom-left]))]
-    (println "asserting for puzzle shapes " (shapes/puzzle-layer-shape-names puzzle))
-    (assert (= 16 (count result-pieces)) "should have 16 total pieces")
-    (assert (= 8 (count (filter #(= :top (-> % :colors :top))
-                                result-pieces))))
-    ;; (println (debug-pieces result-pieces))
+                                     bottom-left]))]
     result-pieces))
 
 (defprotocol PiecesInOddPositions

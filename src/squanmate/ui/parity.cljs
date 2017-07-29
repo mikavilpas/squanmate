@@ -15,40 +15,43 @@
 
 (defn- parity-count-component [puzzle]
   (let [[parity? parity-data] (parity-counter/parity-count puzzle)]
-    [:span (if parity?
-             "odd"
-             "even")]))
+    [:div (if parity?
+            "odd"
+            "even")]))
 
 (def misaligned-square-square (-> puzzle/square-square
                                   (execution/transformation-result "1,-1")
                                   m/extract
                                   :puzzle))
 
-(defn- final-cubeshape-position [alg-string]
+(defn- cubeshape-start-&-end-positions [alg-string]
   ;; Most cubeshape algs end up in either the positions 1,-1 or 0 (just the
   ;; solved puzzle). To make things easier, the user doesn't have to add a final
   ;; -1,1 to their algorithm in order to get a parity count.
-  (let [last-step (execution/transformation-result-reverse puzzle/square-square
-                                                           alg-string)
-        last-step2 (execution/transformation-result-reverse misaligned-square-square
-                                                            alg-string)
-        both [last-step last-step2]]
-    (or (either/first-right both)
-        (either/first-left both))))
+  (let [steps1 (execution/transformations-reverse puzzle/square-square
+                                                  alg-string)
+        steps2 (execution/transformations-reverse misaligned-square-square
+                                                  alg-string)]
+    (if-let [successful-transformations
+             (first (filter #(every? either/right? %)
+                            [steps1 steps2]))]
+      (either/right successful-transformations)
+      (either/left "doesn't seem like a cubeshape algorithm"))))
 
 (defn- alg-parity-switched-at-cubeshape? [alg-string]
-  (let [starting-step-either (final-cubeshape-position alg-string)]
-    (m/mlet [start-transformation-step starting-step-either]
-            (m/return [parity-count-component (:puzzle start-transformation-step)]))))
+  (m/mlet [step-eithers (cubeshape-start-&-end-positions alg-string)
+          start-step-either (either/right (first step-eithers))
+          end-step-either (either/right (last step-eithers))]
+          (m/mlet [start-step start-step-either
+                   end-step end-step-either]
+                  (if (= ["square" "square"] (shapes/puzzle-layer-shape-names (:puzzle start-step)))
+                    (either/right [parity-count-component (:puzzle end-step)])
+                    (either/left "not at cubeshape")))))
 
 (defn alg-parity-switched-at-cubeshape?-component
   ;; TODO comments can be moved to the UI in case we need to explain stuff to the user!
 
-  " Note: only call this if you know your `alg-string` is an algorithm that
-  solves some state into cubeshape (square square). Otherwise you will get
-  unreliable results!
-
-  The parity of an algorithm is calculated like this:
+  "The parity of an algorithm is calculated like this:
   - start at the solved puzzle (obviously always at even parity)
   - apply the alg in reverse to get to the starting state
   - calculate the parity count for this specific state.
@@ -60,5 +63,5 @@
   [alg-string]
   (when (not (str/blank? alg-string))
     (either/branch (alg-parity-switched-at-cubeshape? alg-string)
-                   #(println "could not determine parity of alg: " %)
+                   #(println "could not determine parity of alg '" alg-string "': " %)
                    identity)))
