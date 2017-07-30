@@ -5,7 +5,9 @@
             [squanmate.alg.parity-counter :as parity-counter]
             [cats.monad.either :as either]
             [squanmate.puzzle :as puzzle]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [squanmate.ui.common :as common]
+            [reagent.core :as reagent]))
 
 (defn- square-square? [puzzle]
   (let [layers (shapes/puzzle-layer-shape-names puzzle)
@@ -13,11 +15,30 @@
                   ["square" "square"])]
     result))
 
+(defn- parity-explanation []
+  [:div "The " [:strong "parity count"] ", calculated with Cale Schoon's
+    cubeshape parity method. In this method you determine the parity count at a
+    specific starting position, and the apply either the " [:strong "even"] " or
+    " [:strong "odd"] " algorithm."
+
+   [:div.top10 "Note that if the count is odd it does not mean the algorithm
+   necessarily switches parity! A different " [:strong "count position"] " might
+   require switching the odd and even algorithms."]])
+
 (defn- parity-count-component [puzzle]
-  (let [[parity? parity-data] (parity-counter/parity-count puzzle)]
-    [:div (if parity?
-            "odd"
-            "even")]))
+  (let [[parity? parity-data] (parity-counter/parity-count puzzle)
+        text (if parity?
+               "Odd parity algorithm"
+               "Even parity algorithm")]
+
+    [common/overlay-trigger
+     {:overlay (reagent/as-element [common/popover {:id "test"
+                                                    :title "Parity count"}
+                                    [parity-explanation]])
+      :trigger "click"
+      :placement "right"}
+     [common/button {:bs-style "warning"
+                     :bs-size "xsmall"} text]]))
 
 (def misaligned-square-square (-> puzzle/square-square
                                   (execution/transformation-result "1,-1")
@@ -53,12 +74,12 @@
 
   "The parity of an algorithm is calculated like this:
   - start at the solved puzzle (obviously always at even parity)
-  - apply the alg in reverse to get to the starting state
-  - calculate the parity count for this specific state.
+  - apply the alg in reverse to get to the starting position
+  - calculate the parity count for this specific position.
 
-  If that count is even, the algorithm goes from even (start) -> even
-  (solved, always even), which means the algorithm preserves parity.
-  Otherwise the algorithm is one that switches the parity once arriving at cubeshape.
+  If that count is even, the algorithm starts from even and ends with
+  solved (always even), which means the algorithm preserves parity. Otherwise
+  the algorithm is one that switches the parity once arriving at cubeshape.
   "
   [alg-string]
   (when (not (str/blank? alg-string))

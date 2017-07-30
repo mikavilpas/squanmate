@@ -22,3 +22,6 @@
 (def navbar-header (reagent/adapt-react-class js/ReactBootstrap.Navbar.Header))
 (def navbar-brand (reagent/adapt-react-class js/ReactBootstrap.Navbar.Brand))
 (def nav-item (reagent/adapt-react-class js/ReactBootstrap.NavItem))
+(def label (reagent/adapt-react-class js/ReactBootstrap.Label))
+(def popover (reagent/adapt-react-class js/ReactBootstrap.Popover))
+(def button (reagent/adapt-react-class js/ReactBootstrap.Button))
