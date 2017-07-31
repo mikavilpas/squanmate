@@ -11,6 +11,9 @@
 (defrecord RotationStepResult [puzzle previously-applied-step])
 (defrecord SliceStepResult [puzzle previously-applied-step])
 
+(defn successful-transformations? [step-eithers]
+  (every? either/right? step-eithers))
+
 ;; all possible actions that can be done to advance the algorithm
 (defprotocol AlgorithmStep
   (execute [this puzzle]))
