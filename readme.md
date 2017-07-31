@@ -9,9 +9,10 @@
 * learn and remember all different shapes and their names
 * display cubeshape algorithms and the shapes the algorithm goes through
   * it's a good aid for memorizing algorithms!
+  * link to your created visualizations from e.g. your Google Sheets
 
-You can run it with a modern web browser right now.
-Try it [here][applink]!
+**You can run it with a modern web browser right now.
+Try it [here][applink]!**
 
 # Development instructions
 As for dependencies, you need a clojure development environment. Check out
