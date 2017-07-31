@@ -26,10 +26,7 @@
    require switching the odd and even algorithms."]])
 
 (defn- parity-count-component [puzzle]
-  (let [[parity? parity-data] (parity-counter/parity-count puzzle)
-        text (if parity?
-               "Odd parity algorithm"
-               "Even parity algorithm")]
+  (let [[parity? parity-data] (parity-counter/parity-count puzzle)]
 
     [common/overlay-trigger
      {:overlay (reagent/as-element [common/popover {:id "test"
@@ -37,8 +34,11 @@
                                     [parity-explanation]])
       :trigger "click"
       :placement "right"}
-     [common/button {:bs-style "warning"
-                     :bs-size "xsmall"} text]]))
+     (if parity?
+       [common/button {:bs-style "warning"
+                       :bs-size "xsmall"} "Odd parity algorithm"]
+       [common/button {:bs-style "info"
+                       :bs-size "xsmall"} "Even parity algorithm"])]))
 
 (def misaligned-square-square (-> puzzle/square-square
                                   (execution/transformation-result "1,-1")
@@ -65,7 +65,8 @@
           end-step-either (either/right (last step-eithers))]
           (m/mlet [start-step start-step-either
                    end-step end-step-either]
-                  (if (= ["square" "square"] (shapes/puzzle-layer-shape-names (:puzzle start-step)))
+                  (if (= ["square" "square"]
+                         (shapes/puzzle-layer-shape-names (:puzzle start-step)))
                     (either/right [parity-count-component (:puzzle end-step)])
                     (either/left "not at cubeshape")))))
 
