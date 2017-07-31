@@ -35,9 +35,9 @@
       :trigger "click"
       :placement "right"}
      (if parity?
-       [common/button {:bs-style "warning"
-                       :bs-size "xsmall"} "Odd parity algorithm"]
        [common/button {:bs-style "info"
+                       :bs-size "xsmall"} "Odd parity algorithm"]
+       [common/button {:bs-style "warning"
                        :bs-size "xsmall"} "Even parity algorithm"])]))
 
 (def misaligned-square-square (-> puzzle/square-square
