@@ -10,6 +10,9 @@
 * display cubeshape algorithms and the shapes the algorithm goes through
   * it's a good aid for memorizing algorithms!
   * link to your created visualizations from e.g. your Google Sheets
+* if you use Cale Schoon's cubeshape parity method, Squanmate also displays
+  whether your entered algorithm is **even** or **odd** for that specific
+  starting count position
 
 **You can run it with a modern web browser right now.
 Try it [here][applink]!**
