@@ -144,13 +144,14 @@ void EngineTwst::InitPermTable(){
 
 //control a phase 1 search
 int EngineTwst::StartPhase1(){
+  cout<<"starting phase 1";
 	//first extract the starting shape
 	Position1 p1=InitPos;
 	//Perform phase 1 search, for increasing depths
 	Nodes2=Nodes1=0;
 	Nodes1Low=0;
 
-	for(Length1=0;  Length1<=MaxDepth; Length1++){
+	for(Length1=0;  Length1<=MaxDepth && ! solutionsFound; Length1++){
 		if( Length1==MaxDepth && (
 				(p1.GetMiddle()==-1 && (Length1&1)==0) ||
 				(p1.GetMiddle()==1 &&  (Length1&1)!=0) ) ){
@@ -163,6 +164,7 @@ int EngineTwst::StartPhase1(){
 //Perform phase 1 search on given position
 //l1=#moves still to be done, lm<0 on first move, >0 if must now be last move, clear otherwise
 int EngineTwst::Phase1(Position1 Ps1, char l1, char lm){
+  cout<<"starting phase 1 worker";
 	char b,t;
 	int r=0;
 	// prune 
@@ -191,11 +193,19 @@ int EngineTwst::Phase1(Position1 Ps1, char l1, char lm){
 	//Try top layer
 	t=0;
 	do{
+    if (solutionsFound) {
+      return 1;
+    }
+
 		if(t) moves.push(t);
-		
+
 		//Try bottom layer
 		b=0;
 		do{
+      if (solutionsFound) {
+        return 1;
+      }
+
 			if(t || b || lm<0 ){
 				if(b) moves.push(-b);
 				//Do twist;
@@ -211,11 +221,11 @@ int EngineTwst::Phase1(Position1 Ps1, char l1, char lm){
 				}
 			}
 			b+= Ps1.Bottom();
-		}while(b<12);
+		}while(b<12 && ! solutionsFound);
 		
 		if(t) moves.pull();
 		t+= Ps1.Top();
-	}while(t<12);
+	}while(t<12 && ! solutionsFound);
 
 	return r;
 }
@@ -226,6 +236,7 @@ int EngineTwst::Phase1(Position1 Ps1, char l1, char lm){
 
 //control a phase 2 search
 int EngineTwst::StartPhase2(Position1 Ps1, char lm){
+  cout<<"starting phase 2";
 	int r=0;
 	Position2 p2;
 
@@ -240,20 +251,28 @@ int EngineTwst::StartPhase2(Position1 Ps1, char lm){
 	}
 
 	//Perform phase 2 search, for increasing depths
-	while( Length2<=MaxDepth-Length1 && r==0 ){
+	while(( Length2<=MaxDepth-Length1 && r==0 ) && ! solutionsFound){
 		r=Phase2(p2, Length2, lm);
 		if( Ps1.GetMiddle() ) Length2+=2;
 		else Length2++;
 	}
 
 	if(r)
-		if(MaxDepth>Length1 || (MaxDepth==Length1 && Mode==0))
+		if((MaxDepth>Length1 || (MaxDepth==Length1 && Mode==0)))
 			r=0;	//if phase2 is still significant, then must continue search
 	return r;
 }
 
 //Perform phase 2 search on given position of given depth
 int EngineTwst::Phase2(Position2 Ps2, char l2, char lm){
+  if (solutionsFound)
+    {
+      cout<<"solution found but program still going";
+      int a = 3;
+      exit(0); // debugger is broken
+      return 1;
+    }
+
 	char b,t;
 	int r=0;
 	// prune
@@ -273,7 +292,10 @@ int EngineTwst::Phase2(Position2 Ps2, char l2, char lm){
 		//Try top layer
 		t=0;
 		do{
-			if(t) moves.push(t);
+      if (solutionsFound) {
+        return 1;
+      }
+      if(t) moves.push(t);
 		
 			//Try bottom layer
 			b=0;
@@ -287,25 +309,35 @@ int EngineTwst::Phase2(Position2 Ps2, char l2, char lm){
 				}
 				if(b) moves.pull();
 				b+= Ps2.Bottom();
-			}while(b<12);
+			}while(b<12 && ! solutionsFound);
 		
 			if(t) moves.pull();
 			t+= Ps2.Top();
-		}while(t<12);
+		}while(t<12 && ! solutionsFound);
 		return 0;
 	}else if(lm>0){		//go back if just did a move with b>=6, and not yet solved.
 		return 0;
 	}
 
+  if (solutionsFound) {
+    return 1;
+  }
 
 	//Try top layer
 	t=0;
 	do{
+    if (solutionsFound) {
+      return 1;
+    }
 		if(t) moves.push(t);
 		
 		//Try bottom layer
 		b=0;
 		do{
+      if (solutionsFound) {
+        return 1;
+      }
+
 			if(t || b || lm){
 				if(Ps2.CanTwist()){
 					if(b) moves.push(-b);
@@ -324,7 +356,7 @@ int EngineTwst::Phase2(Position2 Ps2, char l2, char lm){
 			}
 			b+= Ps2.Bottom();
 		}while(b<12);
-		
+
 		if(t) moves.pull();
 		t+= Ps2.Top();
 	}while(t<12);

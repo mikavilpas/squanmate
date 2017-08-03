@@ -2,6 +2,8 @@
 using namespace std;
 
 #include <iostream>
+#include <string>
+#include <sstream>
 
 
 //Global variables
@@ -16,8 +18,6 @@ using namespace std;
 	unsigned PermTwistTable[40320];		//transition table for twists
 	unsigned PermTopTable[40320];		//transition table for top layer turns
 	unsigned PermBotTable[40320];		//transition table for bottom layer turns
-
-
 
 /***************************************************
 *           Initialization functions               *
@@ -115,13 +115,12 @@ int Engine::DoSearch(Position1& p1, int dp, int md, ostream* os){
 ***************************************************/
 
 void Engine::FoundSol(int l, bool large){
-  //clear line
-	cout<<"                                                                               \r";
-
-	if(MaxDepth>l || Mode==0){
-		cout<<"Length:"<<l<<endl;
-	}
-	if(Mode)	MaxDepth=l;
+  solutionsFound++;
+  cout<<"found solution! now have this many solutions: " << solutionsFound;
+  if(MaxDepth>l || Mode==0){
+    cout<<"Length:"<<l<<endl;
+   }
+   if(Mode)	MaxDepth=l;
 	else		MaxDepth=large? l-2: l-1;
 
 	moves.print(cout);

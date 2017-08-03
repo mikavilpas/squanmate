@@ -15,7 +15,6 @@
 ************************************************************/
 
 #include <fstream>
-#include "EngineTrn.h"
 #include "EngineTwst.h"
 #include "main.h"
 
@@ -27,86 +26,87 @@ using namespace std;
 
 
 int main(int argc, char *argv[]){
-	//get instance of search engine
-	Position1 p1;
-	int mode=0;		//bit0 set if all solns of shortest length, bit1 set if middle ignored
-	int depth=DEFAULTDEPTH;
-	ostream* output= NULL;
+	// //get instance of search engine
+	// Position1 p1;
+	// int mode=0;		//bit0 set if all solns of shortest length, bit1 set if middle ignored
+	// int depth=DEFAULTDEPTH;
+	// ostream* output= NULL;
 
-	if(argc==1){
-		help();
-		return 0;
-	}
+	// if(argc==1){
+	// 	help();
+	// 	return 0;
+	// }
 
 
-	//Read in position from command line
-	char b=0;  // count of non-switch parameters
-	int dptrn, dptwst;
-	char *posstr;
-	for(int a=1; a<argc; a++){
-		if(argv[a][0]=='-'){
-			if(ReadSwitch( argv[a], mode, depth )) return 1;
-		}else if(b==0){
-			posstr=argv[a];
-			b++;
-		}else if(b==1){
-			b++;
-			if(ReadFileName(argv[a],&output)) return 1;
-		}else{
-			cerr<<"Error: Too many command line parameters."<<endl;
-			return 1;
-		}
-	}
-	if(b==0){
-		cerr<<"Error: No position or move sequence given."<<endl;
-		return 2;
-	}
+	// //Read in position from command line
+	// char b=0;  // count of non-switch parameters
+	// int dptrn, dptwst;
+	// char *posstr;
+	// for(int a=1; a<argc; a++){
+	// 	if(argv[a][0]=='-'){
+	// 		if(ReadSwitch( argv[a], mode, depth )) return 1;
+	// 	}else if(b==0){
+	// 		posstr=argv[a];
+	// 		b++;
+	// 	}else if(b==1){
+	// 		b++;
+	// 		if(ReadFileName(argv[a],&output)) return 1;
+	// 	}else{
+	// 		cerr<<"Error: Too many command line parameters."<<endl;
+	// 		return 1;
+	// 	}
+	// }
+	// if(b==0){
+	// 	cerr<<"Error: No position or move sequence given."<<endl;
+	// 	return 2;
+	// }
 
-	//choose correct engine for the metric
-	Engine* eng;
-	if(mode&4){
-		eng= (Engine*) new EngineTwst();
-	}else{
-		eng= (Engine*) new EngineTrn();
-	}
-	//initialise its pruning tables
-	cout<<"Initializing...\r"<<flush;
-	eng->Initialise();
-	eng->InitPermTable();
-	cout<<"               \r"<<flush;
+	// //choose correct engine for the metric
+	// Engine* eng;
+	// if(mode&4){
+	// 	eng= (Engine*) new EngineTwst();
+	// }else{
+	// 	eng= (Engine*) new EngineTrn();
+	// }
+	// //initialise its pruning tables
+	// cout<<"Initializing...\r"<<flush;
+	// eng->Initialise();
+	// eng->InitPermTable();
+	// cout<<"               \r"<<flush;
 
-	//parse position/move-sequence now that have the transition tables
-	if(posstr[0]=='/' || posstr[0]=='('){
-		if(ReadMoves(posstr,p1,dptrn,dptwst)) return 1;
-	}else{
-		if(ReadPosition(posstr,p1)) return 1;
-		dptrn=dptwst=DEFAULTDEPTH;
-	}
+	// //parse position/move-sequence now that have the transition tables
+	// if(posstr[0]=='/' || posstr[0]=='('){
+	// 	if(ReadMoves(posstr,p1,dptrn,dptwst)) return 1;
+	// }else{
+	// 	if(ReadPosition(posstr,p1)) return 1;
+	// 	dptrn=dptwst=DEFAULTDEPTH;
+	// }
 
-	//strip middle layer
-	if(mode&2){
-		mode-=2;
-		p1.IgnoreMiddle();
-	}
+	// //strip middle layer
+	// if(mode&2){
+	// 	mode-=2;
+	// 	p1.IgnoreMiddle();
+	// }
 
-	// override depth if explicitly set by switch
-	if( depth!=DEFAULTDEPTH) dptrn=dptwst=depth;
+	// // override depth if explicitly set by switch
+	// if( depth!=DEFAULTDEPTH) dptrn=dptwst=depth;
 
-	// set correct search depth
-	if(mode&4){
-		mode-=4;
-		depth= dptwst;
-	}else{
-		depth= dptrn;
-	}
+	// // set correct search depth
+	// if(mode&4){
+	// 	mode-=4;
+	// 	depth= dptwst;
+	// }else{
+	// 	depth= dptrn;
+	// }
 
-	eng->DoSearch(p1,depth,mode,output);
+	// eng->DoSearch(p1,depth,mode,output);
 
-	//Close output file if any.
-	if(output) delete output;
-	delete eng;
-	cout<<"                                                                               \r";
-	return 0;
+	// //Close output file if any.
+	// if(output) delete output;
+	// delete eng;
+	// cout<<"                                                                               \r";
+	// return 0;
+  return 0;
 }
 
 
