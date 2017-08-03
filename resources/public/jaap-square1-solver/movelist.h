@@ -49,7 +49,7 @@ public:
 			}else if(b<0) outputmove(os,0,-b);
 				
 		}
-		os<<"    ["<<lngthtwst<<'|'<<lngth<<']'<<endl;
+		/* os<<"    ["<<lngthtwst<<'|'<<lngth<<']'<<endl; */
 	}
 };
 
