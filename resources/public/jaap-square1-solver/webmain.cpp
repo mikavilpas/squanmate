@@ -39,7 +39,11 @@ class [[cheerp::jsexport]] Square1Solver
 
     char* input = "A2B3C1D45E6F7G8H"; // example 2 in readme
     Position1 position;
-    ReadPosition(input, position);
+    if (ReadPosition(input.c_str(), position))
+    {
+      return new client::String("something wrong with input, see js console for details");
+    }
+
     position.IgnoreMiddle();
 
     eng->DoSearch(position,depth,mode,output);
