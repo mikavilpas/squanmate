@@ -26,7 +26,9 @@ class [[cheerp::jsexport]] Square1Solver
   Square1Solver() {
   }
 
-  client::String* solve()
+  // input should be like this:
+  // char* input = "A2B3C1D45E6F7G8H"; // see readme for format explanation
+  client::String* solve(const String* startingPosition)
   {
     Engine* eng = (Engine*) new EngineTwst();
 
@@ -37,7 +39,7 @@ class [[cheerp::jsexport]] Square1Solver
     eng->Initialise();
     eng->InitPermTable();
 
-    char* input = "A2B3C1D45E6F7G8H"; // example 2 in readme
+    string input = ((std::string) *startingPosition);
     Position1 position;
     if (ReadPosition(input.c_str(), position))
     {
