@@ -27,6 +27,7 @@ public:
 	virtual void InitPermTable()=0;
 
   int solutionsFound = 0;
+  string solution;
 
 private:
 	virtual void InitShapeTable()=0;

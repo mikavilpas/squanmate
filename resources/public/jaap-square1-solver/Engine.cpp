@@ -123,6 +123,10 @@ void Engine::FoundSol(int l, bool large){
    if(Mode)	MaxDepth=l;
 	else		MaxDepth=large? l-2: l-1;
 
+   ostringstream os;
+   moves.print(os);
+   solution = os.str();
+
 	moves.print(cout);
 	if(OutStrm) moves.print(*OutStrm);
 }
