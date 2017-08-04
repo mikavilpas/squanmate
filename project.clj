@@ -65,22 +65,16 @@
                                    ;; :pretty-print true
                                    ;; :pseudo-names true
                                    }}
+
+                       ;; todo add separate builds for debug, and production webworkers.
+                       ;; can use this as an example: https://github.com/yetanalytics/figwheel-worker-example/blob/master/project.clj
                        {:id "webworkers"
                         :source-paths ["webworkers_src"]
-                        :compiler {:output-to  "resources/public/js/compiled/webworkers.js"
-                                   :output-dir "resources/public/js/WAT"
-
-                                   :optimizations :advanced
+                        :figwheel true
+                        :compiler {:output-to "resources/public/js/compiled/webworkers.js"
+                                   :output-dir "resources/public/js/compiled/out_worker"
                                    :source-map-timestamp true
-
-                                   ;; these are very useful when there is an odd
-                                   ;; bug in the optimized production code, but
-                                   ;; no such bug exists in the development
-                                   ;; code.
-
-                                   ;; :pretty-print true
-                                   ;; :pseudo-names true
-                                   }}]}
+                                   :optimizations :none}}]}
 
   :figwheel { :css-dirs ["resources/public/css"] }
 

@@ -3,10 +3,15 @@
             [cljs-workers.core :as main])
   (:require-macros [cljs.core.async.macros :as m :refer [go]]))
 
+;; there's a different worker file for development / debugging, and production
+(defonce worker-path (if js/goog.DEBUG
+                       "js/bootstrap_worker.js"
+                       "js/compiled/webworkers.js"))
+
 (defn app []
   (let [;; you can create one worker or a pool (async channel of workers)
         worker
-        (main/create-one "js/compiled/webworkers.js")
+        (main/create-one worker-path)
 
         ;; a "do-with-pool" or "-worker" (see below) will return immediately and
         ;; give you a result channel. So to print the result you have to handle
