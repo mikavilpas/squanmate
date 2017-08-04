@@ -8,8 +8,6 @@
    [cljs.core.async.macros :as m :refer [go]]))
 
 (deftest worker-poc-test []
-  (async done
-         (go
-           (let [result (<! solving/result-channel)]
-             (is (= 3 result))
-             (done)))))
+  (is (= 3
+         (do (solving/app)
+             3))))

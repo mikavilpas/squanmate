@@ -69,15 +69,18 @@
                         :source-paths ["webworkers_src"]
                         :compiler {:output-to  "resources/public/js/compiled/webworkers.js"
                                    :output-dir "resources/public/js/WAT"
+
                                    :optimizations :advanced
+                                   :source-map-timestamp true
 
                                    ;; these are very useful when there is an odd
                                    ;; bug in the optimized production code, but
                                    ;; no such bug exists in the development
                                    ;; code.
 
-                                   :pretty-print true
-                                   :pseudo-names true}}]}
+                                   ;; :pretty-print true
+                                   ;; :pseudo-names true
+                                   }}]}
 
   :figwheel { :css-dirs ["resources/public/css"] }
 
