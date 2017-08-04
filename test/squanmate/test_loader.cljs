@@ -8,4 +8,6 @@
             [squanmate.shapes-test]
             [squanmate.ui.drawing.newmonochrome-test]
             [squanmate.ui.shape-chooser-test]
-            [squanmate.alg.parity-counter-test]))
+            [squanmate.alg.parity-counter-test]
+            [squanmate.scrambling-test]
+            [squanmate.solving-test]))
