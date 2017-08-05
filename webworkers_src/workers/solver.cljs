@@ -2,7 +2,7 @@
   (:require [cljs-workers.worker :as worker]))
 
 (defn- solve [{:keys [puzzle-string] :as arguments}]
-  (js/importScripts "../jaap-square1-solver/solver.js")
+  (js/importScripts "../../jaap-square1-solver/solver.js")
   (js/console.log "loaded Square-1 solver by Jaap")
 
   (let [solver (new js/Square1Solver)

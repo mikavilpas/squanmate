@@ -30,7 +30,7 @@
   :cljsbuild {
               :builds [{:id "devcards"
                         :source-paths ["src" "test"]
-                        :figwheel { :devcards true  ;; <- note this
+                        :figwheel { :devcards true ;; <- note this
                                    ;; :open-urls will pop open your application
                                    ;; in the default browser once Figwheel has
                                    ;; started and complied your application.
@@ -74,7 +74,13 @@
                         :compiler {:output-to "resources/public/js/compiled/webworkers.js"
                                    :output-dir "resources/public/js/compiled/out_worker"
                                    :source-map-timestamp true
-                                   :optimizations :none}}]}
+                                   :optimizations :none}}
+                       {:id "min-worker"
+                        :source-paths ["webworkers_src"]
+                        :compiler {:output-to "resources/public/js/compiled/webworkers.js"
+                                   :output-dir "target/worker_out"
+                                   :optimizations :simple
+                                   :pretty-print false}}]}
 
   :figwheel { :css-dirs ["resources/public/css"] }
 

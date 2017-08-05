@@ -5,7 +5,7 @@
 
 ;; there's a different worker file for development / debugging, and production
 (defonce worker-path (if js/goog.DEBUG
-                       "js/bootstrap_worker.js"
+                       "js/compiled/bootstrap_worker.js"
                        "js/compiled/webworkers.js"))
 
 (defn app []
