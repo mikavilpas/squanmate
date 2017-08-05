@@ -17,7 +17,7 @@
                  [quil "2.6.0"]
                  [cljsjs/download "1.4.6-0"]
                  [secretary "1.2.3"]
-                 [cljs-workers "1.1.1-alpha"]]
+                 [butler "0.2.0"]]
 
   :plugins [[lein-figwheel "0.5.9"]
             [lein-cljsbuild "1.1.5" :exclusions [org.clojure/clojure]]]
@@ -66,8 +66,6 @@
                                    ;; :pseudo-names true
                                    }}
 
-                       ;; todo add separate builds for debug, and production webworkers.
-                       ;; can use this as an example: https://github.com/yetanalytics/figwheel-worker-example/blob/master/project.clj
                        {:id "webworkers"
                         :source-paths ["webworkers_src"]
                         :figwheel true

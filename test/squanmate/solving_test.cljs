@@ -9,5 +9,4 @@
 
 (deftest worker-poc-test []
   (is (= 3
-         (do (solving/app)
-             3))))
+         (solving/example-call))))
