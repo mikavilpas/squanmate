@@ -77,8 +77,8 @@
                         :source-paths ["webworkers_src"]
                         :compiler {:output-to "resources/public/js/compiled/webworkers.js"
                                    :output-dir "target/worker_out"
-                                   :optimizations :simple
-                                   :pretty-print false}}]}
+                                   :optimizations :advanced
+                                   :source-map-timestamp true}}]}
 
   :figwheel { :css-dirs ["resources/public/css"] }
 
