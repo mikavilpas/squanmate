@@ -2,11 +2,16 @@
   (:require [squanmate.solving :as solving]
             [clojure.test :as t :refer [is async]]
             [cljs.test :as t :include-macros true]
-            [cljs.core.async :refer [<!]])
+            [cljs.core.async :refer [<! timeout]])
   (:require-macros
    [devcards.core :as dc :refer [deftest defcard-rg]]
    [cljs.core.async.macros :as m :refer [go]]))
 
 (deftest worker-poc-test []
-  (is (= 3
-         (solving/example-call))))
+  (async done
+         (go
+           (let [result-atom (solving/solve "A2B3C1D45E6F7G8H")]
+             (<! (timeout 500))
+             (is (= "( 0, 2)/(-5, 4)/( 5, 2)/(-3, 0)/( 0, 3)/(-5, 1)/(-1, 2)/(-3,-2)"
+                    @result-atom))
+             (done)))))
