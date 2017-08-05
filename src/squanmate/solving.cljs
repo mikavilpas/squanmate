@@ -1,13 +1,11 @@
 (ns squanmate.solving)
 
-(enable-console-print!)
-
 (defn- new-solver []
   ;; api:
   ;; new Worker("js/solver-worker.js").proxy()("solve")("start_state_encoded", function(err,result){[]});
   (js* "new Worker('js/solver-worker.js').proxy()('solve')"))
 
-(defn- solve [starting-state-string]
+(defn solve [starting-state-string]
   (let [result-atom (atom nil)
         solver (new-solver)]
     (solver starting-state-string
