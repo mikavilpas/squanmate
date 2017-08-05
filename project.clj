@@ -64,21 +64,7 @@
 
                                    ;; :pretty-print true
                                    ;; :pseudo-names true
-                                   }}
-
-                       {:id "webworkers"
-                        :source-paths ["webworkers_src"]
-                        :figwheel true
-                        :compiler {:output-to "resources/public/js/compiled/webworkers.js"
-                                   :output-dir "resources/public/js/compiled/out_worker"
-                                   :source-map-timestamp true
-                                   :optimizations :none}}
-                       {:id "min-worker"
-                        :source-paths ["webworkers_src"]
-                        :compiler {:output-to "resources/public/js/compiled/webworkers.js"
-                                   :output-dir "target/worker_out"
-                                   :optimizations :advanced
-                                   :source-map-timestamp true}}]}
+                                   }}]}
 
   :figwheel { :css-dirs ["resources/public/css"] }
 

@@ -1,9 +1,17 @@
 <!DOCTYPE html>
+<!-- access this test page at http://localhost:3449/jaap-square1-solver/index.htm -->
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <title>Cheerp test</title>
-    <script defer src="solver.js"></script>
+    <script type="text/javascript" src="../js/web-worker-proxies.js"></script>
+    <script type="text/javascript">
+     solver = new Worker('../js/solver-worker.js').proxy()
+
+     solver("solve")("A2B3C1D45E6F7G8H", function (err, result) {
+         console.log("got result: ", result);
+     });
+    </script>
   </head>
   <body>
     <h1 id="pagetitle">Boring static text</h1>
