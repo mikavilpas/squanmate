@@ -23,11 +23,4 @@
               (js/console.log (str (:state result)) (str result)))))]
 
     ;; Copy all simple values
-    (print-result (main/do-with-worker! worker {:handler :mirror, :arguments {:a "Hallo" :b "Welt" :c 10}}))
-    ;; Copy the simple values and transfer the ArrayBuffer
-    (print-result (main/do-with-worker! worker {:handler :mirror, :arguments {:a "Hallo" :b "Welt" :c 10 :d (js/ArrayBuffer. 10) :transfer [:d]} :transfer [:d]}))
-    ;; Copy the simple values and transfer the ArrayBuffer, but transfer (browser thread) will fail cause the wrong value and the wrong type is marked to do so
-    ;; (print-result (main/do-with-pool! worker {:handler :mirror, :arguments {:a "Hallo" :b "Welt" :c 10 :d (js/ArrayBuffer. 10) :transfer [:d]} :transfer [:c]}))
-    ;; Copy the simple values and transfer the ArrayBuffer, but transfer mirroring (worker thread) will fail cause the wrong value and the wrong type is marked to do so
-    ;; (print-result (main/do-with-pool! worker {:handler :mirror, :arguments {:a "Hallo" :b "Welt" :c 10 :d (js/ArrayBuffer. 10) :transfer [:c]} :transfer [:d]}))
-    ))
+    (print-result (main/do-with-worker! worker {:handler :mirror, :arguments {:puzzle-string "A2B3C1D45E6F7G8H"}}))))
