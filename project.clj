@@ -16,8 +16,7 @@
                  [cljsjs/react-bootstrap "0.31.0-0"]
                  [quil "2.6.0"]
                  [cljsjs/download "1.4.6-0"]
-                 [secretary "1.2.3"]
-                 [butler "0.2.0"]]
+                 [secretary "1.2.3"]]
 
   :plugins [[lein-figwheel "0.5.9"]
             [lein-cljsbuild "1.1.5" :exclusions [org.clojure/clojure]]]
