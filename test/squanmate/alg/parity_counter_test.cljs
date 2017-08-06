@@ -30,7 +30,6 @@
   misalign the top or bottom layer). This tests that an odd result is counted
   for a solved puzzle."
   (let [[has-parity? pc] (c/parity-count cube)]
-    (println pc)
     (is (true? has-parity?))
     (is (zero? (:top-corner-order pc)))
     (is (= 1 (:top-edge-order pc)))
@@ -48,13 +47,8 @@
    "pieces in count order:"
    [:pre (pprint (c/pieces-in-count-order kite-kite))]])
 
-(deftest pieces-in-count-order-test []
-  (is (= "TODO" (let [foo (c/pieces-in-count-order kite-kite)]
-                  foo))))
-
 (deftest parity-count-kite-kite-test []
   (let [[has-parity? pc] (c/parity-count kite-kite)]
-    (println pc)
     (is (true? has-parity?))
     (is (zero? (:top-corner-order pc)))
     (is (= 1 (:top-edge-order pc)))
