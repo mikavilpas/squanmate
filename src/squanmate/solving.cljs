@@ -1,5 +1,7 @@
 (ns squanmate.solving
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [squanmate.alg.execution :as execution]
+            [cats.monad.either :as either]))
 
 (defn- new-solver []
   ;; api:
@@ -40,13 +42,26 @@
                           [(-> p :colors :top)
                            (-> p :colors :a)
                            (-> p :colors :b)])]
-    (println p piece-id)
     (get conversions
          piece-id
          (str "oops! piece " (pr-str p) " could not be converted!"))))
 
+(defn- bottom-layer-pieces [puzzle]
+  ;; this is a naive approach. if there are some problems with this, this will
+  ;; need to be revised.
+  (let [p1 (execution/transformation-result puzzle "0,-6")
+        p2 (execution/transformation-result puzzle "0,-5")
+        turned-puzzle (first (either/rights [p1 p2]))]
+    (either/branch
+     turned-puzzle
+     (fn [& _]
+       (throw (new js/Error "the puzzle could not be converted to a state string for solving it.")))
+     (fn [result]
+       (js-debugger)
+       (-> result :puzzle :bottom-layer :pieces)))))
+
 (defn convert-to-state-string [puzzle]
   (let [pieces (into (-> puzzle :top-layer :pieces)
-                     (-> puzzle :bottom-layer :pieces))]
+                     (bottom-layer-pieces puzzle))]
     (apply str
            (mapv convert-piece pieces))))

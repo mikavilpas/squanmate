@@ -8,6 +8,11 @@
    [devcards.core :as dc :refer [deftest defcard-rg]]
    [cljs.core.async.macros :as m :refer [go]]))
 
+(deftest convert-to-state-string-test []
+  (is (= "A1B2C3D45E6F7G8H"
+         (solving/convert-to-state-string puzzle/square-square))
+      "should be able to convert square square to solver notation"))
+
 (deftest worker-poc-test []
   (async done
          (go
@@ -17,7 +22,4 @@
                     @result-atom))
              (done)))))
 
-(deftest convert-to-state-string-test []
-  (is (= "A1B2C3D45E6F7G8H"
-         (solving/convert-to-state-string puzzle/square-square))
-      "should be able to convert square square to solver notation"))
+;; todo test that a non-symmetrical position can be solved
