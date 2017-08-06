@@ -3,22 +3,6 @@
             [squanmate.alg.execution :as execution]
             [cats.monad.either :as either]))
 
-(defn- new-solver []
-  ;; api:
-  ;; new Worker("js/solver-worker.js").proxy()("solve")("start_state_encoded", function(err,result){[]});
-  (js* "new Worker('js/solver-worker.js').proxy()('solve')"))
-
-(defn solve [starting-state-string]
-  (let [result-atom (atom nil)
-        solver (new-solver)]
-    (solver starting-state-string
-            (fn callback [err, result]
-              (when err
-                (reset! result-atom (str "failed: " err)))
-              (when result
-                (reset! result-atom result))))
-    result-atom))
-
 (def conversions {[:top :front :left] "A"
                   [:top :left] "1"
                   [:top :left :back] "B"
@@ -36,6 +20,22 @@
                   [:bottom :back :left] "G"
                   [:bottom :left] "8"
                   [:bottom :left :front] "H"})
+
+(defn- new-solver []
+  ;; api:
+  ;; new Worker("js/solver-worker.js").proxy()("solve")("start_state_encoded", function(err,result){[]});
+  (js* "new Worker('js/solver-worker.js').proxy()('solve')"))
+
+(defn solve-state [starting-state-string]
+  (let [result-atom (atom nil)
+        solver (new-solver)]
+    (solver starting-state-string
+            (fn callback [err, result]
+              (when err
+                (reset! result-atom (str "failed: " err)))
+              (when result
+                (reset! result-atom result))))
+    result-atom))
 
 (defn- convert-piece [p]
   (let [piece-id (filterv some?
@@ -57,7 +57,6 @@
      (fn [& _]
        (throw (new js/Error "the puzzle could not be converted to a state string for solving it.")))
      (fn [result]
-       (js-debugger)
        (-> result :puzzle :bottom-layer :pieces)))))
 
 (defn convert-to-state-string [puzzle]
@@ -65,3 +64,7 @@
                      (bottom-layer-pieces puzzle))]
     (apply str
            (mapv convert-piece pieces))))
+
+;; this is the intended public api
+(defn solve [puzzle]
+  (solve-state (convert-to-state-string puzzle)))
