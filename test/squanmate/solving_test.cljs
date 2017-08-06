@@ -27,17 +27,27 @@
              (done)))))
 
 (defn scrambled-puzzle [alg]
-  (let [result (execution/transformation-result puzzle/square-square "/")]
+  (let [result (execution/transformation-result puzzle/square-square alg)]
     (assert (either/right? result))
     (:puzzle (deref result))))
 
+(defn should-be-solved-with [scramble-alg expected-solve-alg done]
+  (go
+    (let [result-atom (solving/solve (scrambled-puzzle scramble-alg))]
+      (<! (timeout 500))
+      (is (= expected-solve-alg @result-atom)
+          (str "should solve " scramble-alg " with " expected-solve-alg))
+      (done))))
+
 (deftest solve-kite-kite []
   (async done
-         (go
-           (let [result-atom (solving/solve (scrambled-puzzle "/"))]
-             (<! (timeout 500))
-             (is (= "/"
-                    @result-atom))
-             (done)))))
+         (should-be-solved-with "/3" "(-3, 0)/" done)))
+
+(deftest solve-lin-back-corners []
+  (async done
+         (should-be-solved-with
+          "4,-3 / -3,0 / -1,2 / 1,-2 / -3,3 / -3,0 /"
+          "/( 3, 0)/(-3, 3)/(-4, 5)/(-2, 1)/( 6,-3)/( 2,-3)"
+          done)))
 
 ;; todo test that a non-symmetrical position can be solved
