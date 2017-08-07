@@ -19,7 +19,12 @@
                                          (rotate -2 0)))
       "underflows on top layer")
 
-  (is (= (rotate -6 0)
+  (is (= (rotate 6 0)
+         (manipulation/combine-rotations (rotate -6 0)
+                                         (rotate 0 0)))
+      "6 is the same as -6, except more simple")
+
+  (is (= (rotate 6 0)
          (manipulation/combine-rotations (rotate -4 0)
                                          (rotate -2 0)))
       "happy path"))
