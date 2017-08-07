@@ -5,18 +5,21 @@
   (:require-macros
    [devcards.core :as dc :refer [defcard defcard-rg deftest]]))
 
+(defn- rotate [top bottom]
+  (types/->Rotations top bottom))
+
 (deftest combine-rotations-test []
-  (is (= (types/->Rotations -5 0)
-         (manipulation/combine-rotations (types/->Rotations 6 0)
-                                         (types/->Rotations 1 0)))
+  (is (= (rotate -5 0)
+         (manipulation/combine-rotations (rotate 6 0)
+                                         (rotate 1 0)))
       "overflows on top layer")
 
-  (is (= (types/->Rotations 4 0)
-         (manipulation/combine-rotations (types/->Rotations -6 0)
-                                         (types/->Rotations -2 0)))
+  (is (= (rotate 4 0)
+         (manipulation/combine-rotations (rotate -6 0)
+                                         (rotate -2 0)))
       "underflows on top layer")
 
-  (is (= (types/->Rotations -6 0)
-         (manipulation/combine-rotations (types/->Rotations -4 0)
-                                         (types/->Rotations -2 0)))
+  (is (= (rotate -6 0)
+         (manipulation/combine-rotations (rotate -4 0)
+                                         (rotate -2 0)))
       "happy path"))
