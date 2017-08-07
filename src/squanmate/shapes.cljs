@@ -4,8 +4,8 @@
 (defrecord Shape [name pieces])
 
 (defn- shape [name piece-types]
-  (->Shape name
-           (puzzle/layer-with-pieces piece-types)))
+  (let [[pieces _] (puzzle/layer-with-pieces piece-types)]
+    (->Shape name pieces)))
 
 (def four-four (shape "4-4" "eceeeeceee"))
 (def five-three (shape "5-3" "eceeeeecee"))

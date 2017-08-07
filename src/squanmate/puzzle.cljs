@@ -64,19 +64,33 @@
   - guarantees the pieces' colors are not duplicated
   - layer definition is characterized by the layer's shape and not its colors
   "
-  [piece-types-str]
-  (loop [remaining-pieces {"c" corners, "e" edges}
-         queried-piece-types piece-types-str
-         result-pieces []]
-    (if-let [q (first queried-piece-types)]
-      (let [[p remaining] (take-piece remaining-pieces q)]
-        (when (nil? p)
-          (throw (new js/Error
-                      (str "error: the layer '" piece-types-str "' is invalid"))))
-        (recur remaining
-               (rest queried-piece-types)
-               (conj result-pieces p)))
-      result-pieces)))
+  ([piece-types-str]
+   (layer-with-pieces {"c" corners, "e" edges} piece-types-str))
+
+  ([available-pieces piece-types-str]
+   (loop [remaining-pieces available-pieces
+          queried-piece-types piece-types-str
+          result-pieces []]
+     (if-let [q (first queried-piece-types)]
+       (let [[p remaining] (take-piece remaining-pieces q)]
+         (when (nil? p)
+           (throw (new js/Error
+                       (str "error: the layer '" piece-types-str "' is invalid"))))
+         (recur remaining
+                (rest queried-piece-types)
+                (conj result-pieces p)))
+       [result-pieces remaining-pieces]))))
+
+(defn puzzle-with-shapes [top-layer-piece-types
+                          bottom-layer-piece-types]
+  (let [pieces {"c" (shuffle corners)
+                "e" (shuffle edges)}
+        [top-layer pieces] (layer-with-pieces pieces
+                                              top-layer-piece-types)
+
+        [bottom-layer pieces] (layer-with-pieces pieces
+                                                 bottom-layer-piece-types)]
+    (->Puzzle (->TopLayer top-layer) (->BottomLayer bottom-layer))))
 
 (defn piece-value [piece]
   (condp = (:type piece)

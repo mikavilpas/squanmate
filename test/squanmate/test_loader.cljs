@@ -10,4 +10,5 @@
             [squanmate.ui.shape-chooser-test]
             [squanmate.alg.parity-counter-test]
             [squanmate.solving-test]
-            [squanmate.alg.manipulation-test]))
+            [squanmate.alg.manipulation-test]
+            [squanmate.scramblers.shape-scrambler-test]))
