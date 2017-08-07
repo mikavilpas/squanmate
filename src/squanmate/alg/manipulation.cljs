@@ -17,7 +17,7 @@
                                 -11 1
                                 -12 0})
 
-(defn- prettify-value [n]
+(defn prettify-value [n]
   (let [not-found n]
     (get prettifications n not-found)))
 

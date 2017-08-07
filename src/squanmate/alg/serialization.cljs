@@ -1,6 +1,7 @@
 (ns squanmate.alg.serialization
   (:require [clojure.string :as str]
-            [squanmate.alg.types :as types]))
+            [squanmate.alg.types :as types]
+            [squanmate.alg.manipulation :as manipulation]))
 
 (defn alg-to-str [steps]
   (str/join ""
@@ -8,7 +9,9 @@
               (do
                 (condp = (type s)
                   types/Slice "/"
-                  types/Rotations (str "(" (:top-amount s)
+                  types/Rotations (str "(" (manipulation/prettify-value
+                                            (:top-amount s))
                                        ", "
-                                       (:bottom-amount s)
+                                       (manipulation/prettify-value
+                                        (:bottom-amount s))
                                        ")"))))))
