@@ -13,9 +13,9 @@
                                       :or {size 100
                                            monochrome? true}}]
   (let [current-layer (reagent/atom initial-layer)]
-    (fn render [layer & {:keys [size]
-                        :or {size 100
-                             monochrome? true}}]
+    (fn render [layer {:keys [size]
+                      :or {size 100
+                           monochrome? true}}]
       ;; It's a bit unfortunate but I can't get quil to see a change in the
       ;; given layer without a local current-layer state
       (reset! current-layer layer)
