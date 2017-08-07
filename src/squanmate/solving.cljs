@@ -1,13 +1,12 @@
 (ns squanmate.solving
-  (:require [clojure.string :as str]
-            [squanmate.alg.execution :as execution]
+  (:require [cats.core :as m]
             [cats.monad.either :as either]
-            [squanmate.slicing :as slicing]
-            [squanmate.rotation :as rotation]
-            [squanmate.alg.types :as types]
-            [cats.core :as m]
+            [squanmate.alg.execution :as execution]
+            [squanmate.alg.parser :as parser]
             [squanmate.alg.serialization :as serialization]
-            [squanmate.alg.parser :as parser]))
+            [squanmate.alg.types :as types]
+            [squanmate.rotation :as rotation]
+            [squanmate.slicing :as slicing]))
 
 (def conversions {[:top :front :left] "A"
                   [:top :left] "1"
@@ -49,9 +48,9 @@
 
       :else (into [rotation] alg-steps))))
 
-(defn solve-state
+(defn solve-state-string
   ([starting-state-string]
-   (solve-state starting-state-string nil))
+   (solve-state-string starting-state-string nil))
 
   ([starting-state-string initial-rotation]
    (let [result-atom (atom nil)
@@ -78,11 +77,7 @@
          (str "oops! piece " (pr-str p) " could not be converted!"))))
 
 (defn- bottom-layer-pieces [puzzle]
-  ;; this is a naive approach. if there are some problems with this, this will
-  ;; need to be revised.
-  (let [p1 (execution/transformation-result puzzle "0,-6")
-        p2 (execution/transformation-result puzzle "0,-5")
-        turned-puzzle (first (either/rights [p1 p2]))]
+  (let [turned-puzzle (execution/transformation-result puzzle "0,-6")]
     (either/branch
      turned-puzzle
      (fn [& _]
@@ -129,11 +124,11 @@
 (defn solve [puzzle]
   (let [sliceable? (either/right? (slicing/slice puzzle))]
     (if sliceable?
-      (solve-state (convert-to-state-string puzzle))
+      (solve-state-string (convert-to-state-string puzzle))
       (let [[rotation puzzle] (rotation-to-slice-position puzzle)]
         ;; This is a limitation of Jaap's solver: the puzzle must be at a
         ;; sliceable position when a solution is calculated. To work around
         ;; this, twist the puzzle with a random rotation so that it's sliceable,
         ;; and include that random rotation in the scramble.
-        (solve-state (convert-to-state-string puzzle)
+        (solve-state-string (convert-to-state-string puzzle)
                      rotation)))))
