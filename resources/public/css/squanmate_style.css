@@ -18,4 +18,10 @@
     font-size: x-large;
     text-align: center;
     font-family: 'PT Sans', sans-serif;
+    color: #545454;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
 }

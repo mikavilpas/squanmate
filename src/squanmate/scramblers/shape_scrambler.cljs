@@ -28,11 +28,7 @@
             reverse-steps (manipulation/reverse-steps steps)
             scramble-string (serialization/alg-to-str reverse-steps)]
         [:div
-         [:div {:style
-                ;; center horizontally
-                ;; https://stackoverflow.com/a/618114/1336788
-                {:width "50%"
-                 :margin "0 auto"}}
+         [:div.center
           [newmonochrome/monochrome-puzzle p
            {:monochrome? false
             :size 180}]]
