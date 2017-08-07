@@ -8,7 +8,4 @@
 (defn scramble []
   (let [top (shape-str "square")
         bottom (shape-str "square")]
-    (println "generating scramble:")
-    (println top)
-    (println bottom)
     (p/puzzle-with-shapes top bottom)))

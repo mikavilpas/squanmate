@@ -5,6 +5,6 @@
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg deftest]]))
 
-(defcard-rg lul
+(defcard-rg scramble-preview
   [newmonochrome/monochrome-puzzle (shape-scrambler/scramble)
    {:monochrome? false}])
