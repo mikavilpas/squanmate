@@ -2,8 +2,9 @@
   (:require [reagent.core :as reagent]
             [squanmate.pages.all-possible-shapes :as all-possible-shapes]
             [squanmate.pages.shape-visualizer :as shape-visualizer]
-            [squanmate.ui.common :as common]))
-
+            [squanmate.ui.common :as common]
+            [squanmate.scramblers.shape-scrambler :as shape-scrambler]
+            [squanmate.pages.trainer :as trainer]))
 
 (defmulti page-content (fn [app-state]
                          (:page @app-state)))
@@ -13,7 +14,8 @@
   [all-possible-shapes/content])
 
 (defmethod page-content :main []
-  [:div])
+  [:div
+   [trainer/content]])
 
 (defmethod page-content :shape-visualizer []
   [shape-visualizer/content])

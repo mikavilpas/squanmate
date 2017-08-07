@@ -18,7 +18,7 @@
     (p/puzzle-with-shapes top bottom)))
 
 (defn- scramble-preview [s]
-  [common/well [:div.scramble s]])
+  [:div.col-xs-10.col-md-6.col-lg-6.scramble [common/well s]])
 
 (defn scramble-component [p]
   (let [solution-atom (solving/solve p)]
@@ -32,5 +32,5 @@
           [newmonochrome/monochrome-puzzle p
            {:monochrome? false
             :size 180}]]
-         [:div
+         [:div.center
           [scramble-preview scramble-string]]]))))
