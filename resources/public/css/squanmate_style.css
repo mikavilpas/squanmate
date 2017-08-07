@@ -11,3 +11,11 @@
 .bottom15 { margin-bottom:15px; }
 .bottom17 { margin-bottom:17px; }
 .bottom30 { margin-bottom:30px; }
+
+@import url('https://fonts.googleapis.com/css?family=PT+Sans:700');
+
+.scramble {
+    font-size: x-large;
+    text-align: center;
+    font-family: 'PT Sans', sans-serif;
+}

@@ -6,7 +6,8 @@
             [squanmate.alg.manipulation :as manipulation]
             [squanmate.alg.serialization :as serialization]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
-            [cats.core :as m]))
+            [cats.core :as m]
+            [squanmate.ui.common :as common]))
 
 (defn- shape-str [shape-name]
   (p/pieces-str (get shapes/all-shapes shape-name)))
@@ -16,6 +17,9 @@
         bottom (shape-str "square")]
     (p/puzzle-with-shapes top bottom)))
 
+(defn- scramble-preview [s]
+  [common/well [:div.scramble s]])
+
 (defn scramble-component [p]
   (let [solution-atom (solving/solve p)]
     (fn [p]
@@ -24,6 +28,13 @@
             reverse-steps (manipulation/reverse-steps steps)
             scramble-string (serialization/alg-to-str reverse-steps)]
         [:div
-         [newmonochrome/monochrome-puzzle p
-          {:monochrome? false}]
-         (str "Scramble: " scramble-string)]))))
+         [:div {:style
+                ;; center horizontally
+                ;; https://stackoverflow.com/a/618114/1336788
+                {:width "50%"
+                 :margin "0 auto"}}
+          [newmonochrome/monochrome-puzzle p
+           {:monochrome? false
+            :size 180}]]
+         [:div
+          [scramble-preview scramble-string]]]))))

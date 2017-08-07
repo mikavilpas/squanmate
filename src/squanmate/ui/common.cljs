@@ -24,3 +24,4 @@
 (def nav-item (reagent/adapt-react-class js/ReactBootstrap.NavItem))
 (def label (reagent/adapt-react-class js/ReactBootstrap.Label))
 (def popover (reagent/adapt-react-class js/ReactBootstrap.Popover))
+(def well (reagent/adapt-react-class js/ReactBootstrap.Well))
