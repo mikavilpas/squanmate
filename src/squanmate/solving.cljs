@@ -5,7 +5,9 @@
             [squanmate.slicing :as slicing]
             [squanmate.rotation :as rotation]
             [squanmate.alg.types :as types]
-            [cats.core :as m]))
+            [cats.core :as m]
+            [squanmate.alg.serialization :as serialization]
+            [squanmate.alg.parser :as parser]))
 
 (def conversions {[:top :front :left] "A"
                   [:top :left] "1"
@@ -30,12 +32,22 @@
   ;; new Worker("js/solver-worker.js").proxy()("solve")("start_state_encoded", function(err,result){[]});
   (js* "new Worker('js/solver-worker.js').proxy()('solve')"))
 
-(defn- show [rotations]
-  (when rotations
-    (str "(" (:top-amount rotations)
-         ", "
-         (:bottom-amount rotations)
-         ")")))
+(defn- combine-rotations [a b]
+  (-> a
+      (update :top-amount #(+ % (:top-amount b)))
+      (update :bottom-amount #(+ % (:bottom-amount b)))))
+
+(defn- prepend-initial-rotation [rotation alg-steps]
+  (let [s (first alg-steps)]
+    (cond
+      (nil? rotation)
+      alg-steps
+
+      (= types/Rotations (type s))
+      (let [new-first-step (combine-rotations s rotation)]
+        (into [new-first-step] (rest alg-steps)))
+
+      :else (into [rotation] alg-steps))))
 
 (defn solve-state
   ([starting-state-string]
@@ -45,11 +57,15 @@
    (let [result-atom (atom nil)
          solver (new-solver)]
      (solver starting-state-string
-             (fn callback [err, result]
+             (fn callback [err, result-alg]
                (when err
                  (reset! result-atom (str "failed: " err)))
-               (when result
-                 (reset! result-atom (str (show initial-rotation) result)))))
+               (when result-alg
+                 (println "Initial rotation: " initial-rotation ", Solution: " result-alg)
+                 (let [alg-steps (m/extract (parser/parse result-alg))
+                       result-steps (prepend-initial-rotation initial-rotation alg-steps)]
+                   (reset! result-atom
+                           (serialization/alg-to-str result-steps))))))
      result-atom)))
 
 (defn- convert-piece [p]

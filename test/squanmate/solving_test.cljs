@@ -7,10 +7,11 @@
             [squanmate.alg.execution :as execution]
             [squanmate.shapes :as shapes]
             [cats.monad.either :as either]
+            [cats.core :as m]
             [squanmate.puzzle :as p])
   (:require-macros
    [devcards.core :as dc :refer [deftest defcard-rg]]
-   [cljs.core.async.macros :as m :refer [go]]))
+   [cljs.core.async.macros :refer [go]]))
 
 (deftest convert-to-state-string-test []
   (is (= "A1B2C3D45E6F7G8H"
@@ -22,7 +23,7 @@
          (go
            (let [result-atom (solving/solve-state "A2B3C1D45E6F7G8H")]
              (<! (timeout 500))
-             (is (= "( 0, 2)/(-5, 4)/( 5, 2)/(-3, 0)/( 0, 3)/(-5, 1)/(-1, 2)/(-3,-2)"
+             (is (= "(0, 2)/(-5, 4)/(5, 2)/(-3, 0)/(0, 3)/(-5, 1)/(-1, 2)/(-3, -2)"
                     @result-atom)
                  "solve an example from the readme file of Jaap's solver")
              (done)))))
@@ -48,7 +49,7 @@
   (async done
          (should-be-solved-with
           "4,-3 / -3,0 / -1,2 / 1,-2 / -3,3 / -3,0 /"
-          "/( 3, 0)/(-3, 3)/(-4, 5)/(-2, 1)/( 6,-3)/( 2,-3)"
+          "/(3, 0)/(-3, 3)/(-4, 5)/(-2, 1)/(6, -3)/(2, -3)"
           done)))
 
 (deftest solve-non-sliceable-position []
@@ -67,6 +68,9 @@
                  result-atom (solving/solve start-puzzle)]
              (<! (timeout 500))
              (is (= p/square-square
-                    (execution/transformation-result start-puzzle @result-atom))
-                 (str "should solve " scramble-alg " into square-square using " @result-atom))
+                    (-> start-puzzle
+                        (execution/transformation-result @result-atom)
+                        m/extract
+                        :puzzle))
+                 (str "should solve " scramble-alg " using " @result-atom))
              (done)))))
