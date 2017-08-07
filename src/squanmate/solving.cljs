@@ -7,7 +7,8 @@
             [squanmate.alg.types :as types]
             [squanmate.rotation :as rotation]
             [squanmate.slicing :as slicing]
-            [squanmate.alg.manipulation :as manipulation]))
+            [squanmate.alg.manipulation :as manipulation]
+            [reagent.core :as reagent]))
 
 (def conversions {[:top :front :left] "A"
                   [:top :left] "1"
@@ -37,7 +38,7 @@
    (solve-state-string starting-state-string nil))
 
   ([starting-state-string initial-rotation]
-   (let [result-atom (atom nil)
+   (let [result-atom (reagent/atom nil)
          solver (new-solver)]
      (solver starting-state-string
              (fn callback [err, result-alg]
