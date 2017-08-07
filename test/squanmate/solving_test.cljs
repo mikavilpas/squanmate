@@ -13,6 +13,35 @@
    [devcards.core :as dc :refer [deftest defcard-rg]]
    [cljs.core.async.macros :refer [go]]))
 
+(defcard-rg overview-introduction-explanation
+  [:div
+   [:div "Solving the puzzle is done using Jaap Scherphuis's solver, based on
+  code available from "
+    [:a {:href "https://www.jaapsch.net/puzzles/square1.htm"}
+     "his site"] ". "
+    "The original code is written in the C++ language. To use this solver in a
+    browser (JavaScript environment), I compiled it to JavaScript using a
+    cross(?) compiler called Cheerp. I made an interface to the solver for using
+    only the first found solution (otherwise it searches for many, trying to
+    find the best)."]
+
+   [:div "The solver is lauched in a Web Worker, which on modern machines should
+   mean a separate thread. The solver itself only takes less than half a second
+   to calculate a solution in my tests, but this ensures two things:"
+    [:ul
+     [:li "The UI is responsive (the solver doesn't block the UI thread)"]
+     [:li "If the solver takes a long time to find a solution (hasn't occurred
+     yet, but just in case), the UI can show a loading icon, or interrupt the
+     solver, or something else."]]]
+
+   [:div "An interesting quirk of Jaap's solver is that it can only solve puzzle
+   permutations which are " [:strong "sliceable"] "."]
+   "To remove this limitation, we do this: "
+   [:ul
+    [:li "make a random initial rotation of both layers that makes the puzzle sliceable"]
+    [:li "give the new, sliceable puzzle to Jaap's solver"]
+    [:li "combine the initial rotation with the algorithm received from Jaap's solver"]]])
+
 (deftest convert-to-state-string-test []
   (is (= "A1B2C3D45E6F7G8H"
          (solving/convert-to-state-string puzzle/square-square))
