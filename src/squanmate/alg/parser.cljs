@@ -36,7 +36,9 @@
 (defparser in-parens-maybe [p]
   (let->> [_ (whitespace)
            _ (optional (p/char "("))
+           _ (whitespace)
            result p
+           _ (whitespace)
            _ (optional (p/char ")"))
            _ (whitespace)]
     (p/always result)))
