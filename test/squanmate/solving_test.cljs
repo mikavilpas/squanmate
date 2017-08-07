@@ -21,7 +21,7 @@
 (deftest worker-poc-test []
   (async done
          (go
-           (let [result-atom (solving/solve-state "A2B3C1D45E6F7G8H")]
+           (let [result-atom (solving/solve-state-string "A2B3C1D45E6F7G8H")]
              (<! (timeout 500))
              (is (= "(0, 2)/(-5, 4)/(5, 2)/(-3, 0)/(0, 3)/(-5, 1)/(-1, 2)/(-3, -2)"
                     @result-atom)

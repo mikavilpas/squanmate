@@ -6,7 +6,8 @@
             [squanmate.alg.serialization :as serialization]
             [squanmate.alg.types :as types]
             [squanmate.rotation :as rotation]
-            [squanmate.slicing :as slicing]))
+            [squanmate.slicing :as slicing]
+            [squanmate.alg.manipulation :as manipulation]))
 
 (def conversions {[:top :front :left] "A"
                   [:top :left] "1"
@@ -31,23 +32,6 @@
   ;; new Worker("js/solver-worker.js").proxy()("solve")("start_state_encoded", function(err,result){[]});
   (js* "new Worker('js/solver-worker.js').proxy()('solve')"))
 
-(defn- combine-rotations [a b]
-  (-> a
-      (update :top-amount #(+ % (:top-amount b)))
-      (update :bottom-amount #(+ % (:bottom-amount b)))))
-
-(defn- prepend-initial-rotation [rotation alg-steps]
-  (let [s (first alg-steps)]
-    (cond
-      (nil? rotation)
-      alg-steps
-
-      (= types/Rotations (type s))
-      (let [new-first-step (combine-rotations s rotation)]
-        (into [new-first-step] (rest alg-steps)))
-
-      :else (into [rotation] alg-steps))))
-
 (defn solve-state-string
   ([starting-state-string]
    (solve-state-string starting-state-string nil))
@@ -62,7 +46,7 @@
                (when result-alg
                  (println "Initial rotation: " initial-rotation ", Solution: " result-alg)
                  (let [alg-steps (m/extract (parser/parse result-alg))
-                       result-steps (prepend-initial-rotation initial-rotation alg-steps)]
+                       result-steps (manipulation/prepend-initial-rotation initial-rotation alg-steps)]
                    (reset! result-atom
                            (serialization/alg-to-str result-steps))))))
      result-atom)))
