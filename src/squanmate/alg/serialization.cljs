@@ -8,10 +8,13 @@
             (for [s steps]
               (do
                 (condp = (type s)
-                  types/Slice "/"
+                  ;; carefully placing spaces only outside of (a,-b)/ groups
+                  ;; makes the scramble to be rendered with very nice text
+                  ;; wrapping in the browser :)
+                  types/Slice "/ "
                   types/Rotations (str "(" (manipulation/prettify-value
                                             (:top-amount s))
-                                       ", "
+                                       ","
                                        (manipulation/prettify-value
                                         (:bottom-amount s))
                                        ")"))))))
