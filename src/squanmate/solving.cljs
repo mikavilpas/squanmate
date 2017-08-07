@@ -115,4 +115,4 @@
         ;; this, twist the puzzle with a random rotation so that it's sliceable,
         ;; and include that random rotation in the scramble.
         (solve-state-string (convert-to-state-string puzzle)
-                     rotation)))))
+                            rotation)))))
