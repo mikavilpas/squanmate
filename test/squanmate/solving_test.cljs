@@ -6,7 +6,8 @@
             [squanmate.puzzle :as puzzle]
             [squanmate.alg.execution :as execution]
             [squanmate.shapes :as shapes]
-            [cats.monad.either :as either])
+            [cats.monad.either :as either]
+            [squanmate.puzzle :as p])
   (:require-macros
    [devcards.core :as dc :refer [deftest defcard-rg]]
    [cljs.core.async.macros :as m :refer [go]]))
@@ -50,4 +51,22 @@
           "/( 3, 0)/(-3, 3)/(-4, 5)/(-2, 1)/( 6,-3)/( 2,-3)"
           done)))
 
-;; todo test that a non-symmetrical position can be solved
+(deftest solve-non-sliceable-position []
+  "An 'non-sliceable position' is one where the puzzle can't be sliced (a corner
+  piece blocks the middle seam). This is a special position for Jaap's solver,
+  because it actually requires all inputs to not be in this position.
+
+  To work around this, a random twist of both layers is performed that takes the
+  puzzle to a position that can is sliceable. This is then prepended to the
+  resulting solve algorithm, so it will look like the solver was able to handle
+  this case."
+  (async done
+         (go
+           (let [scramble-alg "/3/1,3/1"
+                 start-puzzle (scrambled-puzzle scramble-alg)
+                 result-atom (solving/solve start-puzzle)]
+             (<! (timeout 500))
+             (is (= p/square-square
+                    (execution/transformation-result start-puzzle @result-atom))
+                 (str "should solve " scramble-alg " into square-square using " @result-atom))
+             (done)))))

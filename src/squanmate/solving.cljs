@@ -1,7 +1,11 @@
 (ns squanmate.solving
   (:require [clojure.string :as str]
             [squanmate.alg.execution :as execution]
-            [cats.monad.either :as either]))
+            [cats.monad.either :as either]
+            [squanmate.slicing :as slicing]
+            [squanmate.rotation :as rotation]
+            [squanmate.alg.types :as types]
+            [cats.core :as m]))
 
 (def conversions {[:top :front :left] "A"
                   [:top :left] "1"
@@ -26,16 +30,27 @@
   ;; new Worker("js/solver-worker.js").proxy()("solve")("start_state_encoded", function(err,result){[]});
   (js* "new Worker('js/solver-worker.js').proxy()('solve')"))
 
-(defn solve-state [starting-state-string]
-  (let [result-atom (atom nil)
-        solver (new-solver)]
-    (solver starting-state-string
-            (fn callback [err, result]
-              (when err
-                (reset! result-atom (str "failed: " err)))
-              (when result
-                (reset! result-atom result))))
-    result-atom))
+(defn- show [rotations]
+  (when rotations
+    (str "(" (:top-amount rotations)
+         ", "
+         (:bottom-amount rotations)
+         ")")))
+
+(defn solve-state
+  ([starting-state-string]
+   (solve-state starting-state-string nil))
+
+  ([starting-state-string initial-rotation]
+   (let [result-atom (atom nil)
+         solver (new-solver)]
+     (solver starting-state-string
+             (fn callback [err, result]
+               (when err
+                 (reset! result-atom (str "failed: " err)))
+               (when result
+                 (reset! result-atom (str (show initial-rotation) result)))))
+     result-atom)))
 
 (defn- convert-piece [p]
   (let [piece-id (filterv some?
@@ -65,6 +80,44 @@
     (apply str
            (mapv convert-piece pieces))))
 
+(defn- rotate-layer-to-slice-position [layer]
+  (let [rotation-amounts (shuffle (range -6 7))
+        rotation-tries (map (fn [amount]
+                              [(rotation/rotate-layer layer amount)
+                               amount])
+                            rotation-amounts)
+        sliceable? (fn [[l _amount]]
+                     (and (either/right? l)
+                          (slicing/layer-sliceable? (m/extract l))))
+
+        [layer-result amount] (first (filter sliceable? rotation-tries))]
+    [(m/extract layer-result)
+     amount]))
+
+(defn- rotation-to-slice-position [puzzle]
+  (if (and (slicing/top-sliceable? puzzle)
+           (slicing/bottom-sliceable? puzzle))
+    [(types/->Rotations 0 0) puzzle] ;; no need to rotate
+
+    (let [[top top-rotation] (rotate-layer-to-slice-position (:top-layer puzzle))
+          [bottom bottom-rotation] (rotate-layer-to-slice-position (:bottom-layer puzzle))
+
+          new-puzzle (-> puzzle
+                         (assoc :top-layer top)
+                         (assoc :bottom-layer bottom))
+
+          rotations (types/->Rotations top-rotation bottom-rotation)]
+      [rotations new-puzzle])))
+
 ;; this is the intended public api
 (defn solve [puzzle]
-  (solve-state (convert-to-state-string puzzle)))
+  (let [sliceable? (either/right? (slicing/slice puzzle))]
+    (if sliceable?
+      (solve-state (convert-to-state-string puzzle))
+      (let [[rotation puzzle] (rotation-to-slice-position puzzle)]
+        ;; This is a limitation of Jaap's solver: the puzzle must be at a
+        ;; sliceable position when a solution is calculated. To work around
+        ;; this, twist the puzzle with a random rotation so that it's sliceable,
+        ;; and include that random rotation in the scramble.
+        (solve-state (convert-to-state-string puzzle)
+                     rotation)))))

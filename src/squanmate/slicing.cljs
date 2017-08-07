@@ -51,16 +51,22 @@
         (assoc-in [:bottom-layer] new-bottom-layer)
         either/right)))
 
+(defn top-sliceable? [puzzle]
+  (->> puzzle :top-layer layer-sliceable?))
+
+(defn bottom-sliceable? [puzzle]
+  (->> puzzle :bottom-layer layer-sliceable?))
+
 ;; always slices the right hand side
 (defn slice [puzzle]
   (cond
 
     ;; validation
-    (->> puzzle :top-layer layer-sliceable? not)
+    (not (top-sliceable? puzzle))
     (either/left (p/LayerError. "cannot slice, because the top layer is not aligned"
                                 (:top-layer puzzle)))
 
-    (->> puzzle :bottom-layer layer-sliceable? not)
+    (not (bottom-sliceable? puzzle))
     (either/left (p/LayerError. "cannot slice, because the bottom layer is not aligned"
                                 (:bottom-layer puzzle)))
 
