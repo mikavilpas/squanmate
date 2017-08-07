@@ -4,7 +4,8 @@
             [squanmate.alg.parser :as parser]
             [squanmate.alg.types :as types]
             [squanmate.rotation :as rotation]
-            [squanmate.slicing :as slicing]))
+            [squanmate.slicing :as slicing]
+            [squanmate.alg.manipulation :as manipulation]))
 
 ;; possible states of the puzzle when executing an algorithm step by step
 (defrecord StartingStepResult [puzzle])
@@ -62,20 +63,12 @@
   (let [step-eithers (transformations starting-puzzle algorithm-string)]
     (last step-eithers)))
 
-(defn- reverse-steps [alg-steps]
-  (reverse (for [step alg-steps]
-             (if (= types/Slice (type step))
-               step
-               (-> step
-                   (update :top-amount -)
-                   (update :bottom-amount -))))))
-
 (defn transformations-reverse [starting-puzzle algorithm-string]
   (either/branch (parser/parse algorithm-string)
                  (fn [error]
                    (vector (either/left error)))
                  (fn [steps]
-                   (execute-alg starting-puzzle (reverse-steps steps)))))
+                   (execute-alg starting-puzzle (manipulation/reverse-steps steps)))))
 
 (defn transformation-result-reverse [starting-puzzle algorithm-string]
   (last (transformations-reverse starting-puzzle algorithm-string)))

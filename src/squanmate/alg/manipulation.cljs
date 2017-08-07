@@ -37,3 +37,11 @@
         (into [new-first-step] (rest alg-steps)))
 
       :else (into [rotation] alg-steps))))
+
+(defn reverse-steps [alg-steps]
+  (reverse (for [step alg-steps]
+             (if (= types/Slice (type step))
+               step
+               (-> step
+                   (update :top-amount -)
+                   (update :bottom-amount -))))))
