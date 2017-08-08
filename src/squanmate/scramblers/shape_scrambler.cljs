@@ -7,14 +7,16 @@
             [squanmate.alg.serialization :as serialization]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [cats.core :as m]
-            [squanmate.ui.common :as common]))
+            [squanmate.ui.common :as common]
+            [squanmate.shape-combinations :as shape-combinations]))
 
 (defn- shape-str [shape-name]
   (p/pieces-str (get shapes/all-shapes shape-name)))
 
 (defn scramble []
-  (let [top (shape-str "square")
-        bottom (shape-str "square")]
+  (let [[top-name bottom-name] (rand-nth shape-combinations/possible-layers)
+        top (shape-str top-name)
+        bottom (shape-str bottom-name)]
     (p/puzzle-with-shapes top bottom)))
 
 (defn- scramble-preview [s]

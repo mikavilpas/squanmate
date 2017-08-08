@@ -77,4 +77,7 @@
                    ;; :plugins [[cider/cider-nrepl "0.12.0"]]
                    :repl-options {; for nREPL dev you really need to limit output
                                   :init (set! *print-length* 50)
-                                  :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}})
+                                  :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}}
+
+  ;; work around a compilation error from math.combinatorics
+  :jvm-opts ["-Xmx1G"])
