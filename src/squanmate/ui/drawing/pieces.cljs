@@ -1,8 +1,8 @@
 (ns squanmate.ui.drawing.pieces
   (:require [quil.core :as q]
-            [quil.core :as q]
             [quil.middleware :as m]
-            [squanmate.slicing :as slicing]))
+            [squanmate.slicing :as slicing]
+            [squanmate.puzzle :as puzzle]))
 
 (defrecord DrawLayerState [layer size])
 
@@ -149,6 +149,30 @@
                      }}
            settings)))
 
+(defn- draw-top-layer [layer data]
+  (doseq [[piece position] (slicing/pieces-and-their-positions layer)]
+    (condp = (:type piece)
+      "c"
+      (draw-corner-at piece position data)
+
+      "e"
+      (draw-edge-at piece position data)
+
+      (println (new js/Error (str "warning: cannot draw unknown piece " piece))))))
+
+(defn- draw-bottom-layer [layer data]
+  ;; drawing the bottom layer is like drawing the top, but its pieces start at a
+  ;; different position. This needs to be accounted for.
+  (doseq [[piece position] (slicing/pieces-and-their-positions layer)]
+    (condp = (:type piece)
+      "c"
+      (draw-corner-at piece (+ 6 position) data)
+
+      "e"
+      (draw-edge-at piece (+ 6 position) data)
+
+      (println (new js/Error (str "warning: cannot draw unknown piece " piece))))))
+
 (defn draw-layer [state draw-settings]
   (let [size (:size state)
         center (/ size 2)
@@ -166,12 +190,6 @@
 
     (draw-slice-point data)
 
-    (doseq [[piece position] (slicing/pieces-and-their-positions layer)]
-      (condp = (:type piece)
-        "c"
-        (draw-corner-at piece position data)
-
-        "e"
-        (draw-edge-at piece position data)
-
-        (println (new js/Error (str "warning: cannot draw unknown piece " piece)))))))
+    (condp = (type layer)
+      puzzle/TopLayer (draw-top-layer layer data)
+      puzzle/BottomLayer (draw-bottom-layer layer data))))
