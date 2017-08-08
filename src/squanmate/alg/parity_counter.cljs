@@ -73,9 +73,9 @@
   (let [[top-left top-right] (slicing/split-at-6 (:top-layer puzzle))
         [bottom-left bottom-right] (slicing/split-at-6 (:bottom-layer puzzle))
         result-pieces (vec (flatten [top-right
-                              top-left
-                              bottom-right
-                                     bottom-left]))]
+                                     top-left
+                                     bottom-left
+                                     bottom-right]))]
     result-pieces))
 
 (defprotocol PiecesInOddPositions
