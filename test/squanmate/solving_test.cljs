@@ -50,9 +50,11 @@
 (deftest worker-poc-test []
   (async done
          (go
-           (let [result-atom (solving/solve-state-string "A2B3C1D45E6F7G8H")]
+           (let [result-atom (solving/solve-state-string "A2B3C1D45E6F7G8H"
+                                                         :initial-rotation nil
+                                                         :result-atom (atom))]
              (<! (timeout 500))
-             (is (= "(0, 2)/(-5, 4)/(5, 2)/(-3, 0)/(0, 3)/(-5, 1)/(-1, 2)/(-3, -2)"
+             (is (= "(0,2)/ (-5,4)/ (5,2)/ (-3,0)/ (0,3)/ (-5,1)/ (-1,2)/ (-3,-2)"
                     @result-atom)
                  "solve an example from the readme file of Jaap's solver")
              (done)))))
@@ -72,13 +74,13 @@
 
 (deftest solve-kite-kite []
   (async done
-         (should-be-solved-with "/3" "(-3, 0)/" done)))
+         (should-be-solved-with "/3" "(-3,0)/ " done)))
 
 (deftest solve-lin-back-corners []
   (async done
          (should-be-solved-with
           "4,-3 / -3,0 / -1,2 / 1,-2 / -3,3 / -3,0 /"
-          "/(3, 0)/(-3, 3)/(-4, 5)/(-2, 1)/(6, -3)/(2, -3)"
+          "/ (3,0)/ (-3,3)/ (-4,5)/ (-2,1)/ (6,-3)/ (2,-3)"
           done)))
 
 (deftest solve-non-sliceable-position []

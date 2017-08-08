@@ -33,13 +33,8 @@
   ;; new Worker("js/solver-worker.js").proxy()("solve")("start_state_encoded", function(err,result){[]});
   (js* "new Worker('js/solver-worker.js').proxy()('solve')"))
 
-(defn solve-state-string
-  ([starting-state-string]
-   (solve-state-string starting-state-string nil))
-
-  ([starting-state-string initial-rotation]
-   (let [result-atom (reagent/atom nil)
-         solver (new-solver)]
+(defn solve-state-string [starting-state-string & {:keys [initial-rotation result-atom]}]
+   (let [solver (new-solver)]
      (solver starting-state-string
              (fn callback [err, result-alg]
                (when err
@@ -50,7 +45,7 @@
                        result-steps (manipulation/prepend-initial-rotation initial-rotation alg-steps)]
                    (reset! result-atom
                            (serialization/alg-to-str result-steps))))))
-     result-atom)))
+     result-atom))
 
 (defn- convert-piece [p]
   (let [piece-id (filterv some?
@@ -61,18 +56,9 @@
          piece-id
          (str "oops! piece " (pr-str p) " could not be converted!"))))
 
-(defn- bottom-layer-pieces [puzzle]
-  (let [turned-puzzle (execution/transformation-result puzzle "0,-6")]
-    (either/branch
-     turned-puzzle
-     (fn [& _]
-       (throw (new js/Error "the puzzle could not be converted to a state string for solving it.")))
-     (fn [result]
-       (-> result :puzzle :bottom-layer :pieces)))))
-
 (defn convert-to-state-string [puzzle]
   (let [pieces (into (-> puzzle :top-layer :pieces)
-                     (bottom-layer-pieces puzzle))]
+                     (-> puzzle :bottom-layer :pieces))]
     (apply str
            (mapv convert-piece pieces))))
 
@@ -106,14 +92,21 @@
       [rotations new-puzzle])))
 
 ;; this is the intended public api
-(defn solve [puzzle]
-  (let [sliceable? (either/right? (slicing/slice puzzle))]
-    (if sliceable?
-      (solve-state-string (convert-to-state-string puzzle))
-      (let [[rotation puzzle] (rotation-to-slice-position puzzle)]
-        ;; This is a limitation of Jaap's solver: the puzzle must be at a
-        ;; sliceable position when a solution is calculated. To work around
-        ;; this, twist the puzzle with a random rotation so that it's sliceable,
-        ;; and include that random rotation in the scramble.
-        (solve-state-string (convert-to-state-string puzzle)
-                            rotation)))))
+(defn solve
+  ([puzzle]
+   (solve puzzle (reagent/atom nil)))
+
+  ([puzzle result-atom]
+   (let [sliceable? (either/right? (slicing/slice puzzle))]
+     (if sliceable?
+       (solve-state-string (convert-to-state-string puzzle)
+                           :initial-rotation nil
+                           :result-atom result-atom)
+       (let [[rotation puzzle] (rotation-to-slice-position puzzle)]
+         ;; This is a limitation of Jaap's solver: the puzzle must be at a
+         ;; sliceable position when a solution is calculated. To work around
+         ;; this, twist the puzzle with a random rotation so that it's sliceable,
+         ;; and include that random rotation in the scramble.
+         (solve-state-string (convert-to-state-string puzzle)
+                             :initial-rotation rotation
+                             :result-atom result-atom))))))
