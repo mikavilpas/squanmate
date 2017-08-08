@@ -13,15 +13,16 @@
 
 (defcard-rg square-square-to-kite-kite
   [:div
-   (newmonochrome/monochrome-puzzle p/square-square)
+   (newmonochrome/monochrome-puzzle p/square-square {:monochrome? false})
    (m/mlet [result (slicing/slice p/square-square)]
-           (newmonochrome/monochrome-puzzle result))])
+           (newmonochrome/monochrome-puzzle result
+                                            {:monochrome? false}))])
 
 (deftest slice-square-square-to-kite-kite-test []
   (m/mlet [result (slicing/slice p/square-square)]
           ;; todo is kite kite
           (is (= "ceceecec" (p/pieces-str (:top-layer result))))
-          (is (= "ececcece" (p/pieces-str (:bottom-layer result))))))
+          (is (= "ceceecec" (p/pieces-str (:bottom-layer result))))))
 
 (def kite-kite (shapes/puzzle-with-layers "kite" "kite"))
 
