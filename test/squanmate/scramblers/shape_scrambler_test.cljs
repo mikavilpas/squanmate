@@ -12,6 +12,7 @@
 ;; todo a scramble like (0,-4)/ (-3,0)/ (3,0)/ (-5,-2)/ (5,-1)/ (-3,0)/ (3,0)/
 ;; (-2,-5)/ (-3,-1)/ (0,-3)/ (5,-2)/ (0,-2)/ (1,-4)/ (-3,3) will leave the
 ;; bottom layer in an impossible position!
+;; can a 3-2-1 shape be turned like this in the algorithm visualizer?
 
 (defcard-rg scramble-preview
   [:div
