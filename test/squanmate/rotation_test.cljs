@@ -4,41 +4,49 @@
             [squanmate.puzzle :as p]
             [squanmate.rotation :as r]
             [squanmate.shapes :as shapes]
-            [cats.core :as m])
+            [cats.core :as m]
+            [squanmate.puzzle :as puzzle])
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg deftest]]))
 
-(def square-layer shapes/square)
+(def square-top-layer (:top-layer puzzle/square-square))
+(def square-bottom-layer (:bottom-layer puzzle/square-square))
 
 (defn- rotated-pieces [layer amount]
   (m/fmap p/pieces-str
           (r/rotate-layer layer amount)))
 
-(deftest first-piece-test []
+(deftest first-piece-top-layer-test []
+  "top layer"
   (is (= "e"
-         (->> (r/first-piece r/clockwise-rotation square-layer)
-              :type))
-      "when turning clockwise, must recognize the next piece")
-
+         (->> (r/first-piece r/clockwise-rotation square-top-layer)
+              :type)))
   (is (= "c"
-         (->> (r/first-piece r/counterclockwise-rotation square-layer)
-              :type))
-      "when turning counterclockwise, must recognize the next piece"))
+         (->> (r/first-piece r/counterclockwise-rotation square-top-layer)
+              :type)))
+
+  "bottom layer"
+  (is (= "c"
+         (->> (r/first-piece r/clockwise-rotation square-bottom-layer)
+              :type)))
+  (is (= "e"
+         (->> (r/first-piece r/counterclockwise-rotation square-bottom-layer)
+              :type))))
 
 (deftest rotate-layer-clockwise-test []
   "dummy rotation must do nothing"
-  (is (= (r/rotate-layer square-layer 0)
-         (either/right square-layer)))
+  (is (= (r/rotate-layer square-top-layer 0)
+         (either/right square-top-layer)))
 
-  (is (= (rotated-pieces square-layer 1)
+  (is (= (rotated-pieces square-top-layer 1)
          (either/right "ecececec")))
 
-  (is (= (rotated-pieces square-layer 3)
+  (is (= (rotated-pieces square-top-layer 3)
          (either/right "cececece"))
       "rotating in 90 degree increments must preserve the square shape")
 
   "rotating by other amounts"
-  (is (= (rotated-pieces square-layer 4)
+  (is (= (rotated-pieces square-top-layer 4)
          (either/right "ecececec")))
 
   (is (either/left?
@@ -46,9 +54,9 @@
       "it should be impossible to rotate by -1 if the next piece is worth 2"))
 
 (deftest rotate-layer-counterclockwise-test []
-  (is (= (rotated-pieces square-layer -2)
+  (is (= (rotated-pieces square-top-layer -2)
          (either/right "ecececec"))
       "rotate -2 over a corner piece")
 
-  (is (either/left? (r/rotate-layer square-layer -1))
+  (is (either/left? (r/rotate-layer square-top-layer -1))
       "trying to rotate -1 when the first piece is a corner piece (worth 2)"))
