@@ -1,6 +1,6 @@
 <img align="right"
      width="30%"
-     src="https://rawgit.com/sp3ctum/squanmate/master/resources/public/readme/shape-visualizer.png">
+     src="https://rawgit.com/sp3ctum/squanmate/master/resources/public/readme/cubeshape-trainer.png">
 
 ![logo][logolink]
 
@@ -57,5 +57,5 @@ In the repl, run `(build-once prod)`. The output file is tracked by git, so it
 will show up as changed in your `git status`. Commit the changed file to the
 repository so that the app works online with the newest version.
 
-[logolink]: https://rawgit.com/sp3ctum/squanmate/master/resources/public/readme/cubeshape-trainer.png
+[logolink]: https://rawgit.com/sp3ctum/squanmate/master/resources/public/readme/logo.png
 [applink]: https://rawgit.com/sp3ctum/squanmate/master/resources/public/
