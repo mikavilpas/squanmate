@@ -6,6 +6,9 @@
 
 *Squanmate* is a Square-1 training tool. It can help you:
 
+* train your cubeshape (or cubeshape parity) skills.
+  * select the combinations of shapes you would like to train
+  * a random scramble is generated for you. Solve away!
 * learn and remember all different shapes and their names
 * display cubeshape algorithms and the shapes the algorithm goes through
   * it's a good aid for memorizing algorithms!
