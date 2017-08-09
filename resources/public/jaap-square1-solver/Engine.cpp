@@ -104,7 +104,7 @@ int Engine::DoSearch(Position1& p1, int dp, int md, ostream* os){
 	MaxDepth=dp;
 	Mode=md;
 	OutStrm=os;
-	cout<<"Position: "<<InitPos.Strng()<<endl;
+	// cout<<"Position: "<<InitPos.Strng()<<endl;
 	return StartPhase1();
 }
 
@@ -116,11 +116,11 @@ int Engine::DoSearch(Position1& p1, int dp, int md, ostream* os){
 
 void Engine::FoundSol(int l, bool large){
   solutionsFound++;
-  cout<<"found solution! now have this many solutions: " << solutionsFound;
-  if(MaxDepth>l || Mode==0){
-    cout<<"Length:"<<l<<endl;
-   }
-   if(Mode)	MaxDepth=l;
+  // cout<<"found solution! now have this many solutions: " << solutionsFound;
+  // if(MaxDepth>l || Mode==0){
+  //   cout<<"Length:"<<l<<endl;
+  //  }
+  if(Mode)	MaxDepth=l;
 	else		MaxDepth=large? l-2: l-1;
 
    ostringstream os;

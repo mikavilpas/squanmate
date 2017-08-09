@@ -144,7 +144,7 @@ void EngineTwst::InitPermTable(){
 
 //control a phase 1 search
 int EngineTwst::StartPhase1(){
-  cout<<"starting phase 1";
+  // cout<<"starting phase 1";
 	//first extract the starting shape
 	Position1 p1=InitPos;
 	//Perform phase 1 search, for increasing depths
@@ -164,7 +164,7 @@ int EngineTwst::StartPhase1(){
 //Perform phase 1 search on given position
 //l1=#moves still to be done, lm<0 on first move, >0 if must now be last move, clear otherwise
 int EngineTwst::Phase1(Position1 Ps1, char l1, char lm){
-  cout<<"starting phase 1 worker";
+  // cout<<"starting phase 1 worker";
 	char b,t;
 	int r=0;
 	// prune 
@@ -236,7 +236,7 @@ int EngineTwst::Phase1(Position1 Ps1, char l1, char lm){
 
 //control a phase 2 search
 int EngineTwst::StartPhase2(Position1 Ps1, char lm){
-  cout<<"starting phase 2";
+  // cout<<"starting phase 2";
 	int r=0;
 	Position2 p2;
 
