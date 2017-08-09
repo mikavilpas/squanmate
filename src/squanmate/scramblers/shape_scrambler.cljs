@@ -15,7 +15,13 @@
   (p/pieces-str (get shapes/all-shapes shape-name)))
 
 (defn- random-top-and-bottom-shape-names [possible-layers]
-  (shuffle (rand-nth (vec possible-layers))))
+  (-> possible-layers
+      ;; this is called with a set, which is unusable with rand-nth. Need to
+      ;; convert it.
+      vec
+      rand-nth
+      ;; mix the top and bottom layers together so they randomly change
+      shuffle))
 
 (defn scramble
   "A shape scramble is a scramble that is guaranteed to start with the layers in
