@@ -1,5 +1,12 @@
 # Changelog
 
+## upcoming
+- shape-visualizer bugfix: `BREAKING`: Fix being able to rotate the bottom layer
+  into impossible positions. The pieces were actually aligned at the slice point
+  at back of the puzzle, while they should have been aligned at the front. All
+  shape-visualizer algs need to be adjusted with an additional 0,6 initial
+  rotation to account for this bug.
+
 ## 2017-07-31
 - shape-visualizer: show Cale Schoon method parity count for the current count
   position and algorithm
