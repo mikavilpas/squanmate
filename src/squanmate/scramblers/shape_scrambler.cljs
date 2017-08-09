@@ -48,26 +48,30 @@
                       (str a " " b)])))]])
 
 (defn new-scramble! [state]
-  (swap! state assoc :puzzle (scramble)))
+  (let [new-scramble (scramble)
+        solution-atom (solving/solve new-scramble)]
+    (swap! state assoc :puzzle new-scramble)
+    (add-watch solution-atom nil
+               (fn [_key _ref _old-value solution-algorithm]
+                 (let [steps (m/extract (parser/parse solution-algorithm))
+                       reverse-steps (manipulation/reverse-steps steps)
+                       scramble-string (serialization/alg-to-str reverse-steps)]
+                   (swap! state assoc :scramble-algorithm scramble-string))))))
 
 ;; let this module own its state schema
 (defn new-state []
-  (reagent/atom
-   {:puzzle (scramble)
-    :selected-shapes {"square square" true}}))
+  (let [state (reagent/atom
+               {:puzzle nil
+                :selected-shapes {"square square" true}
+                :scramble-algorithm nil})]
+    (new-scramble! state)
+    state))
 
 (defn scramble-component [state]
-  (let [solution-atom (solving/solve (:puzzle @state))]
-    (fn [state]
-      (let [solution-alg @solution-atom
-            steps (m/extract (parser/parse solution-alg))
-            reverse-steps (manipulation/reverse-steps steps)
-            scramble-string (serialization/alg-to-str reverse-steps)]
-        [:div
-         [:div.center
-          [newmonochrome/monochrome-puzzle (:puzzle @state)
-           {:monochrome? false
-            :size 180}]]
-         [:div.center
-          [scramble-preview scramble-string]]
-         [settings state]]))))
+  [:div
+   [:div.center
+    [newmonochrome/monochrome-puzzle (:puzzle @state) {:monochrome? false
+                                                       :size 180}]]
+   [:div.center
+    [scramble-preview (:scramble-algorithm @state)]]
+   [settings state]])
