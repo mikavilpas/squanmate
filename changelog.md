@@ -1,6 +1,6 @@
 # Changelog
 
-## upcoming
+## 2017-08-09
 - new feature: cubeshape parity trainer! See the readme for more info.
 - shape-visualizer bugfix: `BREAKING`: Fix being able to rotate the bottom layer
   into impossible positions. The pieces were actually aligned at the slice point
