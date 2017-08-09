@@ -9,7 +9,8 @@
             [cats.core :as m]
             [squanmate.ui.common :as common]
             [squanmate.shape-combinations :as shape-combinations]
-            [reagent.core :as reagent]))
+            [reagent.core :as reagent]
+            [squanmate.rotation :as rotation]))
 
 (defn- shape-str [shape-name]
   (p/pieces-str (get shapes/all-shapes shape-name)))
@@ -23,6 +24,13 @@
       ;; mix the top and bottom layers together so they randomly change
       shuffle))
 
+(defn- apply-random-rotations [puzzle]
+  (let [[new-top _] (-> puzzle :top-layer rotation/random-layer-rotations first)
+        [new-bottom _] (-> puzzle :bottom-layer rotation/random-layer-rotations first)]
+    (assoc puzzle
+           :top-layer (m/extract new-top)
+           :bottom-layer (m/extract new-bottom))))
+
 (defn scramble
   "A shape scramble is a scramble that is guaranteed to start with the layers in
   the desired shapes. This exists to make practicing cubeshape and cubeshape
@@ -34,8 +42,8 @@
          [top-name bottom-name] (random-top-and-bottom-shape-names possible-layers)
          top (shape-str top-name)
          bottom (shape-str bottom-name)]
-     ;; todo apply a random valid rotation to both layers to keep this interesting!
-     (p/puzzle-with-shapes top bottom))))
+     (-> (p/puzzle-with-shapes top bottom)
+         apply-random-rotations))))
 
 (defn- scramble-preview [s]
   [:div.col-xs-10.col-md-6.col-lg-6.scramble [common/well s]])

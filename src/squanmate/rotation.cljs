@@ -51,3 +51,14 @@
     :else (either/left (p/LayerError. (str "rotate-layer: unknown case when rotating by "
                                            amount)
                                       layer))))
+
+(defn random-layer-rotations [layer]
+  (let [rotation-amounts (shuffle (range -6 7))
+        rotation-results (map (fn [amount]
+                                [(rotate-layer layer amount)
+                                 amount])
+                              rotation-amounts)
+        successful-results (filter (fn [[result _amount]]
+                                     (either/right? result))
+                                   rotation-results)]
+    successful-results))

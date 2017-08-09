@@ -63,15 +63,9 @@
            (mapv convert-piece pieces))))
 
 (defn- rotate-layer-to-slice-position [layer]
-  (let [rotation-amounts (shuffle (range -6 7))
-        rotation-tries (map (fn [amount]
-                              [(rotation/rotate-layer layer amount)
-                               amount])
-                            rotation-amounts)
+  (let [rotation-tries (rotation/random-layer-rotations layer)
         sliceable? (fn [[l _amount]]
-                     (and (either/right? l)
-                          (slicing/layer-sliceable? (m/extract l))))
-
+                     (slicing/layer-sliceable? (m/extract l)))
         [layer-result amount] (first (filter sliceable? rotation-tries))]
     [(m/extract layer-result)
      amount]))
