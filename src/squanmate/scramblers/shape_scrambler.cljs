@@ -13,8 +13,15 @@
 (defn- shape-str [shape-name]
   (p/pieces-str (get shapes/all-shapes shape-name)))
 
-(defn scramble []
-  (let [[top-name bottom-name] (rand-nth shape-combinations/possible-layers)
+(defn- random-top-and-bottom-shape-names []
+  (shuffle (rand-nth shape-combinations/possible-layers)))
+
+(defn scramble
+  "A shape scramble is a scramble that is guaranteed to start with the layers in
+  the desired shapes. This exists to make practicing cubeshape and cubeshape
+  parity algorithms easier."
+  []
+  (let [[top-name bottom-name] (random-top-and-bottom-shape-names)
         top (shape-str top-name)
         bottom (shape-str bottom-name)]
     (p/puzzle-with-shapes top bottom)))
