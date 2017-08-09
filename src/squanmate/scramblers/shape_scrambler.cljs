@@ -14,25 +14,29 @@
 (defn- shape-str [shape-name]
   (p/pieces-str (get shapes/all-shapes shape-name)))
 
-(defn- random-top-and-bottom-shape-names []
-  (shuffle (rand-nth shape-combinations/possible-layers)))
+(defn- random-top-and-bottom-shape-names [possible-layers]
+  (shuffle (rand-nth (vec possible-layers))))
 
 (defn scramble
   "A shape scramble is a scramble that is guaranteed to start with the layers in
   the desired shapes. This exists to make practicing cubeshape and cubeshape
   parity algorithms easier."
-  []
-  (let [[top-name bottom-name] (random-top-and-bottom-shape-names)
-        top (shape-str top-name)
-        bottom (shape-str bottom-name)]
-    (p/puzzle-with-shapes top bottom)))
+  ([]
+   (scramble shape-combinations/possible-layers))
+  ([possible-layers]
+   (let [result (random-top-and-bottom-shape-names possible-layers)
+         [top-name bottom-name] (random-top-and-bottom-shape-names possible-layers)
+         top (shape-str top-name)
+         bottom (shape-str bottom-name)]
+     (p/puzzle-with-shapes top bottom))))
 
 (defn- scramble-preview [s]
   [:div.col-xs-10.col-md-6.col-lg-6.scramble [common/well s]])
 
-(defn- checkbox-handler [id state]
-  (swap! state update-in [:selected-shapes id] not)
-  (println "state is now " (-> @state :selected-shapes pr-str)))
+(defn- checkbox-handler [shape-names state]
+  (if (contains? (:selected-shapes @state) shape-names)
+    (swap! state update-in [:selected-shapes] disj shape-names)
+    (swap! state update-in [:selected-shapes] conj shape-names)) )
 
 (defn settings [state]
   [common/accordion
@@ -43,12 +47,12 @@
                    (let [id (str a " " b)]
                      [common/checkbox {:id id
                                        :inline true
-                                       :checked (get-in @state [:selected-shapes id])
-                                       :on-change #(checkbox-handler id state)}
+                                       :checked (contains? (:selected-shapes @state) [a b])
+                                       :on-change #(checkbox-handler [a b] state)}
                       (str a " " b)])))]])
 
 (defn new-scramble! [state]
-  (let [new-scramble (scramble)
+  (let [new-scramble (scramble (:selected-shapes @state))
         solution-atom (solving/solve new-scramble)]
     (swap! state assoc :puzzle new-scramble)
     (add-watch solution-atom nil
@@ -62,7 +66,7 @@
 (defn new-state []
   (let [state (reagent/atom
                {:puzzle nil
-                :selected-shapes {"square square" true}
+                :selected-shapes #{["square" "square"]}
                 :scramble-algorithm nil})]
     (new-scramble! state)
     state))
