@@ -25,3 +25,9 @@
 (def label (reagent/adapt-react-class js/ReactBootstrap.Label))
 (def popover (reagent/adapt-react-class js/ReactBootstrap.Popover))
 (def well (reagent/adapt-react-class js/ReactBootstrap.Well))
+
+;; todo these would look nice, but they are not yet included in cljsjs/react-bootstrap
+;; (def toggle-button (reagent/adapt-react-class js/ReactBootstrap.ToggleButton))
+;; (def toggle-button-group (reagent/adapt-react-class js/ReactBootstrap.ToggleButtonGroup))
+
+(def checkbox (reagent/adapt-react-class js/ReactBootstrap.Checkbox))
