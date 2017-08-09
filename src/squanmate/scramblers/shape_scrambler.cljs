@@ -28,6 +28,7 @@
          [top-name bottom-name] (random-top-and-bottom-shape-names possible-layers)
          top (shape-str top-name)
          bottom (shape-str bottom-name)]
+     ;; todo apply a random valid rotation to both layers to keep this interesting!
      (p/puzzle-with-shapes top bottom))))
 
 (defn- scramble-preview [s]
