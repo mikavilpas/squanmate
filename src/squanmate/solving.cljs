@@ -97,16 +97,11 @@
    (solve puzzle (reagent/atom nil)))
 
   ([puzzle result-atom]
-   (let [sliceable? (either/right? (slicing/slice puzzle))]
-     (if sliceable?
-       (solve-state-string (convert-to-state-string puzzle)
-                           :initial-rotation nil
-                           :result-atom result-atom)
-       (let [[rotation puzzle] (rotation-to-slice-position puzzle)]
-         ;; This is a limitation of Jaap's solver: the puzzle must be at a
-         ;; sliceable position when a solution is calculated. To work around
-         ;; this, twist the puzzle with a random rotation so that it's sliceable,
-         ;; and include that random rotation in the scramble.
-         (solve-state-string (convert-to-state-string puzzle)
-                             :initial-rotation rotation
-                             :result-atom result-atom))))))
+   (let [[rotation puzzle] (rotation-to-slice-position puzzle)]
+     ;; This is a limitation of Jaap's solver: the puzzle must be at a
+     ;; sliceable position when a solution is calculated. To work around
+     ;; this, twist the puzzle with a random rotation so that it's sliceable,
+     ;; and include that random rotation in the scramble.
+     (solve-state-string (convert-to-state-string puzzle)
+                         :initial-rotation rotation
+                         :result-atom result-atom))))
