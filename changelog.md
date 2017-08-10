@@ -1,6 +1,6 @@
 # Changelog
 
-## upcoming
+## 2017-08-10
 - trainer: remove previous scramble sequence when a new scramble is being
   generated, to make it clear it's not been calculated yet.
 - "all shapes" page: fix reporting 11 "4 corners, 4 edges" shapes while there
