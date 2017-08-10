@@ -38,7 +38,7 @@
 
 (defn- four-corners []
   [:div
-   "4 corners, 4 edges (11 shapes)"
+   "4 corners, 4 edges (10 shapes)"
    [:div
     [shape s/square]
     [shape s/kite]
