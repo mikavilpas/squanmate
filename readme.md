@@ -1,6 +1,6 @@
 <img align="right"
      width="30%"
-     src="https://rawgit.com/sp3ctum/squanmate/master/resources/public/readme/shape-visualizer.png">
+     src="https://rawgit.com/sp3ctum/squanmate/master/resources/public/readme/cubeshape-trainer.png">
 
 ![logo][logolink]
 
