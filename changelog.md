@@ -1,5 +1,9 @@
 # Changelog
 
+## upcoming
+- trainer: remove previous scramble sequence when a new scramble is being
+  generated, to make it clear it's not been calculated yet.
+
 ## 2017-08-09
 - new feature: cubeshape parity trainer! See the readme for more info.
 - shape-visualizer bugfix: `BREAKING`: Fix being able to rotate the bottom layer
