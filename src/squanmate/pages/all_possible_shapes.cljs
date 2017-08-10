@@ -7,10 +7,13 @@
    [devcards.core :as dc :refer [defcard-rg]]))
 
 (defn shape [shape]
-  [:span (:name shape)
-   [newmonochrome/layer-component
-    (puzzle/TopLayer. (:pieces shape))
-    :size 100]])
+  [common/well {:style {:display "inline-block"}
+                :bs-size "small"}
+   [:div [newmonochrome/layer-component
+          (puzzle/TopLayer. (:pieces shape))
+          :size 100]]
+   [:div.center
+    (:name shape)]])
 
 (defn- flowers []
   [:div
