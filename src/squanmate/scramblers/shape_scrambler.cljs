@@ -69,6 +69,7 @@
 (defn new-scramble! [state]
   (let [new-scramble (scramble (:selected-shapes @state))
         solution-atom (solving/solve new-scramble)]
+    (swap! state assoc :scramble-algorithm nil)
     (swap! state assoc :puzzle new-scramble)
     (add-watch solution-atom nil
                (fn [_key _ref _old-value solution-algorithm]
