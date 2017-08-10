@@ -3,6 +3,9 @@
 ## upcoming
 - trainer: remove previous scramble sequence when a new scramble is being
   generated, to make it clear it's not been calculated yet.
+- "all shapes" page: fix reporting 11 "4 corners, 4 edges" shapes while there
+  actually are 10
+- "all shapes" page: add nicer looking formatting
 
 ## 2017-08-09
 - new feature: cubeshape parity trainer! See the readme for more info.
