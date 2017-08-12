@@ -1,8 +1,10 @@
 # Changelog
 
-## upcoming
+## 3.0
 - fix not being able to navigate to other pages after clicking/opening a
   shape-visualizer "link to this visualization" link
+- change version scheme to semantic versioning. Should have been semver from the
+  start :)
 
 ## 2017-08-12
 - shape-visualizer: fix showing parity count for algs that don't end in
