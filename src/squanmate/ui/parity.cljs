@@ -65,6 +65,9 @@
           end-step-either (either/right (last step-eithers))]
           (m/mlet [start-step start-step-either
                    end-step end-step-either]
+
+                  ;; double check - this is a precondition for calling this
+                  ;; component
                   (if (= ["square" "square"]
                          (shapes/puzzle-layer-shape-names (:puzzle start-step)))
                     (either/right [parity-count-component (:puzzle end-step)])
@@ -81,6 +84,9 @@
   If that count is even, the algorithm starts from even and ends with
   solved (always even), which means the algorithm preserves parity. Otherwise
   the algorithm is one that switches the parity once arriving at cubeshape.
+
+  Should only be called when it's known that the alg-string leads into cubeshape
+  from some known starting position.
   "
   [alg-string]
   (when (not (str/blank? alg-string))

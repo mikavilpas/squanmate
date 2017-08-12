@@ -10,7 +10,8 @@
             [cats.core :as m]
             [squanmate.ui.common :as common]
             [squanmate.ui.exporting :as exporting]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [squanmate.shapes :as shapes]))
 
 (defn- interesting-step? [step-either]
   (either/branch step-either
@@ -29,6 +30,15 @@
                  :bs-style "danger"}
    (pr-str e)])
 
+(defn ends-at-cubeshape? [step-eithers]
+  (-> step-eithers
+      last
+      m/extract
+      :puzzle
+      shapes/puzzle-layer-shape-names
+      (=
+       ["square" "square"])))
+
 (defn algorithm-visualization
 
   ([puzzle alg-string]
@@ -37,9 +47,10 @@
   ([puzzle alg-string settings]
    (let [step-eithers (execution/transformations puzzle alg-string)]
      [:div.top17
-      [:div
-       (when (execution/successful-transformations? step-eithers)
-         [parity/alg-parity-switched-at-cubeshape?-component alg-string])]
+      (when (and (ends-at-cubeshape? step-eithers)
+                 (execution/successful-transformations? step-eithers))
+        [parity/alg-parity-switched-at-cubeshape?-component alg-string])
+
       ;; using into [] removes a react warning about a missing unique key
       (into [:div#visualization
              ;; take up as little space as possible

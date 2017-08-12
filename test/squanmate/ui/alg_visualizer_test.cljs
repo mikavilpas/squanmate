@@ -3,9 +3,20 @@
             [clojure.test :as t]
             [squanmate.puzzle :as p]
             [squanmate.puzzle :as puzzle]
-            [reagent.core :as reagent])
+            [reagent.core :as reagent]
+            [cljs.test :refer [is]]
+            [squanmate.alg.execution :as execution])
   (:require-macros
-   [devcards.core :as dc :refer [defcard-rg]]))
+   [devcards.core :as dc :refer [defcard-rg deftest]]))
+
+(deftest ends-at-cubeshape?-test []
+  (is (true? (-> puzzle/square-square
+                 (execution/transformations "1/3")
+                 v/ends-at-cubeshape?)))
+
+  (is (false? (-> puzzle/square-square
+                  (execution/transformations "/3")
+                  v/ends-at-cubeshape?))))
 
 (defcard-rg turn-and-slice
   [v/algorithm-visualization
