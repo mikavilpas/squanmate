@@ -5,8 +5,8 @@
 
 (enable-console-print!)
 
-(defonce app-state-atom (reagent/atom {:page nil
-                                       :route-args []}))
+(defonce app-state-atom (reagent/atom {:page {:name nil
+                                              :route-args nil}}))
 
 (defn- try-remove-node [id]
   (when-let [element (js/document.getElementById id)]

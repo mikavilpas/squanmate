@@ -7,7 +7,9 @@
             [squanmate.pages.trainer :as trainer]))
 
 (defmulti page-content (fn [app-state]
-                         (:page @app-state)))
+                         (-> @app-state
+                             :page
+                             :name)))
 
 ;; todo move this to shapes page
 (defmethod page-content :shapes []
@@ -21,9 +23,11 @@
   [shape-visualizer/content])
 
 (defmethod page-content :shape-visualizer-from-args [app-state-atom]
-  (shape-visualizer/content-from-args (:route-args @app-state-atom)))
+  [shape-visualizer/content-from-args (-> @app-state-atom
+                                          :page
+                                          :route-args)])
 
-(defmethod page-content :default []
+(defmethod page-content :default [app-state]
   [:div "warning: page content not found"])
 
 (defn navigation []
@@ -44,9 +48,8 @@
 (defn main-ui [app-state]
   [:div
    [:div.content
-    [:div
-     [navigation]
-     [:div.container
-      [page-content app-state]]]]
+    [navigation]
+    [:div.container
+     [page-content app-state]]]
 
    [footer]])

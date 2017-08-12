@@ -18,24 +18,30 @@
       (.setEnabled true))
     (reset! browser-setup? true)))
 
+(defn- set-route!
+  ([app-state page]
+   (set-route! app-state page []))
+  ([app-state page route-args]
+   (swap! app-state assoc :page {:name page
+                                 :route-args route-args})))
+
 (defn app-routes [app-state]
   (secretary/set-config! :prefix "#")
 
   (defroute "/" []
-    (swap! app-state assoc :page :main))
+    (set-route! app-state :main))
 
   (defroute "/shapes" []
-    (swap! app-state assoc :page :shapes))
+    (set-route! app-state :shapes))
+
+  (defroute "/shape-visualizer" []
+    (set-route! app-state :shape-visualizer))
 
   (defroute "/shape-visualizer/:top-shape-name/:bottom-shape-name/:initial-rotation/:algorithm"
     {:as route-args}
     ;; This route displays the visualization with the data provided in the URL
     ;; itself. Can be used to link visualizations to other users or for personal
     ;; reference.
-    (swap! app-state assoc :route-args route-args)
-    (swap! app-state assoc :page :shape-visualizer-from-args))
-
-  (defroute "/shape-visualizer" []
-    (swap! app-state assoc :page :shape-visualizer))
+    (set-route! app-state :shape-visualizer-from-args route-args))
 
   (hook-browser-navigation!))
