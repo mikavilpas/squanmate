@@ -1,5 +1,9 @@
 # Changelog
 
+## upcoming
+- shape-visualizer: fix showing parity count for algs that don't end in
+  cubeshape
+
 ## 2017-08-10
 - trainer: remove previous scramble sequence when a new scramble is being
   generated, to make it clear it's not been calculated yet.
