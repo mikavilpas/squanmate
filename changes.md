@@ -1,5 +1,9 @@
 # Changelog
 
+## upcoming
+- fix not being able to navigate to other pages after clicking/opening a
+  shape-visualizer "link to this visualization" link
+
 ## 2017-08-12
 - shape-visualizer: fix showing parity count for algs that don't end in
   cubeshape
