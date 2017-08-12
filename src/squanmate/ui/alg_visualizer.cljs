@@ -49,7 +49,8 @@
      [:div.top17
       (when (and (ends-at-cubeshape? step-eithers)
                  (execution/successful-transformations? step-eithers))
-        [parity/alg-parity-switched-at-cubeshape?-component alg-string])
+        [:div
+         [parity/alg-parity-switched-at-cubeshape?-component alg-string]])
 
       ;; using into [] removes a react warning about a missing unique key
       (into [:div#visualization
