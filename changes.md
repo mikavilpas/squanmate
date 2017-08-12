@@ -1,6 +1,6 @@
 # Changelog
 
-## upcoming
+## 2017-08-12
 - shape-visualizer: fix showing parity count for algs that don't end in
   cubeshape
 
