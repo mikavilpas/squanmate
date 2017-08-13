@@ -1,12 +1,11 @@
 (ns squanmate.ui.layer-selector
   (:require [reagent.core :as reagent]
-            [squanmate.shape-combinations :as shape-combinations]
-            [squanmate.ui.common :as common]
-            [squanmate.ui.shape-chooser :as shape-chooser]
-            [squanmate.ui.shape-preview :as shape-preview]
-            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [squanmate.puzzle :as puzzle]
-            [squanmate.shapes :as shapes]))
+            [squanmate.shape-combinations :as shape-combinations]
+            [squanmate.shapes :as shapes]
+            [squanmate.ui.common :as common]
+            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
+            [squanmate.ui.shape-chooser :as shape-chooser]))
 
 (defn- uniquefy [things]
   (-> things set))
@@ -20,7 +19,7 @@
     ;; valuable to the caller
     (first (filter #(not (= name %)) [a b]))))
 
-(defn filtered-shape-selections [layer-filter]
+(defn filtered-possible-shapes [layer-filter]
   (->> shape-combinations/possible-layers
        (filter (fn [shape-names]
                  (some #(= % layer-filter) shape-names)))
@@ -28,18 +27,13 @@
        flatten
        uniquefy))
 
-(defn- shapes-selected? [shape-names state-atom]
-  (or (contains? (:selected-shapes @state-atom) shape-names)
-      (contains? (:selected-shapes @state-atom) (vec (reverse shape-names)))))
+(defn- shapes-selected? [state-atom shape-names]
+  (contains? (:selected-shapes @state-atom) shape-names))
 
-(defn- select-or-deselect [shape-names state-atom]
-  (if (shapes-selected? shape-names state-atom)
-    (do
-      ;; Shape names can be in either order. This is a bit hacky though.. but
-      ;; it's the clearest way to handle this, I think.
-      (swap! state-atom update-in [:selected-shapes] disj shape-names)
-      (swap! state-atom update-in [:selected-shapes] disj (vec (reverse shape-names))))
-    (swap! state-atom update-in [:selected-shapes] conj shape-names)) )
+(defn- select-or-deselect! [shape-names state-atom]
+  (if (shapes-selected? state-atom shape-names)
+    (swap! state-atom update-in [:selected-shapes] disj shape-names)
+    (swap! state-atom update-in [:selected-shapes] conj shape-names)))
 
 (defn- shape->layer [shape-name]
   (let [shape (get shapes/all-shapes shape-name)
@@ -50,42 +44,45 @@
 
 (defn- layers-selection-component [state filter-shape shape-b-key]
   (let [[name layer] (shape->layer shape-b-key)
-        selected? (shapes-selected? [filter-shape shape-b-key]
-                                    state)]
+        selected? (shapes-selected? state
+                                    #{filter-shape shape-b-key})]
     [common/well {:style {:display "inline-block"}
                   :bs-size "small"}
      [common/checkbox {:inline true
                        :checked selected?
-                       :on-change #(select-or-deselect [filter-shape shape-b-key] state)}
+                       :on-change #(select-or-deselect! #{filter-shape
+                                                          shape-b-key}
+                                                        state)}
 
       [:div.center [newmonochrome/layer-component layer {:size 50}]]
       [:div.center name]]]))
 
-(defn shape-selection-components [state shape-name]
-  (let [possible-shapes (filtered-shape-selections shape-name)]
-    [:div
-     (when shape-name
-       [:div
-        (into [:div]
-              (for [name possible-shapes]
-                [layers-selection-component state shape-name name]))
+(defn- select-all-filtered-shapes [state filter-shape]
+  (let [shape-names (map #(set ["square" %]) (filtered-possible-shapes filter-shape))]
+    (swap! state update :selected-shapes
+           conj shape-names)))
 
-        [common/button "Choose all of these"]
-        " "
-        [common/button "Choose none"]])]))
+(comment
+  (map #(set ["square" %]) (filtered-possible-shapes "square")))
+
+(defn shape-selection-components [state filter-shape]
+  (when filter-shape
+    (let [possible-shapes (filtered-possible-shapes filter-shape)]
+      [:div
+       (into [:div]
+             (for [name possible-shapes]
+               [layers-selection-component state filter-shape name]))
+
+       [common/button {:on-click #(js/alert "lul")} "Choose all of these"]
+       " "
+       [common/button "Choose none"]])))
+
+(defn- current-layer-filter [state]
+  (-> @state :settings :layer-filter))
 
 (defn layer-selector [state]
   [:div
    [shape-chooser/shape-chooser :state (reagent/cursor state [:settings :layer-filter])]
    [shape-selection-components
     state
-    (-> @state :settings :layer-filter)]])
-
-(comment
-  (for [[a b] shape-combinations/possible-layers]
-    (let [id (str a " " b)]
-      [common/checkbox {:id id
-                        :inline true
-                        :checked (contains? (:selected-shapes @state) [a b])
-                        :on-change #(select-or-deselect [a b] state)}
-       (str a " " b)])))
+    (current-layer-filter state)]])

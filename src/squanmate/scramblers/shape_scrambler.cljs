@@ -17,13 +17,17 @@
   (p/pieces-str (get shapes/all-shapes shape-name)))
 
 (defn- random-top-and-bottom-shape-names [possible-layers]
-  (-> possible-layers
-      ;; this is called with a set, which is unusable with rand-nth. Need to
-      ;; convert it.
-      vec
-      rand-nth
-      ;; mix the top and bottom layers together so they randomly change
-      shuffle))
+  ;; possible-layers like square square are just represented as #{"square"},
+  ;; which is only one shape name. Need to make sure this will work too.
+  (let [layer-names (->> possible-layers
+                         vec
+                         rand-nth
+                         cycle
+                         (take 2))]
+    (-> layer-names
+        ;; mix the top and bottom layers together so they randomly change
+        shuffle
+        vec)))
 
 (defn- apply-random-rotations [puzzle]
   (let [[new-top _] (-> puzzle :top-layer rotation/random-layer-rotations first)
@@ -39,8 +43,7 @@
   ([]
    (scramble shape-combinations/possible-layers))
   ([possible-layers]
-   (let [result (random-top-and-bottom-shape-names possible-layers)
-         [top-name bottom-name] (random-top-and-bottom-shape-names possible-layers)
+   (let [[top-name bottom-name] (random-top-and-bottom-shape-names possible-layers)
          top (shape-str top-name)
          bottom (shape-str bottom-name)]
      (-> (p/puzzle-with-shapes top bottom)
@@ -73,7 +76,7 @@
 (defn new-state []
   (let [state (reagent/atom
                {:puzzle nil
-                :selected-shapes #{["square" "square"]}
+                :selected-shapes #{(set ["square" "square"])}
                 :scramble-algorithm nil})]
     (new-scramble! state)
     state))
