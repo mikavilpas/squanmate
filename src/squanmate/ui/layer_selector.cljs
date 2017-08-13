@@ -28,10 +28,18 @@
        flatten
        uniquefy))
 
-(defn- checkbox-handler [shape-names state]
-  (if (contains? (:selected-shapes @state) shape-names)
-    (swap! state update-in [:selected-shapes] disj shape-names)
-    (swap! state update-in [:selected-shapes] conj shape-names)) )
+(defn- shapes-selected? [shape-names state-atom]
+  (or (contains? (:selected-shapes @state-atom) shape-names)
+      (contains? (:selected-shapes @state-atom) (vec (reverse shape-names)))))
+
+(defn- checkbox-handler [shape-names state-atom]
+  (if (shapes-selected? shape-names state-atom)
+    (do
+      ;; Shape names can be in either order. This is a bit hacky though.. but
+      ;; it's the clearest way to handle this, I think.
+      (swap! state-atom update-in [:selected-shapes] disj shape-names)
+      (swap! state-atom update-in [:selected-shapes] disj (vec (reverse shape-names))))
+    (swap! state-atom update-in [:selected-shapes] conj shape-names)) )
 
 (defn- shape->layer [shape-name]
   (let [shape (get shapes/all-shapes shape-name)
@@ -42,22 +50,29 @@
 
 (defn- layers-selection-component [state filter-shape shape-b-key]
   (let [[name layer] (shape->layer shape-b-key)
-        selected? (contains? (:selected-shapes @state)
-                             [filter-shape shape-b-key])]
+        selected? (shapes-selected? [filter-shape shape-b-key]
+                                    state)]
     [common/well {:style {:display "inline-block"}
                   :bs-size "small"}
-     [common/checkbox {:inline true
-                       :checked selected?
-                       :on-change #(checkbox-handler [filter-shape shape-b-key] state)}
+     [:div [common/checkbox {:inline true
+                             :checked selected?
+                             :on-change #(checkbox-handler [filter-shape shape-b-key] state)}
 
-      [:div.center [newmonochrome/layer-component layer {:size 50}]]
-      [:div.center name]]]))
+            [:div.center [newmonochrome/layer-component layer {:size 50}]]
+            [:div.center name]]]]))
 
-(defn shape-selection-components [state layer-filter]
-  (let [possible-shapes (filtered-shape-selections layer-filter)]
-    (into [:div]
-          (for [name possible-shapes]
-            [layers-selection-component state layer-filter name]))))
+(defn shape-selection-components [state shape-name]
+  (let [possible-shapes (filtered-shape-selections shape-name)]
+    [:div
+     (when shape-name
+       [:div
+        (into [:div]
+              (for [name possible-shapes]
+                [layers-selection-component state shape-name name]))
+
+        [common/button "Choose all of these"]
+        " "
+        [common/button "Choose none"]])]))
 
 (defn layer-selector [state]
   [:div
