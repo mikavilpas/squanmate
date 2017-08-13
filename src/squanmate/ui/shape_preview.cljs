@@ -11,11 +11,7 @@
   ([shape {:keys [size]}]
    [common/well {:style {:display "inline-block"}
                  :bs-size "small"}
-    [:div [newmonochrome/layer-component
-           (puzzle/TopLayer. (:pieces shape))
-           {:size size}]]
+    [:div.center [newmonochrome/layer-component
+                  (puzzle/TopLayer. (:pieces shape))
+                  {:size size}]]
     [:div.center (:name shape)]]))
-
-(defn shape-preview-for-shape-name [name settings]
-  (let [s (get shapes/all-shapes name)]
-    [shape s settings]))

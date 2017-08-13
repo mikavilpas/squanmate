@@ -3,7 +3,10 @@
             [squanmate.shape-combinations :as shape-combinations]
             [squanmate.ui.common :as common]
             [squanmate.ui.shape-chooser :as shape-chooser]
-            [squanmate.ui.shape-preview :as shape-preview]))
+            [squanmate.ui.shape-preview :as shape-preview]
+            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
+            [squanmate.puzzle :as puzzle]
+            [squanmate.shapes :as shapes]))
 
 (defn- uniquefy [things]
   (-> things set))
@@ -25,11 +28,36 @@
        flatten
        uniquefy))
 
+(defn- checkbox-handler [shape-names state]
+  (if (contains? (:selected-shapes @state) shape-names)
+    (swap! state update-in [:selected-shapes] disj shape-names)
+    (swap! state update-in [:selected-shapes] conj shape-names)) )
+
+(defn- shape->layer [shape-name]
+  (let [shape (get shapes/all-shapes shape-name)
+        layer (-> shape
+                  :pieces
+                  puzzle/->TopLayer)]
+    [(:name shape) layer]))
+
+(defn- layers-selection-component [state filter-shape shape-b-key]
+  (let [[name layer] (shape->layer shape-b-key)
+        selected? (contains? (:selected-shapes @state)
+                             [filter-shape shape-b-key])]
+    [common/well {:style {:display "inline-block"}
+                  :bs-size "small"}
+     [common/checkbox {:inline true
+                       :checked selected?
+                       :on-change #(checkbox-handler [filter-shape shape-b-key] state)}
+
+      [:div.center [newmonochrome/layer-component layer {:size 50}]]
+      [:div.center name]]]))
+
 (defn shape-selection-components [state layer-filter]
   (let [possible-shapes (filtered-shape-selections layer-filter)]
     (into [:div]
           (for [name possible-shapes]
-            [shape-preview/shape-preview-for-shape-name name {:size 70}]))))
+            [layers-selection-component state layer-filter name]))))
 
 (defn layer-selector [state]
   [:div

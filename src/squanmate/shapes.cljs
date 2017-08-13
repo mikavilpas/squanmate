@@ -81,7 +81,7 @@
   "Given a layer's pieces returns a lazy seq of all the possible rotated states
   the layer can have.
 
-  Actually works with any elements not just pieces"
+  Actually works with any elements, not just pieces"
   [elements]
   (lazy-seq
    (for [i (range (count elements))]

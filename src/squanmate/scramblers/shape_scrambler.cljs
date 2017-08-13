@@ -49,11 +49,6 @@
 (defn- scramble-preview [s]
   [:div.col-xs-10.col-md-6.col-lg-6.scramble [common/well s]])
 
-(defn- checkbox-handler [shape-names state]
-  (if (contains? (:selected-shapes @state) shape-names)
-    (swap! state update-in [:selected-shapes] disj shape-names)
-    (swap! state update-in [:selected-shapes] conj shape-names)) )
-
 (defn settings [state]
   [common/accordion {:default-active-key 1}
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :cog}]
