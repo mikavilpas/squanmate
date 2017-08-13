@@ -5,7 +5,8 @@
             [squanmate.shapes :as shapes]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
-            [squanmate.ui.shape-chooser :as shape-chooser]))
+            [squanmate.ui.shape-chooser :as shape-chooser]
+            [clojure.set :as set]))
 
 (defn- uniquefy [things]
   (-> things set))
@@ -63,6 +64,12 @@
     (swap! state update :selected-shapes
            into shape-names)))
 
+(defn- select-no-filtered-shapes! [state filter-shape]
+  (let [shape-names (map #(set [filter-shape %])
+                         (filtered-possible-shapes filter-shape))]
+    (swap! state update :selected-shapes
+           #(set/difference % shape-names))))
+
 (defn shape-selection-components [state filter-shape]
   (when filter-shape
     (let [possible-shapes (filtered-possible-shapes filter-shape)]
@@ -75,7 +82,9 @@
         {:on-click #(select-all-filtered-shapes! state filter-shape)}
         "Choose all of these"]
        " "
-       [common/button "Choose none"]])))
+       [common/button
+        {:on-click #(select-no-filtered-shapes! state filter-shape)}
+        "Choose none"]])))
 
 (defn- current-layer-filter [state]
   (-> @state :settings :layer-filter))
