@@ -1,19 +1,10 @@
 (ns squanmate.pages.all-possible-shapes
-  (:require [squanmate.puzzle :as puzzle]
-            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
-            [squanmate.shapes :as s]
-            [squanmate.ui.common :as common])
-  (:require-macros
-   [devcards.core :as dc :refer [defcard-rg]]))
+  (:require [squanmate.shapes :as s]
+            [squanmate.ui.common :as common]
+            [squanmate.ui.shape-preview :as shape-preview]))
 
-(defn shape [shape]
-  [common/well {:style {:display "inline-block"}
-                :bs-size "small"}
-   [:div [newmonochrome/layer-component
-          (puzzle/TopLayer. (:pieces shape))
-          :size 100]]
-   [:div.center
-    (:name shape)]])
+(defn- shape [shape]
+  (shape-preview/shape shape))
 
 (defn- flowers []
   [:div

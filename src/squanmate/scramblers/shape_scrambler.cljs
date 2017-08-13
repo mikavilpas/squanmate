@@ -1,16 +1,17 @@
 (ns squanmate.scramblers.shape-scrambler
-  (:require [squanmate.puzzle :as p]
+  (:require [cats.core :as m]
+            [reagent.core :as reagent]
+            [squanmate.alg.manipulation :as manipulation]
+            [squanmate.alg.parser :as parser]
+            [squanmate.alg.serialization :as serialization]
+            [squanmate.puzzle :as p]
+            [squanmate.rotation :as rotation]
+            [squanmate.shape-combinations :as shape-combinations]
             [squanmate.shapes :as shapes]
             [squanmate.solving :as solving]
-            [squanmate.alg.parser :as parser]
-            [squanmate.alg.manipulation :as manipulation]
-            [squanmate.alg.serialization :as serialization]
-            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
-            [cats.core :as m]
             [squanmate.ui.common :as common]
-            [squanmate.shape-combinations :as shape-combinations]
-            [reagent.core :as reagent]
-            [squanmate.rotation :as rotation]))
+            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
+            [squanmate.ui.layer-selector :as layer-selector]))
 
 (defn- shape-str [shape-name]
   (p/pieces-str (get shapes/all-shapes shape-name)))
@@ -54,17 +55,12 @@
     (swap! state update-in [:selected-shapes] conj shape-names)) )
 
 (defn settings [state]
-  [common/accordion
+  [common/accordion {:default-active-key 1}
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :cog}]
                                                " Settings"])
                   :event-key 1}
-    (into [:div] (for [[a b] shape-combinations/possible-layers]
-                   (let [id (str a " " b)]
-                     [common/checkbox {:id id
-                                       :inline true
-                                       :checked (contains? (:selected-shapes @state) [a b])
-                                       :on-change #(checkbox-handler [a b] state)}
-                      (str a " " b)])))]])
+    "Select available shapes for scrambles:"
+    [layer-selector/layer-selector state]]])
 
 (defn new-scramble! [state]
   (let [new-scramble (scramble (:selected-shapes @state))

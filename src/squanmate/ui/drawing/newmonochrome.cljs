@@ -1,19 +1,15 @@
 (ns squanmate.ui.drawing.newmonochrome
-  (:require [reagent.core :as reagent]
+  (:require [quil.middleware :as m]
+            [reagent.core :as reagent]
             [squanmate.puzzle :as p]
             [squanmate.shapes :as shapes]
-            [cljsjs.react-bootstrap]
-            [squanmate.ui.drawing.util.quil-reagent :as quil-reagent]
-            [quil.core :as q]
-            [quil.middleware :as m]
             [squanmate.ui.common :as common]
-            [squanmate.ui.drawing.pieces :as pieces]))
+            [squanmate.ui.drawing.pieces :as pieces]
+            [squanmate.ui.drawing.util.quil-reagent :as quil-reagent]))
 
-(defn layer-component [initial-layer {:keys [size monochrome?]
-                                      :or {size 100
-                                           monochrome? true}}]
+(defn layer-component [initial-layer {:keys [size monochrome?]}]
   (let [current-layer (reagent/atom initial-layer)]
-    (fn render [layer {:keys [size]
+    (fn render [layer {:keys [size monochrome?]
                       :or {size 100
                            monochrome? true}}]
       ;; It's a bit unfortunate but I can't get quil to see a change in the

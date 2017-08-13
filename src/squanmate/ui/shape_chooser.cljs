@@ -18,18 +18,17 @@
 
 (def select-component (reagent/adapt-react-class js/Select))
 
-;; something is amiss here!!
 (defn- select
   "Select based on an atom/cursor. Pass as state"
   [{:keys [state]
     :as initial-props}]
   (let [props (-> initial-props
-                (dissoc state)
-                (assoc :value @state
-                       :on-change (fn [x]
-                                    (reset! state (when x (.-value x))))
-                       :option-renderer render-shape-option
-                       :value-renderer render-shape-option))]
+                  (dissoc state)
+                  (assoc :value @state
+                         :on-change (fn [x]
+                                      (reset! state (when x (.-value x))))
+                         :option-renderer render-shape-option
+                         :value-renderer render-shape-option))]
     [select-component props]))
 
 (defn make-value [& {:keys [id label]}]
