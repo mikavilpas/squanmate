@@ -52,11 +52,19 @@
 (defn- scramble-preview [s]
   [:div.col-xs-10.col-md-6.col-lg-6.scramble [common/well s]])
 
+(defn- selected-shapes-counter [state]
+  ;; there are 90 total shape combinations
+  (let [layer-count (-> @state :selected-shapes count)
+        percentage (-> (* 100 (/ layer-count 90))
+                       (.toFixed 2))]
+    [:div (str layer-count " / 90 total shapes selected (" percentage " %).")]))
+
 (defn settings [state]
   [common/accordion {:default-active-key 1}
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :cog}]
                                                " Settings"])
                   :event-key 1}
+    [selected-shapes-counter state]
     "Select available shapes for scrambles:"
     [layer-selector/layer-selector state]]])
 
@@ -74,6 +82,8 @@
 
 ;; let this module own its state schema by having it defined inside this file
 (defn new-state []
+  ;; Allowed shapes are stored as sets of their layers. This makes adding and
+  ;; removing them very easy in code.
   (let [state (reagent/atom
                {:puzzle nil
                 :selected-shapes #{(set ["square" "square"])}
