@@ -3,7 +3,8 @@
             [squanmate.shapes :as shapes]
             [reagent.core :as reagent]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
-            [squanmate.puzzle :as puzzle]))
+            [squanmate.puzzle :as puzzle]
+            [squanmate.ui.common :as common]))
 
 ;; based on example code from
 ;; https://gist.github.com/pesterhazy/4a4198a9cc040bf6fe13a476f25bac2c
@@ -11,7 +12,7 @@
 (defn- render-shape-option [s]
   (let [shape-key (.-value s)]
     (reagent/as-element
-     [:div [:img {:src (str "./img/shape-thumbnails/" shape-key ".png")
+     [:div [:img {:src (common/shape-preview-image-url shape-key)
                   :style {:margin-top "-3px" }
                   :height "40px"}]
       (.-label s)])))

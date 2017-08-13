@@ -31,3 +31,6 @@
 ;; (def toggle-button-group (reagent/adapt-react-class js/ReactBootstrap.ToggleButtonGroup))
 
 (def checkbox (reagent/adapt-react-class js/ReactBootstrap.Checkbox))
+
+(defn shape-preview-image-url [shape-key]
+  (str "./img/shape-thumbnails/" shape-key ".png"))

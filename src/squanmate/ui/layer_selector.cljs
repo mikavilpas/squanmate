@@ -1,12 +1,11 @@
 (ns squanmate.ui.layer-selector
-  (:require [reagent.core :as reagent]
+  (:require [clojure.set :as set]
+            [reagent.core :as reagent]
             [squanmate.puzzle :as puzzle]
             [squanmate.shape-combinations :as shape-combinations]
             [squanmate.shapes :as shapes]
             [squanmate.ui.common :as common]
-            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
-            [squanmate.ui.shape-chooser :as shape-chooser]
-            [clojure.set :as set]))
+            [squanmate.ui.shape-chooser :as shape-chooser]))
 
 (defn- uniquefy [things]
   (-> things set))
@@ -55,8 +54,12 @@
                                                         #{filter-shape
                                                           shape-b-key})}
 
-      [:div.center [newmonochrome/layer-component layer {:size 50}]]
-      [:div.center name]]]))
+      [:div.center
+       [:img {:src (common/shape-preview-image-url shape-b-key)
+              :height "80px"}]]
+
+      [:div.center
+       name]]]))
 
 (defn- select-all-filtered-shapes! [state filter-shape]
   (let [shape-names (map #(set [filter-shape %])
