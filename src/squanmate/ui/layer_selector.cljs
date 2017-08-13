@@ -30,7 +30,7 @@
 (defn- shapes-selected? [state-atom shape-names]
   (contains? (:selected-shapes @state-atom) shape-names))
 
-(defn- select-or-deselect! [shape-names state-atom]
+(defn- select-or-deselect! [state-atom shape-names]
   (if (shapes-selected? state-atom shape-names)
     (swap! state-atom update-in [:selected-shapes] disj shape-names)
     (swap! state-atom update-in [:selected-shapes] conj shape-names)))
@@ -50,20 +50,18 @@
                   :bs-size "small"}
      [common/checkbox {:inline true
                        :checked selected?
-                       :on-change #(select-or-deselect! #{filter-shape
-                                                          shape-b-key}
-                                                        state)}
+                       :on-change #(select-or-deselect! state
+                                                        #{filter-shape
+                                                          shape-b-key})}
 
       [:div.center [newmonochrome/layer-component layer {:size 50}]]
       [:div.center name]]]))
 
-(defn- select-all-filtered-shapes [state filter-shape]
-  (let [shape-names (map #(set ["square" %]) (filtered-possible-shapes filter-shape))]
+(defn- select-all-filtered-shapes! [state filter-shape]
+  (let [shape-names (map #(set [filter-shape %])
+                         (filtered-possible-shapes filter-shape))]
     (swap! state update :selected-shapes
-           conj shape-names)))
-
-(comment
-  (map #(set ["square" %]) (filtered-possible-shapes "square")))
+           into shape-names)))
 
 (defn shape-selection-components [state filter-shape]
   (when filter-shape
@@ -73,7 +71,9 @@
              (for [name possible-shapes]
                [layers-selection-component state filter-shape name]))
 
-       [common/button {:on-click #(js/alert "lul")} "Choose all of these"]
+       [common/button
+        {:on-click #(select-all-filtered-shapes! state filter-shape)}
+        "Choose all of these"]
        " "
        [common/button "Choose none"]])))
 
