@@ -32,7 +32,7 @@
   (or (contains? (:selected-shapes @state-atom) shape-names)
       (contains? (:selected-shapes @state-atom) (vec (reverse shape-names)))))
 
-(defn- checkbox-handler [shape-names state-atom]
+(defn- select-or-deselect [shape-names state-atom]
   (if (shapes-selected? shape-names state-atom)
     (do
       ;; Shape names can be in either order. This is a bit hacky though.. but
@@ -54,12 +54,12 @@
                                     state)]
     [common/well {:style {:display "inline-block"}
                   :bs-size "small"}
-     [:div [common/checkbox {:inline true
-                             :checked selected?
-                             :on-change #(checkbox-handler [filter-shape shape-b-key] state)}
+     [common/checkbox {:inline true
+                       :checked selected?
+                       :on-change #(select-or-deselect [filter-shape shape-b-key] state)}
 
-            [:div.center [newmonochrome/layer-component layer {:size 50}]]
-            [:div.center name]]]]))
+      [:div.center [newmonochrome/layer-component layer {:size 50}]]
+      [:div.center name]]]))
 
 (defn shape-selection-components [state shape-name]
   (let [possible-shapes (filtered-shape-selections shape-name)]
@@ -87,5 +87,5 @@
       [common/checkbox {:id id
                         :inline true
                         :checked (contains? (:selected-shapes @state) [a b])
-                        :on-change #(checkbox-handler [a b] state)}
+                        :on-change #(select-or-deselect [a b] state)}
        (str a " " b)])))
