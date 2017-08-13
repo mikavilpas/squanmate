@@ -78,7 +78,7 @@
                        scramble-string (serialization/alg-to-str reverse-steps)]
                    (swap! state assoc :scramble-algorithm scramble-string))))))
 
-;; let this module own its state schema
+;; let this module own its state schema by having it defined inside this file
 (defn new-state []
   (let [state (reagent/atom
                {:puzzle nil
