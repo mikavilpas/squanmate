@@ -47,10 +47,9 @@
   ([puzzle alg-string settings]
    (let [step-eithers (execution/transformations puzzle alg-string)]
      [:div.top17
-      (when (and (ends-at-cubeshape? step-eithers)
-                 (execution/successful-transformations? step-eithers))
-        [:div
-         [parity/alg-parity-switched-at-cubeshape?-component alg-string]])
+      (when (and (execution/successful-transformations? step-eithers)
+                 (ends-at-cubeshape? step-eithers))
+        [:div [parity/alg-parity-switched-at-cubeshape?-component alg-string]])
 
       ;; using into [] removes a react warning about a missing unique key
       (into [:div#visualization
