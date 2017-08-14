@@ -18,7 +18,8 @@
   starting count position
 
 **You can run it with a modern web browser right now.
-Try it [here][applink]!** (the link will change, so always open it from this readme file!)
+Try it [here][applink]!** (the link will change with every release, 
+so always open it from this readme file!)
 
 # Development instructions
 As for dependencies, you need a clojure development environment. Check out
