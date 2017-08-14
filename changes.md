@@ -1,6 +1,6 @@
 # Changelog
 
-## upcoming
+## 3.1
 - trainer: add filters and controls for selecting the subset of shapes to get
   scrambles in. Previously the shapes were all in a big, confusing list.
 
