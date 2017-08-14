@@ -1,5 +1,9 @@
 # Changelog
 
+## upcoming
+- trainer: add filters and controls for selecting the subset of shapes to get
+  scrambles in. Previously the shapes were all in a big, confusing list.
+
 ## 3.0
 - fix not being able to navigate to other pages after clicking/opening a
   shape-visualizer "link to this visualization" link
