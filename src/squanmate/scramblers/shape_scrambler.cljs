@@ -59,13 +59,31 @@
                        (.toFixed 2))]
     [:div (str layer-count " / 90 total shapes selected (" percentage " %).")]))
 
+(defonce all-layers (->> shape-combinations/possible-layers
+                         (map set)
+                         set))
+
+(defn- select-all-shapes [state]
+  (swap! state assoc :selected-shapes all-layers))
+
+(defn- select-no-shapes [state]
+  (swap! state assoc :selected-shapes #{}))
+
+(defn- all-shapes-selection-buttons [state]
+  [:div
+   [common/button {:on-click #(select-all-shapes state)} "Select all"]
+   " "
+   [common/button {:on-click #(select-no-shapes state)} "Select none"]])
+
 (defn settings [state]
   [common/accordion {:default-active-key 1}
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :cog}]
                                                " Settings"])
                   :event-key 1}
     [selected-shapes-counter state]
-    "Select available shapes for scrambles:"
+    [all-shapes-selection-buttons state]
+    [:div.top30
+     "Select available shapes for scrambles by filtering:"]
     [layer-selector/layer-selector state]]])
 
 (defn new-scramble! [state]
