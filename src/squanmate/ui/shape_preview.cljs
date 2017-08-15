@@ -4,14 +4,10 @@
             [squanmate.puzzle :as puzzle]
             [squanmate.shapes :as shapes]))
 
-(defn shape
-  ([s]
-   (shape {}))
-
-  ([shape {:keys [size]}]
-   [common/well {:style {:display "inline-block"}
-                 :bs-size "small"}
-    [:div.center [newmonochrome/layer-component
-                  (puzzle/TopLayer. (:pieces shape))
-                  {:size size}]]
-    [:div.center (:name shape)]]))
+(defn shape-preview [shape {:keys [size]}]
+  [common/well {:style {:display "inline-block"}
+                :bs-size "small"}
+   [:div.center [newmonochrome/layer-component
+                 (puzzle/TopLayer. (:pieces shape))
+                 {:size size}]]
+   [:div.center (:name shape)]])

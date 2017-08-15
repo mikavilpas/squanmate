@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.3
+- fix major crash in main ui (oops!), after which the app was unresponsive
+
 ## 3.2
 - shape-visualizer: fix visualization getting stuck when alg is changed
 

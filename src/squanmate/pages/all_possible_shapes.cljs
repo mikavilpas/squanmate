@@ -1,63 +1,60 @@
 (ns squanmate.pages.all-possible-shapes
   (:require [squanmate.shapes :as s]
             [squanmate.ui.common :as common]
-            [squanmate.ui.shape-preview :as shape-preview]))
-
-(defn- shape [shape]
-  (shape-preview/shape shape))
+            [squanmate.ui.shape-preview :as sp]))
 
 (defn- flowers []
   [:div
    [:div "2 corners, 8 edges (5 shapes)"]
-   [shape s/four-four]
-   [shape s/five-three]
-   [shape s/six-two]
-   [shape s/seven-one]
-   [shape s/eight]])
+   [sp/shape-preview s/four-four]
+   [sp/shape-preview s/five-three]
+   [sp/shape-preview s/six-two]
+   [sp/shape-preview s/seven-one]
+   [sp/shape-preview s/eight]])
 
 (defn- three-corners []
   [:div
    "3 corners, 6 edges (10 shapes)"
    [:div
-    [shape s/two-two-two]
-    [shape s/three-three]
-    [shape s/three-two-one]
-    [shape s/three-one-two]
-    [shape s/left-four-two]
-    [shape s/right-four-two]
-    [shape s/four-one-one]
-    [shape s/left-five-one]
-    [shape s/right-five-one]
-    [shape s/six]]])
+    [sp/shape-preview s/two-two-two]
+    [sp/shape-preview s/three-three]
+    [sp/shape-preview s/three-two-one]
+    [sp/shape-preview s/three-one-two]
+    [sp/shape-preview s/left-four-two]
+    [sp/shape-preview s/right-four-two]
+    [sp/shape-preview s/four-one-one]
+    [sp/shape-preview s/left-five-one]
+    [sp/shape-preview s/right-five-one]
+    [sp/shape-preview s/six]]])
 
 (defn- four-corners []
   [:div
    "4 corners, 4 edges (10 shapes)"
    [:div
-    [shape s/square]
-    [shape s/kite]
-    [shape s/barrel]
-    [shape s/shield]
-    [shape s/left-fist]
-    [shape s/right-fist]
-    [shape s/left-pawn]
-    [shape s/right-pawn]
-    [shape s/mushroom]
-    [shape s/scallop]]])
+    [sp/shape-preview s/square]
+    [sp/shape-preview s/kite]
+    [sp/shape-preview s/barrel]
+    [sp/shape-preview s/shield]
+    [sp/shape-preview s/left-fist]
+    [sp/shape-preview s/right-fist]
+    [sp/shape-preview s/left-pawn]
+    [sp/shape-preview s/right-pawn]
+    [sp/shape-preview s/mushroom]
+    [sp/shape-preview s/scallop]]])
 
 (defn- five-corners []
   [:div
    "5 corners, 2 edges (3 shapes)"
    [:div
-    [shape s/paired-edges]
-    [shape s/perpendicular-edges]
-    [shape s/parallel-edges]]])
+    [sp/shape-preview s/paired-edges]
+    [sp/shape-preview s/perpendicular-edges]
+    [sp/shape-preview s/parallel-edges]]])
 
 (defn- six-corners []
   [:div
    "6 corners, 0 edges (1 shape)"
    [:div
-    [shape s/star]]])
+    [sp/shape-preview s/star]]])
 
 (defn- source []
   [:div

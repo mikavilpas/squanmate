@@ -10,13 +10,13 @@
 (defn layer-component [initial-layer {:keys [size monochrome?]}]
   (let [current-layer (reagent/atom initial-layer)]
     (fn render [layer {:keys [size monochrome?]
-                      :or {size 100
-                           monochrome? true}}]
+                      :or {monochrome? true}}]
       ;; It's a bit unfortunate but I can't get quil to see a change in the
       ;; given layer without a local current-layer state
       (reset! current-layer layer)
       (let [shape-name (shapes/layer-shape-name @current-layer)
-            draw-settings (pieces/draw-settings {:monochrome? monochrome?})]
+            draw-settings (pieces/draw-settings {:monochrome? monochrome?})
+            size (or size 100)]
         [common/overlay-trigger
          {:overlay (reagent/as-element [common/tooltip {:id "test"}
                                         shape-name])
