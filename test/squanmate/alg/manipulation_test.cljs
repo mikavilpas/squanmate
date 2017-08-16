@@ -28,3 +28,12 @@
          (manipulation/combine-rotations (rotate -4 0)
                                          (rotate -2 0)))
       "happy path"))
+
+(deftest flip-alg-upside-down-test []
+  (is (= [(rotate 0 -1)]
+         (manipulation/flip-alg-upside-down [(rotate 1 0)])))
+
+  (is (= [(rotate 0 1)
+          (rotate -5 3)]
+         (manipulation/flip-alg-upside-down [(rotate -1 0)
+                                             (rotate -3 5)]))))

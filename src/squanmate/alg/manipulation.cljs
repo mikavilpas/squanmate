@@ -1,5 +1,8 @@
 (ns squanmate.alg.manipulation
-  (:require [squanmate.alg.types :as types]))
+  (:require [squanmate.alg.types :as types]
+            [squanmate.alg.parser :as parser]
+            [cats.core :as m]
+            [squanmate.puzzle :as puzzle]))
 
 ;; this is kind of lame, but at least it's super readable
 (def ^:private prettifications {7 -5
@@ -38,10 +41,25 @@
 
       :else (into [rotation] alg-steps))))
 
+(defn- negate-step [step]
+  (if (= types/Slice (type step))
+    step
+    (-> step
+        (update :top-amount -)
+        (update :bottom-amount -))))
+
 (defn reverse-steps [alg-steps]
-  (reverse (for [step alg-steps]
-             (if (= types/Slice (type step))
-               step
-               (-> step
-                   (update :top-amount -)
-                   (update :bottom-amount -))))))
+  (->> alg-steps (map negate-step) reverse))
+
+(defn- flip-step-upside-down [step]
+  (if (= types/Slice (type step))
+    step
+    (let [{:keys [top-amount bottom-amount]} step]
+      (assoc step
+             :top-amount bottom-amount
+             :bottom-amount top-amount))))
+
+(defn flip-alg-upside-down [alg-steps]
+  (->> alg-steps
+       (mapv flip-step-upside-down)
+       (map negate-step)))
