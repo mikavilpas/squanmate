@@ -99,6 +99,7 @@
                  alg-steps)
        (->> alg-steps
             (mapv manipulation/flip-step-upside-down)
+            (manipulation/prepend-initial-rotation (types/->Rotations 6 6))
             serialization/alg-to-str)
        alg-string))))
 

@@ -62,8 +62,7 @@
 
 (defn flip-alg-upside-down [alg-steps]
   (->> alg-steps
-       (mapv flip-step-upside-down)
-       (map negate-step)))
+       (mapv flip-step-upside-down)))
 
 (defn try-update-alg-string [alg-string update-alg-steps-fn]
   (either/branch (parser/parse alg-string)
