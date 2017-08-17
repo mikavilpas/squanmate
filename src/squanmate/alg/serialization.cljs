@@ -1,7 +1,7 @@
 (ns squanmate.alg.serialization
   (:require [clojure.string :as str]
             [squanmate.alg.types :as types]
-            [squanmate.alg.manipulation :as manipulation]))
+            [squanmate.alg.prettification :as prettification]))
 
 (defn alg-to-str [steps]
   (str/join ""
@@ -12,9 +12,9 @@
                   ;; makes the scramble to be rendered with very nice text
                   ;; wrapping in the browser :)
                   types/Slice "/ "
-                  types/Rotations (str "(" (manipulation/prettify-value
+                  types/Rotations (str "(" (prettification/prettify-value
                                             (:top-amount s))
                                        ","
-                                       (manipulation/prettify-value
+                                       (prettification/prettify-value
                                         (:bottom-amount s))
                                        ")"))))))

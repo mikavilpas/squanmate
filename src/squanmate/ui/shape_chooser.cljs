@@ -83,30 +83,10 @@
         (assoc-in [:puzzle-chooser-layer-names :top] bottom)
         (assoc-in [:puzzle-chooser-layer-names :bottom] top))))
 
-(defn- flip-alg-string-upside-down [alg-string]
-  (manipulation/try-update-alg-string
-   alg-string
-   (fn [alg-steps]
-     (-> alg-steps
-         manipulation/flip-alg-upside-down
-         serialization/alg-to-str))))
-
-(defn- flip-initial-rotation-upside-down [alg-string]
-  (manipulation/try-update-alg-string
-   alg-string
-   (fn [alg-steps]
-     (if (every? #(= (type %) types/Rotations)
-                 alg-steps)
-       (->> alg-steps
-            (mapv manipulation/flip-step-upside-down)
-            (manipulation/prepend-initial-rotation (types/->Rotations 6 6))
-            serialization/alg-to-str)
-       alg-string))))
-
 (defn swap-layers [state]
   (swap! state swap-top-and-bottom-layers)
-  (swap! state update :initial-rotation flip-initial-rotation-upside-down)
-  (swap! state update :algorithm flip-alg-string-upside-down))
+  (swap! state update :initial-rotation manipulation/flip-initial-rotation-upside-down)
+  (swap! state update :algorithm manipulation/flip-alg-string-upside-down))
 
 (defn swap-layers-button [state]
   [common/well

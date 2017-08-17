@@ -3,32 +3,14 @@
             [squanmate.alg.parser :as parser]
             [cats.core :as m]
             [squanmate.puzzle :as puzzle]
-            [cats.monad.either :as either]))
-
-;; this is kind of lame, but at least it's super readable
-(def ^:private prettifications {7 -5
-                                8 -4
-                                9 -3
-                                10 -2
-                                11 -1
-                                12 0
-
-                                -6 6
-                                -7 5
-                                -8 4
-                                -9 3
-                                -10 2
-                                -11 1
-                                -12 0})
-
-(defn prettify-value [n]
-  (let [not-found n]
-    (get prettifications n not-found)))
+            [cats.monad.either :as either]
+            [squanmate.alg.serialization :as serialization]
+            [squanmate.alg.prettification :as prettification]))
 
 (defn combine-rotations [a b]
   (-> a
-      (update :top-amount #(prettify-value (+ % (:top-amount b))))
-      (update :bottom-amount #(prettify-value (+ % (:bottom-amount b))))))
+      (update :top-amount #(prettification/prettify-value (+ % (:top-amount b))))
+      (update :bottom-amount #(prettification/prettify-value (+ % (:bottom-amount b))))))
 
 (defn prepend-initial-rotation [rotation alg-steps]
   (let [s (first alg-steps)]
@@ -64,6 +46,7 @@
   (->> alg-steps
        (mapv flip-step-upside-down)))
 
+;; includes the default, very opinionated error handler
 (defn try-update-alg-string [alg-string update-alg-steps-fn]
   (either/branch (parser/parse alg-string)
                  (fn [error]
@@ -74,3 +57,23 @@
                    ;; return the original so it isn't lost
                    alg-string)
                  update-alg-steps-fn))
+
+(defn flip-alg-string-upside-down [alg-string]
+  (try-update-alg-string
+   alg-string
+   (fn [alg-steps]
+     (-> alg-steps
+         flip-alg-upside-down
+         serialization/alg-to-str))))
+
+(defn flip-initial-rotation-upside-down [alg-string]
+  (try-update-alg-string
+   alg-string
+   (fn [alg-steps]
+     (if (every? #(= (type %) types/Rotations)
+                 alg-steps)
+       (->> alg-steps
+            (mapv flip-step-upside-down)
+            (prepend-initial-rotation (types/->Rotations 6 6))
+            serialization/alg-to-str)
+       alg-string))))
