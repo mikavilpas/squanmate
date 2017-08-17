@@ -118,7 +118,9 @@
     [:div.col-xs-8
      [shape-chooser/puzzle-chooser state]]
     [:div.col-xs-4.pull-right
-     [shape-chooser/swap-layers-button state]]]
+     (when (or (-> @state :puzzle-chooser-layer-names :top)
+               (-> @state :puzzle-chooser-layer-names :bottom))
+       [shape-chooser/swap-layers-button state])]]
 
    [:div.row.form-group
     [:div.row
