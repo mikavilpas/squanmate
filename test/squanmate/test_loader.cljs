@@ -12,5 +12,4 @@
             squanmate.solving-test
             squanmate.alg.manipulation-test
             squanmate.scramblers.shape-scrambler-test
-            squanmate.shape-combinations-test
-            squanmate.ui.layer-selector-test))
+            squanmate.shape-combinations-test))
