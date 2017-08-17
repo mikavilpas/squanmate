@@ -45,8 +45,7 @@
                                                     :bs-style "primary"} "demo"]]]]]]
 
     [:div.row
-     [:div.col-xs-6
-      [v/alg-visualizer state]]]]))
+     [v/alg-visualizer state]]]))
 
 (defn content-from-args [{:keys [top-shape-name
                                  bottom-shape-name

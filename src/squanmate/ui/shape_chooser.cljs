@@ -4,7 +4,11 @@
             [reagent.core :as reagent]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [squanmate.puzzle :as puzzle]
-            [squanmate.ui.common :as common]))
+            [squanmate.ui.common :as common]
+            [squanmate.alg.manipulation :as manipulation]
+            [cats.monad.either :as either]
+            [squanmate.alg.parser :as parser]
+            [squanmate.alg.serialization :as serialization]))
 
 ;; based on example code from
 ;; https://gist.github.com/pesterhazy/4a4198a9cc040bf6fe13a476f25bac2c
@@ -69,3 +73,35 @@
       [:div.row
        [shape-chooser :state (reagent/cursor layer-names [:top])]
        [shape-chooser :state (reagent/cursor layer-names [:bottom])]])))
+
+(defn- swap-top-and-bottom-layers [state]
+  (let [top (-> state :puzzle-chooser-layer-names :top)
+        bottom (-> state :puzzle-chooser-layer-names :bottom)]
+    ;; notice: switch layers
+    (-> state
+        (assoc-in [:puzzle-chooser-layer-names :top] bottom)
+        (assoc-in [:puzzle-chooser-layer-names :bottom] top))))
+
+(defn- flip-alg-string-upside-down [alg-string]
+  (either/branch (parser/parse alg-string)
+                 (fn [error]
+                   (js/console.log (str "error: cannot flip alg. Reason: " (pr-str error)))
+                   ;; return the original so it isn't lost
+                   alg-string)
+                 (fn [alg-steps]
+                   (-> alg-steps
+                       manipulation/flip-alg-upside-down
+                       serialization/alg-to-str))))
+
+(defn swap-layers [state]
+  (swap! state swap-top-and-bottom-layers)
+  (swap! state update :initial-rotation flip-alg-string-upside-down)
+  (swap! state update :algorithm flip-alg-string-upside-down))
+
+(defn swap-layers-button [state]
+  [common/well
+   [common/button {:style {:white-space "pre-wrap"}
+                   :on-click #(swap-layers state)}
+    [:span
+     [common/glyphicon {:glyph :refresh}]
+     " Swap layers"]]])

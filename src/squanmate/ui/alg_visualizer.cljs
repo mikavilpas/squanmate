@@ -112,21 +112,25 @@
    "Link to this visualization"])
 
 (defn alg-visualizer [state]
-  [:form
-   [:div.form-group.col-xs-8
-    [shape-chooser/puzzle-chooser state]]
+  [:form.container
 
-   [:div.form-group
+   [:div.row.form-group
+    [:div.col-xs-8
+     [shape-chooser/puzzle-chooser state]]
+    [:div.col-xs-4.pull-right
+     [shape-chooser/swap-layers-button state]]]
+
+   [:div.row.form-group
     [:div.row
-     [:div.col-xs-12
+     [:div.col-xs-8
       [common/input-box (reagent/cursor state [:initial-rotation]) "Initial rotation"]]]
     [:div.row
-     [:div.col-xs-12
+     [:div.col-xs-8
       [common/input-box (reagent/cursor state [:algorithm]) "Algorithm"]]]]
 
-   [:div.form-group
+   [:div.row.form-group
     [:div.row
-     [:div.col-xs-12
+     [:div.col-xs-8
       (when-let [initial-puzzle (and (both-layers-present? (:puzzle @state))
                                      (apply-initial-transformation-alg (:puzzle @state)
                                                                        (:initial-rotation @state)))]
