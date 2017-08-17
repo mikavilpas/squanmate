@@ -1,5 +1,9 @@
 # Changelog
 
+## upcoming
+- shape-visualizer: add button to switch current layers "upside down". This will
+  convert the initial rotation and algorithm to match as well.
+
 ## 3.3
 - fix major crash in main ui (oops!), after which the app was unresponsive
 
