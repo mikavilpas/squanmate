@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.5
+- shape-visualizer: only allow selecting layers that are possible to construct
+  based on the other selected layer. If no other layer is selected, any layer
+  can be selected. If e.g. "star" is selected as the other layer, only the 5
+  cases that are possible are available.
+
 ## 3.4.1
 - shape-visualizer: fix errors in switching layers in some cases
 
