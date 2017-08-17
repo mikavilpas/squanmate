@@ -46,10 +46,10 @@
     ;; valuable to the caller
     (first (filter #(not (= name %)) [a b]))))
 
-(defn filtered-possible-shapes [layer-filter]
-  (->> shape-combinations/possible-layers
+(defn filtered-possible-shapes [filter-shape-name]
+  (->> possible-layers
        (filter (fn [shape-names]
-                 (some #(= % layer-filter) shape-names)))
-       (map #(remove-same-shape-name layer-filter %))
+                 (some #(= % filter-shape-name) shape-names)))
+       (map #(remove-same-shape-name filter-shape-name %))
        flatten
        uniquefy))
