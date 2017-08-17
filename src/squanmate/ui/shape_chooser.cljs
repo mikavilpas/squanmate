@@ -1,10 +1,12 @@
 (ns squanmate.ui.shape-chooser
-  (:require [reagent.core :as reagent]
+  (:require [cljsjs.react-select]
+            [reagent.core :as reagent]
             [squanmate.alg.manipulation :as manipulation]
             [squanmate.puzzle :as puzzle]
             [squanmate.shape-combinations :as shape-combinations]
             [squanmate.shapes :as shapes]
-            [squanmate.ui.common :as common]))
+            [squanmate.ui.common :as common]
+            [squanmate.slicing :as slicing]))
 
 ;; based on example code from
 ;; https://gist.github.com/pesterhazy/4a4198a9cc040bf6fe13a476f25bac2c
