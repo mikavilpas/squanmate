@@ -1,15 +1,10 @@
 (ns squanmate.ui.shape-chooser
-  (:require [cljsjs.react-select]
-            [squanmate.shapes :as shapes]
-            [reagent.core :as reagent]
-            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
-            [squanmate.puzzle :as puzzle]
-            [squanmate.ui.common :as common]
+  (:require [reagent.core :as reagent]
             [squanmate.alg.manipulation :as manipulation]
-            [cats.monad.either :as either]
-            [squanmate.alg.parser :as parser]
-            [squanmate.alg.serialization :as serialization]
-            [squanmate.alg.types :as types]))
+            [squanmate.puzzle :as puzzle]
+            [squanmate.shape-combinations :as shape-combinations]
+            [squanmate.shapes :as shapes]
+            [squanmate.ui.common :as common]))
 
 ;; based on example code from
 ;; https://gist.github.com/pesterhazy/4a4198a9cc040bf6fe13a476f25bac2c
@@ -44,10 +39,14 @@
   [select {:state state
            :options (clj->js options)}])
 
-(defn shape-chooser [& {:keys [state]}]
-  (let [options (vec (for [[id s] shapes/all-shapes]
-                       (make-value :id id
-                                   :label (:name s))))]
+(defn- make-shape-options [possible-shapes]
+  (vec (for [[id s] (seq possible-shapes)]
+         (make-value :id id
+                     :label (:name s)))))
+
+(defn shape-chooser [& {:keys [state options]}]
+  (let [options (or options
+                    (make-shape-options shapes/all-shapes))]
     [chooser :options options :state state]))
 
 (defn- layers-from-layer-names [top-name bottom-name]
@@ -62,6 +61,16 @@
                            puzzle/->BottomLayer)]
       [top-layer bottom-layer])))
 
+(defn- possible-shape-options-for-layer [other-layer-shape-name]
+  (let [options (->> other-layer-shape-name
+                     shape-combinations/filtered-possible-shapes
+                     (map (fn [id]
+                            [id (get shapes/all-shapes id)]))
+                     make-shape-options)]
+    (if (empty? options)
+      (make-shape-options shapes/all-shapes)
+      options)))
+
 (defn puzzle-chooser [state]
   ;; store layer names in the given state so they are restored when navigating
   ;; to the page again
@@ -72,8 +81,10 @@
         (swap! state assoc-in [:puzzle :top-layer] top)
         (swap! state assoc-in [:puzzle :bottom-layer] bottom))
       [:div.row
-       [shape-chooser :state (reagent/cursor layer-names [:top])]
-       [shape-chooser :state (reagent/cursor layer-names [:bottom])]])))
+       [shape-chooser :state (reagent/cursor layer-names [:top])
+        :options (possible-shape-options-for-layer (:bottom @layer-names))]
+       [shape-chooser :state (reagent/cursor layer-names [:bottom])
+        :options (possible-shape-options-for-layer (:top @layer-names))]])))
 
 (defn- swap-top-and-bottom-layers [state]
   (let [top (-> state :puzzle-chooser-layer-names :top)
