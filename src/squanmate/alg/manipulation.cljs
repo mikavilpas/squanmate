@@ -2,7 +2,8 @@
   (:require [squanmate.alg.types :as types]
             [squanmate.alg.parser :as parser]
             [cats.core :as m]
-            [squanmate.puzzle :as puzzle]))
+            [squanmate.puzzle :as puzzle]
+            [cats.monad.either :as either]))
 
 ;; this is kind of lame, but at least it's super readable
 (def ^:private prettifications {7 -5
@@ -51,7 +52,7 @@
 (defn reverse-steps [alg-steps]
   (->> alg-steps (map negate-step) reverse))
 
-(defn- flip-step-upside-down [step]
+(defn flip-step-upside-down [step]
   (if (= types/Slice (type step))
     step
     (let [{:keys [top-amount bottom-amount]} step]
@@ -63,3 +64,14 @@
   (->> alg-steps
        (mapv flip-step-upside-down)
        (map negate-step)))
+
+(defn try-update-alg-string [alg-string update-alg-steps-fn]
+  (either/branch (parser/parse alg-string)
+                 (fn [error]
+                   (js/console.log (str "error: cannot manipulate alg '"
+                                        alg-string
+                                        "'. Reason: "
+                                        (pr-str error)))
+                   ;; return the original so it isn't lost
+                   alg-string)
+                 update-alg-steps-fn))

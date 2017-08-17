@@ -8,7 +8,8 @@
             [squanmate.alg.manipulation :as manipulation]
             [cats.monad.either :as either]
             [squanmate.alg.parser :as parser]
-            [squanmate.alg.serialization :as serialization]))
+            [squanmate.alg.serialization :as serialization]
+            [squanmate.alg.types :as types]))
 
 ;; based on example code from
 ;; https://gist.github.com/pesterhazy/4a4198a9cc040bf6fe13a476f25bac2c
@@ -83,19 +84,27 @@
         (assoc-in [:puzzle-chooser-layer-names :bottom] top))))
 
 (defn- flip-alg-string-upside-down [alg-string]
-  (either/branch (parser/parse alg-string)
-                 (fn [error]
-                   (js/console.log (str "error: cannot flip alg. Reason: " (pr-str error)))
-                   ;; return the original so it isn't lost
-                   alg-string)
-                 (fn [alg-steps]
-                   (-> alg-steps
-                       manipulation/flip-alg-upside-down
-                       serialization/alg-to-str))))
+  (manipulation/try-update-alg-string
+   alg-string
+   (fn [alg-steps]
+     (-> alg-steps
+         manipulation/flip-alg-upside-down
+         serialization/alg-to-str))))
+
+(defn- flip-initial-rotation-upside-down [alg-string]
+  (manipulation/try-update-alg-string
+   alg-string
+   (fn [alg-steps]
+     (if (every? #(= (type %) types/Rotations)
+                 alg-steps)
+       (->> alg-steps
+            (mapv manipulation/flip-step-upside-down)
+            serialization/alg-to-str)
+       alg-string))))
 
 (defn swap-layers [state]
   (swap! state swap-top-and-bottom-layers)
-  (swap! state update :initial-rotation flip-alg-string-upside-down)
+  (swap! state update :initial-rotation flip-initial-rotation-upside-down)
   (swap! state update :algorithm flip-alg-string-upside-down))
 
 (defn swap-layers-button [state]
