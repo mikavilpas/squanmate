@@ -59,4 +59,4 @@ will show up as changed in your `git status`. Commit the changed file to the
 repository so that the app works online with the newest version.
 
 [logolink]: https://rawgit.com/sp3ctum/squanmate/master/resources/public/readme/logo.png
-[applink]: https://cdn.rawgit.com/sp3ctum/squanmate/3.4.1/resources/public/index.html#/
+[applink]: https://cdn.rawgit.com/sp3ctum/squanmate/3.5/resources/public/index.html#/
