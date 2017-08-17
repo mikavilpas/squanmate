@@ -33,3 +33,23 @@
                                      shape-names)
                                2)]
     (filter valid-shape-combination? possible-combinations)))
+
+(defn- uniquefy [things]
+  (-> things set))
+
+(defn- remove-same-shape-name [name [a b]]
+  (if (= name a b)
+    ;; This is a case where it's possible to have e.g. square square. So the
+    ;; name is given twice, and must be returned too
+    name
+    ;; This is a case e.g. square kite, which means only the kite shape is
+    ;; valuable to the caller
+    (first (filter #(not (= name %)) [a b]))))
+
+(defn filtered-possible-shapes [layer-filter]
+  (->> shape-combinations/possible-layers
+       (filter (fn [shape-names]
+                 (some #(= % layer-filter) shape-names)))
+       (map #(remove-same-shape-name layer-filter %))
+       flatten
+       uniquefy))

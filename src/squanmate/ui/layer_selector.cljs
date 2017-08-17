@@ -7,26 +7,6 @@
             [squanmate.ui.common :as common]
             [squanmate.ui.shape-chooser :as shape-chooser]))
 
-(defn- uniquefy [things]
-  (-> things set))
-
-(defn- remove-same-shape-name [name [a b]]
-  (if (= name a b)
-    ;; This is a case where it's possible to have e.g. square square. So the
-    ;; name is given twice, and must be returned too
-    name
-    ;; This is a case e.g. square kite, which means only the kite shape is
-    ;; valuable to the caller
-    (first (filter #(not (= name %)) [a b]))))
-
-(defn filtered-possible-shapes [layer-filter]
-  (->> shape-combinations/possible-layers
-       (filter (fn [shape-names]
-                 (some #(= % layer-filter) shape-names)))
-       (map #(remove-same-shape-name layer-filter %))
-       flatten
-       uniquefy))
-
 (defn- shapes-selected? [state-atom shape-names]
   (contains? (:selected-shapes @state-atom) shape-names))
 
@@ -63,19 +43,19 @@
 
 (defn- select-all-filtered-shapes! [state filter-shape]
   (let [shape-names (map #(set [filter-shape %])
-                         (filtered-possible-shapes filter-shape))]
+                         (shape-combinations/filtered-possible-shapes filter-shape))]
     (swap! state update :selected-shapes
            into shape-names)))
 
 (defn- select-no-filtered-shapes! [state filter-shape]
   (let [shape-names (map #(set [filter-shape %])
-                         (filtered-possible-shapes filter-shape))]
+                         (shape-combinations/filtered-possible-shapes filter-shape))]
     (swap! state update :selected-shapes
            #(set/difference % shape-names))))
 
 (defn shape-selection-components [state filter-shape]
   (when filter-shape
-    (let [possible-shapes (filtered-possible-shapes filter-shape)]
+    (let [possible-shapes (shape-combinations/filtered-possible-shapes filter-shape)]
       [:div
        (into [:div]
              (for [name possible-shapes]
