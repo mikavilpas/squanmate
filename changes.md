@@ -1,6 +1,6 @@
 # Changelog
 
-## upcoming
+## 3.4
 - shape-visualizer: add button to switch current layers "upside down". This will
   convert the initial rotation and algorithm to match as well.
 
