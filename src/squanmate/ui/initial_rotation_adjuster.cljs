@@ -30,6 +30,6 @@
      [:div.top5
       [usage-tip-component]]
      [:div.center
-      [:div.top17
+      [:div.top3
        "Top: " [rotation-controls]
        "Bottom: " [rotation-controls]]]]]])
