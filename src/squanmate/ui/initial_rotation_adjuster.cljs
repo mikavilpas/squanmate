@@ -60,33 +60,31 @@
               (partial manipulation/prepend-initial-rotation
                  (manipulation/negate-step rotations)))))))
 
+(defn- rotation-button [glyph handler]
+  [common/button {:on-click handler}
+   [common/glyphicon {:glyph glyph}]])
+
 (defn- rotation-controls [{:keys [top-layer bottom-layer] :as puzzle}
                           initial-rotation-atom
                           algorithm-atom]
-  [:div
-   [:div "Top: "]
-   [common/button {:on-click #(rotate-layer top-layer
-                                            initial-rotation-atom
-                                            algorithm-atom
-                                            :-)}
-    [common/glyphicon {:glyph :minus}]]
-   [common/button {:on-click #(rotate-layer top-layer
-                                            initial-rotation-atom
-                                            algorithm-atom
-                                            :+)}
-    [common/glyphicon {:glyph :plus}]]
+  (letfn [(top [direction]
+            (rotate-layer top-layer
+                          initial-rotation-atom
+                          algorithm-atom
+                          direction))
+          (bottom [direction]
+            (rotate-layer bottom-layer
+                          initial-rotation-atom
+                          algorithm-atom
+                          direction))]
+    [:div
+     [:div "Top: "]
+     [rotation-button :minus #(top :-)]
+     [rotation-button :plus #(top :+)]
 
-   [:div "Bottom: "]
-   [common/button {:on-click #(rotate-layer bottom-layer
-                                            initial-rotation-atom
-                                            algorithm-atom
-                                            :-)}
-    [common/glyphicon {:glyph :minus}]]
-   [common/button {:on-click #(rotate-layer bottom-layer
-                                            initial-rotation-atom
-                                            algorithm-atom
-                                            :+)}
-    [common/glyphicon {:glyph :plus}]]])
+     [:div "Bottom: "]
+     [rotation-button :minus #(bottom :-)]
+     [rotation-button :plus #(bottom :+)]]))
 
 (defn rotation-adjuster [puzzle
                          initial-rotation-atom
