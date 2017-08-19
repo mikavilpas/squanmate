@@ -82,7 +82,7 @@
                                                        (:bottom @layer-names))]
         (swap! state assoc-in [:puzzle :top-layer] top)
         (swap! state assoc-in [:puzzle :bottom-layer] bottom))
-      [:div.row
+      [:div
        [shape-chooser :state (reagent/cursor layer-names [:top])
         :options (possible-shape-options-for-layer (:bottom @layer-names))]
        [shape-chooser :state (reagent/cursor layer-names [:bottom])

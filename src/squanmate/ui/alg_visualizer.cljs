@@ -11,7 +11,8 @@
             [squanmate.ui.common :as common]
             [squanmate.ui.exporting :as exporting]
             [clojure.string :as str]
-            [squanmate.shapes :as shapes]))
+            [squanmate.shapes :as shapes]
+            [squanmate.ui.initial-rotation-adjuster :as initial-rotation-adjuster]))
 
 (defn- interesting-step? [step-either]
   (either/branch step-either
@@ -117,18 +118,19 @@
    [:div.row.form-group
     [:div.col-xs-8
      [shape-chooser/puzzle-chooser state]]
-    [:div.col-xs-4.pull-right
-     (when (or (-> @state :puzzle-chooser-layer-names :top)
-               (-> @state :puzzle-chooser-layer-names :bottom))
-       [shape-chooser/swap-layers-button state])]]
+    [:div.col-xs-4 (when (or (-> @state :puzzle-chooser-layer-names :top)
+                             (-> @state :puzzle-chooser-layer-names :bottom))
+                     [shape-chooser/swap-layers-button state])]]
 
    [:div.row.form-group
-    [:div.row
-     [:div.col-xs-8
-      [common/input-box (reagent/cursor state [:initial-rotation]) "Initial rotation"]]]
-    [:div.row
-     [:div.col-xs-8
-      [common/input-box (reagent/cursor state [:algorithm]) "Algorithm"]]]]
+    [:div.col-xs-8
+     [common/input-box (reagent/cursor state [:initial-rotation]) "Initial rotation"]
+     [common/input-box (reagent/cursor state [:algorithm]) "Algorithm"]]
+    [:div.col-xs-4
+     (when (:algorithm @state)
+       [initial-rotation-adjuster/rotation-adjuster
+        (reagent/cursor state [:initial-rotation])
+        (reagent/cursor state [:algorithm])])]]
 
    [:div.row.form-group
     [:div.row
