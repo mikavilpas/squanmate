@@ -113,39 +113,41 @@
    "Link to this visualization"])
 
 (defn alg-visualizer [state]
-  [:form.container
+  (let [top-layer-name (-> @state :puzzle-chooser-layer-names :top)
+        bottom-layer-name (-> @state :puzzle-chooser-layer-names :bottom)]
+    [:form.container
 
-   [:div.row.form-group
-    [:div.col-xs-8
-     [shape-chooser/puzzle-chooser state]]
-    [:div.col-xs-4 (when (or (-> @state :puzzle-chooser-layer-names :top)
-                             (-> @state :puzzle-chooser-layer-names :bottom))
-                     [shape-chooser/swap-layers-button state])]]
+     [:div.row.form-group
+      [:div.col-xs-8
+       [shape-chooser/puzzle-chooser state]]
+      [:div.col-xs-4 (when (or top-layer-name
+                               bottom-layer-name)
+                       [shape-chooser/swap-layers-button state])]]
 
-   [:div.row.form-group
-    [:div.col-xs-8
-     [common/input-box (reagent/cursor state [:initial-rotation]) "Initial rotation"]
-     [common/input-box (reagent/cursor state [:algorithm]) "Algorithm"]]
-    [:div.col-xs-4
-     (when (:algorithm @state)
-       [initial-rotation-adjuster/rotation-adjuster
-        (reagent/cursor state [:initial-rotation])
-        (reagent/cursor state [:algorithm])])]]
+     [:div.row.form-group
+      [:div.col-xs-8
+       [common/input-box (reagent/cursor state [:initial-rotation]) "Initial rotation"]
+       [common/input-box (reagent/cursor state [:algorithm]) "Algorithm"]]
+      [:div.col-xs-4
+       (when (or top-layer-name bottom-layer-name)
+         [initial-rotation-adjuster/rotation-adjuster
+          (reagent/cursor state [:initial-rotation])
+          (reagent/cursor state [:algorithm])])]]
 
-   [:div.row.form-group
-    [:div.row
-     [:div.col-xs-8
-      (when-let [initial-puzzle (and (both-layers-present? (:puzzle @state))
-                                     (apply-initial-transformation-alg (:puzzle @state)
-                                                                       (:initial-rotation @state)))]
-        (either/branch
-         initial-puzzle
-         error-component
-         (fn [initial-puzzle]
-           [:div
-            [:div.row
-             [:div.col-xs-3
-              [link-to-this-visualization @state]
-              [export-visualization-button]]]
-            [:div.row.col-xs-12
-             [algorithm-visualization initial-puzzle (:algorithm @state)]]])))]]]])
+     [:div.row.form-group
+      [:div.row
+       [:div.col-xs-8
+        (when-let [initial-puzzle (and (both-layers-present? (:puzzle @state))
+                                       (apply-initial-transformation-alg (:puzzle @state)
+                                                                         (:initial-rotation @state)))]
+          (either/branch
+           initial-puzzle
+           error-component
+           (fn [initial-puzzle]
+             [:div
+              [:div.row
+               [:div.col-xs-3
+                [link-to-this-visualization @state]
+                [export-visualization-button]]]
+              [:div.row.col-xs-12
+               [algorithm-visualization initial-puzzle (:algorithm @state)]]])))]]]]))
