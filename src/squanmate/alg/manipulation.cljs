@@ -24,7 +24,7 @@
 
       :else (into [rotation] alg-steps))))
 
-(defn- negate-step [step]
+(defn negate-step [step]
   (if (= types/Slice (type step))
     step
     (-> step

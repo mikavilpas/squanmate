@@ -52,9 +52,13 @@
            (fn [initial-rotation-string]
              (manipulation/try-update-alg-string
               initial-rotation-string
-              (partial manipulation/prepend-initial-rotation rotations)))
-           manipulation/combine-rotations rotations)
-    (print "rotating this layer by " rotations)))
+              (partial manipulation/prepend-initial-rotation rotations))))
+    (swap! algorithm-atom
+           (fn [algorithm-string]
+             (manipulation/try-update-alg-string
+              algorithm-string
+              (partial manipulation/prepend-initial-rotation
+                 (manipulation/negate-step rotations)))))))
 
 (defn- rotation-controls [{:keys [top-layer bottom-layer] :as puzzle}
                           initial-rotation-atom
@@ -73,9 +77,15 @@
     [common/glyphicon {:glyph :plus}]]
 
    [:div "Bottom: "]
-   [common/button {:on-click #()}
+   [common/button {:on-click #(rotate-layer bottom-layer
+                                            initial-rotation-atom
+                                            algorithm-atom
+                                            :-)}
     [common/glyphicon {:glyph :minus}]]
-   [common/button
+   [common/button {:on-click #(rotate-layer bottom-layer
+                                            initial-rotation-atom
+                                            algorithm-atom
+                                            :+)}
     [common/glyphicon {:glyph :plus}]]])
 
 (defn rotation-adjuster [puzzle
