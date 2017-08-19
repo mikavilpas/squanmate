@@ -127,28 +127,27 @@
      [:div.row.form-group
       [:div.col-xs-8
        [common/input-box (reagent/cursor state [:initial-rotation]) "Initial rotation"]
-       [common/input-box (reagent/cursor state [:algorithm]) "Algorithm"]]
-      [:div.col-xs-4
-       (when (or top-layer-name bottom-layer-name)
-         [initial-rotation-adjuster/rotation-adjuster
-          (:puzzle @state)
-          (reagent/cursor state [:initial-rotation])
-          (reagent/cursor state [:algorithm])])]]
+       [common/input-box (reagent/cursor state [:algorithm]) "Algorithm"]]]
 
      [:div.row.form-group
-      [:div.row
-       [:div.col-xs-8
-        (when-let [initial-puzzle (and (both-layers-present? (:puzzle @state))
-                                       (apply-initial-transformation-alg (:puzzle @state)
-                                                                         (:initial-rotation @state)))]
-          (either/branch
-           initial-puzzle
-           error-component
-           (fn [initial-puzzle]
-             [:div
-              [:div.row
-               [:div.col-xs-3
-                [link-to-this-visualization @state]
-                [export-visualization-button]]]
-              [:div.row.col-xs-12
-               [algorithm-visualization initial-puzzle (:algorithm @state)]]])))]]]]))
+      [:div.col-xs-8
+       (when-let [initial-puzzle (and (both-layers-present? (:puzzle @state))
+                                      (apply-initial-transformation-alg (:puzzle @state)
+                                                                        (:initial-rotation @state)))]
+         (either/branch
+          initial-puzzle
+          error-component
+          (fn [initial-puzzle]
+            [:div
+             [:div.row
+              [:div.col-xs-3
+               [link-to-this-visualization @state]
+               [export-visualization-button]]]
+             [:div.row.col-xs-8
+              [algorithm-visualization initial-puzzle (:algorithm @state)]]
+             [:div.col-xs-4.pull-right
+              (when (or top-layer-name bottom-layer-name)
+                [initial-rotation-adjuster/rotation-adjuster
+                 (:puzzle @state)
+                 (reagent/cursor state [:initial-rotation])
+                 (reagent/cursor state [:algorithm])])]])))]]]))
