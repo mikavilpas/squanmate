@@ -121,7 +121,6 @@
 
      [:div.row.form-group
       [:div.col-xs-8
-       [common/input-box (reagent/cursor state [:initial-rotation]) "Initial rotation"]
        [common/input-box (reagent/cursor state [:algorithm]) "Algorithm"]]]
 
      [:div.row.form-group
