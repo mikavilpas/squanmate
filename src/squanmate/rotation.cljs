@@ -52,8 +52,8 @@
                                            amount)
                                       layer))))
 
-(defn random-layer-rotations [layer]
-  (let [rotation-amounts (shuffle (range -6 7))
+(defn possible-rotations [layer]
+  (let [rotation-amounts (range -6 7)
         rotation-results (map (fn [amount]
                                 [(rotate-layer layer amount)
                                  amount])
@@ -62,3 +62,6 @@
                                      (either/right? result))
                                    rotation-results)]
     successful-results))
+
+(defn random-layer-rotations [layer]
+  (shuffle (possible-rotations layer)))
