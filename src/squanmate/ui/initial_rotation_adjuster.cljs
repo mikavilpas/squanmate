@@ -4,7 +4,11 @@
             [squanmate.rotation :as rotation]
             [cats.monad.either :as either]
             [squanmate.slicing :as slicing]
-            [cats.core :as m]))
+            [cats.core :as m]
+            [squanmate.alg.execution :as execution]
+            [squanmate.alg.types :as types]
+            [squanmate.puzzle :as puzzle]
+            [squanmate.alg.manipulation :as manipulation]))
 
 (defn possible-sliceable-rotations [layer]
   (let [possible-rotations (rotation/possible-rotations layer)
@@ -21,6 +25,15 @@
     {:positive (sort < positive)
      :negative (sort > negative)}))
 
+(defn next-sliceable-rotation [layer direction]
+  (let [amounts (possible-sliceable-rotations layer)
+        amount (condp = direction
+                 :+ (first (:positive amounts))
+                 :- (first (:negative amounts)))]
+    (if (= puzzle/TopLayer (type layer))
+      (types/->Rotations amount 0)
+      (types/->Rotations 0 amount))))
+
 (defn- usage-tip-component []
   [common/overlay-trigger
    {:overlay (reagent/as-element
@@ -30,14 +43,43 @@
     :placement :left}
    [common/label "Tip! :)"]])
 
-(defn- rotation-controls []
+(defn- rotate-layer [layer
+                     initial-rotation-atom
+                     algorithm-atom
+                     direction]
+  (let [rotations (next-sliceable-rotation layer direction)]
+    (swap! initial-rotation-atom
+           (fn [initial-rotation-string]
+             (manipulation/try-update-alg-string
+              initial-rotation-string
+              (partial manipulation/prepend-initial-rotation rotations)))
+           manipulation/combine-rotations rotations)
+    (print "rotating this layer by " rotations)))
+
+(defn- rotation-controls [{:keys [top-layer bottom-layer] :as puzzle}
+                          initial-rotation-atom
+                          algorithm-atom]
   [:div
-   [common/button
+   [:div "Top: "]
+   [common/button {:on-click #(rotate-layer top-layer
+                                            initial-rotation-atom
+                                            algorithm-atom
+                                            :-)}
+    [common/glyphicon {:glyph :minus}]]
+   [common/button {:on-click #(rotate-layer top-layer
+                                            initial-rotation-atom
+                                            algorithm-atom
+                                            :+)}
+    [common/glyphicon {:glyph :plus}]]
+
+   [:div "Bottom: "]
+   [common/button {:on-click #()}
     [common/glyphicon {:glyph :minus}]]
    [common/button
     [common/glyphicon {:glyph :plus}]]])
 
-(defn rotation-adjuster [initial-rotation-atom
+(defn rotation-adjuster [puzzle
+                         initial-rotation-atom
                          algorithm-atom]
   [common/accordion
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :repeat}]
@@ -48,6 +90,7 @@
      [:div.top5
       [usage-tip-component]]
      [:div.center
-      [:div.top3
-       "Top: " [rotation-controls]
-       "Bottom: " [rotation-controls]]]]]])
+      [rotation-controls
+       puzzle
+       initial-rotation-atom
+       algorithm-atom]]]]])

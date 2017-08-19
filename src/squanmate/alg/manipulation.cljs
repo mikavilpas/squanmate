@@ -56,15 +56,13 @@
                                         (pr-str error)))
                    ;; return the original so it isn't lost
                    alg-string)
-                 update-alg-steps-fn))
+                 (fn [alg-steps]
+                   (-> alg-steps
+                       update-alg-steps-fn
+                       serialization/alg-to-str))))
 
 (defn flip-alg-string-upside-down [alg-string]
-  (try-update-alg-string
-   alg-string
-   (fn [alg-steps]
-     (-> alg-steps
-         flip-alg-upside-down
-         serialization/alg-to-str))))
+  (try-update-alg-string alg-string flip-alg-upside-down))
 
 (defn flip-initial-rotation-upside-down [alg-string]
   (try-update-alg-string
@@ -74,6 +72,5 @@
                  alg-steps)
        (->> alg-steps
             (mapv flip-step-upside-down)
-            (prepend-initial-rotation (types/->Rotations 6 6))
-            serialization/alg-to-str)
+            (prepend-initial-rotation (types/->Rotations 6 6)))
        alg-string))))

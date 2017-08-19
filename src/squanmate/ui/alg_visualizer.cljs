@@ -131,6 +131,7 @@
       [:div.col-xs-4
        (when (or top-layer-name bottom-layer-name)
          [initial-rotation-adjuster/rotation-adjuster
+          (:puzzle @state)
           (reagent/cursor state [:initial-rotation])
           (reagent/cursor state [:algorithm])])]]
 
