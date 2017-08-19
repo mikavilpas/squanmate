@@ -23,7 +23,9 @@
 
    [:div.top10 "Note that if the count is odd it does not mean the algorithm
    necessarily switches parity! A different " [:strong "count position"] " might
-   require switching the odd and even algorithms."]])
+   require switching the odd and even algorithms."]
+   [:div.top10 "Find another count position using the " [:strong "initial
+   rotation"] " controls."]])
 
 (defn- parity-count-component [puzzle]
   (let [[parity? parity-data] (parity-counter/parity-count puzzle)]
