@@ -144,10 +144,10 @@
                [link-to-this-visualization @state]
                [export-visualization-button]]]
              [:div.row.col-xs-8
-              [algorithm-visualization initial-puzzle (:algorithm @state)]]
-             [:div.col-xs-4.pull-right
-              (when (or top-layer-name bottom-layer-name)
-                [initial-rotation-adjuster/rotation-adjuster
-                 (:puzzle @state)
-                 (reagent/cursor state [:initial-rotation])
-                 (reagent/cursor state [:algorithm])])]])))]]]))
+              [algorithm-visualization initial-puzzle (:algorithm @state)]]])))]
+      [:div.col-xs-4.pull-right
+       (when (or top-layer-name bottom-layer-name)
+         [initial-rotation-adjuster/rotation-adjuster
+          (:puzzle @state)
+          (reagent/cursor state [:initial-rotation])
+          (reagent/cursor state [:algorithm])])]]]))
