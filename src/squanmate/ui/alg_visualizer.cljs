@@ -1,18 +1,19 @@
 (ns squanmate.ui.alg-visualizer
-  (:require [cats.monad.either :as either]
-            [squanmate.alg.execution :as execution]
-            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
+  (:require [cats.core :as m]
+            [cats.monad.either :as either]
+            [clojure.string :as str]
             [reagent.core :as reagent]
+            [squanmate.alg.execution :as execution]
+            [squanmate.puzzle :as puzzle]
+            [squanmate.shapes :as shapes]
+            [squanmate.ui.common :as common]
+            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
+            [squanmate.ui.initial-rotation-adjuster :as initial-rotation-adjuster]
             [squanmate.ui.parity :as parity]
             [squanmate.ui.shape-chooser :as shape-chooser]
-            [squanmate.puzzle :as puzzle]
-            [cats.monad.either :as either]
-            [cats.core :as m]
-            [squanmate.ui.common :as common]
-            [squanmate.ui.exporting :as exporting]
-            [clojure.string :as str]
-            [squanmate.shapes :as shapes]
-            [squanmate.ui.initial-rotation-adjuster :as initial-rotation-adjuster]))
+            [squanmate.utils.either-utils :as eu]
+            [squanmate.utils.route-utils :as route-utils]
+            [squanmate.utils.export-utils :as export-utils]))
 
 (defn- interesting-step? [step-either]
   (either/branch step-either
@@ -80,18 +81,9 @@
 
 (defn- export-visualization-button []
   [common/button
-   {:on-click #(exporting/download-html-node-as-png :id-string "visualization"
-                                                    :filename (str "squanmate-" (js/Date.) ".png"))}
+   {:on-click #(export-utils/download-html-node-as-png :id-string "visualization"
+                                                       :filename (str "squanmate-" (js/Date.) ".png"))}
    "Export as .PNG"])
-
-;; todo could get this from secretary config atom
-(def ^:private route-prefix "#/")
-
-(defn- set-route! [route-str]
-  (let [current-route (.-href js/window.location)
-        [base route] (str/split current-route route-prefix)
-        new-route (str/join [base route-prefix route-str])]
-    (set! js/window.location.href new-route)))
 
 (def ^:private encode js/encodeURIComponent)
 
@@ -101,20 +93,17 @@
     alg))
 
 (defn- set-link-to-visualization [state]
-  (set-route! (str/join "/" ["shape-visualizer"
-                             (-> state :puzzle-chooser-layer-names :top)
-                             (-> state :puzzle-chooser-layer-names :bottom)
-                             (encode (-> state :initial-rotation alg-or-zero))
-                             (encode (-> state :algorithm alg-or-zero))])))
+  (route-utils/set-route!
+   (str/join "/" ["shape-visualizer"
+                  (-> state :puzzle-chooser-layer-names :top)
+                  (-> state :puzzle-chooser-layer-names :bottom)
+                  (encode (-> state :initial-rotation alg-or-zero))
+                  (encode (-> state :algorithm alg-or-zero))])))
 
 (defn- link-to-this-visualization [state]
   [common/button
    {:on-click #(set-link-to-visualization state)}
    "Link to this visualization"])
-
-(defn when-right [e right-fn]
-  (when (either/right? e)
-    (right-fn (m/extract e))))
 
 (defn alg-visualizer [state]
   (let [top-layer-name (-> @state :puzzle-chooser-layer-names :top)
@@ -151,7 +140,7 @@
               [:div.row.col-xs-8
                [algorithm-visualization initial-puzzle (:algorithm @state)]]]))])]
       [:div.col-xs-4.pull-right
-       (when-right initial-puzzle
+       (eu/when-right initial-puzzle
          (fn [p]
            [initial-rotation-adjuster/rotation-adjuster
             p

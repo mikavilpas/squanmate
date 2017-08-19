@@ -1,4 +1,4 @@
-(ns squanmate.ui.exporting
+(ns squanmate.utils.export-utils
   (:require [cljsjs.download :as download]))
 
 (defn download-html-node-as-png [& {:keys [id-string filename]}]
