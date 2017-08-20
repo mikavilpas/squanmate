@@ -14,8 +14,8 @@
 (def eight (shape "8" "ceeeeeeeec"))
 
 (def two-two-two (shape "2-2-2" "eeceeceec"))
-(def three-three (shape "3-3" "eeecceeec"))
-(def three-two-one (shape "3-2-1" "ceeeceece"))
+(def three-three (shape "3-3" "eecceeece"))
+(def three-two-one (shape "3-2-1" "eeeceecec"))
 (def three-one-two (shape "3-1-2" "ceeceeece"))
 (def left-four-two (shape "Left 4-2" "ceeeeceec"))
 (def right-four-two (shape "Right 4-2" "ceeceeeec"))
@@ -36,8 +36,8 @@
 (def scallop (shape "Scallop" "cceeeecc"))
 
 (def paired-edges (shape "Paired edges" "cccccee"))
-(def perpendicular-edges (shape "Perpendicular edges" "eccccec"))
-(def parallel-edges (shape "Parallel edges" "cecccec"))
+(def perpendicular-edges (shape "Perpendicular edges" "ccccece"))
+(def parallel-edges (shape "Parallel edges" "cccecce"))
 
 (def star (shape "Star" "cccccc"))
 
