@@ -23,13 +23,15 @@
 
 (defn- select
   "Select based on an atom/cursor. Pass as state"
-  [{:keys [state]
+  [{:keys [state callback]
     :as initial-props}]
   (let [props (-> initial-props
                   (dissoc state)
                   (assoc :value @state
                          :on-change (fn [x]
-                                      (reset! state (when x (.-value x))))
+                                      (reset! state (when x (.-value x)))
+                                      (when callback
+                                        (callback (when x (.-value x)))))
                          :option-renderer render-shape-option
                          :value-renderer render-shape-option))]
     [select-component props]))
@@ -37,19 +39,20 @@
 (defn make-value [& {:keys [id label]}]
   {:value id :label label})
 
-(defn chooser [& {:keys [options state]}]
+(defn chooser [& {:keys [options state callback]}]
   [select {:state state
-           :options (clj->js options)}])
+           :options (clj->js options)
+           :callback callback}])
 
 (defn- make-shape-options [possible-shapes]
   (vec (for [[id s] (seq possible-shapes)]
          (make-value :id id
                      :label (:name s)))))
 
-(defn shape-chooser [& {:keys [state options]}]
+(defn shape-chooser [& {:keys [state options callback]}]
   (let [options (or options
                     (make-shape-options shapes/all-shapes))]
-    [chooser :options options :state state]))
+    [chooser :options options :state state :callback callback]))
 
 (defn- layers-from-layer-names [top-name bottom-name]
   (when (and top-name bottom-name)
@@ -76,17 +79,27 @@
 (defn puzzle-chooser [state]
   ;; store layer names in the given state so they are restored when navigating
   ;; to the page again
-  (let [layer-names (reagent/cursor state [:puzzle-chooser-layer-names])]
+  (let [layer-names (reagent/cursor state [:puzzle-chooser-layer-names])
+        update-puzzle! (fn [_new-layer-name]
+                         (let [[top bottom] (layers-from-layer-names (:top @layer-names)
+                                                                     (:bottom @layer-names))]
+                           (if (and top bottom)
+                             (swap! state update :puzzle
+                                    #(-> %
+                                         (assoc :top-layer top)
+                                         (assoc :bottom-layer bottom)))
+                             (swap! state update :puzzle
+                                    #(-> %
+                                         (assoc :top-layer nil)
+                                         (assoc :bottom-layer nil))))))]
     (fn render [state]
-      (when-let [[top bottom] (layers-from-layer-names (:top @layer-names)
-                                                       (:bottom @layer-names))]
-        (swap! state assoc-in [:puzzle :top-layer] top)
-        (swap! state assoc-in [:puzzle :bottom-layer] bottom))
       [:div
        [shape-chooser :state (reagent/cursor layer-names [:top])
-        :options (possible-shape-options-for-layer (:bottom @layer-names))]
+        :options (possible-shape-options-for-layer (:bottom @layer-names))
+        :callback update-puzzle!]
        [shape-chooser :state (reagent/cursor layer-names [:bottom])
-        :options (possible-shape-options-for-layer (:top @layer-names))]])))
+        :options (possible-shape-options-for-layer (:top @layer-names))
+        :callback update-puzzle!]])))
 
 (defn- swap-top-and-bottom-layers [state]
   (let [top (-> state :puzzle-chooser-layer-names :top)

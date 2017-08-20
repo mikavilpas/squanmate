@@ -71,8 +71,11 @@
        (:bottom-layer puzzle)))
 
 (defn- apply-initial-transformation-alg [puzzle alg-string]
-  (let [result-step-either (execution/transformation-result puzzle alg-string)]
-    (m/bind result-step-either (comp either/right :puzzle))))
+  (if (and (:top-layer puzzle)
+           (:bottom-layer puzzle))
+    (let [result-step-either (execution/transformation-result puzzle alg-string)]
+      (m/bind result-step-either (comp either/right :puzzle)))
+    (either/left "cannot do initial transformation: puzzle is missing a layer.")))
 
 (defn default-alg-visualizer-state []
   (reagent/atom {:puzzle (puzzle/Puzzle. nil nil)
