@@ -15,7 +15,7 @@
   ;; http://localhost:3449/cards.html#!/squanmate.ui.alg_visualizer_test/alg-visualizer
   (reset! alg-visualizer-state {:puzzle (shapes/puzzle-with-layers "scallop" "kite")
                                 :initial-rotation "(6,6)"
-                                :algorithm "/ (5,4)/ (0,-3)/"
+                                :algorithm "/ (-1,-2)/ (-3,0)/"
                                 :puzzle-chooser-layer-names {:bottom "kite"
                                                              :top "scallop"}}))
 
