@@ -79,27 +79,13 @@
 (defn puzzle-chooser [state]
   ;; store layer names in the given state so they are restored when navigating
   ;; to the page again
-  (let [layer-names (reagent/cursor state [:puzzle-chooser-layer-names])
-        update-puzzle! (fn [_new-layer-name]
-                         (let [[top bottom] (layers-from-layer-names (:top @layer-names)
-                                                                     (:bottom @layer-names))]
-                           (if (and top bottom)
-                             (swap! state update :puzzle
-                                    #(-> %
-                                         (assoc :top-layer top)
-                                         (assoc :bottom-layer bottom)))
-                             (swap! state update :puzzle
-                                    #(-> %
-                                         (assoc :top-layer nil)
-                                         (assoc :bottom-layer nil))))))]
+  (let [layer-names (reagent/cursor state [:puzzle-chooser-layer-names])]
     (fn render [state]
       [:div
        [shape-chooser :state (reagent/cursor layer-names [:top])
-        :options (possible-shape-options-for-layer (:bottom @layer-names))
-        :callback update-puzzle!]
+        :options (possible-shape-options-for-layer (:bottom @layer-names))]
        [shape-chooser :state (reagent/cursor layer-names [:bottom])
-        :options (possible-shape-options-for-layer (:top @layer-names))
-        :callback update-puzzle!]])))
+        :options (possible-shape-options-for-layer (:top @layer-names))]])))
 
 (defn- swap-top-and-bottom-layers [state]
   (let [top (-> state :puzzle-chooser-layer-names :top)

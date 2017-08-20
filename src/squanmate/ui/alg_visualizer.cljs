@@ -12,6 +12,7 @@
             [squanmate.ui.parity :as parity]
             [squanmate.ui.shape-chooser :as shape-chooser]
             [squanmate.utils.either-utils :as eu]
+            [cats.monad.maybe :as maybe]
             [squanmate.utils.route-utils :as route-utils]
             [squanmate.utils.export-utils :as export-utils]))
 
@@ -78,8 +79,7 @@
     (either/left "cannot do initial transformation: puzzle is missing a layer.")))
 
 (defn default-alg-visualizer-state []
-  (reagent/atom {:puzzle (puzzle/Puzzle. nil nil)
-                 :initial-rotation ""
+  (reagent/atom {:initial-rotation ""
                  :algorithm ""}))
 
 (defn- export-visualization-button []
@@ -116,11 +116,32 @@
    [common/glyphicon {:glyph :asterisk}]
    " Clear"])
 
+(defn- visualization-components [state initial-puzzle]
+  [:div
+   [:div.col-xs-8
+    [:div
+     (either/branch
+      initial-puzzle
+      error-component
+      (fn [initial-puzzle]
+        [:div
+         [:div.row
+          [:div.col-xs-3
+           [link-to-this-visualization @state]
+           [export-visualization-button]]]
+         [:div.row.col-xs-8
+          [algorithm-visualization initial-puzzle (:algorithm @state)]]]))]]
+   [:div.col-xs-4.pull-right
+    (eu/when-right initial-puzzle
+      (fn [p]
+        [initial-rotation-adjuster/rotation-adjuster
+         p
+         (reagent/cursor state [:initial-rotation])
+         (reagent/cursor state [:algorithm])]))]])
+
 (defn alg-visualizer [state]
   (let [top-layer-name (-> @state :puzzle-chooser-layer-names :top)
-        bottom-layer-name (-> @state :puzzle-chooser-layer-names :bottom)
-        initial-puzzle (apply-initial-transformation-alg (:puzzle @state)
-                                                         (:initial-rotation @state))]
+        bottom-layer-name (-> @state :puzzle-chooser-layer-names :bottom)]
     [:form.container
 
      [:div.row.form-group
@@ -137,25 +158,10 @@
        [common/input-box (reagent/cursor state [:algorithm]) "Algorithm"]]]
 
      [:div.row.form-group
-      [:div.col-xs-8
-       (when (both-layers-present? (:puzzle @state))
-         [:div
-          (either/branch
-           initial-puzzle
-           error-component
-           (fn [initial-puzzle]
-             [:div
-              [:div.row
-               [:div.col-xs-3
-                [link-to-this-visualization @state]
-                [export-visualization-button]]]
-              [:div.row.col-xs-8
-               [algorithm-visualization initial-puzzle (:algorithm @state)]]]))])]
-      [:div.col-xs-4.pull-right
-       (when (or top-layer-name bottom-layer-name)
-         (eu/when-right initial-puzzle
-           (fn [p]
-             [initial-rotation-adjuster/rotation-adjuster
-              p
-              (reagent/cursor state [:initial-rotation])
-              (reagent/cursor state [:algorithm])])))]]]))
+      (when-let [temp-puzzle (when (and top-layer-name bottom-layer-name)
+                               (shapes/puzzle-with-layers
+                                top-layer-name
+                                bottom-layer-name))]
+        (let [initial-puzzle (apply-initial-transformation-alg temp-puzzle
+                                                               (:initial-rotation @state))]
+          [visualization-components state initial-puzzle]))]]))
