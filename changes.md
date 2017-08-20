@@ -7,11 +7,9 @@
 - shape-visualizer: add a "clear" button
 - shape-visualizer: `BREAKING`: some shapes' default positions have changed. Any
   algorithms that use these shapes will have to do the following adjustments
-  (given here for the top layer):
-  - 3-3: (1,0)
-  - 3-2-1: (2,0)
-  - perpendicular edges: (1,0)
-  - parallel edges: (3,0)
+  (see these changes):
+  - https://github.com/sp3ctum/squanmate/commit/ab4db05
+  - https://github.com/sp3ctum/squanmate/commit/24d62b4
   - if you have any problem, open an issue that includes a link to your faulty
     alg, and I can help you correct it.
 
