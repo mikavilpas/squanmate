@@ -56,6 +56,8 @@
            merge
            {:puzzle-chooser-layer-names {:top top-shape-name
                                          :bottom bottom-shape-name}
+            :puzzle (shapes/puzzle-with-layers top-shape-name
+                                               bottom-shape-name)
             :algorithm algorithm
             :initial-rotation initial-rotation})
     (fn render [& _]
