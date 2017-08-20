@@ -105,6 +105,14 @@
    {:on-click #(set-link-to-visualization state)}
    "Link to this visualization"])
 
+(defn- clear-visualization [state]
+  (reset! state (deref (default-alg-visualizer-state))))
+
+(defn clear-visualization-button [state]
+  [common/button {:on-click #(clear-visualization state)}
+   [common/glyphicon {:glyph :asterisk}]
+   " Clear"])
+
 (defn alg-visualizer [state]
   (let [top-layer-name (-> @state :puzzle-chooser-layer-names :top)
         bottom-layer-name (-> @state :puzzle-chooser-layer-names :bottom)
@@ -117,7 +125,9 @@
        [shape-chooser/puzzle-chooser state]]
       [:div.col-xs-4 (when (or top-layer-name
                                bottom-layer-name)
-                       [shape-chooser/swap-layers-button state])]]
+                       [common/well
+                        [:div [shape-chooser/swap-layers-button state]]
+                        [:div.top5 [clear-visualization-button state]]])]]
 
      [:div.row.form-group
       [:div.col-xs-8
@@ -139,9 +149,10 @@
               [:div.row.col-xs-8
                [algorithm-visualization initial-puzzle (:algorithm @state)]]]))])]
       [:div.col-xs-4.pull-right
-       (eu/when-right initial-puzzle
-         (fn [p]
-           [initial-rotation-adjuster/rotation-adjuster
-            p
-            (reagent/cursor state [:initial-rotation])
-            (reagent/cursor state [:algorithm])]))]]]))
+       (when (or top-layer-name bottom-layer-name)
+         (eu/when-right initial-puzzle
+           (fn [p]
+             [initial-rotation-adjuster/rotation-adjuster
+              p
+              (reagent/cursor state [:initial-rotation])
+              (reagent/cursor state [:algorithm])])))]]]))

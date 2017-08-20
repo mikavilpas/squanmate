@@ -1,9 +1,10 @@
 # Changelog
 
-## upcoming
+## 4.0
 - shape-visualizer: replace "initial rotation" textbox with layer rotation
   buttons. The rotation buttons feel a lot more intuitive and fun to use. For
   now only rotations that leave the layer in a sliceable position are allowed.
+- shape-visualizer: add a "clear" button
 
 ## 3.5
 - shape-visualizer: only allow selecting layers that are possible to construct

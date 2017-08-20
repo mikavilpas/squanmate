@@ -102,9 +102,9 @@
   (swap! state update :algorithm manipulation/flip-alg-string-upside-down))
 
 (defn swap-layers-button [state]
-  [common/well
-   [common/button {:style {:white-space "pre-wrap"}
-                   :on-click #(swap-layers state)}
-    [:span
-     [common/glyphicon {:glyph :refresh}]
-     " Swap layers"]]])
+  [common/button {:style {:white-space "pre-wrap"}
+                  :on-click #(swap-layers state)}
+   [:span
+    [common/glyphicon {:glyph :refresh}]
+    " Swap layers"]])
+
