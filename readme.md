@@ -13,9 +13,15 @@
 * display cubeshape algorithms and the shapes the algorithm goes through
   * it's a good aid for memorizing algorithms!
   * link to your created visualizations from e.g. your Google Sheets
-* if you use Cale Schoon's cubeshape parity method, Squanmate also displays
-  whether your entered algorithm is **even** or **odd** for that specific
-  starting count position
+* if you use Cale Schoon's cubeshape parity method, Squanmate offers a couple of
+  helpful features:
+  - displays whether your entered algorithm is **even** or **odd** for that
+    specific starting count position
+  - allows you to find a more comfortable count position by rotating either
+    layer for counting, then undoing that rotation for the algorithm. It's
+    really easy to find out interesting things this way. For example, did you
+    know for the kite kite case every sliceable position for either layer gives
+    the same count?
 
 **You can run it with a modern web browser right now.
 Try it [here][applink]!** (the link will change with every release, 
