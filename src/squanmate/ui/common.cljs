@@ -27,6 +27,9 @@
 (def well (reagent/adapt-react-class js/ReactBootstrap.Well))
 (def alert (reagent/adapt-react-class js/ReactBootstrap.Alert))
 
+(def dropdown-button (reagent/adapt-react-class js/ReactBootstrap.DropdownButton))
+(def menu-item (reagent/adapt-react-class js/ReactBootstrap.MenuItem))
+
 ;; todo these would look nice, but they are not yet included in cljsjs/react-bootstrap
 ;; (def toggle-button (reagent/adapt-react-class js/ReactBootstrap.ToggleButton))
 ;; (def toggle-button-group (reagent/adapt-react-class js/ReactBootstrap.ToggleButtonGroup))
