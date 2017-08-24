@@ -12,22 +12,23 @@
 (defcard-rg ui
   [alg-importer/ui ui-state])
 
+(defn- puzzle-names-for-alg [alg-string]
+  (-> alg-string
+      alg-importer/starting-puzzle-for-alg
+      m/extract
+      :puzzle
+      shapes/puzzle-layer-shape-names))
+
 (deftest starting-puzzle-for-alg-test []
   (is (= ["kite" "kite"]
-         (-> "/"
-             alg-importer/starting-puzzle-for-alg
-             shapes/puzzle-layer-shape-names))
+         (puzzle-names-for-alg "/"))
       "basic alg")
 
   (is (= ["kite" "square"]
-         (-> "0,-1/1,0/-2,0/2,0/-2,0/1,0/3,0/"
-             alg-importer/starting-puzzle-for-alg
-             shapes/puzzle-layer-shape-names))
+         (puzzle-names-for-alg "0,-1/1,0/-2,0/2,0/-2,0/1,0/3,0/"))
       "really long alg")
 
   (is (= ["mushroom" "square"]
-         (-> "/-2/-3/"
-             alg-importer/starting-puzzle-for-alg
-             shapes/puzzle-layer-shape-names))
+         (puzzle-names-for-alg "/-2/-3/"))
       "alg that ends in the position 1,-1")
-  "algs that and in positions 1 or 0,-1 or similar are not supported")
+  "algs that end in positions 1 or 0,-1 or similar are not supported")

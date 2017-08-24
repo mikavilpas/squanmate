@@ -43,8 +43,7 @@
              :bottom-amount top-amount))))
 
 (defn flip-alg-upside-down [alg-steps]
-  (->> alg-steps
-       (mapv flip-step-upside-down)))
+  (mapv flip-step-upside-down alg-steps))
 
 ;; includes the default, very opinionated error handler
 (defn try-update-alg-string [alg-string update-alg-steps-fn]
@@ -60,6 +59,9 @@
                    (-> alg-steps
                        update-alg-steps-fn
                        serialization/alg-to-str))))
+
+(defn reverse-alg [alg-string]
+  (try-update-alg-string alg-string reverse-steps))
 
 (defn flip-alg-string-upside-down [alg-string]
   (try-update-alg-string alg-string flip-alg-upside-down))
