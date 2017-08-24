@@ -47,7 +47,7 @@
                                   m/extract
                                   :puzzle))
 
-(defn- cubeshape-start-&-end-positions [alg-string]
+(defn cubeshape-start-&-end-positions [alg-string]
   ;; Most cubeshape algs end up in either the positions 1,-1 or 0 (just the
   ;; solved puzzle). To make things easier, the user doesn't have to add a final
   ;; -1,1 to their algorithm in order to get a parity count.
@@ -56,24 +56,23 @@
         steps2 (execution/transformations-reverse misaligned-square-square
                                                   alg-string)]
     (if-let [successful-transformations
-             (first (filter #(every? either/right? %)
-                            [steps1 steps2]))]
+             (->> [steps1 steps2]
+                  (filter #(every? either/right? %))
+                  (mapv m/extract)
+                  first)]
       (either/right successful-transformations)
       (either/left "doesn't seem like a cubeshape algorithm"))))
 
 (defn- alg-parity-switched-at-cubeshape? [alg-string]
-  (m/mlet [step-eithers (cubeshape-start-&-end-positions alg-string)
-          start-step-either (either/right (first step-eithers))
-          end-step-either (either/right (last step-eithers))]
-          (m/mlet [start-step start-step-either
-                   end-step end-step-either]
-
-                  ;; double check - this is a precondition for calling this
-                  ;; component
-                  (if (= ["square" "square"]
-                         (shapes/puzzle-layer-shape-names (:puzzle start-step)))
-                    (either/right [parity-count-component (:puzzle end-step)])
-                    (either/left "not at cubeshape")))))
+  (m/mlet [steps (cubeshape-start-&-end-positions alg-string)
+           start-step (either/right (first steps))
+           end-step (either/right (last steps))]
+          ;; double check - this is a precondition for calling this
+          ;; component
+          (if (= ["square" "square"]
+                 (shapes/puzzle-layer-shape-names (:puzzle start-step)))
+            (either/right [parity-count-component (:puzzle end-step)])
+            (either/left "not at cubeshape"))))
 
 (defn alg-parity-switched-at-cubeshape?-component
   ;; TODO comments can be moved to the UI in case we need to explain stuff to the user!
