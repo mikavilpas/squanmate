@@ -13,4 +13,5 @@
             squanmate.alg.manipulation-test
             squanmate.scramblers.shape-scrambler-test
             squanmate.shape-combinations-test
-            squanmate.ui.initial-rotation-adjuster-test))
+            squanmate.ui.initial-rotation-adjuster-test
+            squanmate.ui.alg-importer-test))

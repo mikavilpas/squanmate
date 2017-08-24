@@ -58,8 +58,8 @@
     (if-let [successful-transformations
              (->> [steps1 steps2]
                   (filter #(every? either/right? %))
-                  (mapv m/extract)
-                  first)]
+                  first
+                  (mapv m/extract))]
       (either/right successful-transformations)
       (either/left "doesn't seem like a cubeshape algorithm"))))
 
