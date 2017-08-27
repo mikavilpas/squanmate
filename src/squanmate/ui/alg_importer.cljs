@@ -75,11 +75,14 @@
                         error-box
                         success-box)]))))
 
+;; todo 4/-2/-3/ crashes!
+
 (defn ui [state]
-  [:div
+  [:div.container
    [:h2 "Instructions:"]
    "Use this if you want to inspect an algorithm with Squanmate."
    [:div
     "Enter an algorithm that ends in cubeshape. Acceptable ending positions are (0) or (1,-1)."]
-   [common/input-box (reagent/cursor state [:algorithm]) "Cubeshape algorithm"]
+   [:div.top7
+    [common/input-box (reagent/cursor state [:algorithm]) "Cubeshape algorithm"]]
    [import-alg-component state]])
