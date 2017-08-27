@@ -20,14 +20,15 @@
   (m/mlet [transformation-steps (parity/cubeshape-start-&-end-positions alg-string)]
           (m/return (-> transformation-steps last))))
 
+(defrecord ImportedAlgorithm [algorithm
+                              starting-puzzle-spec])
+
 (defn import-alg [alg-string]
   (m/mlet [start-transformation-step (starting-puzzle-for-alg alg-string)]
           (let [puzzle-spec (-> start-transformation-step
                                 :puzzle
-                                serialization/puzzle-specification)
-                reversed-alg (manipulation/reverse-alg alg-string)]
-            (m/return {:reversed-alg reversed-alg
-                       :starting-puzzle-spec puzzle-spec}))))
+                                serialization/puzzle-specification)]
+            (m/return (->ImportedAlgorithm alg-string puzzle-spec)))))
 
 (defn puzzle-from-spec [spec]
   (let [top (-> spec :starting-puzzle-spec :top-name)
@@ -48,7 +49,7 @@
                                 {:top-name (:top-name puzzle-spec)
                                  :bottom-name (:bottom-name puzzle-spec)
                                  :initial-rotation (:initial-rotation puzzle-spec)
-                                 :algorithm (:reversed-alg spec)}))}
+                                 :algorithm (:algorithm spec)}))}
    "Import to Algorithm shape visualizer"])
 
 (defn- success-box [spec]
