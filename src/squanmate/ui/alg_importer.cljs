@@ -56,11 +56,12 @@
     (either/branch
      p
      (fn [error]
-       (println "Internal error: could not render starting step: " (pr-str error)))
+       (println "Internal error: could not render starting step: " (pr-str error))
+       [:div "Internal error. Please report this as an issue!"])
      (fn [starting-puzzle]
        [common/alert {:bs-style :success}
         [:strong "Success!"]
-        [:div "Looks like the algorithm starts at this step: "]
+        [:div "Looks like the algorithm starts at this step:"]
         [newmonochrome/monochrome-puzzle starting-puzzle]
         [import-button spec]]))))
 
