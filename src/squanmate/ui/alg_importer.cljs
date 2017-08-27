@@ -4,30 +4,41 @@
             [reagent.core :as reagent]
             [squanmate.alg.manipulation :as manipulation]
             [squanmate.ui.common :as common]
-            [squanmate.ui.parity :as parity]))
+            [squanmate.ui.parity :as parity]
+            [squanmate.alg.serialization :as serialization]
+            [squanmate.shapes :as shapes]
+            [clojure.string :as str]))
 
 (defn starting-puzzle-for-alg [alg-string]
   (m/mlet [transformation-steps (parity/cubeshape-start-&-end-positions alg-string)]
           (m/return (-> transformation-steps last))))
 
-(defn reverse-alg [alg-string]
-  (if (empty? alg-string)
-    (either/left "Algorithm not valid")
-    (m/mlet [start-transformation-step (starting-puzzle-for-alg alg-string)]
-            (let [alg (manipulation/reverse-alg alg-string)]
-              (m/return [alg (:puzzle start-transformation-step)])))))
+(defn starting-puzzle-specification-for-alg [alg-string]
+  (m/mlet [starting-puzzle (starting-puzzle-for-alg alg-string)
+           spec (serialization/puzzle-specification starting-puzzle)]
+          (m/return spec)))
+
+(defn import-alg [alg-string]
+  (m/mlet [start-transformation-step (starting-puzzle-for-alg alg-string)]
+          (let [puzzle-spec (-> start-transformation-step
+                                :puzzle
+                                serialization/puzzle-specification)
+                reversed-alg (manipulation/reverse-alg alg-string)]
+            (m/return {:reversed-alg reversed-alg
+                       :starting-puzzle-spec puzzle-spec}))))
 
 (defn- import-alg-component [alg-string]
-  (let [result (reverse-alg alg-string)]
-    [:div
-     (either/branch
-      result
-      (fn [error]
-        [common/alert {:bs-style :warning}
-         error])
-      (fn [success]
-        [common/alert {:bs-style :success}
-         "Success!"]))]))
+  (when-not (str/blank? alg-string)
+    (let [result (either/left "todo")]
+      [:div
+       (either/branch
+        result
+        (fn [error]
+          [common/alert {:bs-style :warning}
+           error])
+        (fn [[success]]
+          [common/alert {:bs-style :success}
+           "Success!"]))])))
 
 (defn ui [state]
   (let [my-state (reagent/atom {:algorithm nil})]

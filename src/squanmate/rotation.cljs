@@ -1,7 +1,8 @@
 (ns squanmate.rotation
   (:require [cats.monad.either :as either]
             [squanmate.puzzle :as p]
-            [cats.core :as m]))
+            [cats.core :as m]
+            [squanmate.puzzle :as puzzle]))
 
 (defprotocol LayerRotationStrategy
   (first-piece [this layer])
@@ -52,15 +53,25 @@
                                            amount)
                                       layer))))
 
+;; try smaller rotations first to keep possible-rotations simple to understand
+(def ^:private rotation-amounts [0
+                                 1 -1
+                                 2 -2
+                                 3 -3
+                                 4 -4
+                                 5 -5
+                                 6])
+
 (defn possible-rotations [layer]
-  (let [rotation-amounts (range -6 7)
-        rotation-results (map (fn [amount]
+  (let [rotation-results (map (fn [amount]
                                 [(rotate-layer layer amount)
                                  amount])
                               rotation-amounts)
-        successful-results (filter (fn [[result _amount]]
-                                     (either/right? result))
-                                   rotation-results)]
+        successful-results (->> rotation-results
+                                (filter (fn [[result-either _amount]]
+                                          (either/right? result-either)))
+                                (map (fn [[result-either amount]]
+                                       [(m/extract result-either) amount])))]
     successful-results))
 
 (defn random-layer-rotations [layer]

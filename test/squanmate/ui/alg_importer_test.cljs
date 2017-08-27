@@ -32,3 +32,34 @@
          (puzzle-names-for-alg "/-2/-3/"))
       "alg that ends in the position 1,-1")
   "algs that end in positions 1 or 0,-1 or similar are not supported")
+
+(defn- import-alg [alg-string]
+  (m/extract (alg-importer/import-alg alg-string)))
+
+(deftest import-alg-test []
+  (is (= {:reversed-alg "/ ",
+          :starting-puzzle-spec
+          {:top-name "kite",
+           :bottom-name "kite",
+           :initial-rotation {:top-amount 0, :bottom-amount 0}}}
+         (import-alg "/"))
+      "basic alg")
+
+  (is (= {:reversed-alg
+          "/ (-3,0)/ (-1,0)/ (2,0)/ (-2,0)/ (2,0)/ (-1,0)/ (0,1)",
+          :starting-puzzle-spec
+          {:top-name "kite",
+           :bottom-name "kite",
+           :initial-rotation {:top-amount 3, :bottom-amount 1}}}
+
+         (import-alg "0,-1/1,0/-2,0/2,0/-2,0/1,0/3,0/"))
+      "really long alg that ends in the position 1,-1")
+
+  (is (= {:reversed-alg "/ (3,0)/ (2,0)/ (6,0)",
+          :starting-puzzle-spec
+          {:top-name "mushroom",
+           :bottom-name "mushroom",
+           :initial-rotation {:top-amount 6, :bottom-amount 0}}}
+         (import-alg "6/-2/-3/"))
+      "alg that has an initial rotation before the first slice")
+  "algs that end in positions 1 or 0,-1 or similar are not supported")

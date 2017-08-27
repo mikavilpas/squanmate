@@ -60,3 +60,21 @@
 
   (is (either/left? (r/rotate-layer square-top-layer -1))
       "trying to rotate -1 when the first piece is a corner piece (worth 2)"))
+
+(defn rotation-strings [layer]
+  (->> layer
+       r/possible-rotations
+       (map (fn [[p amount]]
+              [(puzzle/pieces-str p)
+               amount]))))
+
+(deftest possible-rotations-test []
+  (is (= [["cceeecce" 0]
+          ["ecceeecc" 1]
+          ["ceeeccec" -2]
+          ["cecceeec" 3]
+          ["eeeccecc" -4]
+          ["ccecceee" 5]
+          ["eeccecce" -5]
+          ["ecceccee" 6]]
+         (rotation-strings shapes/mushroom))))

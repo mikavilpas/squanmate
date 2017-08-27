@@ -33,8 +33,8 @@
   (let [[new-top _] (-> puzzle :top-layer rotation/random-layer-rotations first)
         [new-bottom _] (-> puzzle :bottom-layer rotation/random-layer-rotations first)]
     (assoc puzzle
-           :top-layer (m/extract new-top)
-           :bottom-layer (m/extract new-bottom))))
+           :top-layer new-top
+           :bottom-layer new-bottom)))
 
 (defn scramble
   "A shape scramble is a scramble that is guaranteed to start with the layers in

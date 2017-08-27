@@ -115,3 +115,7 @@
   (let [top (layer-shape-name-key (:top-layer puzzle))
         bottom (layer-shape-name-key (:bottom-layer puzzle))]
     [top bottom]))
+
+(defn same-shape-and-orientation? [layer-a layer-b]
+  (= (puzzle/pieces-str layer-a)
+     (puzzle/pieces-str layer-b)))
