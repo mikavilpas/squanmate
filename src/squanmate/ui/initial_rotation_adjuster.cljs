@@ -13,7 +13,7 @@
 (defn possible-sliceable-rotations [layer]
   (let [possible-rotations (rotation/possible-rotations layer)
         sliceable-rotations (filter (fn [[result amount]]
-                                      (slicing/layer-sliceable? (m/extract result)))
+                                      (slicing/layer-sliceable? result))
                                     possible-rotations)
         positive (for [[result amount] sliceable-rotations
                        :when (pos? amount)]
