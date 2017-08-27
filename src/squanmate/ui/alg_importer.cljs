@@ -57,7 +57,7 @@
      p
      (fn [error]
        (println "Internal error: could not render starting step: " (pr-str error))
-       [:div "Internal error. Please report this as an issue!"])
+       [:div "Internal error. Please report this as an issue! " (pr-str error)])
      (fn [starting-puzzle]
        [common/alert {:bs-style :success}
         [:strong "Success!"]
