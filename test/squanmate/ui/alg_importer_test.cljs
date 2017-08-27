@@ -54,7 +54,7 @@
           :starting-puzzle-spec
           {:top-name "kite",
            :bottom-name "kite",
-           :initial-rotation {:top-amount 0, :bottom-amount 0}}}
+           :initial-rotation "(0,0)"}}
          (import-alg "/"))
       "basic alg")
 
@@ -63,7 +63,7 @@
           :starting-puzzle-spec
           {:top-name "kite",
            :bottom-name "square",
-           :initial-rotation {:top-amount 3, :bottom-amount 1}}}
+           :initial-rotation "(3,1)"}}
 
          ;; this is the odd kite square cubeshape parity alg
          (import-alg "0,-1/1,0/-2,0/2,0/-2,0/1,0/3,0/"))
@@ -73,7 +73,7 @@
           :starting-puzzle-spec
           {:top-name "mushroom",
            :bottom-name "square",
-           :initial-rotation {:top-amount 6, :bottom-amount 0}}}
+           :initial-rotation "(6,0)"}}
          (import-alg "6/-2/-3/"))
       "alg that has an initial rotation before the first slice")
   "algs that end in positions 1 or 0,-1 or similar are not supported")
