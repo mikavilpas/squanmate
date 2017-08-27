@@ -28,6 +28,10 @@
            "-3"))))
 
 (deftest algorithm-test []
+  (is (= (either/right [slice])
+         (a/parse "/"))
+      "only a slice")
+
   (is (= (either/right [(rotate 1 2)
                         slice])
          (a/parse "1,2/")))

@@ -76,11 +76,19 @@
     (let [steps (conj rotations s)]
       (p/always (non-nils steps)))))
 
-(defparser algorithm []
+(defparser slice-only []
+  (let->> [s (slice)]
+    (p/always [s])))
+
+(defparser slice-and-steps []
   (let->> [s (optional (slice))
            step-vectors (p/many1 (rotation-and-slice))]
     (let [steps (flatten step-vectors)]
       (p/always (non-nils (conj steps s))))))
+
+(defparser algorithm []
+  (p/either (p/attempt (slice-and-steps))
+            (slice-only)))
 
 (defn parse
   "Supported formats:
