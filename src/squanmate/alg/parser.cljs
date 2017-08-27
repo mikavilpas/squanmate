@@ -2,7 +2,9 @@
   (:require [the.parsatron :as p]
             [squanmate.alg.types :as types]
             [cljs.reader :refer [read-string]]
-            [cats.monad.either :as either])
+            [cats.monad.either :as either]
+            [cats.core :as m]
+            [squanmate.utils.either-utils :as eu])
   (:require-macros [the.parsatron :refer [let->> >> defparser]]
                    [cats.monad.either :refer [try-either]]))
 
@@ -76,7 +78,7 @@
 
 (defparser algorithm []
   (let->> [s (optional (slice))
-           step-vectors (p/many (rotation-and-slice))]
+           step-vectors (p/many1 (rotation-and-slice))]
     (let [steps (flatten step-vectors)]
       (p/always (non-nils (conj steps s))))))
 
@@ -87,5 +89,6 @@
   - / (1, -2) /
   "
   [algorithm-string]
-  (either/try-either
-   (p/run (algorithm) algorithm-string)))
+  (let [result (either/try-either
+                (p/run (algorithm) algorithm-string))]
+    (m/left-map #(aget % "message") result)))

@@ -71,3 +71,7 @@
          (a/parse "/ -3,0/0,3/0,-3/0,3/
                     2,0/0,2/-2,0/4,0
                    /0,-2/ 0,2/-1,4/0,-3/*"))))
+
+(deftest parser-fails-test []
+  (is (= (either/left "Unexpected token 'n', Unexpected token 'n' at line: 1 column: 1")
+         (a/parse "not an algorithm"))))
