@@ -61,7 +61,7 @@
         successful-transformations (mapv m/extract first-successful-steps)]
     (if-not (empty? successful-transformations)
       (either/right successful-transformations)
-      (either/left "doesn't seem like a cubeshape algorithm"))))
+      (either/left "Doesn't seem like a cubeshape algorithm"))))
 
 (defn- alg-parity-switched-at-cubeshape? [alg-string]
   (m/mlet [steps (cubeshape-start-&-end-positions alg-string)
