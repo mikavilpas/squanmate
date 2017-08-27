@@ -13,10 +13,6 @@
   (m/mlet [transformation-steps (parity/cubeshape-start-&-end-positions alg-string)]
           (m/return (-> transformation-steps last))))
 
-(defn starting-puzzle-specification-for-alg [alg-string]
-  (m/bind (starting-puzzle-for-alg alg-string)
-          serialization/puzzle-specification))
-
 (defn import-alg [alg-string]
   (m/mlet [start-transformation-step (starting-puzzle-for-alg alg-string)]
           (let [puzzle-spec (-> start-transformation-step
