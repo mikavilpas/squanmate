@@ -4,4 +4,5 @@
 (def importer-state (alg-importer/default-alg-importer-state))
 
 (defn content []
-  [alg-importer/ui importer-state])
+  [:div.container
+   [alg-importer/ui importer-state]])
