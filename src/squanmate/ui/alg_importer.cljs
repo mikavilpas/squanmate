@@ -61,7 +61,7 @@
      (fn [starting-puzzle]
        [common/alert {:bs-style :success}
         [:strong "Success!"]
-        [:div "Looks like the algorithm starts at this step:"]
+        [:div "Looks like the algorithm starts at this state:"]
         [newmonochrome/monochrome-puzzle starting-puzzle]
         [import-button spec]]))))
 
