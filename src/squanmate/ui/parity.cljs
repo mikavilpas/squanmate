@@ -54,12 +54,12 @@
   (let [steps1 (execution/transformations-reverse puzzle/square-square
                                                   alg-string)
         steps2 (execution/transformations-reverse misaligned-square-square
-                                                  alg-string)]
-    (if-let [successful-transformations
-             (->> [steps1 steps2]
-                  (filter #(every? either/right? %))
-                  first
-                  (mapv m/extract))]
+                                                  alg-string)
+        first-successful-steps (->> [steps1 steps2]
+                                    (filter #(every? either/right? %))
+                                    first)
+        successful-transformations (mapv m/extract first-successful-steps)]
+    (if-not (empty? successful-transformations)
       (either/right successful-transformations)
       (either/left "doesn't seem like a cubeshape algorithm"))))
 
