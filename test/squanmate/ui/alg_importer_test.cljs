@@ -49,7 +49,7 @@
           "/ (-3,0)/ (-1,0)/ (2,0)/ (-2,0)/ (2,0)/ (-1,0)/ (0,1)",
           :starting-puzzle-spec
           {:top-name "kite",
-           :bottom-name "kite",
+           :bottom-name "square",
            :initial-rotation {:top-amount 3, :bottom-amount 1}}}
 
          (import-alg "0,-1/1,0/-2,0/2,0/-2,0/1,0/3,0/"))
@@ -58,7 +58,7 @@
   (is (= {:reversed-alg "/ (3,0)/ (2,0)/ (6,0)",
           :starting-puzzle-spec
           {:top-name "mushroom",
-           :bottom-name "mushroom",
+           :bottom-name "square",
            :initial-rotation {:top-amount 6, :bottom-amount 0}}}
          (import-alg "6/-2/-3/"))
       "alg that has an initial rotation before the first slice")
