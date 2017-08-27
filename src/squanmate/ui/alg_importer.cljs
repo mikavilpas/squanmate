@@ -67,7 +67,6 @@
         [import-button spec]]))))
 
 (defn- import-alg-component [state]
-  (println "import-alg-component with " state)
   (let [alg-string (:algorithm @state)]
     (when-not (str/blank? alg-string)
       (let [result (import-alg alg-string)]
