@@ -14,9 +14,8 @@
           (m/return (-> transformation-steps last))))
 
 (defn starting-puzzle-specification-for-alg [alg-string]
-  (m/mlet [starting-puzzle (starting-puzzle-for-alg alg-string)
-           spec (serialization/puzzle-specification starting-puzzle)]
-          (m/return spec)))
+  (m/bind (starting-puzzle-for-alg alg-string)
+          serialization/puzzle-specification))
 
 (defn import-alg [alg-string]
   (m/mlet [start-transformation-step (starting-puzzle-for-alg alg-string)]
@@ -29,14 +28,14 @@
 
 (defn- import-alg-component [alg-string]
   (when-not (str/blank? alg-string)
-    (let [result (either/left "todo")]
+    (let [result (import-alg alg-string)]
       [:div
        (either/branch
         result
         (fn [error]
           [common/alert {:bs-style :warning}
            error])
-        (fn [[success]]
+        (fn [success]
           [common/alert {:bs-style :success}
            "Success!"]))])))
 
@@ -45,7 +44,9 @@
     (fn [state]
       [:div
        [:h2 "Instructions:"]
-       "Enter an algorithm that ends in cubeshape. Acceptable ending positions are (0) or (1,-1)."
+       "Use this if you want to inspect an algorithm with Squanmate."
+       [:div
+        "Enter an algorithm that ends in cubeshape. Acceptable ending positions are (0) or (1,-1)."]
        [common/input-box (reagent/cursor my-state [:algorithm])
         "Cubeshape algorithm"]
        [import-alg-component (:algorithm @my-state)]])))

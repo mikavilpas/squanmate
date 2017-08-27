@@ -52,6 +52,7 @@
            :bottom-name "square",
            :initial-rotation {:top-amount 3, :bottom-amount 1}}}
 
+         ;; this is the odd kite square cubeshape parity alg
          (import-alg "0,-1/1,0/-2,0/2,0/-2,0/1,0/3,0/"))
       "really long alg that ends in the position 1,-1")
 
