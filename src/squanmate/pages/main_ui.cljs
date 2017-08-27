@@ -4,7 +4,8 @@
             [squanmate.pages.shape-visualizer :as shape-visualizer]
             [squanmate.ui.common :as common]
             [squanmate.scramblers.shape-scrambler :as shape-scrambler]
-            [squanmate.pages.trainer :as trainer]))
+            [squanmate.pages.trainer :as trainer]
+            [squanmate.pages.importer :as importer]))
 
 (defmulti page-content (fn [app-state]
                          (-> @app-state
@@ -27,6 +28,9 @@
                                           :page
                                           :route-args)])
 
+(defmethod page-content :importer []
+  [importer/content])
+
 (defmethod page-content :default [app-state]
   [:div "warning: page content not found"])
 
@@ -39,7 +43,8 @@
 
    [common/nav
     [common/nav-item {:event-key 1 :href "#/shapes"} "All shapes"]
-    [common/nav-item {:event-key 2 :href "#/shape-visualizer"} "Algorithm shape visualizer"]]])
+    [common/nav-item {:event-key 2 :href "#/shape-visualizer"} "Algorithm shape visualizer"]
+    [common/nav-item {:event-key 3 :href "#/importer"} "Cubeshape algorithm importer"]]])
 
 (defn- footer []
   ;; just some vertical space to make the page feel better

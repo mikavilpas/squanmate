@@ -44,4 +44,7 @@
     ;; reference.
     (set-route! app-state :shape-visualizer-from-args route-args))
 
+  (defroute "/importer" []
+    (set-route! app-state :importer))
+
   (hook-browser-navigation!))
