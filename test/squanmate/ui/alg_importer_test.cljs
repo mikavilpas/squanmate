@@ -7,10 +7,23 @@
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg deftest]]))
 
-(defonce ui-state (alg-visualizer/default-alg-visualizer-state))
+(defn- state-with-alg [alg-string]
+  (let [a (alg-importer/default-alg-importer-state)]
+    (swap! a assoc :algorithm alg-string)
+    a))
+
+(def ui-state (alg-importer/default-alg-importer-state))
 
 (defcard-rg ui
   [alg-importer/ui ui-state])
+
+(def ui-failed-state (state-with-alg "invalid algorithm"))
+(defcard-rg ui-failed
+  [alg-importer/ui ui-failed-state])
+
+(def ui-successful-state (state-with-alg "/"))
+(defcard-rg ui-successful
+  [alg-importer/ui ui-successful-state])
 
 (defn- puzzle-names-for-alg [alg-string]
   (-> alg-string

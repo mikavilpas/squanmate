@@ -33,5 +33,5 @@
 (deftest puzzle-specification-test []
   (is (= {:top-name "square",
           :bottom-name "square",
-          :initial-rotation {:top-amount 0, :bottom-amount 0}}
+          :initial-rotation "(0,1)"}
          (serialization/puzzle-specification puzzle/square-square))))

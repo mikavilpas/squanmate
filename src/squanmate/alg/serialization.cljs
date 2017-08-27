@@ -36,8 +36,8 @@
 (defn puzzle-specification [p]
   (let [[top-name top-rotation] (-> p :top-layer rotation-specification)
         [bottom-name bottom-rotation] (-> p :bottom-layer rotation-specification)
-        initial-rotation (types/->Rotations top-rotation
-                                            bottom-rotation)]
+        initial-rotation (alg-to-str [(types/->Rotations top-rotation
+                                                         bottom-rotation)])]
     {:top-name top-name
      :bottom-name bottom-name
      :initial-rotation initial-rotation}))

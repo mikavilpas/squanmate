@@ -2,6 +2,7 @@
   (:require [cats.core :as m]
             [cats.monad.either :as either]
             [clojure.string :as str]
+            [squanmate.pages.links :as links]
             [reagent.core :as reagent]
             [squanmate.alg.execution :as execution]
             [squanmate.puzzle :as puzzle]
@@ -88,24 +89,13 @@
                                                        :filename (str "squanmate-" (js/Date.) ".png"))}
    "Export as .PNG"])
 
-(def ^:private encode js/encodeURIComponent)
-
-(defn- alg-or-zero [alg]
-  (if (= "" alg)
-    "0"
-    alg))
-
-(defn- set-link-to-visualization [state]
-  (route-utils/set-route!
-   (str/join "/" ["shape-visualizer"
-                  (-> state :puzzle-chooser-layer-names :top)
-                  (-> state :puzzle-chooser-layer-names :bottom)
-                  (encode (-> state :initial-rotation alg-or-zero))
-                  (encode (-> state :algorithm alg-or-zero))])))
-
 (defn- link-to-this-visualization [state]
   [common/button
-   {:on-click #(set-link-to-visualization state)}
+   {:on-click #(links/set-link-to-visualization
+                {:top-name (-> state :puzzle-chooser-layer-names :top)
+                 :bottom-name (-> state :puzzle-chooser-layer-names :bottom)
+                 :initial-rotation (-> state :initial-rotation)
+                 :algorithm (-> state :algorithm)})}
    "Link to this visualization"])
 
 (defn- clear-visualization [state]
