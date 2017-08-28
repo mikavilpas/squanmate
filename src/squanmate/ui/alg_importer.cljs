@@ -1,17 +1,16 @@
 (ns squanmate.ui.alg-importer
   (:require [cats.core :as m]
             [cats.monad.either :as either]
-            [reagent.core :as reagent]
-            [squanmate.alg.manipulation :as manipulation]
-            [squanmate.ui.common :as common]
-            [squanmate.ui.parity :as parity]
-            [squanmate.alg.serialization :as serialization]
-            [squanmate.shapes :as shapes]
             [clojure.string :as str]
-            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
+            [reagent.core :as reagent]
             [squanmate.alg.execution :as execution]
-            [squanmate.rotation :as rotation]
-            [squanmate.pages.links :as links]))
+            [squanmate.alg.serialization :as serialization]
+            [squanmate.pages.links :as links]
+            [squanmate.shapes :as shapes]
+            [squanmate.ui.common :as common]
+            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
+            [squanmate.ui.parity :as parity]
+            [squanmate.slicing :as slicing]))
 
 (defn default-alg-importer-state []
   (reagent/atom {:algorithm nil}))
@@ -52,6 +51,16 @@
                                  :algorithm (:algorithm spec)}))}
    "Import to Algorithm shape visualizer"])
 
+(defn non-sliceable-notification []
+  [common/well {:bs-size :small}
+   [:div
+    "The puzzle is not at a position that can be sliced. Only sliceable starting
+   positions are supported. Typically you can fix this by removing a rotation
+   before the algorithm's first / (slice)."
+    [:div
+     "If you want, you can manually add an initial rotation after the algorithm
+     has been imported."]]])
+
 (defn- success-box [spec]
   (let [p (puzzle-from-spec spec)]
     (either/branch
@@ -64,7 +73,9 @@
         [:strong "Success!"]
         [:div "Looks like the algorithm starts at this state:"]
         [newmonochrome/monochrome-puzzle starting-puzzle]
-        [import-button spec]]))))
+        (if (slicing/sliceable? starting-puzzle)
+          [import-button spec]
+          [non-sliceable-notification])]))))
 
 (defn- import-alg-component [state]
   (let [alg-string (:algorithm @state)]
@@ -75,10 +86,8 @@
                         error-box
                         success-box)]))))
 
-;; todo 4/-2/-3/ crashes!
-
 (defn ui [state]
-  [:div.container
+  [:div
    [:h2 "Instructions:"]
    "Use this if you want to inspect an algorithm with Squanmate."
    [:div

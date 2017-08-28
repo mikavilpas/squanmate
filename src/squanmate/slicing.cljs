@@ -71,3 +71,7 @@
                                 (:bottom-layer puzzle)))
 
     :else (do-slice puzzle)))
+
+(defn sliceable? [puzzle]
+  (and (top-sliceable? puzzle)
+       (bottom-sliceable? puzzle)))

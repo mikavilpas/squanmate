@@ -25,6 +25,12 @@
 (defcard-rg ui-successful
   [alg-importer/ui ui-successful-state])
 
+(def ui-successful-but-non-sliceable-state (state-with-alg "4/-2/-3/"))
+(defcard-rg ui-successful-but-non-sliceable-state
+  [:div
+   "This is a special case: if a puzzle is not sliceable it cannot be imported."
+   [alg-importer/ui ui-successful-but-non-sliceable-state]])
+
 (defn- puzzle-names-for-alg [alg-string]
   (-> alg-string
       alg-importer/starting-puzzle-for-alg
