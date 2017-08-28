@@ -76,13 +76,6 @@
   (async done
          (should-be-solved-with "/3" "(-3,0)/ " done)))
 
-(deftest solve-lin-back-corners []
-  (async done
-         (should-be-solved-with
-          "4,-3 / -3,0 / -1,2 / 1,-2 / -3,3 / -3,0 /"
-          "/ (3,0)/ (-3,3)/ (-4,5)/ (-2,1)/ (6,-3)/ (2,-3)"
-          done)))
-
 (deftest solve-non-sliceable-position []
   "An 'non-sliceable position' is one where the puzzle can't be sliced (a corner
   piece blocks the middle seam). This is a special position for Jaap's solver,

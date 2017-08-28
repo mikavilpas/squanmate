@@ -1,14 +1,12 @@
 (ns squanmate.solving
   (:require [cats.core :as m]
-            [cats.monad.either :as either]
-            [squanmate.alg.execution :as execution]
+            [reagent.core :as reagent]
+            [squanmate.alg.manipulation :as manipulation]
             [squanmate.alg.parser :as parser]
             [squanmate.alg.serialization :as serialization]
             [squanmate.alg.types :as types]
             [squanmate.rotation :as rotation]
-            [squanmate.slicing :as slicing]
-            [squanmate.alg.manipulation :as manipulation]
-            [reagent.core :as reagent]))
+            [squanmate.slicing :as slicing]))
 
 (def conversions {[:top :front :left] "A"
                   [:top :left] "1"
@@ -34,18 +32,18 @@
   (js* "new Worker('js/solver-worker.js').proxy()('solve')"))
 
 (defn solve-state-string [starting-state-string & {:keys [initial-rotation result-atom]}]
-   (let [solver (new-solver)]
-     (solver starting-state-string
-             (fn callback [err, result-alg]
-               (when err
-                 (reset! result-atom (str "failed: " err)))
-               (when result-alg
-                 (println "Initial rotation: " initial-rotation ", Solution: " result-alg)
-                 (let [alg-steps (m/extract (parser/parse result-alg))
-                       result-steps (manipulation/prepend-initial-rotation initial-rotation alg-steps)]
-                   (reset! result-atom
-                           (serialization/alg-to-str result-steps))))))
-     result-atom))
+  (let [solver (new-solver)]
+    (solver starting-state-string
+            (fn callback [err, result-alg]
+              (when err
+                (reset! result-atom (str "failed: " err)))
+              (when result-alg
+                (println "Initial rotation: " initial-rotation ", Solution: " result-alg)
+                (let [alg-steps (m/extract (parser/parse result-alg))
+                      result-steps (manipulation/prepend-initial-rotation initial-rotation alg-steps)]
+                  (reset! result-atom
+                          (serialization/alg-to-str result-steps))))))
+    result-atom))
 
 (defn- convert-piece [p]
   (let [piece-id (filterv some?
@@ -65,10 +63,9 @@
 (defn- rotate-layer-to-slice-position [layer]
   (let [rotation-tries (rotation/random-layer-rotations layer)
         sliceable? (fn [[l _amount]]
-                     (slicing/layer-sliceable? (m/extract l)))
+                     (slicing/layer-sliceable? l))
         [layer-result amount] (first (filter sliceable? rotation-tries))]
-    [(m/extract layer-result)
-     amount]))
+    [layer-result amount]))
 
 (defn- rotation-to-slice-position [puzzle]
   (if (and (slicing/top-sliceable? puzzle)
