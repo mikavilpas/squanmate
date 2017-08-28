@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.0
+- new feature: Cubeshape algorithm importer! See the readme for more info.
+
 ## 4.0
 - shape-visualizer: replace "initial rotation" textbox with layer rotation
   buttons. The rotation buttons feel a lot more intuitive and fun to use. For
