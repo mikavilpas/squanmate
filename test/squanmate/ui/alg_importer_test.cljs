@@ -29,6 +29,7 @@
 (defcard-rg ui-successful-but-non-sliceable-state
   [:div
    "This is a special case: if a puzzle is not sliceable it cannot be imported."
+   [:hr]
    [alg-importer/ui ui-successful-but-non-sliceable-state]])
 
 (defn- puzzle-names-for-alg [alg-string]
@@ -56,7 +57,7 @@
   (m/extract (alg-importer/import-alg alg-string)))
 
 (deftest import-alg-test []
-  (is (= {:reversed-alg "/ ",
+  (is (= {:algorithm "/",
           :starting-puzzle-spec
           {:top-name "kite",
            :bottom-name "kite",
@@ -64,8 +65,7 @@
          (import-alg "/"))
       "basic alg")
 
-  (is (= {:reversed-alg
-          "/ (-3,0)/ (-1,0)/ (2,0)/ (-2,0)/ (2,0)/ (-1,0)/ (0,1)",
+  (is (= {:algorithm "0,-1/1,0/-2,0/2,0/-2,0/1,0/3,0/",
           :starting-puzzle-spec
           {:top-name "kite",
            :bottom-name "square",
@@ -75,7 +75,7 @@
          (import-alg "0,-1/1,0/-2,0/2,0/-2,0/1,0/3,0/"))
       "really long alg that ends in the position 1,-1")
 
-  (is (= {:reversed-alg "/ (3,0)/ (2,0)/ (6,0)",
+  (is (= {:algorithm "6/-2/-3/",
           :starting-puzzle-spec
           {:top-name "mushroom",
            :bottom-name "square",
