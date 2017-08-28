@@ -87,11 +87,12 @@
                         success-box)]))))
 
 (defn ui [state]
-  [:div
-   [:h2 "Instructions:"]
-   "Use this if you want to inspect an algorithm with Squanmate."
-   [:div
-    "Enter an algorithm that ends in cubeshape. Acceptable ending positions are (0) or (1,-1)."]
-   [:div.top7
-    [common/input-box (reagent/cursor state [:algorithm]) "Cubeshape algorithm"]]
-   [import-alg-component state]])
+  [:div.center
+   [:div.col-md-8.col-lg-8
+    [:h2 "Instructions:"]
+    "Use this if you want to inspect or manipulate an algorithm with Squanmate."
+    [:div
+     "Enter an algorithm that ends in cubeshape. Acceptable ending positions are (0) or (1,-1)."]
+    [:div.top10
+     [common/input-box (reagent/cursor state [:algorithm]) "Cubeshape algorithm"]]
+    [import-alg-component state]]])
