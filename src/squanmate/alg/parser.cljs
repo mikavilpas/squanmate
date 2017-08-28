@@ -86,9 +86,14 @@
     (let [steps (flatten step-vectors)]
       (p/always (non-nils (conj steps s))))))
 
+(defparser empty-alg []
+  (let->> [_ (p/eof)]
+    (p/always [])))
+
 (defparser algorithm []
-  (p/either (p/attempt (slice-and-steps))
-            (slice-only)))
+  (p/choice (p/attempt (slice-and-steps))
+            (slice-only)
+            (empty-alg)))
 
 (defn parse
   "Supported formats:

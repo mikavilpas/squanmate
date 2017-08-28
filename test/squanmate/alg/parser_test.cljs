@@ -28,6 +28,10 @@
            "-3"))))
 
 (deftest algorithm-test []
+  (is (= (either/right [])
+         (a/parse ""))
+      "the empty alg")
+
   (is (= (either/right [slice])
          (a/parse "/"))
       "only a slice")
