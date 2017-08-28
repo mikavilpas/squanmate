@@ -31,24 +31,18 @@
   is easier than memorizing movements or numbers."]
 
     [:div.row
-     [:div.col-xs-11
-      [common/accordion
-       [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :info-sign}] " Help"])
-                      :bs-style "info"
-                      :event-key 1}
-        [:ul
-         [:li "Select starting layers"]
-         [:li "Rotate the layers to your starting rotation with "
-          [:strong "Initial rotation"] " (won't count as a drawn step)"]
-         [:li "Enter your " [:strong "algorithm"]]
-         [:li "Click this to see a " [common/button {:on-click set-demo
-                                                     :bs-size "xsmall"
-                                                     :bs-style "primary"} "demo"]]]]]]
-     [:div.col-xs-1
-      [common/dropdown-button {:title (reagent/as-element [common/glyphicon {:glyph :menu-hamburger}])
-                               :no-caret true
-                               :pull-right true}
-       [common/menu-item {:event-key 1} "Import cubeshape algorithm"]]]]
+     [common/accordion
+      [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :info-sign}] " Help"])
+                     :bs-style "info"
+                     :event-key 1}
+       [:ul
+        [:li "Select starting layers"]
+        [:li "Rotate the layers to your starting rotation with "
+         [:strong "Initial rotation"] " (won't count as a drawn step)"]
+        [:li "Enter your " [:strong "algorithm"]]
+        [:li "Click this to see a " [common/button {:on-click set-demo
+                                                    :bs-size "xsmall"
+                                                    :bs-style "primary"} "demo"]]]]]]
 
     [:div.row
      [v/alg-visualizer state]]]))
