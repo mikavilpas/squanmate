@@ -32,6 +32,10 @@
          (a/parse ""))
       "the empty alg")
 
+  (is (= (either/right [])
+         (a/parse " "))
+      "the whitespace alg")
+
   (is (= (either/right [slice])
          (a/parse "/"))
       "only a slice")
@@ -78,7 +82,12 @@
                         slice])
          (a/parse "/ -3,0/0,3/0,-3/0,3/
                     2,0/0,2/-2,0/4,0
-                   /0,-2/ 0,2/-1,4/0,-3/*"))))
+                   /0,-2/ 0,2/-1,4/0,-3/*")))
+
+  (is (either/right?
+       (a/parse " /( 0, 3)/(-4, 1)/(-4, 4)/(-2, 2)/(-4, 1)/( 3, 0)/( 0, 2)/( 4, 1)/( 2, 5)/(-2, 1)/(-1, 2)/(-2, 1)/( 0, 3)/( 5, 5)/( 6,-2)"))
+      "An alg given as a response by jaap's solver")
+  )
 
 (deftest parser-fails-test []
   (is (either/left? (a/parse "not an algorithm"))))

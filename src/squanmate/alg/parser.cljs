@@ -71,29 +71,33 @@
                                            (rotation-instruction)))
                                (in-parens-maybe
                                 (rotation-instruction-top-layer-only)))
-           s (optional (slice))
-           _ (whitespace)]
+           s (optional (slice))]
     (let [steps (conj rotations s)]
       (p/always (non-nils steps)))))
 
 (defparser slice-only []
-  (let->> [s (slice)]
+  (let->> [_ (whitespace)
+           s (slice)
+           _ (whitespace)
+           _ (p/eof)]
     (p/always [s])))
 
 (defparser slice-and-steps []
-  (let->> [s (optional (slice))
+  (let->> [_ (whitespace)
+           s (optional (slice))
            step-vectors (p/many1 (rotation-and-slice))]
     (let [steps (flatten step-vectors)]
       (p/always (non-nils (conj steps s))))))
 
 (defparser empty-alg []
-  (let->> [_ (p/eof)]
+  (let->> [_ (whitespace)
+           _ (p/eof)]
     (p/always [])))
 
 (defparser algorithm []
-  (p/choice (p/attempt (slice-and-steps))
-            (slice-only)
-            (empty-alg)))
+  (p/choice (p/attempt (slice-only))
+            (p/attempt (empty-alg))
+            (slice-and-steps)))
 
 (defn parse
   "Supported formats:
