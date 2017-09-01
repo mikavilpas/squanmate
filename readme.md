@@ -4,17 +4,24 @@
 
 ![logo][logolink]
 
-*Squanmate* is a Square-1 training tool. It can help you:
+*Squanmate* is a Square-1 training tool.
 
-* train your cubeshape (or cubeshape parity) skills.
+**You can run it with a modern web browser right now.
+Try it [here][applink]!** (the link will change with every release,
+so always open it from this readme file!)
+
+
+Squanmate can help you:
+
+* **Train your cubeshape (or cubeshape parity) skills**
   * select the combinations of shapes you would like to train
   * a random scramble is generated for you. Solve away!
-* learn and remember all different shapes and their names
-* display cubeshape algorithms and the shapes the algorithm goes through
+* **Learn and remember all different shapes and their names**
+* **Display cubeshape algorithms and the shapes the algorithm goes through**
   * it's a good aid for memorizing algorithms!
   * link to your created visualizations from e.g. your Google Sheets
-* if you use Cale Schoon's cubeshape parity method, Squanmate offers a couple of
-  helpful features:
+* **Cubeshape parity helpers**. If you use Cale Schoon's cubeshape parity
+    method, Squanmate offers a couple of helpful features:
   - displays whether your entered algorithm is **even** or **odd** for that
     specific starting count position
   - allows you to find a more comfortable count position by rotating either
@@ -22,15 +29,18 @@
     really easy to find out interesting things this way. For example, did you
     know that for the kite kite case every sliceable position for either layer
     gives the same count?
-* import a cubeshape algorithm. Say you have a cool alg that you would like to
-  inspect or verify with Squanmate. Enter your alg into the Cubeshape algorithm
-  importer and it will be recognized with minimal work on your part. I use this
-  to import the cubeshape algs originally made for the more popular blind
-  tracing CSP method.
+* **Import a cubeshape algorithm**. Say you have a cool alg that you would like
+  to inspect or verify with Squanmate. Enter your alg into the *Cubeshape
+  algorithm importer* and it will be recognized with minimal work on your part.
+  I use this to import the cubeshape algs originally made for the more popular
+  blind tracing CSP method.
 
-**You can run it with a modern web browser right now.
-Try it [here][applink]!** (the link will change with every release, 
-so always open it from this readme file!)
+## Related Square-1 learning resources
+- I am in the process of collecting cubeshape parity algorithms for the Cale
+  Schoon method. If you use that method, take a look at (work in
+  progress) [my algorithms at Google Sheets][my-algs]
+- I use a simple but effective method for solving the Square-1. If you want to
+  take a look, here are [my Lin method algs][my-lin-algs]
 
 # Development instructions
 As for dependencies, you need a clojure development environment. Check out
@@ -71,3 +81,5 @@ repository so that the app works online with the newest version.
 
 [logolink]: https://rawgit.com/sp3ctum/squanmate/master/resources/public/readme/logo.png
 [applink]: https://cdn.rawgit.com/sp3ctum/squanmate/4.1/resources/public/index.html#/
+[my-algs]: https://docs.google.com/spreadsheets/d/1r0LN41RGKI4oAvD9rCmmc-A5UBpNPvsEOb7eWaEtIFo/edit?usp=sharing
+[my-lin-algs]: https://docs.google.com/spreadsheets/d/1VxhlAqf0z91Cqqo-EEmUuZhJP4NjlA741fjOOZLrcns/edit?usp=sharing
