@@ -97,6 +97,10 @@
   (is (either/right?
        (a/parse " /( 0, 3)/(-4, 1)/(-4, 4)/(-2, 2)/(-4, 1)/( 3, 0)/( 0, 2)/( 4, 1)/( 2, 5)/(-2, 1)/(-1, 2)/(-2, 1)/( 0, 3)/( 5, 5)/( 6,-2)"))
       "An alg given as a response by jaap's solver")
+
+  (is (either/right?
+       (a/parse " ( 1, 0)/( 3, 0)/(-1, 2)/( 6, 3)/( 1, 1)/( 5, 2)/(-5, 4)/( 2,-1)/( 0, 1)"))
+      "Another alg given by jaap's solver")
   )
 
 (deftest parser-fails-test []

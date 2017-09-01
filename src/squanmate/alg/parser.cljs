@@ -85,8 +85,8 @@
                   (rotations))))
 
 (defparser algorithm []
-  (p/let->> [alg-steps (p/choice (p/attempt (empty-alg))
-                                 (p/many1 (step)))
+  (p/let->> [alg-steps (p/choice (p/attempt (p/many1 (step)))
+                                 (p/attempt (empty-alg)))
              _ (whitespace)]
     (p/always alg-steps)))
 

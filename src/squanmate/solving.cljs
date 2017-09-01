@@ -1,5 +1,5 @@
 (ns squanmate.solving
-  (:require [cats.core :as m]
+  (:require [cats.monad.either :as either]
             [reagent.core :as reagent]
             [squanmate.alg.manipulation :as manipulation]
             [squanmate.alg.parser :as parser]
@@ -31,6 +31,20 @@
   ;; new Worker("js/solver-worker.js").proxy()("solve")("start_state_encoded", function(err,result){[]});
   (js* "new Worker('js/solver-worker.js').proxy()('solve')"))
 
+(defn- set-solution [result-alg
+                     initial-rotation
+                     result-atom]
+  (either/branch (parser/parse result-alg)
+                 (fn [error]
+                   (println "Internal error: could not parse result algorithm: " result-alg
+                            ", reason: " error))
+                 (fn [alg-steps]
+                   (let [result-steps (manipulation/prepend-initial-rotation
+                                       initial-rotation
+                                       alg-steps)]
+                     (reset! result-atom
+                             (serialization/alg-to-str result-steps))))))
+
 (defn solve-state-string [starting-state-string & {:keys [initial-rotation result-atom]}]
   (let [solver (new-solver)]
     (solver starting-state-string
@@ -39,10 +53,7 @@
                 (reset! result-atom (str "failed: " err)))
               (when result-alg
                 (println "Initial rotation: " initial-rotation ", Solution: " result-alg)
-                (let [alg-steps (m/extract (parser/parse result-alg))
-                      result-steps (manipulation/prepend-initial-rotation initial-rotation alg-steps)]
-                  (reset! result-atom
-                          (serialization/alg-to-str result-steps))))))
+                (set-solution result-alg initial-rotation result-atom))))
     result-atom))
 
 (defn- convert-piece [p]
