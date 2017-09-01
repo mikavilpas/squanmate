@@ -19,15 +19,13 @@
   (m/mlet [transformation-steps (parity/cubeshape-start-&-end-positions alg-string)]
           (m/return (-> transformation-steps last))))
 
-(defrecord ImportedAlgorithm [algorithm
-                              starting-puzzle-spec])
-
 (defn import-alg [alg-string]
   (m/mlet [start-transformation-step (starting-puzzle-for-alg alg-string)]
           (let [puzzle-spec (-> start-transformation-step
                                 :puzzle
                                 serialization/puzzle-specification)]
-            (m/return (->ImportedAlgorithm alg-string puzzle-spec)))))
+            (m/return {:algorithm alg-string
+                       :starting-puzzle-spec puzzle-spec}))))
 
 (defn puzzle-from-spec [spec]
   (let [top (-> spec :starting-puzzle-spec :top-name)
