@@ -1,6 +1,6 @@
 # Changelog
 
-## 5.0
+## 4.1
 - new feature: Cubeshape algorithm importer! See the readme for more info.
 
 ## 4.0
