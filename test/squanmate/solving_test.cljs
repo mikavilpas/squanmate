@@ -8,7 +8,8 @@
             [squanmate.shapes :as shapes]
             [cats.monad.either :as either]
             [cats.core :as m]
-            [squanmate.puzzle :as p])
+            [squanmate.puzzle :as p]
+            [reagent.core :as reagent])
   (:require-macros
    [devcards.core :as dc :refer [deftest defcard-rg]]
    [cljs.core.async.macros :refer [go]]))
@@ -52,7 +53,7 @@
          (go
            (let [result-atom (solving/solve-state-string "A2B3C1D45E6F7G8H"
                                                          :initial-rotation nil
-                                                         :result-atom (atom))]
+                                                         :result-atom (reagent/atom nil))]
              (<! (timeout 500))
              (is (= "(0,2)/ (-5,4)/ (5,2)/ (-3,0)/ (0,3)/ (-5,1)/ (-1,2)/ (-3,-2)"
                     @result-atom)
