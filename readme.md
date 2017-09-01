@@ -20,8 +20,13 @@
   - allows you to find a more comfortable count position by rotating either
     layer for counting, then undoing that rotation for the algorithm. It's
     really easy to find out interesting things this way. For example, did you
-    know for the kite kite case every sliceable position for either layer gives
-    the same count?
+    know that for the kite kite case every sliceable position for either layer
+    gives the same count?
+* import a cubeshape algorithm. Say you have a cool alg that you would like to
+  inspect or verify with Squanmate. Enter your alg into the Cubeshape algorithm
+  importer and it will be recognized with minimal work on your part. I use this
+  to import the cubeshape algs originally made for the more popular blind
+  tracing CSP method.
 
 **You can run it with a modern web browser right now.
 Try it [here][applink]!** (the link will change with every release, 
