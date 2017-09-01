@@ -19,11 +19,11 @@
   (is (= -123 (p/run (a/integer) "-123"))))
 
 (deftest rotation-instruction-test []
-  (is (= [(rotate -2 3)]
+  (is (= (rotate -2 3)
          (p/run (a/rotation-instruction) "-2, 3"))))
 
 (deftest rotation-instruction-top-layer-only-test []
-  (is (= [(rotate -3 0)]
+  (is (= (rotate -3 0)
          (p/run (a/rotation-instruction-top-layer-only)
            "-3"))))
 
@@ -49,6 +49,16 @@
                         (rotate 1 2)
                         slice])
          (a/parse "/1,2/")))
+
+  (is (= (either/right [(rotate -3 0)
+                        slice])
+         (a/parse "(-3,0)/"))
+      "trailing slice")
+
+  (is (= (either/right [(rotate -3 0)
+                        slice])
+         (a/parse "(-3,0)/       "))
+      "trailing whitespace")
 
   "rotation only (no slice)"
   (is (= (either/right [(rotate 3 -2)])

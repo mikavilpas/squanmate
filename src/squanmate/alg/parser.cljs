@@ -4,7 +4,8 @@
             [cljs.reader :refer [read-string]]
             [cats.monad.either :as either]
             [cats.core :as m]
-            [squanmate.utils.either-utils :as eu])
+            [squanmate.utils.either-utils :as eu]
+            [clojure.string :as str])
   (:require-macros [the.parsatron :refer [let->> >> defparser]]
                    [cats.monad.either :refer [try-either]]))
 
@@ -20,10 +21,6 @@
     (p/always (read-string (str sign
                                 (apply str digits))))))
 
-(defparser slice []
-  (p/>> (p/char "/")
-        (p/always (types/Slice.))))
-
 (defn whitespace? [character]
   (re-matches #"\s" character))
 
@@ -35,10 +32,14 @@
              ;; ignored by the parser.
              (p/many (p/char "*")))))
 
+(defparser slice []
+  (p/>> (whitespace)
+        (p/char "/")
+        (p/always (types/Slice.))))
+
 (defparser in-parens-maybe [p]
   (let->> [_ (whitespace)
            _ (optional (p/char "("))
-           _ (whitespace)
            result p
            _ (whitespace)
            _ (optional (p/char ")"))
@@ -49,55 +50,45 @@
   (p/char ","))
 
 (defparser rotation-instruction-top-layer-only []
-  (let->> [top-amount (integer)
-           _ (whitespace)]
-    (p/always [(types/Rotations. top-amount 0)])))
+  (let->> [top-amount (integer)]
+    (p/always (types/Rotations. top-amount 0))))
 
 (defparser rotation-instruction []
-  (let->> [top-amount (integer)
+  (let->> [_ (whitespace)
+           top-amount (integer)
            _ (whitespace)
            _ (comma)
            _ (whitespace)
-           bottom-amount (integer)
-           _ (whitespace)]
-    (p/always [(types/Rotations. top-amount bottom-amount)])))
+           bottom-amount (integer)]
+    (p/always (types/Rotations. top-amount bottom-amount))))
 
 (defn- non-nils [coll]
   (filterv (comp not nil?) coll))
 
-(defparser rotation-and-slice []
+(defparser rotations []
   (let->> [_ (whitespace)
            rotations (p/either (p/attempt (in-parens-maybe
                                            (rotation-instruction)))
                                (in-parens-maybe
                                 (rotation-instruction-top-layer-only)))
-           s (optional (slice))]
-    (let [steps (conj rotations s)]
-      (p/always (non-nils steps)))))
-
-(defparser slice-only []
-  (let->> [_ (whitespace)
-           s (slice)
-           _ (whitespace)
-           _ (p/eof)]
-    (p/always [s])))
-
-(defparser slice-and-steps []
-  (let->> [_ (whitespace)
-           s (optional (slice))
-           step-vectors (p/many1 (rotation-and-slice))]
-    (let [steps (flatten step-vectors)]
-      (p/always (non-nils (conj steps s))))))
+           _ (whitespace)]
+    (p/always rotations)))
 
 (defparser empty-alg []
   (let->> [_ (whitespace)
            _ (p/eof)]
     (p/always [])))
 
+(defparser step []
+  (p/>> (whitespace)
+        (p/either (p/attempt (slice))
+                  (rotations))))
+
 (defparser algorithm []
-  (p/choice (p/attempt (slice-only))
-            (p/attempt (empty-alg))
-            (slice-and-steps)))
+  (p/let->> [alg-steps (p/choice (p/attempt (empty-alg))
+                                 (p/many1 (step)))
+             _ (whitespace)]
+    (p/always alg-steps)))
 
 (defn parse
   "Supported formats:
@@ -107,5 +98,7 @@
   "
   [algorithm-string]
   (let [result (either/try-either
-                (p/run (algorithm) algorithm-string))]
+                (p/run
+                  (algorithm)
+                  (str/trim algorithm-string)))]
     (m/left-map #(aget % "message") result)))
