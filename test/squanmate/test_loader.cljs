@@ -15,4 +15,5 @@
             squanmate.shape-combinations-test
             squanmate.ui.initial-rotation-adjuster-test
             squanmate.ui.alg-importer-test
-            squanmate.alg.serialization-test))
+            squanmate.alg.serialization-test
+            squanmate.ui.color-chooser-test))

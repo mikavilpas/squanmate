@@ -38,3 +38,8 @@
 
 (defn shape-preview-image-url [shape-key]
   (str "./img/shape-thumbnails/" shape-key ".png"))
+
+(def form (reagent/adapt-react-class js/ReactBootstrap.Form))
+(def form-group (reagent/adapt-react-class js/ReactBootstrap.FormGroup))
+(def control-label (reagent/adapt-react-class js/ReactBootstrap.ControlLabel))
+(def radio (reagent/adapt-react-class js/ReactBootstrap.Radio))
