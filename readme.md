@@ -27,7 +27,7 @@ Squanmate can help you:
   - allows you to find a more comfortable count position by rotating either
     layer for counting, then undoing that rotation for the algorithm. It's
     really easy to find out interesting things this way. For example, did you
-    know that for the kite kite case every sliceable position for either layer
+    know that for all kite cases every sliceable position for a kite layer
     gives the same count?
 * **Import a cubeshape algorithm**. Say you have a cool alg that you would like
   to inspect or verify with Squanmate. Enter your alg into the *Cubeshape
