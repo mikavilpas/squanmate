@@ -2,7 +2,8 @@
   (:require [quil.core :as q]
             [quil.middleware :as m]
             [squanmate.slicing :as slicing]
-            [squanmate.puzzle :as puzzle]))
+            [squanmate.puzzle :as puzzle]
+            [squanmate.ui.drawing.color-settings :as color-settings]))
 
 (defrecord DrawLayerState [layer size])
 
@@ -26,9 +27,25 @@
   (q/stroke-weight 1)
   (q/stroke 0))
 
+(defn- color-name->color [name-key]
+  (let [colors {:gray [169]
+                :white [253]
+                :yellow [255, 254, 69]
+
+                :orange [255, 166, 69]
+                :blue [99, 96, 255]
+                :red [255, 69, 69]
+                :green [69, 245, 69]}
+        color-value (get colors name-key)]
+    color-value))
+
 (defn- get-color [draw-settings piece side]
-  (let [piece-side (-> piece :colors side)]
-    (get (:colors draw-settings) piece-side)))
+  (let [cs (:color-settings draw-settings)
+        piece-side (-> piece :colors side)
+        color-name (get cs piece-side)
+        color-value (color-name->color color-name)]
+    (js-debugger)
+    color-value))
 
 (def ^:private magic-numbers "( ͡° ͜ʖ ͡°)"
   (memoize (fn [{:keys [size edge-width bot] :as data}]
@@ -84,26 +101,26 @@
                            {:keys [a b c] :as magic}]
   (q/stroke-weight 1)
 
-  ;; first color
+  ;; first color-name->color
   (apply q/stroke (get-color data piece :a))
   (apply q/fill (get-color data piece :a))
   (apply q/quad (:corner-color-a-edges magic))
 
-  ;; second color
+  ;; second color-name->color
   (apply q/stroke (get-color data piece :b))
   (apply q/fill (get-color data piece :b))
   (apply q/quad (:corner-color-b-edges magic)))
 
 (defn- draw-corner-at [piece
                        position
-                       {:keys [size bot edge-width monochrome?]
+                       {:keys [size bot edge-width color-settings]
                         :as data}]
   (let [{:keys [a b c] :as magic} (magic-numbers data)
         rotation-amount (* (+ 1 position) 30)]
 
-    ;; drawing triangles without a store color makes them have a 1px wide
-    ;; empty stroke that appears as white (the background color). Work around
-    ;; this by using the fill color as the stroke color
+    ;; drawing triangles without a store color-name->color makes them have a 1px wide
+    ;; empty stroke that appears as white (the background color-name->color). Work around
+    ;; this by using the fill color-name->color as the stroke color-name->color
     (with-temporary-rotation rotation-amount
       #(do
          (piece-stroke)
@@ -127,27 +144,8 @@
          (q/line b c edge-width bot)
          (q/line edge-width bot 0 0)
 
-         (when (not monochrome?)
+         (when (not (:monochrome? data))
            (draw-corner-colors piece data magic))))))
-
-(defn draw-settings [settings]
-  (let [top-side-color (if (:monochrome? settings)
-                         [169]
-                         [253])
-        bottom-side-color (if (:monochrome? settings)
-                            [169]
-                            [255, 254, 69])]
-    ;; overwrite default settings with given ones
-    (merge {:colors {:top top-side-color
-                     ;; http://paletton.com/#uid=7001c0knm++bq+PhV+Yt1+WH9ZC
-                     :bottom bottom-side-color ;yellow
-
-                     :front [255, 166, 69] ;orange
-                     :left [99, 96, 255]   ;blue
-                     :back [255, 69, 69]   ;red
-                     :right [69, 245, 69]  ;green
-                     }}
-           settings)))
 
 (defn- draw-top-layer [layer data]
   (doseq [[piece position] (slicing/pieces-and-their-positions layer)]

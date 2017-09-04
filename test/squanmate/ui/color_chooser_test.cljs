@@ -7,4 +7,6 @@
 (defonce state (color-chooser/default-color-chooser-state))
 
 (defcard-rg color-chooser
-  [color-chooser/color-chooser state])
+  [color-chooser/color-chooser state]
+  state
+  {:inspect-data true})

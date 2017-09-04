@@ -6,27 +6,28 @@
 
 (defn default-color-chooser-state []
   (reagent/atom {:swap-top-and-bottom false
-                 :use-back-as-front true}))
+                 :use-back-as-front true
+                 :monochrome? false}))
 
-(defn- checkbox-for [setting-key label state]
-  [common/checkbox {:checked (get @state setting-key)
-                    :on-change #(swap! state update setting-key not)}
+(defn- checkbox-for [setting-key label state-atom]
+  [common/checkbox {:checked (get @state-atom setting-key)
+                    :on-change #(swap! state-atom update setting-key not)}
    label])
 
-(defn- option-controls [state]
+(defn- option-controls [state-atom]
   [common/form
    [common/form-group
     [common/control-label "Color options"]
-    [checkbox-for :swap-top-and-bottom "Swap top and bottom colors" state]
-    [checkbox-for :use-back-as-front "Use back face as front face (rotate Y2)" state]]])
+    [checkbox-for :monochrome? "Only gray" state-atom]
+    [checkbox-for :swap-top-and-bottom "Swap top and bottom colors" state-atom]
+    [checkbox-for :use-back-as-front "Use back face as front face (rotate Y2)" state-atom]]])
 
-(defn- puzzle-preview [state]
-  [newmonochrome/monochrome-puzzle puzzle/square-square
-   {:monochrome? false}])
+(defn- puzzle-preview [state-atom]
+  [newmonochrome/monochrome-puzzle puzzle/square-square @state-atom])
 
-(defn color-chooser [state]
+(defn color-chooser [state-atom]
   [:div.row
    [:div.col-xs-6
-    [option-controls state]]
+    [option-controls state-atom]]
    [:div.col-xs-6
-    [puzzle-preview state]]])
+    [puzzle-preview state-atom]]])
