@@ -36,9 +36,9 @@ Squanmate can help you:
   blind tracing CSP method.
 
 ## Related Square-1 learning resources
-- I am in the process of collecting cubeshape parity algorithms for the Cale
-  Schoon method. If you use that method, take a look at (work in
-  progress) [my algorithms at Google Sheets][my-algs]
+- I have collected all cubeshape parity algorithms for the Cale
+  Schoon method. If you use that method, take a look at
+  [my algorithms at Google Sheets][my-algs]
 - I use a simple but effective method for solving the Square-1. If you want to
   take a look, here are [my Lin method algs][my-lin-algs]
 
