@@ -51,7 +51,7 @@
   ([puzzle]
    [monochrome-puzzle puzzle {}])
 
-  ([puzzle {:keys [debug? size monochrome?]
+  ([puzzle {:keys [debug? size monochrome? color-settings]
             :as settings}]
    [:div.puzzle {:style {:white-space :nowrap}}
     [:span.layer.top [layer-component (:top-layer puzzle) settings]]

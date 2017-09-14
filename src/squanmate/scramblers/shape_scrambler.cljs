@@ -11,7 +11,8 @@
             [squanmate.solving :as solving]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
-            [squanmate.ui.layer-selector :as layer-selector]))
+            [squanmate.ui.layer-selector :as layer-selector]
+            [squanmate.ui.color-chooser :as color-chooser]))
 
 (defn- shape-str [shape-name]
   (p/pieces-str (get shapes/all-shapes shape-name)))
@@ -75,16 +76,24 @@
    " "
    [common/button {:on-click #(select-no-shapes state)} "Select none"]])
 
+(defn- shape-selection-settings [state]
+  [:div
+   [selected-shapes-counter state]
+   [all-shapes-selection-buttons state]
+   [:div.top30
+    "Select available shapes for scrambles by filtering:"]
+   [layer-selector/layer-selector state]])
+
 (defn settings [state]
   [common/accordion {:default-active-key 1}
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :cog}]
                                                " Settings"])
                   :event-key 1}
-    [selected-shapes-counter state]
-    [all-shapes-selection-buttons state]
-    [:div.top30
-     "Select available shapes for scrambles by filtering:"]
-    [layer-selector/layer-selector state]]])
+    [shape-selection-settings state]]
+   [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :cog}]
+                                               " Colors"])
+                  :event-key 2}
+    [color-chooser/color-chooser (reagent/cursor state [:draw-settings])]]])
 
 (defn new-scramble! [state]
   (let [new-scramble (scramble (:selected-shapes @state))
@@ -105,15 +114,17 @@
   (let [state (reagent/atom
                {:puzzle nil
                 :selected-shapes #{(set ["square" "square"])}
-                :scramble-algorithm nil})]
+                :scramble-algorithm nil
+                :draw-settings (deref (color-chooser/default-color-chooser-state))})]
     (new-scramble! state)
     state))
 
 (defn scramble-component [state]
-  [:div
-   [:div.center
-    [newmonochrome/monochrome-puzzle (:puzzle @state) {:monochrome? false
-                                                       :size 180}]]
-   [:div.center
-    [scramble-preview (:scramble-algorithm @state)]]
-   [settings state]])
+  (let [draw-settings (assoc (:draw-settings @state)
+                        :size 180)]
+    [:div
+     [:div.center
+      [newmonochrome/monochrome-puzzle (:puzzle @state) draw-settings]]
+     [:div.center
+      [scramble-preview (:scramble-algorithm @state)]]
+     [settings state]]))
