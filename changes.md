@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.3.2
+- color settings: make y2 act like actual y2 move. It used to only swap the
+  front and back colors.
+
 ## 4.3.1
 - fix puzzle previews not rendering initially on Firefox. See
   https://github.com/sp3ctum/squanmate/issues/23 for the description.
