@@ -90,7 +90,7 @@
                                                " Settings"])
                   :event-key 1}
     [shape-selection-settings state]]
-   [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :cog}]
+   [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :tint}]
                                                " Colors"])
                   :event-key 2}
     [color-chooser/color-chooser (reagent/cursor state [:draw-settings])]]])
