@@ -17,7 +17,7 @@
     color-settings/make-monochrome
 
     use-back-as-front
-    color-settings/swap-front-and-back
+    color-settings/turn-y2
 
     swap-top-and-bottom
     color-settings/swap-top-and-bottom))

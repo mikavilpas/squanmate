@@ -24,7 +24,9 @@
          :top (:bottom cs)
          :bottom (:top cs)))
 
-(defn swap-front-and-back [cs]
+(defn turn-y2 [cs]
   (assoc cs
          :front (:back cs)
-         :back (:front cs)))
+         :back (:front cs)
+         :left (:right cs)
+         :right (:left cs)))
