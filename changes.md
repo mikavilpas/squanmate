@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.3
+- new feature: choose the colors of your specific Square-1 for the trainer.
+
 ## 4.2
 - add google analytics (I want to see how much this app is used)
 
