@@ -32,7 +32,8 @@
       (let [shape-name (shapes/layer-shape-name (-> @my-state :layer))
             color-settings (make-color-settings settings)
             size (or (:size settings) 100)]
-        (println "made color-settings " color-settings)
+        (println "made settings " color-settings)
+        (swap! my-state assoc :color-settings color-settings)
         [common/overlay-trigger
          {:overlay (reagent/as-element [common/tooltip {:id "test"}
                                         shape-name])

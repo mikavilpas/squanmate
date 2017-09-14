@@ -15,7 +15,9 @@
 (defn make-monochrome [cs]
   (assoc cs
          :top :gray
-         :bottom :gray))
+         :bottom :gray
+         ;; this is a bit hacky... but yolo LUL
+         :monochrome? true))
 
 (defn swap-top-and-bottom [cs]
   (assoc cs

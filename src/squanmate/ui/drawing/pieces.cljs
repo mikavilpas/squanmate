@@ -40,11 +40,11 @@
     color-value))
 
 (defn- get-color [draw-settings piece side]
-  (let [cs (:color-settings draw-settings)
-        piece-side (-> piece :colors side)
-        color-name (get cs piece-side)
+  (let [piece-side (-> piece :colors side)
+        color-name (get draw-settings piece-side)
         color-value (color-name->color color-name)]
-    (js-debugger)
+    (when-not color-value
+      (js-debugger))
     color-value))
 
 (def ^:private magic-numbers "( ͡° ͜ʖ ͡°)"
@@ -73,20 +73,20 @@
 
 (defn- draw-edge-at [piece
                      position
-                     {:keys [bot edge-width monochrome?]
+                     {:keys [bot edge-width monochrome? draw-settings]
                       :as data}]
   (with-temporary-rotation (* (+ 1 position) 30)
     #(do
        (piece-stroke)
-       (apply q/fill (get-color data piece :top))
+       (apply q/fill (get-color draw-settings piece :top))
        (q/triangle 0 0
                    (- edge-width) bot
                    edge-width bot)
        (when (not monochrome?)
          (q/stroke-weight 1)
-         (apply q/stroke (get-color data piece :a))
-         (apply q/fill (get-color data piece :a))
-         (apply q/quad (:edge-color-edges (magic-numbers data)) )))))
+         (apply q/stroke (get-color draw-settings piece :a))
+         (apply q/fill (get-color draw-settings piece :a))
+         (apply q/quad (:edge-color-edges (magic-numbers draw-settings)) )))))
 
 (defn- draw-slice-point [data]
   (with-temporary-rotation -75
@@ -96,24 +96,24 @@
        (q/line (- c) 0 c 0))))
 
 (defn- draw-corner-colors [piece
-                           {:keys [size bot edge-width monochrome?]
+                           {:keys [size bot edge-width monochrome? draw-settings]
                             :as data}
                            {:keys [a b c] :as magic}]
   (q/stroke-weight 1)
 
   ;; first color-name->color
-  (apply q/stroke (get-color data piece :a))
-  (apply q/fill (get-color data piece :a))
+  (apply q/stroke (get-color draw-settings piece :a))
+  (apply q/fill (get-color draw-settings piece :a))
   (apply q/quad (:corner-color-a-edges magic))
 
   ;; second color-name->color
-  (apply q/stroke (get-color data piece :b))
-  (apply q/fill (get-color data piece :b))
+  (apply q/stroke (get-color draw-settings piece :b))
+  (apply q/fill (get-color draw-settings piece :b))
   (apply q/quad (:corner-color-b-edges magic)))
 
 (defn- draw-corner-at [piece
                        position
-                       {:keys [size bot edge-width color-settings]
+                       {:keys [size bot edge-width draw-settings]
                         :as data}]
   (let [{:keys [a b c] :as magic} (magic-numbers data)
         rotation-amount (* (+ 1 position) 30)]
@@ -124,8 +124,8 @@
     (with-temporary-rotation rotation-amount
       #(do
          (piece-stroke)
-         (apply q/stroke (get-color data piece :top))
-         (apply q/fill (get-color data piece :top))
+         (apply q/stroke (get-color draw-settings piece :top))
+         (apply q/fill (get-color draw-settings piece :top))
          ;; these triangles should be used to set the fill color. not currently
          ;; used, but planned in the future
          ;; (q/fill 150 205 105 200)
@@ -144,7 +144,7 @@
          (q/line b c edge-width bot)
          (q/line edge-width bot 0 0)
 
-         (when (not (:monochrome? data))
+         (when (not (:monochrome? draw-settings))
            (draw-corner-colors piece data magic))))))
 
 (defn- draw-top-layer [layer data]
@@ -175,10 +175,10 @@
   (let [size (:size state)
         center (/ size 2)
         layer (:layer state)
-        data (merge draw-settings
-                    {:edge-width (/ size 10)
-                     :bot (* size 0.375)
-                     :size size})]
+        data {:edge-width (/ size 10)
+              :bot (* size 0.375)
+              :size size
+              :draw-settings draw-settings}]
     (piece-stroke)
     (q/background 255)
 
