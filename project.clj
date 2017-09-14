@@ -19,7 +19,7 @@
                  [secretary "1.2.3"]
                  [org.clojure/math.combinatorics "0.1.4"]]
 
-  :plugins [[lein-figwheel "0.5.9"]
+  :plugins [[lein-figwheel "0.5.13"]
             [lein-cljsbuild "1.1.5" :exclusions [org.clojure/clojure]]]
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled"
@@ -69,7 +69,7 @@
   :figwheel { :css-dirs ["resources/public/css"] }
 
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.2"]
-                                  [figwheel-sidecar "0.5.9"]
+                                  [figwheel-sidecar "0.5.13"]
                                   [com.cemerick/piggieback "0.2.1"]]
                    ;; need to add dev source path here to get user.clj loaded
                    :source-paths ["src" "dev"]

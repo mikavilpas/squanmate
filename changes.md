@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.3.1
+- fix puzzle previews not rendering initially on Firefox. See
+  https://github.com/sp3ctum/squanmate/issues/23 for the description.
+
 ## 4.3
 - new feature: choose the colors of your specific Square-1 for the trainer.
 
