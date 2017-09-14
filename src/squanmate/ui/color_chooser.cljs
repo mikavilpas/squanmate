@@ -6,7 +6,7 @@
 
 (defn default-color-chooser-state []
   (reagent/atom {:swap-top-and-bottom false
-                 :use-back-as-front true
+                 :use-back-as-front false
                  :monochrome? false}))
 
 (defn- checkbox-for [setting-key label state-atom]
