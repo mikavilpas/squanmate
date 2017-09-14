@@ -19,7 +19,7 @@
                  [secretary "1.2.3"]
                  [org.clojure/math.combinatorics "0.1.4"]]
 
-  :plugins [[lein-figwheel "0.5.9"]
+  :plugins [[lein-figwheel "0.5.13"]
             [lein-cljsbuild "1.1.5" :exclusions [org.clojure/clojure]]]
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled"
