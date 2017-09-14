@@ -5,29 +5,45 @@
             [squanmate.shapes :as shapes]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.pieces :as pieces]
-            [squanmate.ui.drawing.util.quil-reagent :as quil-reagent]))
+            [squanmate.ui.drawing.util.quil-reagent :as quil-reagent]
+            [squanmate.ui.drawing.color-settings :as color-settings]))
 
-(defn layer-component [initial-layer {:keys [size monochrome?]}]
-  (let [current-layer (reagent/atom initial-layer)]
-    (fn render [layer {:keys [size monochrome?]
-                      :or {monochrome? true}}]
+(defn- make-color-settings [{:keys [monochrome?
+                                    use-back-as-front
+                                    swap-top-and-bottom]
+                             :or {monochrome? true}}]
+  (cond-> color-settings/defaults
+    monochrome?
+    color-settings/make-monochrome
+
+    use-back-as-front
+    color-settings/swap-front-and-back
+
+    swap-top-and-bottom
+    color-settings/swap-top-and-bottom))
+
+(defn layer-component [initial-layer settings]
+  (let [my-state (reagent/atom {:layer initial-layer
+                                :color-settings nil})]
+    (fn render [layer settings]
       ;; It's a bit unfortunate but I can't get quil to see a change in the
       ;; given layer without a local current-layer state
-      (reset! current-layer layer)
-      (let [shape-name (shapes/layer-shape-name @current-layer)
-            draw-settings (pieces/draw-settings {:monochrome? monochrome?})
-            size (or size 100)]
+      (swap! my-state assoc :layer layer)
+      (let [shape-name (shapes/layer-shape-name (-> @my-state :layer))
+            color-settings (make-color-settings settings)
+            size (or (:size settings) 100)]
+        (swap! my-state assoc :color-settings color-settings)
         [common/overlay-trigger
          {:overlay (reagent/as-element [common/tooltip {:id "test"}
                                         shape-name])
           :placement "top"}
-         [:div {:style { "display" "inline-block" }}
+         [:div {:style {"display" "inline-block"}}
           [quil-reagent/sketch
-           :setup (pieces/setup-fn @current-layer size)
+           :setup (pieces/setup-fn (-> @my-state :layer) size)
            :draw (fn [state]
-                   (pieces/draw-layer state draw-settings))
+                   (pieces/draw-layer state (:color-settings @my-state)))
            :update (fn [old-state]
-                     (assoc-in old-state [:layer] @current-layer))
+                     (assoc-in old-state [:layer] (-> @my-state :layer)))
            :middleware [m/fun-mode]
            :size [size size]]]]))))
 
@@ -35,7 +51,7 @@
   ([puzzle]
    [monochrome-puzzle puzzle {}])
 
-  ([puzzle {:keys [debug? size monochrome?]
+  ([puzzle {:keys [debug? size monochrome? color-settings]
             :as settings}]
    [:div.puzzle {:style {:white-space :nowrap}}
     [:span.layer.top [layer-component (:top-layer puzzle) settings]]
