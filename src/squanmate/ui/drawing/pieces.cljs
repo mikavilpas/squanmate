@@ -43,8 +43,6 @@
   (let [piece-side (-> piece :colors side)
         color-name (get draw-settings piece-side)
         color-value (color-name->color color-name)]
-    (when-not color-value
-      (js-debugger))
     color-value))
 
 (def ^:private magic-numbers "( ͡° ͜ʖ ͡°)"
@@ -82,11 +80,12 @@
        (q/triangle 0 0
                    (- edge-width) bot
                    edge-width bot)
-       (when (not monochrome?)
+       (when (not (:monochrome? draw-settings))
          (q/stroke-weight 1)
-         (apply q/stroke (get-color draw-settings piece :a))
-         (apply q/fill (get-color draw-settings piece :a))
-         (apply q/quad (:edge-color-edges (magic-numbers draw-settings)) )))))
+         (let [edge-color (get-color draw-settings piece :a)]
+           (apply q/stroke edge-color)
+           (apply q/fill edge-color)
+           (apply q/quad (:edge-color-edges (magic-numbers data))))))))
 
 (defn- draw-slice-point [data]
   (with-temporary-rotation -75
