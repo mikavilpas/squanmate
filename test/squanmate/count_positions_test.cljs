@@ -7,6 +7,6 @@
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg deftest]]))
 
-(deftest count-positions-for-test []
+(deftest count-positions-test []
   (is (= #{#{0 3 -3 6} #{1 -2 4 -5}}
-         (count-positions/count-positions-for shapes/square))))
+         (count-positions/count-positions shapes/square))))

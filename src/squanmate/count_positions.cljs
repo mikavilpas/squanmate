@@ -22,7 +22,7 @@
                   :when (filter-fn parity?)]
               amount)))
 
-(defn count-positions-for
+(defn count-positions
   "Results are given in two sets of rotations relative to the current layer
   position.
 
