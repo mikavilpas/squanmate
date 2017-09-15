@@ -4,9 +4,9 @@
             [squanmate.puzzle :as p]
             [squanmate.shapes :as shapes]
             [squanmate.ui.common :as common]
+            [squanmate.ui.drawing.color-settings :as color-settings]
             [squanmate.ui.drawing.details.layers :as layers]
-            [squanmate.ui.drawing.util.quil-reagent :as quil-reagent]
-            [squanmate.ui.drawing.color-settings :as color-settings]))
+            [squanmate.ui.drawing.util.quil-reagent :as quil-reagent]))
 
 (defn- make-color-settings [{:keys [monochrome?
                                     use-back-as-front
@@ -24,7 +24,8 @@
 
 (defn layer-component [initial-layer settings]
   (let [my-state (reagent/atom {:layer initial-layer
-                                :color-settings nil})]
+                                :color-settings nil
+                                :count-positions nil})]
     (fn render [layer settings]
       ;; It's a bit unfortunate but I can't get quil to see a change in the
       ;; given layer without a local current-layer state
@@ -41,7 +42,7 @@
           [quil-reagent/sketch
            :setup (layers/setup-fn (-> @my-state :layer) size)
            :draw (fn [state]
-                   (layers/draw-layer state (:color-settings @my-state)))
+                   (layers/draw-layer state @my-state))
            :update (fn [old-state]
                      (assoc-in old-state [:layer] (-> @my-state :layer)))
            :middleware [m/fun-mode]

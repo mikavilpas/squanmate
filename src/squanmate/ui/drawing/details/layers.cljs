@@ -1,10 +1,9 @@
 (ns squanmate.ui.drawing.details.layers
   (:require [quil.core :as q]
-            [quil.middleware :as m]
-            [squanmate.slicing :as slicing]
             [squanmate.puzzle :as puzzle]
-            [squanmate.ui.drawing.color-settings :as color-settings]
-            [squanmate.ui.drawing.details.pieces :as pieces]))
+            [squanmate.slicing :as slicing]
+            [squanmate.ui.drawing.details.pieces :as pieces]
+            [squanmate.ui.drawing.details.count-positions :as count-positions]))
 
 (defrecord DrawLayerState [layer size])
 
@@ -42,14 +41,13 @@
 
       (println (new js/Error (str "warning: cannot draw unknown piece " piece))))))
 
-(defn draw-layer [state draw-settings]
+(defn draw-layer [state settings]
   (let [size (:size state)
         center (/ size 2)
         layer (:layer state)
-        data {:edge-width (/ size 10)
-              :bot (* size 0.375)
-              :size size
-              :draw-settings draw-settings}]
+        data (merge settings {:edge-width (/ size 10)
+                              :bot (* size 0.375)
+                              :size size})]
     (q/background 255)
 
     ;; start drawing from the center
