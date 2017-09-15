@@ -10,11 +10,14 @@
             [squanmate.puzzle :as puzzle]
             [squanmate.alg.manipulation :as manipulation]))
 
+(defn sliceable-rotations [layer]
+  (let [possible-rotations (rotation/possible-rotations layer)]
+    (filter (fn [[result amount]]
+              (slicing/layer-sliceable? result))
+            possible-rotations)))
+
 (defn possible-sliceable-rotations [layer]
-  (let [possible-rotations (rotation/possible-rotations layer)
-        sliceable-rotations (filter (fn [[result amount]]
-                                      (slicing/layer-sliceable? result))
-                                    possible-rotations)
+  (let [possible-rotations (sliceable-rotations layer)
         positive (for [[result amount] sliceable-rotations
                        :when (pos? amount)]
                    amount)
