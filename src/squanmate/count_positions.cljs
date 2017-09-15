@@ -27,7 +27,13 @@
   position.
 
   NB: It is not possible to know whether a count position alone has odd or even
-  parity. the entire puzzle is required for a parity calculation instead."
+  parity. the entire puzzle is required for a parity calculation instead. Even
+  when the entire puzzle is used, the actual parity count of the different
+  positions will change.
+
+  The important and unchanging thing about the positions are thus the positions
+  themselves: each group of positions will always report the same (even or odd)
+  parity."
   [layer]
   (let [puzzle (assoc-dummy-kite-layer layer)
         rotation-results-and-amounts (rotation/possible-rotations
