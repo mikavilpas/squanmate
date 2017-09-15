@@ -17,4 +17,5 @@
             squanmate.ui.alg-importer-test
             squanmate.alg.serialization-test
             squanmate.ui.color-chooser-test
-            squanmate.services.count-positions-test))
+            squanmate.services.count-positions-test
+            squanmate.ui.count-position-finder-test))

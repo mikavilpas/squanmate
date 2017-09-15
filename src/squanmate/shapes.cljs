@@ -71,6 +71,13 @@
                  "parallel-edges" parallel-edges
                  "star" star})
 
+(defn shape->name-&-top-layer [shape-name]
+  (let [shape (get all-shapes shape-name)
+        layer (-> shape
+                  :pieces
+                  puzzle/->TopLayer)]
+    [(:name shape) layer]))
+
 (defn puzzle-with-layers [top-key bottom-key]
   (let [top-pieces (:pieces (get all-shapes top-key))
         bottom-pieces (:pieces (get all-shapes bottom-key))]

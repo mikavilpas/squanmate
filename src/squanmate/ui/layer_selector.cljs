@@ -15,15 +15,8 @@
     (swap! state-atom update-in [:selected-shapes] disj shape-names)
     (swap! state-atom update-in [:selected-shapes] conj shape-names)))
 
-(defn- shape->layer [shape-name]
-  (let [shape (get shapes/all-shapes shape-name)
-        layer (-> shape
-                  :pieces
-                  puzzle/->TopLayer)]
-    [(:name shape) layer]))
-
 (defn- layers-selection-component [state filter-shape shape-b-key]
-  (let [[name layer] (shape->layer shape-b-key)
+  (let [[name layer] (shapes/shape->name-&-top-layer shape-b-key)
         selected? (shapes-selected? state
                                     #{filter-shape shape-b-key})]
     [common/well {:style {:display "inline-block"}
