@@ -1,4 +1,4 @@
-(ns squanmate.count-positions
+(ns squanmate.services.count-positions
   (:require [squanmate.puzzle :as p]
             [squanmate.shapes :as shapes]
             [squanmate.rotation :as rotation]
