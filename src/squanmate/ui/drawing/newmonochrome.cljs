@@ -28,12 +28,15 @@
                                 :count-positions nil})]
     (fn render [layer settings]
       ;; It's a bit unfortunate but I can't get quil to see a change in the
-      ;; given layer without a local current-layer state
-      (swap! my-state assoc :layer layer)
+      ;; given layer without a local state
       (let [shape-name (shapes/layer-shape-name (-> @my-state :layer))
             color-settings (make-color-settings settings)
             size (or (:size settings) 100)]
-        (swap! my-state assoc :color-settings color-settings)
+        (swap! my-state assoc
+               :layer layer
+               :color-settings color-settings
+               :count-positions (:count-positions settings))
+
         [common/overlay-trigger
          {:overlay (reagent/as-element [common/tooltip {:id "test"}
                                         shape-name])
