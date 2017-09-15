@@ -2,14 +2,31 @@
   (:require [squanmate.puzzle :as p]
             [squanmate.shapes :as shapes]
             [squanmate.rotation :as rotation]
-            [squanmate.alg.parity-counter :as parity-counter]))
+            [squanmate.alg.parity-counter :as parity-counter]
+            [squanmate.shape-combinations :as shape-combinations]
+            [squanmate.ui.initial-rotation-adjuster :as initial-rotation-adjuster]))
 
-(def ^:private kite-pieces "ceceecec")
+(defn- valid-bottom-layer-for-top-layer [top-layer]
+  ;; choose the same one each time (first of the sorted layer names) so that
+  ;; the user isn't surprised by the count positions switching unexpectedly
+  (let [layer-name (shapes/layer-shape-name-key top-layer)
+        bottom-layer-name (-> (shape-combinations/filtered-possible-shapes layer-name)
+                               list*
+                               sort
+                               first)]
+    (get shapes/all-shapes bottom-layer-name)))
 
-(defn- assoc-dummy-kite-layer [layer]
-  (let [layer-pieces (p/pieces-str layer)]
+(defn- puzzle-with-top-layer
+  "Construct a Puzzle using the given top-layer. Choose any valid bottom layer."
+  [top-layer]
+  (let [layer-pieces (p/pieces-str top-layer)
+        foo (-> top-layer
+                valid-bottom-layer-for-top-layer)
+        bottom-layer-pieces (-> top-layer
+                                valid-bottom-layer-for-top-layer
+                                p/pieces-str)]
     (p/puzzle-with-shapes layer-pieces
-                          kite-pieces)))
+                          bottom-layer-pieces)))
 
 (defn- parity?-and-rotation-amount [puzzle [rotated-layer amount]]
   (let [new-puzzle (assoc puzzle
@@ -26,6 +43,8 @@
   "Results are given in two sets of rotations relative to the current layer
   position.
 
+  Only sliceable positions are supported!
+
   NB: It is not possible to know whether a count position alone has odd or even
   parity. the entire puzzle is required for a parity calculation instead. Even
   when the entire puzzle is used, the actual parity count of the different
@@ -35,8 +54,8 @@
   themselves: each group of positions will always report the same (even or odd)
   parity."
   [layer]
-  (let [puzzle (assoc-dummy-kite-layer layer)
-        rotation-results-and-amounts (rotation/possible-rotations
+  (let [puzzle (puzzle-with-top-layer layer)
+        rotation-results-and-amounts (initial-rotation-adjuster/sliceable-rotations
                                       (:top-layer puzzle))
         parities-and-rotations (map #(parity?-and-rotation-amount puzzle %)
                                     rotation-results-and-amounts)]
