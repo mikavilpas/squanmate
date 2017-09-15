@@ -4,7 +4,7 @@
             [squanmate.puzzle :as p]
             [squanmate.shapes :as shapes]
             [squanmate.ui.common :as common]
-            [squanmate.ui.drawing.pieces :as pieces]
+            [squanmate.ui.drawing.details.layers :as layers]
             [squanmate.ui.drawing.util.quil-reagent :as quil-reagent]
             [squanmate.ui.drawing.color-settings :as color-settings]))
 
@@ -39,9 +39,9 @@
           :placement "top"}
          [:div {:style {"display" "inline-block"}}
           [quil-reagent/sketch
-           :setup (pieces/setup-fn (-> @my-state :layer) size)
+           :setup (layers/setup-fn (-> @my-state :layer) size)
            :draw (fn [state]
-                   (pieces/draw-layer state (:color-settings @my-state)))
+                   (layers/draw-layer state (:color-settings @my-state)))
            :update (fn [old-state]
                      (assoc-in old-state [:layer] (-> @my-state :layer)))
            :middleware [m/fun-mode]
