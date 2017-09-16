@@ -14,11 +14,11 @@
            (q/ellipse (scale 40) (scale 40)
                       (scale 17) (scale 17)))))))
 
-(def ^:private point1-color [100 220 220])
-(def ^:private point2-color [250 60 130])
+(def ^:private group1-color [100 220 220])
+(def ^:private group2-color [250 60 130])
 
 (defn draw-position-group-a [positions data]
-  (draw-positions positions point1-color data))
+  (draw-positions positions group1-color data))
 
 (defn draw-position-group-b [positions data]
-  (draw-positions positions point2-color data))
+  (draw-positions positions group2-color data))
