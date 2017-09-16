@@ -3,7 +3,8 @@
             [squanmate.puzzle :as puzzle]
             [squanmate.slicing :as slicing]
             [squanmate.ui.drawing.details.pieces :as pieces]
-            [squanmate.ui.drawing.details.count-positions :as count-positions]))
+            [squanmate.ui.drawing.details.count-positions :as count-positions]
+            [squanmate.shapes :as shapes]))
 
 (defrecord DrawLayerState [layer size])
 
@@ -58,7 +59,9 @@
 
     (condp = (type layer)
       puzzle/TopLayer (draw-top-layer layer data)
-      puzzle/BottomLayer (draw-bottom-layer layer data))
+      puzzle/BottomLayer (draw-bottom-layer layer data)
+      ;; for tests
+      shapes/Shape (draw-top-layer layer data))
 
     (when-let [count-positions (:count-positions settings)]
       (println count-positions)
