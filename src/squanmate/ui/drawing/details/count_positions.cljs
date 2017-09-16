@@ -13,7 +13,7 @@
          (q/ellipse 40 40 17 17)))))
 
 (def ^:private point1-color [100 220 220])
-(def ^:private point2-color [220 100 120])
+(def ^:private point2-color [250 60 130])
 
 (defn draw-position-group-a [positions]
   (draw-positions positions point1-color))
