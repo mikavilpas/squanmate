@@ -64,5 +64,5 @@
       shapes/Shape (draw-top-layer layer data))
 
     (when-let [count-positions (:count-positions settings)]
-      (count-positions/draw-position-group-a (first count-positions))
-      (count-positions/draw-position-group-b (second count-positions)))))
+      (count-positions/draw-position-group-a (first count-positions) data)
+      (count-positions/draw-position-group-b (second count-positions) data))))
