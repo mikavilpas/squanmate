@@ -7,8 +7,8 @@
   [:div.container
    [:div.center
     [:div.col-md-8.col-lg-8
+     [:h2 "Instructions:"]
      [:p
-      [:h3 "Instructions:"]
       "This page will show sliceable count positions for the layer you choose."]
 
      [:p "Slice positions come in two groups (only one in some cases, but most
