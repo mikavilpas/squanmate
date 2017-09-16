@@ -18,10 +18,10 @@
 
 (defn possible-sliceable-rotations [layer]
   (let [possible-rotations (sliceable-rotations layer)
-        positive (for [[result amount] sliceable-rotations
+        positive (for [[result amount] possible-rotations
                        :when (pos? amount)]
                    amount)
-        negative (for [[result amount] sliceable-rotations
+        negative (for [[result amount] possible-rotations
                        :when (neg? amount)]
                    amount)]
     ;; shorter rotations first in each case
