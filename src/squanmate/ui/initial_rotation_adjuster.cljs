@@ -67,27 +67,25 @@
   [common/button {:on-click handler}
    [common/glyphicon {:glyph glyph}]])
 
-(defn- rotation-controls [{:keys [top-layer bottom-layer] :as puzzle}
-                          initial-rotation-atom
-                          algorithm-atom]
-  (letfn [(top [direction]
-            (rotate-layer top-layer
-                          initial-rotation-atom
-                          algorithm-atom
-                          direction))
-          (bottom [direction]
-            (rotate-layer bottom-layer
+(defn- layer-rotation-controls [layer initial-rotation-atom algorithm-atom]
+  (letfn [(rotate [direction]
+            (rotate-layer layer
                           initial-rotation-atom
                           algorithm-atom
                           direction))]
     [:div
-     [:div "Top: "]
-     [rotation-button :minus #(top :-)]
-     [rotation-button :plus #(top :+)]
+     [rotation-button :minus #(rotate :-)]
+     [rotation-button :plus #(rotate :+)]]))
 
-     [:div "Bottom: "]
-     [rotation-button :minus #(bottom :-)]
-     [rotation-button :plus #(bottom :+)]]))
+(defn rotation-controls [{:keys [top-layer bottom-layer] :as puzzle}
+                         initial-rotation-atom
+                         algorithm-atom]
+  [:div
+   [:div "Top: "]
+   [layer-rotation-controls top-layer initial-rotation-atom algorithm-atom]
+
+   [:div "Bottom: "]
+   [layer-rotation-controls bottom-layer initial-rotation-atom algorithm-atom]])
 
 (defn rotation-adjuster [puzzle
                          initial-rotation-atom
