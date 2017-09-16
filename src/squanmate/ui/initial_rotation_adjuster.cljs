@@ -12,9 +12,9 @@
 
 (defn sliceable-rotations [layer]
   (let [possible-rotations (rotation/possible-rotations layer)]
-    (filter (fn [[result amount]]
-              (slicing/layer-sliceable? result))
-            possible-rotations)))
+    (->> possible-rotations
+         (filter (fn [[result amount]]
+                   (slicing/layer-sliceable? result))))))
 
 (defn possible-sliceable-rotations [layer]
   (let [possible-rotations (sliceable-rotations layer)
