@@ -47,4 +47,7 @@
   (defroute "/importer" []
     (set-route! app-state :importer))
 
+  (defroute "/count-positions" []
+    (set-route! app-state :count-positions))
+
   (hook-browser-navigation!))
