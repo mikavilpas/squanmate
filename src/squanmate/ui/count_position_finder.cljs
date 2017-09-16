@@ -1,16 +1,14 @@
 (ns squanmate.ui.count-position-finder
-  (:require [squanmate.ui.drawing.newmonochrome :as newmonochrome]
-            [reagent.core :as reagent]
-            [squanmate.ui.shape-chooser :as shape-chooser]
-            [squanmate.shapes :as shapes]
-            [squanmate.services.count-positions :as count-positions]
-            [squanmate.ui.initial-rotation-adjuster :as ira]
-            [clojure.string :as str]
-            [squanmate.alg.execution :as execution]
-            [squanmate.rotation :as rotation]
-            [squanmate.alg.parser :as parser]
+  (:require [cats.core :as m]
             [cats.monad.either :as either]
-            [cats.core :as m]))
+            [reagent.core :as reagent]
+            [squanmate.alg.parser :as parser]
+            [squanmate.rotation :as rotation]
+            [squanmate.services.count-positions :as count-positions]
+            [squanmate.shapes :as shapes]
+            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
+            [squanmate.ui.initial-rotation-adjuster :as ira]
+            [squanmate.ui.shape-chooser :as shape-chooser]))
 
 (defn default-state []
   (reagent/atom {:initial-rotation "(0,0)"
