@@ -67,7 +67,7 @@
   [common/button {:on-click handler}
    [common/glyphicon {:glyph glyph}]])
 
-(defn- layer-rotation-controls [layer initial-rotation-atom algorithm-atom]
+(defn layer-rotation-controls [layer initial-rotation-atom algorithm-atom]
   (letfn [(rotate [direction]
             (rotate-layer layer
                           initial-rotation-atom

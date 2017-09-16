@@ -7,4 +7,6 @@
 (defonce state (sut/default-state))
 
 (defcard-rg count-position-finder
-  [sut/count-position-finder state])
+  [sut/count-position-finder state]
+  state
+  {:inspect-data true})
