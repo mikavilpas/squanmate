@@ -3,6 +3,7 @@
             [squanmate.alg.execution :as execution]
             [squanmate.shapes :as shapes]
             [squanmate.alg.parity-counter :as parity-counter]
+            [squanmate.pages.links :as links]
             [cats.monad.either :as either]
             [squanmate.puzzle :as puzzle]
             [clojure.string :as str]
@@ -16,16 +17,25 @@
     result))
 
 (defn- parity-explanation []
-  [:div "The " [:strong "parity count"] ", calculated with Cale Schoon's
+  [:div
+   [:p "The " [:strong "parity count"] ", calculated with Cale Schoon's
     cubeshape parity method. In this method you determine the parity count at a
     specific starting position, and the apply either the " [:strong "even"] " or
-    " [:strong "odd"] " algorithm."
+    " [:strong "odd"] " algorithm."]
 
-   [:div.top10 "Note that if the count is odd it does not mean the algorithm
-   necessarily switches parity! A different " [:strong "count position"] " might
-   require switching the odd and even algorithms."]
-   [:div.top10 "Find another count position using the " [:strong "initial
-   rotation"] " controls."]])
+   [:p [common/help-block [common/glyphicon {:glyph :info-sign}]
+        " The exact way the parity is counted is explained in "
+        [:a {:href links/parity-alg-sheet-link
+             :target "_blank"}
+         "my cubeshape parity document"]]]
+
+   [:p "Note that if the count is odd it does not mean the algorithm necessarily
+   switches parity! A different " [:strong "count position"] " might require
+   switching the odd and even algorithms."]
+
+   [:p "Find another count position using the " [:strong "initial rotation"] "
+   controls, or look at all possible count positions on the " [:strong "parity
+   count positions"] " page."]])
 
 (defn- parity-count-component [puzzle]
   (let [[parity? parity-data] (parity-counter/parity-count puzzle)]
