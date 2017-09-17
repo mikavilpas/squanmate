@@ -34,6 +34,10 @@ Squanmate can help you:
   algorithm importer* and it will be recognized with minimal work on your part.
   I use this to import the cubeshape algs originally made for the more popular
   blind tracing CSP method.
+* **Inspect all possible parity count positions for all shapes**. When counting
+  your parity, it's possible to start at multiple positions and still get the
+  same result. Having options for counting will come in handy when your scramble
+  orients the layers uncomfortably.
 
 ## Related Square-1 learning resources
 - I have collected all cubeshape parity algorithms for the Cale
