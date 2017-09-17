@@ -1,5 +1,6 @@
 (ns squanmate.pages.count-positions
-  (:require [squanmate.ui.count-position-finder :as count-positions-finder]))
+  (:require [squanmate.ui.count-position-finder :as count-positions-finder]
+            [squanmate.ui.common :as common]))
 
 (defonce state (count-positions-finder/default-state))
 
@@ -18,5 +19,9 @@
      parity count"] "."]
      [:p "That means you can start counting at any position in the same group
      and get the same result."]
+     [common/help-block
+      [common/glyphicon {:glyph :info-sign}]
+      " The groups will switch colors when you rotate. When rotating, try to
+      follow the shape instead of the group colors."]
 
      [count-positions-finder/count-position-finder state]]]])

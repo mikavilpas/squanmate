@@ -43,3 +43,5 @@
 (def form-group (reagent/adapt-react-class js/ReactBootstrap.FormGroup))
 (def control-label (reagent/adapt-react-class js/ReactBootstrap.ControlLabel))
 (def radio (reagent/adapt-react-class js/ReactBootstrap.Radio))
+
+(def help-block (reagent/adapt-react-class js/ReactBootstrap.HelpBlock))
