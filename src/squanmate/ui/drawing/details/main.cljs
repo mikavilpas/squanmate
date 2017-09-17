@@ -1,4 +1,4 @@
-(ns squanmate.ui.drawing.details.layers
+(ns squanmate.ui.drawing.details.main
   (:require [quil.core :as q]
             [squanmate.puzzle :as puzzle]
             [squanmate.slicing :as slicing]

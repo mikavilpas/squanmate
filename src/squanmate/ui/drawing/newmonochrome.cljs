@@ -5,7 +5,7 @@
             [squanmate.shapes :as shapes]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.color-settings :as color-settings]
-            [squanmate.ui.drawing.details.layers :as layers]
+            [squanmate.ui.drawing.details.main :as main]
             [squanmate.ui.drawing.util.quil-reagent :as quil-reagent]))
 
 (defn- make-color-settings [{:keys [monochrome?
@@ -43,9 +43,9 @@
           :placement "top"}
          [:div {:style {"display" "inline-block"}}
           [quil-reagent/sketch
-           :setup (layers/setup-fn (-> @my-state :layer) size)
+           :setup (main/setup-fn (-> @my-state :layer) size)
            :draw (fn [state]
-                   (layers/draw-layer state @my-state))
+                   (main/draw-layer state @my-state))
            :update (fn [old-state]
                      (assoc-in old-state [:layer] (-> @my-state :layer)))
            :middleware [m/fun-mode]
