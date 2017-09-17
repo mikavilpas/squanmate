@@ -12,7 +12,8 @@
 
 (defn default-state []
   (reagent/atom {:initial-rotation "(0,0)"
-                 :dummy-algorithm ""}))
+                 :dummy-algorithm ""
+                 :settings {:layer-name "barrel"}}))
 
 (defn- parse-top-rotation [initial-rotation]
   (m/mlet [alg-steps (parser/parse initial-rotation)]
