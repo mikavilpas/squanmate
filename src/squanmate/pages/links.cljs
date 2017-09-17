@@ -19,3 +19,6 @@
                   bottom-name
                   (encode (alg-or-zero initial-rotation))
                   (encode (alg-or-zero algorithm))])))
+
+(def parity-alg-sheet-link
+  "https://docs.google.com/spreadsheets/d/1r0LN41RGKI4oAvD9rCmmc-A5UBpNPvsEOb7eWaEtIFo/edit?usp=sharing")
