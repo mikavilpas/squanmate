@@ -25,3 +25,24 @@
     display: flex;
     justify-content: center;
 }
+
+.space-around {justify-content: space-around;}
+
+.parity-sequence {
+    display: flex;
+    justify-content: space-around;
+}
+
+.color-box {
+    min-height: 10vw;
+    min-width: 10vw;
+
+    border-radius: 10px;
+    box-shadow: 2px 2px 4px #eee;
+}
+
+/* same colors as for newmonochrome */
+.color-box.green {background-color: #45f545;}
+.color-box.red {background-color: #ff4545;}
+.color-box.blue {background-color: #6360ff;}
+.color-box.orange {background-color: #ffa645;}
