@@ -50,4 +50,7 @@
   (defroute "/count-positions" []
     (set-route! app-state :count-positions))
 
+  (defroute "/parity-sequence-trainer" []
+    (set-route! app-state :parity-sequence-trainer))
+
   (hook-browser-navigation!))

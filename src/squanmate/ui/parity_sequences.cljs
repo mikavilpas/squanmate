@@ -15,7 +15,7 @@
              "R" "red"
              "G" "green")}])
 
-(defn colors [colors-string]
+(defn- colors [colors-string]
   (when-not (str/blank? colors-string)
     (let [[a b c] colors-string]
       [:div.parity-sequence

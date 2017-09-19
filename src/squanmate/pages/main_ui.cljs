@@ -6,7 +6,8 @@
             [squanmate.scramblers.shape-scrambler :as shape-scrambler]
             [squanmate.pages.trainer :as trainer]
             [squanmate.pages.importer :as importer]
-            [squanmate.pages.count-positions :as count-positions]))
+            [squanmate.pages.count-positions :as count-positions]
+            [squanmate.pages.parity-sequence-trainer :as parity-sequence-trainer]))
 
 (defmulti page-content (fn [app-state]
                          (-> @app-state
@@ -35,6 +36,9 @@
 (defmethod page-content :count-positions []
   [count-positions/content])
 
+(defmethod page-content :parity-sequence-trainer []
+  [parity-sequence-trainer/content])
+
 (defmethod page-content :default [app-state]
   [:div "warning: page content not found"])
 
@@ -49,7 +53,8 @@
     [common/nav-item {:event-key 1 :href "#/shapes"} "All shapes"]
     [common/nav-item {:event-key 2 :href "#/shape-visualizer"} "Algorithm shape visualizer"]
     [common/nav-item {:event-key 3 :href "#/importer"} "Cubeshape algorithm importer"]
-    [common/nav-item {:event-key 4 :href "#/count-positions"} "Parity count positions"]]])
+    [common/nav-item {:event-key 4 :href "#/count-positions"} "Parity count positions"]
+    [common/nav-item {:event-key 5 :href "#/parity-sequence-trainer"} "Parity sequence trainer"]]])
 
 (defn- footer []
   ;; just some vertical space to make the page feel better
