@@ -9,7 +9,15 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.9.908"]
                  [devcards "0.2.3"]
-                 [reagent "0.7.0"]
+
+                 ;; upgrading from reagent 0.7.0 to 0.8.0-alpha1 didn't work
+                 ;; unless I paste its react dependencies here too.
+                 [reagent "0.8.0-alpha1"]
+                 [cljsjs/react "15.6.1-2"]
+                 [cljsjs/react-dom "15.6.1-2"]
+                 ;; [cljsjs/react-dom-server "15.6.1-2"]
+                 [cljsjs/create-react-class "15.6.0-3"]
+
                  [funcool/cats "2.1.0"]
                  [the/parsatron "0.0.7"]
                  [cljsjs/react-select "1.0.0-rc.3"]
