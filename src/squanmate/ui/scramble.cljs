@@ -34,7 +34,7 @@
 (defn- mark-alg-imported [state]
   (swap! state assoc :imported? true))
 
-(defn enter-alg-view [state]
+(defn- enter-alg-view [state]
   (let [given-alg (reagent/cursor state [:scramble-algorithm])]
     [:div
      [common/input-box given-alg "Enter your scramble"]
