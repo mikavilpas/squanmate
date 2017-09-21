@@ -53,4 +53,7 @@
   (defroute "/parity-game" []
     (set-route! app-state :parity-game))
 
+  (defroute "/scramble-inspector" []
+    (set-route! app-state :scramble-inspector))
+
   (hook-browser-navigation!))

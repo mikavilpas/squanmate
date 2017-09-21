@@ -8,6 +8,7 @@
             [squanmate.pages.importer :as importer]
             [squanmate.pages.count-positions :as count-positions]
             [squanmate.pages.parity-game :as parity-game]
+            [squanmate.pages.scramble-inspector :as scramble-inspector]
             ))
 
 (defmulti page-content (fn [app-state]
@@ -40,6 +41,9 @@
 (defmethod page-content :parity-game []
   [parity-game/content])
 
+(defmethod page-content :scramble-inspector []
+  [scramble-inspector/content])
+
 (defmethod page-content :default [app-state]
   [:div "warning: page content not found"])
 
@@ -55,7 +59,8 @@
     [common/nav-item {:event-key 2 :href "#/shape-visualizer"} "Algorithm shape visualizer"]
     [common/nav-item {:event-key 3 :href "#/importer"} "Cubeshape algorithm importer"]
     [common/nav-item {:event-key 4 :href "#/count-positions"} "Parity count positions"]
-    [common/nav-item {:event-key 5 :href "#/parity-game"} "Parity game"]]])
+    [common/nav-item {:event-key 5 :href "#/parity-game"} "Parity game"]
+    [common/nav-item {:event-key 5 :href "#/scramble-inspector"} "Scramble inspector"]]])
 
 (defn- footer []
   ;; just some vertical space to make the page feel better
