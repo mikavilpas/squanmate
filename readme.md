@@ -38,6 +38,9 @@ Squanmate can help you:
   your parity, it's possible to start at multiple positions and still get the
   same result. Having options for counting will come in handy when your scramble
   orients the layers uncomfortably.
+* **Train your skills in recognizing parities in color sequences**. See the
+  Squanmate algorithm document below for details on how color sequences
+  contribute to the parity of the puzzle.
 
 ## Related Square-1 learning resources
 - I have collected all cubeshape parity algorithms for the Cale

@@ -18,7 +18,8 @@
             squanmate.alg.serialization-test
             squanmate.ui.color-chooser-test
             squanmate.services.count-positions-test
-            squanmate.ui.count-position-finder-test))
+            squanmate.ui.count-position-finder-test
+            squanmate.ui.parity-sequences-test))
 
 ;; use this when at a breakpoint in the browser. It prints human readable and
 ;; pretty presentations of clojurescript things.

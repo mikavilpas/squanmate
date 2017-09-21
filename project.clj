@@ -9,7 +9,15 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.9.908"]
                  [devcards "0.2.3"]
-                 [reagent "0.7.0"]
+
+                 ;; upgrading from reagent 0.7.0 to 0.8.0-alpha1 didn't work
+                 ;; unless I paste its react dependencies here too.
+                 [reagent "0.8.0-alpha1"]
+                 [cljsjs/react "15.6.1-2"]
+                 [cljsjs/react-dom "15.6.1-2"]
+                 ;; [cljsjs/react-dom-server "15.6.1-2"]
+                 [cljsjs/create-react-class "15.6.0-3"]
+
                  [funcool/cats "2.1.0"]
                  [the/parsatron "0.0.7"]
                  [cljsjs/react-select "1.0.0-rc.3"]
@@ -17,7 +25,8 @@
                  [quil "2.6.0"]
                  [cljsjs/download "1.4.6-0"]
                  [secretary "1.2.3"]
-                 [org.clojure/math.combinatorics "0.1.4"]]
+                 [org.clojure/math.combinatorics "0.1.4"]
+                 [cljsjs/google-analytics "2015.04.13-0"]]
 
   :plugins [[lein-figwheel "0.5.13"]
             [lein-cljsbuild "1.1.5" :exclusions [org.clojure/clojure]]]
@@ -56,12 +65,17 @@
                                    :asset-path "js/compiled/out"
                                    :output-to  "resources/public/js/compiled/squanmate.js"
                                    :optimizations :advanced
+                                   :source-map "resources/public/js/compiled/squanmate.map.js"
+                                   :output-wrapper true
+
+                                   :externs ["externs/quil.externs.js"]
 
                                    ;; these are very useful when there is an odd
                                    ;; bug in the optimized production code, but
                                    ;; no such bug exists in the development
                                    ;; code.
 
+                                   ;; :print-input-delimiter true
                                    ;; :pretty-print true
                                    ;; :pseudo-names true
                                    }}]}

@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.5
+- new feature: parity game. See the readme for more info.
+
 ## 4.4
 - new feature: parity count positions. See the readme for more info.
 
