@@ -5,13 +5,16 @@
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg deftest]]))
 
-(defonce state (sut/default-state))
+(def state-with-scramble
+  (sut/default-state))
 
-(defonce state-with-scramble (reagent/atom {:puzzle nil
-                                            :scramble-algorithm "(3,2)/ (1,-5)/ (3,0)/"}))
+(def state-without-scramble
+  (let [a (sut/default-state)]
+    (swap! a assoc :scramble-algorithm "(3,2)/ (1,-5)/ (3,0)/")
+    a))
 
 (defcard-rg import-alg-view
-  [sut/component state])
+  [sut/component state-without-scramble])
 
 (defcard-rg import-alg-view-with-import-button
   [sut/component state-with-scramble])
