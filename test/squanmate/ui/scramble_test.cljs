@@ -5,10 +5,10 @@
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg deftest]]))
 
-(def state-with-scramble
+(def state-without-scramble
   (sut/default-state))
 
-(def state-without-scramble
+(def state-with-scramble
   (let [a (sut/default-state)]
     (swap! a assoc :scramble-algorithm "(3,2)/ (1,-5)/ (3,0)/")
     a))
