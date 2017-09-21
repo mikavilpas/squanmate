@@ -24,10 +24,4 @@
             squanmate.ui.parity-sequences-test
             squanmate.ui.scramble-test))
 
-;; use this when at a breakpoint in the browser. It prints human readable and
-;; pretty presentations of clojurescript things.
-(js* "var p = cljs.pprint.pprint")
-(js* "var l = console.log")
-
-(devtools/set-pref! :print-config-overrides true)
 (devtools/install! [:formatters :hints :async])
