@@ -74,6 +74,7 @@
                                    ;; no such bug exists in the development
                                    ;; code.
 
+                                   ;; :print-input-delimiter true
                                    ;; :pretty-print true
                                    ;; :pseudo-names true
                                    }}]}
