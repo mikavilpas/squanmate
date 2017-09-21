@@ -26,6 +26,11 @@
     justify-content: center;
 }
 
+.center.vertical {
+    flex-direction: column;
+    align-items: center;
+}
+
 .space-around {justify-content: space-around;}
 
 .parity-sequence {

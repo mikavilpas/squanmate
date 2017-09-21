@@ -18,3 +18,15 @@
 
 (defcard-rg import-alg-view-with-import-button
   [sut/component state-with-scramble])
+
+(def state-with-imported-alg
+  (let [a (sut/default-state)]
+    (swap! a assoc
+           :scramble-algorithm "(3,2)/ (-2,4)/ (-4,-1)/ (1,-5)/ (2,-1)/ (4,-5)/
+                                (3,-3)/ (-1,-4)/ (-3,-5)/ (0,-3)/ (4,-1)/ (0,-4)/
+                                (6,-5)/ (-2,0)"
+           :imported? true)
+    a))
+
+(defcard-rg alg-imported
+  [sut/component state-with-imported-alg])

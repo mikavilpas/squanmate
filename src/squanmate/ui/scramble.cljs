@@ -5,7 +5,8 @@
             [clojure.string :as str]
             [squanmate.alg.execution :as execution]
             [squanmate.puzzle :as puzzle]
-            [cats.monad.either :as either]))
+            [cats.monad.either :as either]
+            [squanmate.scramblers.shape-scrambler :as shape-scrambler]))
 
 (defn default-state []
   (reagent/atom {:imported? false
@@ -15,9 +16,10 @@
   [:div "Invalid scramble: " (pr-str error)])
 
 (defn- show-scramble [puzzle state]
-  [:div.center
+  [:div.center.vertical
    [newmonochrome/monochrome-puzzle puzzle {:monochrome? false
-                                            :size 200}]])
+                                            :size 200}]
+   [shape-scrambler/scramble-preview (:scramble-algorithm @state)]])
 
 (defn- puzzle-view [state]
   (let [scramble-alg (:scramble-algorithm @state)
@@ -32,7 +34,7 @@
 (defn- mark-alg-imported [state]
   (swap! state assoc :imported? true))
 
-(defn import-alg-view [state]
+(defn enter-alg-view [state]
   (let [given-alg (reagent/cursor state [:scramble-algorithm])]
     [:div
      [common/input-box given-alg "Enter your scramble"]
@@ -47,4 +49,4 @@
   [:div
    (if (:imported? @state)
      [puzzle-view state]
-     [import-alg-view state])])
+     [enter-alg-view state])])
