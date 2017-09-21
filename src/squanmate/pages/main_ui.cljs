@@ -6,7 +6,9 @@
             [squanmate.scramblers.shape-scrambler :as shape-scrambler]
             [squanmate.pages.trainer :as trainer]
             [squanmate.pages.importer :as importer]
-            [squanmate.pages.count-positions :as count-positions]))
+            [squanmate.pages.count-positions :as count-positions]
+            [squanmate.pages.mikapage :as mikapage]
+            ))
 
 (defmulti page-content (fn [app-state]
                          (-> @app-state
@@ -34,6 +36,11 @@
 
 (defmethod page-content :count-positions []
   [count-positions/content])
+
+(defmethod page-content :parity-sequence-trainer []
+  ;; [pst/content]
+  [mikapage/mika]
+  )
 
 (defmethod page-content :default [app-state]
   [:div "warning: page content not found"])
