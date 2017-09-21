@@ -50,7 +50,7 @@
   (defroute "/count-positions" []
     (set-route! app-state :count-positions))
 
-  (defroute "/parity-sequence-trainer" []
-    (set-route! app-state :parity-sequence-trainer))
+  (defroute "/parity-game" []
+    (set-route! app-state :parity-game))
 
   (hook-browser-navigation!))

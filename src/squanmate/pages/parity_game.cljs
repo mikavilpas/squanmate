@@ -1,10 +1,10 @@
-(ns squanmate.pages.mikapage
+(ns squanmate.pages.parity-game
   (:require [squanmate.ui.parity-sequences :as ps]
             [reagent.core :as reagent]))
 
 (defonce state (ps/default-state))
 
-(defn mika []
+(defn content []
   [:div.container
    [:div.center
     [:div.col-md-8.col-lg-8

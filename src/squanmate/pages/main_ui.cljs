@@ -7,7 +7,7 @@
             [squanmate.pages.trainer :as trainer]
             [squanmate.pages.importer :as importer]
             [squanmate.pages.count-positions :as count-positions]
-            [squanmate.pages.mikapage :as mikapage]
+            [squanmate.pages.parity-game :as parity-game]
             ))
 
 (defmulti page-content (fn [app-state]
@@ -37,10 +37,8 @@
 (defmethod page-content :count-positions []
   [count-positions/content])
 
-(defmethod page-content :parity-sequence-trainer []
-  ;; [pst/content]
-  [mikapage/mika]
-  )
+(defmethod page-content :parity-game []
+  [parity-game/content])
 
 (defmethod page-content :default [app-state]
   [:div "warning: page content not found"])
@@ -57,7 +55,7 @@
     [common/nav-item {:event-key 2 :href "#/shape-visualizer"} "Algorithm shape visualizer"]
     [common/nav-item {:event-key 3 :href "#/importer"} "Cubeshape algorithm importer"]
     [common/nav-item {:event-key 4 :href "#/count-positions"} "Parity count positions"]
-    [common/nav-item {:event-key 5 :href "#/parity-sequence-trainer"} "Parity sequence trainer"]]])
+    [common/nav-item {:event-key 5 :href "#/parity-game"} "Parity game"]]])
 
 (defn- footer []
   ;; just some vertical space to make the page feel better
