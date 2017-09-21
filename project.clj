@@ -65,6 +65,8 @@
                                    :output-to  "resources/public/js/compiled/squanmate.js"
                                    :optimizations :advanced
                                    :source-map "resources/public/js/compiled/squanmate.map.js"
+                                   :output-wrapper true
+
                                    :externs ["externs/quil.externs.js"]
 
                                    ;; these are very useful when there is an odd
