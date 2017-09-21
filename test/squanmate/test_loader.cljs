@@ -1,5 +1,7 @@
 (ns squanmate.test-loader
-  (:require squanmate.ui.alg-visualizer-test
+  (:require [devtools.core :as devtools]
+
+            squanmate.ui.alg-visualizer-test
             squanmate.alg.execution-test
             squanmate.alg.parser-test
             squanmate.puzzle-test
@@ -24,3 +26,6 @@
 ;; use this when at a breakpoint in the browser. It prints human readable and
 ;; pretty presentations of clojurescript things.
 (js* "var p = cljs.pprint.pprint")
+
+(devtools/set-pref! :print-config-overrides true)
+(devtools/install! [:formatters :hints :async])
