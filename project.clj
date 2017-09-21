@@ -64,6 +64,7 @@
                                    :asset-path "js/compiled/out"
                                    :output-to  "resources/public/js/compiled/squanmate.js"
                                    :optimizations :advanced
+                                   :externs ["externs/quil.externs.js"]
 
                                    ;; these are very useful when there is an odd
                                    ;; bug in the optimized production code, but
