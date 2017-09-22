@@ -58,11 +58,11 @@
    [common/navbar-collapse
     [common/nav
      [common/nav-item {:event-key 1 :href "#/shapes"} "All shapes"]
-     [common/nav-item {:event-key 2 :href "#/shape-visualizer"} "Algorithm shape visualizer"]
-     [common/nav-item {:event-key 3 :href "#/importer"} "Cubeshape algorithm importer"]
-     [common/nav-item {:event-key 4 :href "#/count-positions"} "Parity count positions"]
-     [common/nav-item {:event-key 5 :href "#/parity-game"} "Parity game"]
-     [common/nav-item {:event-key 6 :href "#/scramble-inspector"} "Scramble inspector"]]]])
+     [common/nav-item {:event-key 2 :href "#/scramble-inspector"} "Scramble inspector"]
+     [common/nav-item {:event-key 3 :href "#/shape-visualizer"} "Algorithm shape visualizer"]
+     [common/nav-item {:event-key 4 :href "#/importer"} "Cubeshape algorithm importer"]
+     [common/nav-item {:event-key 5 :href "#/count-positions"} "Parity count positions"]
+     [common/nav-item {:event-key 6 :href "#/parity-game"} "Parity game"]]]])
 
 (defn- footer []
   ;; just some vertical space to make the page feel better
