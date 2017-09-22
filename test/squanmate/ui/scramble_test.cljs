@@ -19,7 +19,7 @@
 (defcard-rg import-alg-view-with-import-button
   [:div [:p "The import happens in two stages:"]
    [:p "First the user enters the alg, then clicks Import. This is to make it
-    clear that a scramble is invalid when that is the case."]
+    clear when a scramble is invalid."]
    [sut/component state-with-scramble]])
 
 (def state-with-imported-alg
