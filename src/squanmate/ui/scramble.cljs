@@ -55,11 +55,12 @@
     [:div
      [:div.center
       [clear-button state]]
-     (either/branch puzzle-either
-                    (fn [error]
-                      [invalid-scramble scramble-alg error])
-                    (fn [transformation-result]
-                      [show-successful-scramble (:puzzle transformation-result) state]))]))
+     [:div.top17
+      (either/branch puzzle-either
+                     (fn [error]
+                       [invalid-scramble scramble-alg error])
+                     (fn [transformation-result]
+                       [show-successful-scramble (:puzzle transformation-result) state]))]]))
 
 (defn- mark-alg-imported [state]
   (swap! state assoc :imported? true))
