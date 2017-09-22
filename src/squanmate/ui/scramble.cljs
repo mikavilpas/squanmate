@@ -50,7 +50,6 @@
 
 (defn- puzzle-view [state]
   (let [scramble-alg (-> @state :scramble :scramble-algorithm)
-        ;; todo apply final rotation to the alg
         puzzle-either (execution/transformation-result puzzle/square-square
                                                        scramble-alg)]
     [:div
