@@ -55,8 +55,7 @@
        (reagent/cursor state [:scramble :scramble-algorithm])
        final-rotation-adjustment-for-scramble-visualization]]
 
-     [:div.top17
-      [settings state]]]))
+     [settings state]]))
 
 (defn- clear-button [state]
   [common/button {:bs-size :large
