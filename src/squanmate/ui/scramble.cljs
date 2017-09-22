@@ -43,16 +43,24 @@
     (reagent/cursor state [:scramble :scramble-algorithm])
     final-rotation-adjustment-for-scramble-visualization]])
 
+(defn- clear-button [state]
+  [common/button {:bs-size :large
+                  :bs-style :danger
+                  :on-click #(swap! state assoc :imported? false)} "Clear"])
+
 (defn- puzzle-view [state]
   (let [scramble-alg (-> @state :scramble :scramble-algorithm)
         ;; todo apply final rotation to the alg
         puzzle-either (execution/transformation-result puzzle/square-square
                                                        scramble-alg)]
-    (either/branch puzzle-either
-                   (fn [error]
-                     [invalid-scramble scramble-alg error])
-                   (fn [transformation-result]
-                     [show-successful-scramble (:puzzle transformation-result) state]))))
+    [:div
+     [:div.center
+      [clear-button state]]
+     (either/branch puzzle-either
+                    (fn [error]
+                      [invalid-scramble scramble-alg error])
+                    (fn [transformation-result]
+                      [show-successful-scramble (:puzzle transformation-result) state]))]))
 
 (defn- mark-alg-imported [state]
   (swap! state assoc :imported? true))
