@@ -10,7 +10,7 @@
 
 (def state-with-scramble
   (let [a (sut/default-state)]
-    (swap! a assoc :scramble-algorithm "(3,2)/ (1,-5)/ (3,0)/")
+    (swap! a assoc-in [:scramble :scramble-algorithm] "(3,2)/ (1,-5)/ (3,0)/")
     a))
 
 (defcard-rg import-alg-view
@@ -21,11 +21,12 @@
 
 (def state-with-imported-alg
   (let [a (sut/default-state)]
-    (swap! a assoc
-           :scramble-algorithm "(3,2)/ (-2,4)/ (-4,-1)/ (1,-5)/ (2,-1)/ (4,-5)/
-                                (3,-3)/ (-1,-4)/ (-3,-5)/ (0,-3)/ (4,-1)/ (0,-4)/
-                                (6,-5)/ (-2,0)"
-           :imported? true)
+    (swap! a #(-> %
+                  (assoc-in [:scramble :scramble-algorithm]
+                            "(3,2)/ (-2,4)/ (-4,-1)/ (1,-5)/ (2,-1)/ (4,-5)/
+                            (3,-3)/ (-1,-4)/ (-3,-5)/ (0,-3)/ (4,-1)/ (0,-4)/
+                            (6,-5)/ (-2,0)")
+                  (assoc :imported? true)))
     a))
 
 (defcard-rg alg-imported

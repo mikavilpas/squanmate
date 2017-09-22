@@ -10,7 +10,8 @@
 
 (defn default-state []
   (reagent/atom {:imported? false
-                 :scramble-algorithm nil}))
+                 :scramble {:scramble-algorithm nil
+                            :rotation nil}}))
 
 (defn- invalid-scramble [scramble-alg error]
   [:div "Invalid scramble: " (pr-str error)])
@@ -19,10 +20,10 @@
   [:div.center.vertical
    [newmonochrome/monochrome-puzzle puzzle {:monochrome? false
                                             :size 200}]
-   [shape-scrambler/scramble-preview (:scramble-algorithm @state)]])
+   [shape-scrambler/scramble-preview (-> @state :scramble :scramble-algorithm)]])
 
 (defn- puzzle-view [state]
-  (let [scramble-alg (:scramble-algorithm @state)
+  (let [scramble-alg (-> @state :scramble :scramble-algorithm)
         puzzle-either (execution/transformation-result puzzle/square-square
                                                        scramble-alg)]
     (either/branch puzzle-either
@@ -35,7 +36,7 @@
   (swap! state assoc :imported? true))
 
 (defn- enter-alg-view [state]
-  (let [given-alg (reagent/cursor state [:scramble-algorithm])]
+  (let [given-alg (reagent/cursor state [:scramble :scramble-algorithm])]
     [:div
      [common/input-box given-alg "Enter your scramble"]
      (when-not (str/blank? @given-alg)
