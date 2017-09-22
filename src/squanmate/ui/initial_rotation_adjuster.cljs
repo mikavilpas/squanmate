@@ -1,14 +1,11 @@
 (ns squanmate.ui.initial-rotation-adjuster
-  (:require [squanmate.ui.common :as common]
-            [reagent.core :as reagent]
-            [squanmate.rotation :as rotation]
-            [cats.monad.either :as either]
-            [squanmate.slicing :as slicing]
-            [cats.core :as m]
-            [squanmate.alg.execution :as execution]
+  (:require [reagent.core :as reagent]
+            [squanmate.alg.manipulation :as manipulation]
             [squanmate.alg.types :as types]
             [squanmate.puzzle :as puzzle]
-            [squanmate.alg.manipulation :as manipulation]))
+            [squanmate.rotation :as rotation]
+            [squanmate.slicing :as slicing]
+            [squanmate.ui.common :as common]))
 
 (defn sliceable-rotations [layer]
   (let [possible-rotations (rotation/possible-rotations layer)]
