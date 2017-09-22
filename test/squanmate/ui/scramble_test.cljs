@@ -33,4 +33,6 @@
     a))
 
 (defcard-rg alg-imported
-  [sut/component state-with-imported-alg])
+  [sut/component state-with-imported-alg]
+  state-with-imported-alg
+  {:inspect-data true})

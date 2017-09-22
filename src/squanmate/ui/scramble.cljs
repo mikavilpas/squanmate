@@ -8,12 +8,15 @@
             [cats.monad.either :as either]
             [squanmate.scramblers.shape-scrambler :as shape-scrambler]
             [squanmate.alg.manipulation :as manipulation]
-            [squanmate.ui.rotation-adjuster-controls :as rac]))
+            [squanmate.ui.rotation-adjuster-controls :as rac]
+            [squanmate.ui.color-chooser :as color-chooser]))
 
 (defn default-state []
-  (reagent/atom {:imported? false
-                 :scramble {:scramble-algorithm nil
-                            :rotations nil}}))
+  (let [draw-settings-state (deref (color-chooser/default-color-chooser-state))]
+    (reagent/atom {:imported? false
+                   :scramble {:scramble-algorithm nil
+                              :rotations ""}
+                   :draw-settings draw-settings-state})))
 
 (defn- invalid-scramble [scramble-alg error]
   [:div "Invalid scramble: " (pr-str error)])
@@ -32,16 +35,28 @@
         (swap! rotation-atom append-rotation)
         (swap! algorithm-atom append-rotation)))))
 
+(defn- settings [state]
+  [common/accordion
+   [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :tint}]
+                                               " Colors"])
+                  :event-key 1}
+    [color-chooser/color-chooser (reagent/cursor state [:draw-settings])]]])
+
 (defn- show-successful-scramble [puzzle state]
-  [:div.center.vertical
-   [newmonochrome/monochrome-puzzle puzzle {:monochrome? false
-                                            :size 200}]
-   [shape-scrambler/scramble-preview (-> @state :scramble :scramble-algorithm)]
-   [rac/rotation-controls
-    puzzle
-    (reagent/cursor state [:scramble :rotations])
-    (reagent/cursor state [:scramble :scramble-algorithm])
-    final-rotation-adjustment-for-scramble-visualization]])
+  (let [draw-settings (merge (:draw-settings @state)
+                             {:size 200})]
+    [:div.center.vertical
+     [newmonochrome/monochrome-puzzle puzzle draw-settings]
+     [:div.center
+      [shape-scrambler/scramble-preview (-> @state :scramble :scramble-algorithm)]
+      [rac/rotation-controls
+       puzzle
+       (reagent/cursor state [:scramble :rotations])
+       (reagent/cursor state [:scramble :scramble-algorithm])
+       final-rotation-adjustment-for-scramble-visualization]]
+
+     [:div.top17
+      [settings state]]]))
 
 (defn- clear-button [state]
   [common/button {:bs-size :large
