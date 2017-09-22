@@ -17,7 +17,10 @@
   [sut/component state-without-scramble])
 
 (defcard-rg import-alg-view-with-import-button
-  [sut/component state-with-scramble])
+  [:div [:p "The import happens in two stages:"]
+   [:p "First the user enters the alg, then clicks Import. This is to make it
+    clear that a scramble is invalid when that is the case."]
+   [sut/component state-with-scramble]])
 
 (def state-with-imported-alg
   (let [a (sut/default-state)]
