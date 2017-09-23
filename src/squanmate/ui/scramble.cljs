@@ -9,7 +9,8 @@
             [squanmate.scramblers.shape-scrambler :as shape-scrambler]
             [squanmate.alg.manipulation :as manipulation]
             [squanmate.ui.rotation-adjuster-controls :as rac]
-            [squanmate.ui.color-chooser :as color-chooser]))
+            [squanmate.ui.color-chooser :as color-chooser]
+            [squanmate.pages.links :as links]))
 
 (defn default-state []
   (let [draw-settings-state (deref (color-chooser/default-color-chooser-state))]
@@ -35,18 +36,24 @@
         (swap! rotation-atom append-rotation)
         (swap! algorithm-atom append-rotation)))))
 
+(defn- link-to-this-scramble [scramble-algorithm]
+  [common/button {:on-click #(links/set-link-to-scramble scramble-algorithm)}
+   "Link to this scramble"])
+
 (defn- settings [puzzle state]
   [:div.col-md-8.col-lg-8
    [common/accordion {:default-active-key 1}
     [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :refresh}]
                                                 " Settings"])
                    :event-key 1}
-     [:div.center
+     [:div.center.vertical
       [rac/rotation-controls
        puzzle
        (reagent/cursor state [:scramble :rotations])
        (reagent/cursor state [:scramble :scramble-algorithm])
-       final-rotation-adjustment-for-scramble-visualization]]]
+       final-rotation-adjustment-for-scramble-visualization]
+      [:div.top17
+       [link-to-this-scramble (-> @state :scramble :scramble-algorithm)]]]]
     [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :tint}]
                                                 " Colors"])
                    :event-key 2}
