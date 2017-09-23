@@ -4,8 +4,6 @@
             [clojure.string :as str]
             [squanmate.shapes :as shapes]))
 
-;; todo describe the algorithm in a high level in these comments
-
 (defrecord ParityCount[top-corner-order
                        top-edge-order
                        bottom-corner-order
@@ -104,7 +102,8 @@
                                         (and (odd? index)
                                              (correct-top-side? strategy piece)))
                                       indices-and-pieces)]
-    (count odd-positioned-pieces)))
+    {:parity-count (count odd-positioned-pieces)
+     :pieces odd-positioned-pieces}))
 
 (defn parity-count
   "Note: the puzzle has to be sliceable at the current position!"
@@ -117,7 +116,8 @@
              :bottom-edge-order (bottom-edge-order-parity pieces)
              :top-edges-in-odd-edge-positions (pieces-in-odd-piece-positions top-odd-edges pieces)
              :top-corners-in-odd-corner-positions (pieces-in-odd-piece-positions top-odd-corners pieces)})
+        parity-counts (map :parity-count (vals pc))
 
-        at-odd-parity? (= 1 (-> (apply + (vals pc))
+        at-odd-parity? (= 1 (-> (apply + parity-counts)
                                 (mod 2)))]
     [at-odd-parity? pc]))

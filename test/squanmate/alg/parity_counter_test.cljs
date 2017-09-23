@@ -31,12 +31,12 @@
   for a solved puzzle."
   (let [[has-parity? pc] (c/parity-count cube)]
     (is (true? has-parity?))
-    (is (zero? (:top-corner-order pc)))
-    (is (= 1 (:top-edge-order pc)))
-    (is (= 1 (:bottom-corner-order pc)))
-    (is (= 1 (:bottom-edge-order pc)))
-    (is (= 2 (:top-edges-in-odd-edge-positions pc)))
-    (is (= 2 (:top-corners-in-odd-corner-positions pc)))))
+    (is (zero? (-> pc :top-corner-order :parity-count)))
+    (is (= 1 (-> pc :top-edge-order :parity-count)))
+    (is (= 1 (-> pc :bottom-corner-order :parity-count)))
+    (is (= 1 (-> pc :bottom-edge-order :parity-count)))
+    (is (= 2 (-> pc :top-edges-in-odd-edge-positions :parity-count)))
+    (is (= 2 (-> pc :top-corners-in-odd-corner-positions :parity-count)))))
 
 (defcard-rg pieces-in-count-order-kite-kite
   [:div
@@ -46,13 +46,3 @@
 
    "pieces in count order:"
    [:pre (pprint (c/pieces-in-count-order kite-kite))]])
-
-(deftest parity-count-kite-kite-test []
-  (let [[has-parity? pc] (c/parity-count kite-kite)]
-    (is (true? has-parity?))
-    (is (zero? (:top-corner-order pc)))
-    (is (= 1 (:top-edge-order pc)))
-    (is (= 1 (:bottom-corner-order pc)))
-    (is (= 1 (:bottom-edge-order pc)))
-    (is (= 2 (:top-edges-in-odd-edge-positions pc)))
-    (is (= 2 (:top-corners-in-odd-corner-positions pc)))))
