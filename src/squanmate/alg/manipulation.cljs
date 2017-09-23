@@ -88,3 +88,6 @@
             (mapv flip-step-upside-down)
             (prepend-initial-rotation (types/->Rotations 6 6)))
        alg-string))))
+
+(defn format-alg [alg-string]
+  (try-update-alg-string alg-string identity))
