@@ -35,27 +35,30 @@
         (swap! rotation-atom append-rotation)
         (swap! algorithm-atom append-rotation)))))
 
-(defn- settings [state]
-  [common/accordion
-   [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :tint}]
-                                               " Colors"])
-                  :event-key 1}
-    [color-chooser/color-chooser (reagent/cursor state [:draw-settings])]]])
+(defn- settings [puzzle state]
+  [:div.col-md-8.col-lg-8
+   [common/accordion {:default-active-key 1}
+    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :refresh}]
+                                                " Settings"])
+                   :event-key 1}
+     [:div.center
+      [rac/rotation-controls
+       puzzle
+       (reagent/cursor state [:scramble :rotations])
+       (reagent/cursor state [:scramble :scramble-algorithm])
+       final-rotation-adjustment-for-scramble-visualization]]]
+    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :tint}]
+                                                " Colors"])
+                   :event-key 2}
+     [color-chooser/color-chooser (reagent/cursor state [:draw-settings])]]]])
 
 (defn- show-successful-scramble [puzzle state]
   (let [draw-settings (merge (:draw-settings @state)
                              {:size 200})]
     [:div.center.vertical
      [newmonochrome/monochrome-puzzle puzzle draw-settings]
-     [:div.center
-      [shape-scrambler/scramble-preview (-> @state :scramble :scramble-algorithm)]
-      [rac/rotation-controls
-       puzzle
-       (reagent/cursor state [:scramble :rotations])
-       (reagent/cursor state [:scramble :scramble-algorithm])
-       final-rotation-adjustment-for-scramble-visualization]]
-
-     [settings state]]))
+     [shape-scrambler/scramble-preview (-> @state :scramble :scramble-algorithm)]
+     [settings puzzle state]]))
 
 (defn- clear-button [state]
   [common/button {:bs-size :large
