@@ -41,7 +41,7 @@
    "Link to this scramble"])
 
 (defn- settings [puzzle state]
-  [:div.col-md-8.col-lg-8
+  [:div.col-xs-8
    [common/accordion {:default-active-key 1}
     [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :refresh}]
                                                 " Settings"])
