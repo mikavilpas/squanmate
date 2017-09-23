@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.6
+- new feature: scramble inspector. See the readme for more info.
+
 ## 4.5
 - new feature: parity game. See the readme for more info.
 

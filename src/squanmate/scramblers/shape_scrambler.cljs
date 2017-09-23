@@ -121,7 +121,7 @@
 
 (defn scramble-component [state]
   (let [draw-settings (assoc (:draw-settings @state)
-                        :size 180)]
+                             :size 180)]
     [:div
      [:div.center
       [newmonochrome/monochrome-puzzle (:puzzle @state) draw-settings]]

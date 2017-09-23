@@ -4,7 +4,8 @@
             [squanmate.rotation :as rotation]
             [squanmate.alg.parity-counter :as parity-counter]
             [squanmate.shape-combinations :as shape-combinations]
-            [squanmate.ui.initial-rotation-adjuster :as initial-rotation-adjuster]))
+            [squanmate.ui.initial-rotation-adjuster :as initial-rotation-adjuster]
+            [squanmate.ui.rotation-adjuster-controls :as rac]))
 
 (defn- valid-bottom-layer-for-top-layer [top-layer]
   ;; choose the same one each time (first of the sorted layer names) so that
@@ -55,7 +56,7 @@
   parity."
   [layer]
   (let [puzzle (puzzle-with-top-layer layer)
-        rotation-results-and-amounts (initial-rotation-adjuster/sliceable-rotations
+        rotation-results-and-amounts (rac/sliceable-rotations
                                       (:top-layer puzzle))
         parities-and-rotations (map #(parity?-and-rotation-amount puzzle %)
                                     rotation-results-and-amounts)]

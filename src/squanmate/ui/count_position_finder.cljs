@@ -8,7 +8,8 @@
             [squanmate.shapes :as shapes]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [squanmate.ui.initial-rotation-adjuster :as ira]
-            [squanmate.ui.shape-chooser :as shape-chooser]))
+            [squanmate.ui.shape-chooser :as shape-chooser]
+            [squanmate.ui.rotation-adjuster-controls :as rac]))
 
 (defn default-state []
   (reagent/atom {:initial-rotation "(0,0)"
@@ -52,6 +53,7 @@
       [:div
        [visualization layer]
        [:div.center
-        [ira/layer-rotation-controls layer
+        [rac/layer-rotation-controls layer
          (reagent/cursor state [:initial-rotation])
-         (reagent/cursor state [:dummy-algorithm])]]])]])
+         (reagent/cursor state [:dummy-algorithm])
+         ira/initial-rotation-adjustment-for-parity-count]]])]])

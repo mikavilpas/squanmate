@@ -1,14 +1,14 @@
 (ns squanmate.ui.parity
   (:require [cats.core :as m]
+            [cats.monad.either :as either]
+            [clojure.string :as str]
+            [reagent.core :as reagent]
             [squanmate.alg.execution :as execution]
-            [squanmate.shapes :as shapes]
             [squanmate.alg.parity-counter :as parity-counter]
             [squanmate.pages.links :as links]
-            [cats.monad.either :as either]
             [squanmate.puzzle :as puzzle]
-            [clojure.string :as str]
-            [squanmate.ui.common :as common]
-            [reagent.core :as reagent]))
+            [squanmate.shapes :as shapes]
+            [squanmate.ui.common :as common]))
 
 (defn- square-square? [puzzle]
   (let [layers (shapes/puzzle-layer-shape-names puzzle)

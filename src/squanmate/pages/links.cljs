@@ -20,5 +20,10 @@
                   (encode (alg-or-zero initial-rotation))
                   (encode (alg-or-zero algorithm))])))
 
+(defn set-link-to-scramble [scramble-algorithm]
+  (route-utils/set-route!
+   (str/join "/" ["scramble-inspector"
+                  (encode scramble-algorithm)])))
+
 (def parity-alg-sheet-link
   "https://docs.google.com/spreadsheets/d/1r0LN41RGKI4oAvD9rCmmc-A5UBpNPvsEOb7eWaEtIFo/edit?usp=sharing")

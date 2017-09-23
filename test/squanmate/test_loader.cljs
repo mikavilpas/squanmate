@@ -1,5 +1,7 @@
 (ns squanmate.test-loader
-  (:require squanmate.ui.alg-visualizer-test
+  (:require [devtools.core :as devtools]
+
+            squanmate.ui.alg-visualizer-test
             squanmate.alg.execution-test
             squanmate.alg.parser-test
             squanmate.puzzle-test
@@ -13,14 +15,13 @@
             squanmate.alg.manipulation-test
             squanmate.scramblers.shape-scrambler-test
             squanmate.shape-combinations-test
-            squanmate.ui.initial-rotation-adjuster-test
+            squanmate.ui.rotation-adjuster-controls-test
             squanmate.ui.alg-importer-test
             squanmate.alg.serialization-test
             squanmate.ui.color-chooser-test
             squanmate.services.count-positions-test
             squanmate.ui.count-position-finder-test
-            squanmate.ui.parity-sequences-test))
+            squanmate.ui.parity-sequences-test
+            squanmate.ui.scramble-test))
 
-;; use this when at a breakpoint in the browser. It prints human readable and
-;; pretty presentations of clojurescript things.
-(js* "var p = cljs.pprint.pprint")
+(devtools/install! [:formatters :hints :async])

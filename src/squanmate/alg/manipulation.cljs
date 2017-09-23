@@ -12,6 +12,18 @@
       (update :top-amount #(prettification/prettify-value (+ % (:top-amount b))))
       (update :bottom-amount #(prettification/prettify-value (+ % (:bottom-amount b))))))
 
+(defn append-final-rotation [rotation alg-steps]
+  (let [s (last alg-steps)]
+    (cond
+      (nil? rotation)
+      alg-steps
+
+      (= types/Rotations (type s))
+      (let [new-last-step (combine-rotations s rotation)]
+        (conj (vec (butlast alg-steps)) new-last-step))
+
+      :else (conj (vec alg-steps) rotation))))
+
 (defn prepend-initial-rotation [rotation alg-steps]
   (let [s (first alg-steps)]
     (cond
@@ -76,3 +88,6 @@
             (mapv flip-step-upside-down)
             (prepend-initial-rotation (types/->Rotations 6 6)))
        alg-string))))
+
+(defn format-alg [alg-string]
+  (try-update-alg-string alg-string identity))

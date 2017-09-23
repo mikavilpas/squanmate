@@ -124,7 +124,7 @@
    [:div.col-xs-4.pull-right
     (eu/when-right initial-puzzle
       (fn [p]
-        [initial-rotation-adjuster/rotation-adjuster
+        [initial-rotation-adjuster/initial-rotation-adjuster
          p
          (reagent/cursor state [:initial-rotation])
          (reagent/cursor state [:algorithm])]))]])
