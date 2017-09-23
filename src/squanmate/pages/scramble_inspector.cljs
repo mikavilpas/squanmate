@@ -13,5 +13,6 @@
 (defn content-from-args [{:keys [scramble-algorithm]}]
   (let [local-state (scramble/default-state)
         scramble-algorithm (manipulation/format-alg scramble-algorithm)]
-    (swap! local-state scramble/mark-alg-imported)
+    (swap! local-state assoc-in [:scramble :scramble-algorithm] scramble-algorithm)
+    (scramble/mark-alg-imported local-state)
     [scramble/component local-state]))
