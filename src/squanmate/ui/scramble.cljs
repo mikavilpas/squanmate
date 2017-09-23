@@ -86,8 +86,10 @@
                      (fn [transformation-result]
                        [show-successful-scramble (:puzzle transformation-result) state]))]]))
 
-(defn- mark-alg-imported [state]
-  (swap! state assoc :imported? true))
+(defn mark-alg-imported [state]
+  (swap! state #(-> %
+                    (assoc :imported? true)
+                    (update-in [:scramble :scramble-algorithm] manipulation/format-alg))))
 
 (defn- enter-alg-view [state]
   (let [given-alg (reagent/cursor state [:scramble :scramble-algorithm])]
