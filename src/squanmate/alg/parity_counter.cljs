@@ -46,10 +46,11 @@
   (-> piece :colors :a))
 
 (defn- parity-for-pieces [pieces]
-  (let [clockwise-sides (vec (take 3 (map first-clockwise-side pieces)))]
+  (let [three-pieces (take 3 pieces)
+        clockwise-sides (vec (map first-clockwise-side three-pieces))]
     (if (parity-side-sequences clockwise-sides)
-      1
-      0)))
+      {:parity-count 1, :pieces three-pieces}
+      {:parity-count 0, :pieces three-pieces})))
 
 (defn- top-corner-order-parity [pieces]
   (parity-for-pieces (filter top-corner? pieces)))

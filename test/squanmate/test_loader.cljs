@@ -22,6 +22,7 @@
             squanmate.services.count-positions-test
             squanmate.ui.count-position-finder-test
             squanmate.ui.parity-sequences-test
-            squanmate.ui.scramble-test))
+            squanmate.ui.scramble-test
+            squanmate.ui.parity-analysis-test))
 
 (devtools/install! [:formatters :hints :async])
