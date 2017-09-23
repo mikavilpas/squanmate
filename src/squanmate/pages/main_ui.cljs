@@ -44,6 +44,11 @@
 (defmethod page-content :scramble-inspector []
   [scramble-inspector/content])
 
+(defmethod page-content :scramble-inspector-from-args [app-state-atom]
+  [scramble-inspector/content-from-args (-> @app-state-atom
+                                            :page
+                                            :route-args)])
+
 (defmethod page-content :default [app-state]
   [:div "warning: page content not found"])
 

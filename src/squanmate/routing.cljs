@@ -56,4 +56,7 @@
   (defroute "/scramble-inspector" []
     (set-route! app-state :scramble-inspector))
 
+  (defroute "/scramble-inspector/:scramble-algorithm" {:as route-args}
+    (set-route! app-state :scramble-inspector-from-args route-args))
+
   (hook-browser-navigation!))
