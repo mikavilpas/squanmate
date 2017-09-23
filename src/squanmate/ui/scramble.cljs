@@ -41,30 +41,31 @@
    "Link to this scramble"])
 
 (defn- settings [puzzle state]
-  [:div.col-xs-8
-   [common/accordion {:default-active-key 1}
-    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :refresh}]
-                                                " Settings"])
-                   :event-key 1}
-     [:div.center.vertical
-      [rac/rotation-controls
-       puzzle
-       (reagent/cursor state [:scramble :rotations])
-       (reagent/cursor state [:scramble :scramble-algorithm])
-       final-rotation-adjustment-for-scramble-visualization]
-      [:div.top17
-       [link-to-this-scramble (-> @state :scramble :scramble-algorithm)]]]]
-    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :tint}]
-                                                " Colors"])
-                   :event-key 2}
-     [color-chooser/color-chooser (reagent/cursor state [:draw-settings])]]]])
+  [common/accordion {:default-active-key 1}
+   [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :cog}]
+                                               " Settings"])
+                  :event-key 1}
+    [:div.center.vertical
+     [rac/rotation-controls
+      puzzle
+      (reagent/cursor state [:scramble :rotations])
+      (reagent/cursor state [:scramble :scramble-algorithm])
+      final-rotation-adjustment-for-scramble-visualization]
+     [:div.top17
+      [link-to-this-scramble (-> @state :scramble :scramble-algorithm)]]]]
+   [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :tint}]
+                                               " Colors"])
+                  :event-key 2}
+    [color-chooser/color-chooser (reagent/cursor state [:draw-settings])]]])
 
 (defn- show-successful-scramble [puzzle state]
   (let [draw-settings (merge (:draw-settings @state)
                              {:size 200})]
-    [:div.center.vertical
-     [newmonochrome/monochrome-puzzle puzzle draw-settings]
-     [shape-scrambler/scramble-preview (-> @state :scramble :scramble-algorithm)]
+    [:div
+     [:div.center
+      [newmonochrome/monochrome-puzzle puzzle draw-settings]]
+     [:div.center
+      [shape-scrambler/scramble-preview (-> @state :scramble :scramble-algorithm)]]
      [settings puzzle state]]))
 
 (defn- clear-button [state]

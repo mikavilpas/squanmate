@@ -5,10 +5,7 @@
 (defonce state (scramble/default-state))
 
 (defn content []
-  [:div.container
-   [:div.center
-    [:div.col-xs-8
-     [scramble/component state]]]])
+  [scramble/component state])
 
 (defn content-from-args [{:keys [scramble-algorithm]}]
   (let [local-state (scramble/default-state)
