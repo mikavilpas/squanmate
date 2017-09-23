@@ -17,6 +17,8 @@ Squanmate can help you:
   * select the combinations of shapes you would like to train
   * a random scramble is generated for you. Solve away!
 * **Learn and remember all different shapes and their names**
+* **Inspect a scramble** by inputting your scramble algorithm
+  * rotate the final position of the scramble how you like
 * **Display cubeshape algorithms and the shapes the algorithm goes through**
   * it's a good aid for memorizing algorithms!
   * link to your created visualizations from e.g. your Google Sheets
