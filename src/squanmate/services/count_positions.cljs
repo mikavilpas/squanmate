@@ -5,7 +5,8 @@
             [squanmate.alg.parity-counter :as parity-counter]
             [squanmate.shape-combinations :as shape-combinations]
             [squanmate.ui.initial-rotation-adjuster :as initial-rotation-adjuster]
-            [squanmate.ui.rotation-adjuster-controls :as rac]))
+            [squanmate.ui.rotation-adjuster-controls :as rac]
+            [squanmate.alg.prettification :as prettification]))
 
 (defn- valid-bottom-layer-for-top-layer [top-layer]
   ;; choose the same one each time (first of the sorted layer names) so that
@@ -32,8 +33,10 @@
 (defn- parity?-and-rotation-amount [puzzle [rotated-layer amount]]
   (let [new-puzzle (assoc puzzle
                           :top-layer rotated-layer)
-        [odd-parity? _] (parity-counter/parity-count new-puzzle)]
-    [odd-parity? amount]))
+        [odd-parity? _] (parity-counter/parity-count new-puzzle)
+        adjusted-value (-> (+ amount 6)
+                           prettification/prettify-value)]
+    [odd-parity? adjusted-value]))
 
 (defn- filter-parities [filter-fn parities-and-rotations]
   (into #{} (for [[parity? amount] parities-and-rotations
