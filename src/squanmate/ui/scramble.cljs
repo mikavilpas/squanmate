@@ -10,7 +10,8 @@
             [squanmate.alg.manipulation :as manipulation]
             [squanmate.ui.rotation-adjuster-controls :as rac]
             [squanmate.ui.color-chooser :as color-chooser]
-            [squanmate.pages.links :as links]))
+            [squanmate.pages.links :as links]
+            [squanmate.ui.parity-analysis :as parity-analysis]))
 
 (defn default-state []
   (let [draw-settings-state (deref (color-chooser/default-color-chooser-state))]
@@ -40,22 +41,31 @@
   [common/button {:on-click #(links/set-link-to-scramble scramble-algorithm)}
    "Link to this scramble"])
 
+(defn- rotation-controls [puzzle state]
+  [rac/rotation-controls
+   puzzle
+   (reagent/cursor state [:scramble :rotations])
+   (reagent/cursor state [:scramble :scramble-algorithm])
+   final-rotation-adjustment-for-scramble-visualization])
+
 (defn- settings [puzzle state]
   [common/accordion {:default-active-key 1}
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :cog}]
-                                               " Settings"])
+                                               " General"])
                   :event-key 1}
     [:div.center.vertical
-     [rac/rotation-controls
-      puzzle
-      (reagent/cursor state [:scramble :rotations])
-      (reagent/cursor state [:scramble :scramble-algorithm])
-      final-rotation-adjustment-for-scramble-visualization]
+     [rotation-controls puzzle state]
      [:div.top17
       [link-to-this-scramble (-> @state :scramble :scramble-algorithm)]]]]
+   [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :pushpin}]
+                                               " Parity"])
+                  :event-key 2}
+    [:div.center
+     [parity-analysis/parity-analysis puzzle]
+     [rotation-controls puzzle state]]]
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :tint}]
                                                " Colors"])
-                  :event-key 2}
+                  :event-key 3}
     [color-chooser/color-chooser (reagent/cursor state [:draw-settings])]]])
 
 (defn- show-successful-scramble [puzzle state]
