@@ -25,6 +25,7 @@
 (def navbar-collapse (reagent/adapt-react-class js/ReactBootstrap.Navbar.Collapse))
 (def nav-item (reagent/adapt-react-class js/ReactBootstrap.NavItem))
 (def label (reagent/adapt-react-class js/ReactBootstrap.Label))
+(def badge (reagent/adapt-react-class js/ReactBootstrap.Badge))
 (def popover (reagent/adapt-react-class js/ReactBootstrap.Popover))
 (def well (reagent/adapt-react-class js/ReactBootstrap.Well))
 (def alert (reagent/adapt-react-class js/ReactBootstrap.Alert))
