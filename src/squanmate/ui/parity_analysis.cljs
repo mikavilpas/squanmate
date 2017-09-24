@@ -29,7 +29,6 @@
   [:div
    [parity-tag parity?]
    [:table.parity-count-analysis
-    [:col] [:col]
     [:tbody
      [parity-factor "Top corners" (:top-corner-order pc)]
      [parity-factor "Top edges" (:top-edge-order pc)]
