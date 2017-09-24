@@ -1,5 +1,12 @@
 # Changelog
 
+## 5.0
+- new feature: parity analysis (part of Scramble Inspector). See the readme.
+- bugfix: Shape visualizer was unusable, it crashed when a new shape was loaded.
+  Now it works again.
+- parity count positions: `BREAKING`: fix count position being off by 6. Now the
+  count starts at the shown position and moves clockwise.
+
 ## 4.6
 - new feature: scramble inspector. See the readme for more info.
 

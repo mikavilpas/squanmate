@@ -20,7 +20,9 @@ Squanmate can help you:
 * **Learn and remember all different shapes and their names**
 
 * **Inspect a scramble** by inputting your scramble algorithm
-  * rotate the final position of the scramble how you like
+  * check whether the scramble gives an odd or even **parity count** and see
+    exactly what the count consists of.
+  * rotate the scramble how you like
   * link to a scramble so that it can be returned to later.
 
 * **Display cubeshape algorithms and the shapes the algorithm goes through**
