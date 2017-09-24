@@ -16,19 +16,15 @@ Squanmate can help you:
 * **Train your cubeshape (or cubeshape parity) skills**
   * select the combinations of shapes you would like to train
   * a random scramble is generated for you. Solve away!
-
 * **Learn and remember all different shapes and their names**
-
 * **Inspect a scramble** by inputting your scramble algorithm
   * check whether the scramble gives an odd or even **parity count** and see
     exactly what the count consists of.
   * rotate the scramble how you like
   * link to a scramble so that it can be returned to later.
-
 * **Display cubeshape algorithms and the shapes the algorithm goes through**
   * it's a good aid for memorizing algorithms!
   * link to your created visualizations from e.g. your Google Sheets
-
 * **Cubeshape parity helpers**. If you use Cale Schoon's cubeshape parity
     method, Squanmate offers a couple of helpful features:
   - displays whether your entered algorithm is **even** or **odd** for that
@@ -38,18 +34,15 @@ Squanmate can help you:
     really easy to find out interesting things this way. For example, did you
     know that for all kite cases every sliceable position for a kite layer
     gives the same count?
-
 * **Import a cubeshape algorithm**. Say you have a cool alg that you would like
   to inspect or verify with Squanmate. Enter your alg into the *Cubeshape
   algorithm importer* and it will be recognized with minimal work on your part.
   I use this to import the cubeshape algs originally made for the more popular
   blind tracing CSP method.
-
 * **Inspect all possible parity count positions for all shapes**. When counting
   your parity, it's possible to start at multiple positions and still get the
   same result. Having options for counting will come in handy when your scramble
   orients the layers uncomfortably.
-
 * **Train your skills in recognizing parities in color sequences**. See the
   Squanmate algorithm document below for details on how color sequences
   contribute to the parity of the puzzle.
