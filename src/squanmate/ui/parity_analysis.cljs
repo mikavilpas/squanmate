@@ -25,7 +25,6 @@
          [common/label {:bs-style :warning} "Even"])]])))
 
 (defn- parity-count-analysis [[parity? pc]]
-  (js/console.log parity? pc)
   [:div
    [parity-tag parity?]
    [:table.parity-count-analysis
