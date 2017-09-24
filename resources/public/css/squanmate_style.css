@@ -51,3 +51,7 @@
 .color-box.red {background-color: #ff4545;}
 .color-box.blue {background-color: #6360ff;}
 .color-box.orange {background-color: #ffa645;}
+
+table.parity-count-analysis td {
+    padding-right: 10px;
+}
