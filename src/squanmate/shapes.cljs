@@ -83,11 +83,9 @@
   [top-key bottom-key]
   (let [top-piece-types (-> all-shapes
                             (get top-key)
-                            :pieces
                             puzzle/pieces-str)
         bottom-piece-types (-> all-shapes
                                (get bottom-key)
-                               :pieces
                                puzzle/pieces-str)]
     (puzzle/puzzle-with-shapes top-piece-types
                                bottom-piece-types)))
