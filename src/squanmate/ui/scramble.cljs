@@ -60,7 +60,7 @@
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :pushpin}]
                                                " Parity"])
                   :event-key 2}
-    [:div.center
+    [:div.center.space-around
      [parity-analysis/parity-analysis puzzle]
      [rotation-controls puzzle state]]]
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :tint}]
