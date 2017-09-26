@@ -11,7 +11,8 @@
             [squanmate.ui.rotation-adjuster-controls :as rac]
             [squanmate.ui.color-chooser :as color-chooser]
             [squanmate.pages.links :as links]
-            [squanmate.ui.parity-analysis :as parity-analysis]))
+            [squanmate.ui.parity-analysis :as parity-analysis]
+            [squanmate.slicing :as slicing]))
 
 (defn default-state []
   (let [draw-settings-state (deref (color-chooser/default-color-chooser-state))]
@@ -48,6 +49,15 @@
    (reagent/cursor state [:scramble :scramble-algorithm])
    final-rotation-adjustment-for-scramble-visualization])
 
+(defn- parity-analysis-component [puzzle state]
+  [:div.center.space-around
+   (if (slicing/sliceable? puzzle)
+     [:div
+      [parity-analysis/parity-analysis puzzle]]
+     [common/alert {:bs-style :warning}
+      "Parity analysis not available. Rotate the puzzle to enable it."])
+   [rotation-controls puzzle state]])
+
 (defn- settings [puzzle state]
   [common/accordion {:default-active-key 1}
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :cog}]
@@ -60,9 +70,7 @@
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :pushpin}]
                                                " Parity"])
                   :event-key 2}
-    [:div.center.space-around
-     [parity-analysis/parity-analysis puzzle]
-     [rotation-controls puzzle state]]]
+    [parity-analysis-component puzzle state]]
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :tint}]
                                                " Colors"])
                   :event-key 3}

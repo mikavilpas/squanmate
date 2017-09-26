@@ -36,3 +36,19 @@
   [sut/component state-with-imported-alg]
   state-with-imported-alg
   {:inspect-data true})
+
+(def state-with-non-sliceable-alg
+  (let [a (sut/default-state)]
+    (swap! a #(-> %
+                  (assoc-in [:scramble :scramble-algorithm]
+                            "(3,2)/ (-2,4)/ (-4,-1)/ (1,-5)/ (2,-1)/ (4,-5)/
+                             (3,-3)/ (-1,-4)/ (-3,-5)/ (0,-3)/ (4,-1)/ (0,-4)/
+                             (6,-5)/ (3,0)")
+                  (assoc :imported? true)))
+    a))
+
+(defcard-rg alg-non-sliceable
+  [:div "parity analysis should not be available"
+   [sut/component state-with-non-sliceable-alg]]
+  state-with-non-sliceable-alg
+  {:inspect-data true})
