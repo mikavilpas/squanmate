@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.1.1
+- bugfix/feature: google analytics now tracks all page loads and "new scramble"
+  button usages
+
 ## 5.1
 - trainer: now there is an "Inspect" button that lets you view the generated
   scramble in the Scramble Inspector. This can be useful when you want to double
