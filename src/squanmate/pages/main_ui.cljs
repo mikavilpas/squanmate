@@ -20,7 +20,7 @@
 (defmethod page-content :shapes []
   [all-possible-shapes/content])
 
-(defmethod page-content :main []
+(defmethod page-content :trainer []
   [:div
    [trainer/content]])
 
