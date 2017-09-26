@@ -1,16 +1,22 @@
 (ns squanmate.pages.trainer
   (:require [reagent.core :as reagent]
             [squanmate.scramblers.shape-scrambler :as shape-scrambler]
-            [squanmate.ui.common :as common]))
+            [squanmate.ui.common :as common]
+            [squanmate.pages.links :as links]))
 
 (defonce page-state (shape-scrambler/new-state))
 
 (defn new-scramble-button [state]
-  [common/button {:on-click #(shape-scrambler/new-scramble! state)}
-   "New scramble"])
+  [:div.center
+   [common/button {:on-click #(shape-scrambler/new-scramble! state)
+                   :bs-style :success}
+    "New scramble"]
+   [common/button {:on-click #(links/set-link-to-scramble (:scramble-algorithm @state))}
+    [common/glyphicon {:glyph :search}]
+    " Inspect"]])
 
 (defn content []
   [:div
-   [:div.center.bottom17
+   [:div.bottom17
     [new-scramble-button page-state]]
    [shape-scrambler/scramble-component page-state]])

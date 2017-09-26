@@ -1,5 +1,12 @@
 # Changelog
 
+## 5.1
+- trainer: now there is an "Inspect" button that lets you view the generated
+  scramble in the Scramble Inspector. This can be useful when you want to double
+  check your parity count.
+- bugfix: fix scramble inspector crashing on a scramble that left the puzzle in
+  a non-sliceable position.
+
 ## 5.0
 - new feature: parity analysis (part of Scramble Inspector). See the readme.
 - bugfix: Shape visualizer was unusable, it crashed when a new shape was loaded.
