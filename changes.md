@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.0.1
+- bugfix: fix scramble inspector crashing on a scramble that left the puzzle in
+  a non-sliceable position.
+
 ## 5.0
 - new feature: parity analysis (part of Scramble Inspector). See the readme.
 - bugfix: Shape visualizer was unusable, it crashed when a new shape was loaded.
