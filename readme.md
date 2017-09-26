@@ -17,7 +17,7 @@ Squanmate can help you:
   * select the combinations of shapes you would like to train
   * a random scramble is generated for you. Solve away!
 * **Learn and remember all different shapes and their names**
-* **Inspect a scramble** by inputting your scramble algorithm
+* **Inspect a scramble**
   * check whether the scramble gives an odd or even **parity count** and see
     exactly what the count consists of.
   * rotate the scramble how you like
