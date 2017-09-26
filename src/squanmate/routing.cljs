@@ -2,6 +2,7 @@
   (:require-macros [secretary.core :refer [defroute]])
   (:import goog.History)
   (:require [secretary.core :as secretary]
+            [squanmate.services.google-analytics :as ga]
             [goog.events :as events]
             [goog.history.EventType :as EventType]
             [reagent.core :as reagent]
@@ -23,13 +24,14 @@
    (set-route! app-state page []))
   ([app-state page route-args]
    (swap! app-state assoc :page {:name page
-                                 :route-args route-args})))
+                                 :route-args route-args})
+   (ga/send-page-view page)))
 
 (defn app-routes [app-state]
   (secretary/set-config! :prefix "#")
 
   (defroute "/" []
-    (set-route! app-state :main))
+    (set-route! app-state :trainer))
 
   (defroute "/shapes" []
     (set-route! app-state :shapes))
