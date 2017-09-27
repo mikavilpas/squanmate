@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.2
+- new feature: add a "reapeat scramble button". Let's say you have the randomly
+  selected case of shield kite. Clicking this button will generate another
+  scramble with the shield and kite shapes.
+
 ## 5.1.1
 - bugfix/feature: google analytics now tracks all page loads and "new scramble"
   button usages
