@@ -12,7 +12,9 @@
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [squanmate.ui.layer-selector :as layer-selector]
-            [squanmate.ui.color-chooser :as color-chooser]))
+            [squanmate.ui.color-chooser :as color-chooser]
+            [squanmate.services.google-analytics :as ga]
+            [squanmate.pages.links :as links]))
 
 (defn- shape-str [shape-name]
   (p/pieces-str (get shapes/all-shapes shape-name)))
@@ -119,10 +121,25 @@
     (new-scramble! state)
     state))
 
+(defn- set-new-scramble [state]
+  (new-scramble! state)
+  (ga/send-page-view :trainer/new-scramble))
+
+(defn- new-scramble-button [state]
+  [:div.center
+   [common/button {:on-click #(set-new-scramble state)
+                   :bs-style :success}
+    "New scramble"]
+   [common/button {:on-click #(links/set-link-to-scramble (:scramble-algorithm @state))}
+    [common/glyphicon {:glyph :search}]
+    " Inspect"]])
+
 (defn scramble-component [state]
   (let [draw-settings (assoc (:draw-settings @state)
                              :size 180)]
     [:div
+     [:div.bottom17
+      [new-scramble-button state]]
      [:div.center
       [newmonochrome/monochrome-puzzle (:puzzle @state) draw-settings]]
      [:div.center
