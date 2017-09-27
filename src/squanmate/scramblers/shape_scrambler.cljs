@@ -4,17 +4,18 @@
             [squanmate.alg.manipulation :as manipulation]
             [squanmate.alg.parser :as parser]
             [squanmate.alg.serialization :as serialization]
+            [squanmate.pages.links :as links]
             [squanmate.puzzle :as p]
             [squanmate.rotation :as rotation]
+            [squanmate.services.google-analytics :as ga]
             [squanmate.shape-combinations :as shape-combinations]
             [squanmate.shapes :as shapes]
             [squanmate.solving :as solving]
+            [squanmate.ui.color-chooser :as color-chooser]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
-            [squanmate.ui.layer-selector :as layer-selector]
-            [squanmate.ui.color-chooser :as color-chooser]
-            [squanmate.services.google-analytics :as ga]
-            [squanmate.pages.links :as links]))
+            [squanmate.ui.layer-selector :as layer-selector]))
+
 
 (defn- shape-str [shape-name]
   (p/pieces-str (get shapes/all-shapes shape-name)))
@@ -48,9 +49,11 @@
   ([possible-layers]
    (let [[top-name bottom-name] (random-top-and-bottom-shape-names possible-layers)
          top (shape-str top-name)
-         bottom (shape-str bottom-name)]
-     (-> (p/puzzle-with-shapes top bottom)
-         apply-random-rotations))))
+         bottom (shape-str bottom-name)
+         scrambled-puzzle (-> (p/puzzle-with-shapes top bottom)
+                              apply-random-rotations)]
+     [[top-name bottom-name]
+      scrambled-puzzle])))
 
 (defn- scramble-preview [s]
   [:div.col-xs-10.col-md-6.col-lg-6.scramble [common/well s]])
@@ -97,17 +100,23 @@
                   :event-key 2}
     [color-chooser/color-chooser (reagent/cursor state [:draw-settings])]]])
 
-(defn new-scramble! [state]
-  (let [new-scramble (scramble (:selected-shapes @state))
-        solution-atom (solving/solve new-scramble)]
-    (swap! state assoc :scramble-algorithm nil)
-    (swap! state assoc :puzzle new-scramble)
-    (add-watch solution-atom nil
-               (fn [_key _ref _old-value solution-algorithm]
-                 (let [steps (m/extract (parser/parse solution-algorithm))
-                       reverse-steps (manipulation/reverse-steps steps)
-                       scramble-string (serialization/alg-to-str reverse-steps)]
-                   (swap! state assoc :scramble-algorithm scramble-string))))))
+(defn new-scramble!
+  ([state]
+   (new-scramble! state (:selected-shapes @state)))
+
+  ([state selected-shapes]
+   (let [[chosen-layers new-scramble] (scramble selected-shapes)
+         solution-atom (solving/solve new-scramble)]
+     (swap! state assoc
+            :scramble-algorithm nil
+            :puzzle new-scramble
+            :chosen-shapes (into #{} chosen-layers))
+     (add-watch solution-atom nil
+                (fn [_key _ref _old-value solution-algorithm]
+                  (let [steps (m/extract (parser/parse solution-algorithm))
+                        reverse-steps (manipulation/reverse-steps steps)
+                        scramble-string (serialization/alg-to-str reverse-steps)]
+                    (swap! state assoc :scramble-algorithm scramble-string)))))))
 
 ;; let this module own its state schema by having it defined inside this file
 (defn new-state []
@@ -115,18 +124,22 @@
   ;; removing them very easy in code.
   (let [state (reagent/atom
                {:puzzle nil
+                :chosen-shapes nil
                 :selected-shapes #{(set ["square" "square"])}
                 :scramble-algorithm nil
                 :draw-settings (deref (color-chooser/default-color-chooser-state))})]
     (new-scramble! state)
     state))
 
-(defn- set-new-scramble [state]
-  (new-scramble! state)
+(defn- set-new-scramble [& args]
+  (apply new-scramble! args)
   (ga/send-page-view :trainer/new-scramble))
 
-(defn- new-scramble-button [state]
+(defn- action-buttons [state]
   [:div.center
+   [common/button {:on-click #(set-new-scramble state [(:chosen-shapes @state)])}
+    [:span [common/glyphicon {:glyph :repeat}]]
+    " Repeat scramble"]
    [common/button {:on-click #(set-new-scramble state)
                    :bs-style :success}
     "New scramble"]
@@ -139,7 +152,7 @@
                              :size 180)]
     [:div
      [:div.bottom17
-      [new-scramble-button state]]
+      [action-buttons state]]
      [:div.center
       [newmonochrome/monochrome-puzzle (:puzzle @state) draw-settings]]
      [:div.center
