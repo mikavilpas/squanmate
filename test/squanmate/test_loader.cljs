@@ -24,6 +24,7 @@
             squanmate.ui.parity-sequences-test
             squanmate.ui.scramble-test
             squanmate.ui.parity-analysis-test
-            squanmate.services.google-analytics-test))
+            squanmate.services.google-analytics-test
+            squanmate.scramblers.edge-permutation-scrambler-test))
 
 (devtools/install! [:formatters :hints :async])
