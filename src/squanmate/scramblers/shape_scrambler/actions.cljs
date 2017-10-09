@@ -1,4 +1,4 @@
-(ns squanmate.scramblers.actions
+(ns squanmate.scramblers.shape-scrambler.actions
   (:require [cats.core :as m]
             [squanmate.alg.manipulation :as manipulation]
             [squanmate.alg.parser :as parser]

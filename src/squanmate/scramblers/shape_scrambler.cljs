@@ -1,7 +1,7 @@
 (ns squanmate.scramblers.shape-scrambler
   (:require [reagent.core :as reagent]
             [squanmate.pages.links :as links]
-            [squanmate.scramblers.actions :as a]
+            [squanmate.scramblers.shape-scrambler.actions :as a]
             [squanmate.ui.color-chooser :as color-chooser]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
