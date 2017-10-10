@@ -15,4 +15,5 @@
       (randomize-edges :bottom-layer)))
 
 (defn new-scramble []
-  (scramble p/square-square))
+  (let [puzzle (scramble p/square-square)]
+    puzzle))

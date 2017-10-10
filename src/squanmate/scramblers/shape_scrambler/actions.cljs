@@ -84,6 +84,7 @@
             :scramble-algorithm nil
             :puzzle new-scramble
             :chosen-shapes (into #{} chosen-layers))
+     ;; todo this is technically a part of solving. it shouldn't belong here.
      (add-watch solution-atom nil
                 (fn [_key _ref _old-value solution-algorithm]
                   (let [steps (m/extract (parser/parse solution-algorithm))
