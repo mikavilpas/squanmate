@@ -107,3 +107,9 @@
 (defn puzzle-pieces [puzzle]
   (vec (concat (-> puzzle :top-layer :pieces)
                (-> puzzle :bottom-layer :pieces))))
+
+(defn layer-pieces-by-type [layer]
+  (let [pieces (:pieces layer)
+        corners (filterv corner? pieces)
+        edges (filterv edge? pieces)]
+    [corners edges]))

@@ -3,10 +3,7 @@
 
 (defn- randomize-edges [puzzle layer-name]
   (let [layer (get puzzle layer-name)
-        pieces (:pieces layer)
-        corners (filter p/corner? pieces)
-        edges (filter p/edge? pieces)
-
+        [corners edges] (p/layer-pieces-by-type layer)
         [new-pieces _] (p/layer-with-pieces {"c" corners
                                              "e" (shuffle edges)}
                                             (p/pieces-str layer))]
