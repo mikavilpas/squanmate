@@ -103,3 +103,7 @@
        :pieces
        (map :type)
        (apply str)))
+
+(defn puzzle-pieces [puzzle]
+  (vec (concat (-> puzzle :top-layer :pieces)
+               (-> puzzle :bottom-layer :pieces))))
