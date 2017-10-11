@@ -1,4 +1,4 @@
-(ns squanmate.scramblers.edge-permutation-scrambler
+(ns squanmate.scramblers.alg-trainer
   (:require [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [squanmate.ui.common :as common]
             [reagent.core :as reagent]))
@@ -14,12 +14,14 @@
 
 (defn- new-scramble-button [state]
   [:div
-   [common/button {:on-click identity} "New scramble"]])
+   (if (empty? (:selected-algs @state))
+     [common/alert "Select some algs below to get started."]
+     [common/button {:on-click identity} "New scramble"])])
 
 (defn new-default-state []
-  (reagent/atom {}))
+  (reagent/atom {:selected-algs #{}}))
 
-(defn scramble-component [state]
+(defn trainer-component [state]
   [:div
    [:div.center
     [new-scramble-button state]
