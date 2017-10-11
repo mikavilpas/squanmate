@@ -1,12 +1,11 @@
 (ns squanmate.scramblers.alg-trainer
   (:require [clojure.string :as str]
             [reagent.core :as reagent]
+            [squanmate.scramblers.alg-trainer.case-selection :as selection]
             [squanmate.scramblers.algsets.edge-permutation :as ep]
             [squanmate.ui.color-chooser :as color-chooser]
             [squanmate.ui.common :as common]
-            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
-            [squanmate.scramblers.alg-trainer.case-selection :as selection]
-            [clojure.set :as set]))
+            [squanmate.ui.drawing.newmonochrome :as newmonochrome]))
 
 (defn- puzzle-preview [state]
   (when-let [puzzle (:puzzle @state)]
