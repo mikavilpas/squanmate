@@ -18,18 +18,33 @@
 
 (defn- new-scramble-button [state]
   [:div
-   (if (empty? (:selected-algs @state))
+   (if (empty? (:selected-cases @state))
      [common/alert "Select some algs below to get started."]
      [common/button {:on-click identity} "New scramble"])])
 
-(defn- alg-selections [algs]
+(defn- case-selected? [state case-name]
+  (contains? (:selected-cases @state) case-name))
+
+(defn- select-or-deselect! [state case-name]
+  (if (case-selected? state case-name)
+    (swap! state update :selected-cases disj case-name)
+    (swap! state update :selected-cases conj case-name)))
+
+(defn- case-selection [state case]
+  (let [[case-name alg] case
+        selected? (case-selected? state case-name)]
+    [:div.col-xs-4
+     [common/checkbox {:inline true
+                       :checked selected?
+                       :on-change #(select-or-deselect! state case-name)}
+      case-name]]))
+
+(defn- case-selections [state cases]
   [:div
    [:div.container-fluid
-    (for [[case-name alg] algs]
+    (for [[case-name alg] cases]
       ^{:key case-name}
-      [:div.col-xs-4
-       [common/checkbox {:inline true :checked false}
-        case-name]])]
+      [case-selection state [case-name alg]])]
    [:div.center
     [common/button "Select all"]
     [common/button "Select none"]]])
@@ -42,10 +57,10 @@
                    :event-key 1}
      [:div
       [:div "With parity"
-       [alg-selections ep/cases-with-parity]]
+       [case-selections state ep/cases-with-parity]]
 
       [:div "With no parity"
-       [alg-selections ep/cases-with-no-parity]]]]
+       [case-selections state ep/cases-with-no-parity]]]]
     [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :th}]
                                                 " Permute last layer (PLL)"])
                    :event-key 2}
@@ -63,7 +78,7 @@
     [color-chooser/color-chooser (reagent/cursor state [:draw-settings])]]])
 
 (defn new-default-state []
-  (reagent/atom {:selected-algs #{}}))
+  (reagent/atom {:selected-cases #{}}))
 
 (defn trainer-component [state]
   [:div
