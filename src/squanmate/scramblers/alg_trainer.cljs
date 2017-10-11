@@ -4,7 +4,8 @@
             [squanmate.scramblers.algsets.edge-permutation :as ep]
             [squanmate.ui.color-chooser :as color-chooser]
             [squanmate.ui.common :as common]
-            [squanmate.ui.drawing.newmonochrome :as newmonochrome]))
+            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
+            [clojure.set :as set]))
 
 (defn- puzzle-preview [state]
   (when-let [puzzle (:puzzle @state)]
@@ -39,6 +40,16 @@
                        :on-change #(select-or-deselect! state case-name)}
       case-name]]))
 
+(defn- case-names [cases]
+  (map (fn [[name alg]] name)
+       cases))
+
+(defn- select-cases! [state cases]
+  (swap! state update :selected-cases into (case-names cases)))
+
+(defn- deselect-cases! [state cases]
+  (swap! state update :selected-cases #(set/difference % (case-names cases))))
+
 (defn- case-selections [state cases]
   [:div
    [:div.container-fluid
@@ -46,8 +57,8 @@
       ^{:key case-name}
       [case-selection state [case-name alg]])]
    [:div.center
-    [common/button "Select all"]
-    [common/button "Select none"]]])
+    [common/button {:on-click #(select-cases! state cases)} "Select all"]
+    [common/button {:on-click #(deselect-cases! state cases)} "Select none"]]])
 
 (defn- alg-selection-settings [state]
   [:div
