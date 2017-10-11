@@ -7,7 +7,7 @@
 
 (defonce state (sut/new-default-state))
 
-(defcard-rg scramble-component-no-algs
+(defcard-rg trainer-component-no-algs
   [sut/trainer-component state]
   state
   {:inspect-data true})
