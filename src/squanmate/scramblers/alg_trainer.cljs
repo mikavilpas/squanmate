@@ -5,6 +5,7 @@
             [squanmate.ui.color-chooser :as color-chooser]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
+            [squanmate.scramblers.alg-trainer.case-selection :as selection]
             [clojure.set :as set]))
 
 (defn- puzzle-preview [state]
@@ -23,42 +24,24 @@
      [common/alert "Select some algs below to get started."]
      [common/button {:on-click identity} "New scramble"])])
 
-(defn- case-selected? [state case-name]
-  (contains? (:selected-cases @state) case-name))
-
-(defn- select-or-deselect! [state case-name]
-  (if (case-selected? state case-name)
-    (swap! state update :selected-cases disj case-name)
-    (swap! state update :selected-cases conj case-name)))
-
-(defn- case-selection [state case]
+(defn- case-selection-component [state case]
   (let [[case-name alg] case
-        selected? (case-selected? state case-name)]
+        selected? (selection/case-selected? state case-name)]
     [:div.col-xs-4
      [common/checkbox {:inline true
                        :checked selected?
-                       :on-change #(select-or-deselect! state case-name)}
+                       :on-change #(selection/select-or-deselect! state case-name)}
       case-name]]))
-
-(defn- case-names [cases]
-  (map (fn [[name alg]] name)
-       cases))
-
-(defn- select-cases! [state cases]
-  (swap! state update :selected-cases into (case-names cases)))
-
-(defn- deselect-cases! [state cases]
-  (swap! state update :selected-cases #(set/difference % (case-names cases))))
 
 (defn- case-selections [state cases]
   [:div
    [:div.container-fluid
     (for [[case-name alg] cases]
       ^{:key case-name}
-      [case-selection state [case-name alg]])]
+      [case-selection-component state [case-name alg]])]
    [:div.center
-    [common/button {:on-click #(select-cases! state cases)} "Select all"]
-    [common/button {:on-click #(deselect-cases! state cases)} "Select none"]]])
+    [common/button {:on-click #(selection/select-cases! state cases)} "Select all"]
+    [common/button {:on-click #(selection/deselect-cases! state cases)} "Select none"]]])
 
 (defn- alg-selection-settings [state]
   [:div
