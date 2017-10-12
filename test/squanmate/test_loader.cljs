@@ -25,6 +25,7 @@
             squanmate.ui.scramble-test
             squanmate.ui.parity-analysis-test
             squanmate.services.google-analytics-test
-            squanmate.scramblers.alg-trainer-test))
+            squanmate.scramblers.alg-trainer-test
+            squanmate.scramblers.algsets.edge-permutation-test))
 
 (devtools/install! [:formatters :hints :async])
