@@ -11,5 +11,6 @@
 
 (defcard-rg alal
   [:div
-   (sut/new-scramble state)
-   ])
+   (sut/new-scramble state)]
+  state
+  {:inspect-data true})
