@@ -51,11 +51,11 @@
                                                 " Edge permutation (EP)"])
                    :event-key 1}
      [:div
-      [:div "With parity"
-       [case-selections state ep/cases-with-parity]]
-
       [:div "With no parity"
-       [case-selections state ep/cases-with-no-parity]]]]
+       [case-selections state ep/cases-with-no-parity]]
+
+      [:div "With parity"
+       [case-selections state ep/cases-with-parity]]]]
     [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :th}]
                                                 " Permute last layer (PLL)"])
                    :event-key 2}
