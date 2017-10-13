@@ -5,7 +5,10 @@
             [squanmate.alg.parser :as parser]
             [cats.monad.either :as either]
             [squanmate.ui.common :as common]
-            [squanmate.alg.execution :as execution])
+            [squanmate.alg.execution :as execution]
+            [squanmate.services.cube-aligner :as cube-aligner]
+            [cats.core :as m]
+            [squanmate.alg.types :as types])
   (:require-macros [devcards.core :as dc :refer [defcard-rg deftest]]))
 
 (defn parse [[case-name alg]]
@@ -33,3 +36,18 @@
 
 (deftest execute-all-ep-cases-test []
   (is (empty? (non-executable-cases ep/all-cases-unordered))))
+
+(defn- rotations-for-alg [alg]
+  (m/mlet [end-step (execution/transformation-result p/square-square
+                                                     alg)
+           rotations (cube-aligner/rotations-to-align-cube (:puzzle end-step))]
+          rotations))
+
+(defn- non-aligned-cases [cases]
+  (for [[case-name alg] cases
+        :let [rotations (rotations-for-alg alg)]
+        :when (not (= rotations (types/Rotations. 0 0)))]
+    [case-name rotations]))
+
+(deftest alalalalalal []
+  (is (empty? (non-aligned-cases ep/all-cases-unordered))))

@@ -30,7 +30,7 @@
     (types/Rotations. top-amount bottom-amount)))
 
 (defn rotations-to-align-cube [puzzle]
-  (let [layer-names (shapes/puzzle-layer-shape-names puzzle) ]
+  (let [layer-names (shapes/puzzle-layer-shape-names puzzle)]
     (if (not (= ["square" "square"] layer-names))
       (either/left (str "puzzle is not in cubesahpe. Instead it has these layers: " layer-names))
       (either/right (rotations-to-aligned puzzle)))))
