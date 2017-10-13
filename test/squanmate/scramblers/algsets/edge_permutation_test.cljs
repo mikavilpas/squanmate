@@ -49,5 +49,5 @@
         :when (not (= rotations (types/Rotations. 0 0)))]
     [case-name rotations]))
 
-(deftest alalalalalal []
+(deftest all-cases-are-aligned-test []
   (is (empty? (non-aligned-cases ep/all-cases-unordered))))
