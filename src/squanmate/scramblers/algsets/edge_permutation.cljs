@@ -3,7 +3,7 @@
 ;; All edge permutation algs are from Raul Low Beattie's work! Go follow him on
 ;; YouTube: https://www.youtube.com/watch?v=jrXDdjaD9Ic
 
-(def cases-with-parity
+(def cases-with-no-parity
   (array-map
    "1. U+ / -" "/3,0/1,0/0,-3/-1,0/-3,0/1,0/0,3/-1"
    "2. - / U+" "0,-1/3,0/0,1/0,-3/0,-1/-3,0/0,1/0,3/"
@@ -79,7 +79,7 @@
    "58. O- / O+" "M2 U M2 U D M2 D' M2"
    "59. W / W" "1,0/5,-1/-3,0/1,1/0,-3/-1,-1/-2,4/-1*"))
 
-(def cases-with-no-parity
+(def cases-with-parity
   (array-map
    "60. U+ / Opp" "/3,0/-3,0/3,0/0,3/1,0/0,2/4,0/0,-4/2,0/3,-4/-3,-3/"
    "61. U- / Opp" "/-3,0/-3,0/0,3/1,0/0,2/4,0/0,-4/2,0/3,-4/0,3/0,3/"
@@ -132,5 +132,5 @@
    "99. W / H" "/0,3/-3,-3/0,-3/0,-1/-4,2/4,-2/-4,0/1,1/1,1/-1,2/-3,-3/"))
 
 (def all-cases-unordered
-  (into {} (concat cases-with-parity
-                   cases-with-no-parity)))
+  (into {} (concat cases-with-no-parity
+                   cases-with-parity)))
