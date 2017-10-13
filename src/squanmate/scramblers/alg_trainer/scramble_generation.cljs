@@ -38,6 +38,7 @@
    (let [start (apply-starting-rotation p/square-square)
 
          alg-starting-state (execution/transformation-result-reverse start alg)]
+     (swap! state assoc :scramble-algorithm "")
      (either/branch alg-starting-state
                     #(report-error-for-case alg %)
                     #(set-scramble-for-start-position! state %)))))

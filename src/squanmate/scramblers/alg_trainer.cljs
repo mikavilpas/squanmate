@@ -1,17 +1,28 @@
 (ns squanmate.scramblers.alg-trainer
-  (:require [clojure.string :as str]
+  (:require [cats.core :as m]
+            [clojure.string :as str]
             [reagent.core :as reagent]
+            [squanmate.alg.execution :as execution]
+            [squanmate.puzzle :as p]
             [squanmate.scramblers.alg-trainer.case-selection :as selection]
+            [squanmate.scramblers.alg-trainer.scramble-generation :as scramble-generation]
             [squanmate.scramblers.algsets.edge-permutation :as ep]
             [squanmate.ui.color-chooser :as color-chooser]
             [squanmate.ui.common :as common]
-            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
-            [squanmate.scramblers.alg-trainer.scramble-generation :as scramble-generation]))
+            [squanmate.ui.drawing.newmonochrome :as newmonochrome]))
+
+(defn- puzzle-for-alg [alg]
+  (->> alg
+       (execution/transformation-result p/square-square)
+       m/extract
+       :puzzle))
 
 (defn- puzzle-preview [state]
-  (when-let [puzzle (:puzzle @state)]
-    (let [draw-settings (assoc (:draw-settings @state)
-                               :size 180)]
+  (when-let [alg (:scramble-algorithm @state)]
+    (let [puzzle (puzzle-for-alg alg)
+          draw-settings (assoc (:draw-settings @state)
+                               :size 180
+                               :monochrome? false)]
       [newmonochrome/monochrome-puzzle puzzle draw-settings])))
 
 (defn- scramble-preview [s]
@@ -77,7 +88,7 @@
 
 (defn trainer-component [state]
   [:div
-   [:div.center
+   [:div.center.vertical
     [new-scramble-button state]
     [puzzle-preview state]]
    [:div.center.top17
