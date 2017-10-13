@@ -5,7 +5,8 @@
             [squanmate.scramblers.algsets.edge-permutation :as ep]
             [squanmate.ui.color-chooser :as color-chooser]
             [squanmate.ui.common :as common]
-            [squanmate.ui.drawing.newmonochrome :as newmonochrome]))
+            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
+            [squanmate.scramblers.alg-trainer.scramble-generation :as scramble-generation]))
 
 (defn- puzzle-preview [state]
   (when-let [puzzle (:puzzle @state)]
@@ -21,7 +22,8 @@
   [:div
    (if (empty? (:selected-cases @state))
      [common/alert "Select some algs below to get started."]
-     [common/button {:on-click identity} "New scramble"])])
+     [common/button {:on-click #(scramble-generation/new-scramble state)}
+      "New scramble"])])
 
 (defn- case-selection-component [state case]
   (let [[case-name alg] case

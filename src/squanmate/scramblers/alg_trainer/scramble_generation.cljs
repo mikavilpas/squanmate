@@ -3,7 +3,8 @@
             [squanmate.alg.execution :as execution]
             [squanmate.puzzle :as p]
             [squanmate.rotation :as rotation]
-            [squanmate.solving :as solving]))
+            [squanmate.solving :as solving]
+            [squanmate.scramblers.algsets.edge-permutation :as ep]))
 
 (defn- apply-starting-rotation [puzzle]
   (letfn [(rotate [layer]
@@ -22,15 +23,21 @@
   (let [puzzle (:puzzle end-step-result)]
     (solving/solve-and-generate-scramble puzzle state)))
 
-(defn new-scramble [state]
-  ;; a starting rotation makes it possible to get the same EP case in all
-  ;; different orientations
-  (let [start (apply-starting-rotation p/square-square)
+(defn- random-case [state]
+  (let [cases (:selected-cases @state)
+        case-name (rand-nth (seq cases))
+        c (get ep/all-cases-unordered case-name)]
+    c))
 
-        ;; todo get correct alg
-        alg "U2 M2 U2 M2"
+(defn new-scramble
+  ([state]
+   (new-scramble state (random-case state)))
+  ([state alg]
+   ;; a starting rotation makes it possible to get the same EP case in all
+   ;; different orientations
+   (let [start (apply-starting-rotation p/square-square)
 
-        alg-starting-state (execution/transformation-result-reverse start alg)]
-    (either/branch alg-starting-state
-                   #(report-error-for-case alg %)
-                   #(set-scramble-for-start-position! state %))))
+         alg-starting-state (execution/transformation-result-reverse start alg)]
+     (either/branch alg-starting-state
+                    #(report-error-for-case alg %)
+                    #(set-scramble-for-start-position! state %)))))
