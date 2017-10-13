@@ -13,21 +13,20 @@
                                                       (:bottom-layer p/square-square))
     (throw (new js/Error "unknown layer type " (type layer)))))
 
-(defn- rotation-to-align-square-layer [puzzle layer-key]
-  (let [layer (get puzzle layer-key)]
-    (if (oriented? layer)
-      0
+(defn- rotation-to-align-square-layer [layer]
+  (if (oriented? layer)
+    0
 
-      (->> (rotation/possible-rotations layer [1, -1, 2, -2])
-           (filter (fn [[puzzle amount]]
-                     (oriented? puzzle)))
-           (map (fn [[puzzle amount]]
-                  amount))
-           first))))
+    (->> (rotation/possible-rotations layer [1, -1, 2, -2])
+         (filter (fn [[puzzle amount]]
+                   (oriented? puzzle)))
+         (map (fn [[puzzle amount]]
+                amount))
+         first)))
 
 (defn- rotations-to-aligned [puzzle]
-  (let [top-amount (rotation-to-align-square-layer puzzle :top-layer)
-        bottom-amount (rotation-to-align-square-layer puzzle :bottom-layer)]
+  (let [top-amount (rotation-to-align-square-layer (:top-layer puzzle))
+        bottom-amount (rotation-to-align-square-layer (:bottom-layer puzzle))]
     (types/Rotations. top-amount bottom-amount)))
 
 (defn rotations-to-align-cube [puzzle]
