@@ -27,6 +27,7 @@
             squanmate.services.google-analytics-test
             squanmate.scramblers.alg-trainer-test
             squanmate.scramblers.algsets.edge-permutation-test
-            squanmate.services.cube-aligner-test))
+            squanmate.services.cube-aligner-test
+            squanmate.scramblers.alg-trainer.scramble-generation-test))
 
 (devtools/install! [:formatters :hints :async])
