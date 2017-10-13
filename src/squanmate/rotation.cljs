@@ -54,25 +54,28 @@
                                       layer))))
 
 ;; try smaller rotations first to keep possible-rotations simple to understand
-(def ^:private rotation-amounts [0
-                                 1 -1
-                                 2 -2
-                                 3 -3
-                                 4 -4
-                                 5 -5
-                                 6])
+(def ^:private all-rotation-amounts [0
+                                     1 -1
+                                     2 -2
+                                     3 -3
+                                     4 -4
+                                     5 -5
+                                     6])
 
-(defn possible-rotations [layer]
-  (let [rotation-results (map (fn [amount]
-                                [(rotate-layer layer amount)
-                                 amount])
-                              rotation-amounts)
-        successful-results (->> rotation-results
-                                (filter (fn [[result-either _amount]]
-                                          (either/right? result-either)))
-                                (map (fn [[result-either amount]]
-                                       [(m/extract result-either) amount])))]
-    successful-results))
+(defn possible-rotations
+  ([layer]
+   (possible-rotations layer all-rotation-amounts))
+  ([layer rotation-amounts]
+   (let [rotation-results (map (fn [amount]
+                                 [(rotate-layer layer amount)
+                                  amount])
+                               rotation-amounts)
+         successful-results (->> rotation-results
+                                 (filter (fn [[result-either _amount]]
+                                           (either/right? result-either)))
+                                 (map (fn [[result-either amount]]
+                                        [(m/extract result-either) amount])))]
+     successful-results)))
 
 (defn random-layer-rotations [layer]
   (shuffle (possible-rotations layer)))
