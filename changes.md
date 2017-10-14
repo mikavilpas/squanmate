@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.3
+- new feature: algorithm trainer. Support for all edge permutation (EP) cases.
+  See the readme for more info.
+
 ## 5.2
 - new feature: add a "reapeat scramble button". Let's say you have the randomly
   selected case of shield kite. Clicking this button will generate another

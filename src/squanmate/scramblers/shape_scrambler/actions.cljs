@@ -1,9 +1,5 @@
-(ns squanmate.scramblers.actions
-  (:require [cats.core :as m]
-            [squanmate.alg.manipulation :as manipulation]
-            [squanmate.alg.parser :as parser]
-            [squanmate.alg.serialization :as serialization]
-            [squanmate.puzzle :as p]
+(ns squanmate.scramblers.shape-scrambler.actions
+  (:require [squanmate.puzzle :as p]
             [squanmate.rotation :as rotation]
             [squanmate.services.google-analytics :as ga]
             [squanmate.shape-combinations :as shape-combinations]
@@ -78,19 +74,12 @@
    (new-scramble! state (:selected-shapes @state)))
 
   ([state selected-shapes]
-   (let [[chosen-layers new-scramble] (scramble selected-shapes)
-         solution-atom (solving/solve new-scramble)]
+   (let [[chosen-layers new-scramble] (scramble selected-shapes)]
      (swap! state assoc
             :scramble-algorithm nil
             :puzzle new-scramble
             :chosen-shapes (into #{} chosen-layers))
-     (add-watch solution-atom nil
-                (fn [_key _ref _old-value solution-algorithm]
-                  (let [steps (m/extract (parser/parse solution-algorithm))
-                        reverse-steps (manipulation/reverse-steps steps)
-                        scramble-string (serialization/alg-to-str reverse-steps)]
-                    (swap! state assoc :scramble-algorithm scramble-string)))))))
-
+     (solving/solve-and-generate-scramble new-scramble state))))
 
 (defn set-new-scramble [& args]
   (apply new-scramble! args)
