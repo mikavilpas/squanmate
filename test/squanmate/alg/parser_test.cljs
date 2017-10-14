@@ -14,6 +14,12 @@
 (defn- rotate [top bottom]
   (types/Rotations. top (or bottom 0)))
 
+(def ^:private M2-steps [(rotate 1 0)
+                         slice
+                         (rotate -1 -1)
+                         slice
+                         (rotate 0 1)])
+
 (deftest parse-integer-test []
   (is (= 123 (p/run (a/integer) "123")))
   (is (= -123 (p/run (a/integer) "-123"))))
@@ -100,8 +106,42 @@
 
   (is (either/right?
        (a/parse " ( 1, 0)/( 3, 0)/(-1, 2)/( 6, 3)/( 1, 1)/( 5, 2)/(-5, 4)/( 2,-1)/( 0, 1)"))
-      "Another alg given by jaap's solver")
-  )
+      "Another alg given by jaap's solver"))
+
+(deftest parse-face-moves-test []
+  (is (= (either/right [(rotate 3 0)])
+         (a/parse "U")))
+  (is (= (either/right [(rotate -3 0)])
+         (a/parse "U'")))
+
+  (is (= (either/right [(rotate 0 3)])
+         (a/parse "D")))
+  (is (= (either/right [(rotate 0 -3)])
+         (a/parse "D'")))
+
+  (is (= (either/right [(rotate 6 0)])
+         (a/parse "U2")))
+  (is (= (either/right [(rotate 0 6)])
+         (a/parse "D2")))
+
+  (is (= (either/right [(rotate -3 0)])
+         (a/parse "U’"))
+      "special curved single quote (’)")
+  (is (= (either/right [(rotate 0 -3)])
+         (a/parse "D’"))
+      "special curved single quote (’)"))
+
+(deftest parse-m2-test []
+  (is (= (either/right (concat M2-steps
+                               M2-steps))
+         (a/parse "M2 M2")))
+
+  (is (= (either/right (concat M2-steps
+                               [(rotate -3 0)]
+                               M2-steps
+                               [(rotate 3 0)]
+                               M2-steps))
+         (a/parse "M2 U’ M2 U M2"))))
 
 (deftest parser-fails-test []
   (is (either/left? (a/parse "not an algorithm"))))

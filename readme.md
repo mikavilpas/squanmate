@@ -16,6 +16,9 @@ Squanmate can help you:
 * **Train your cubeshape (or cubeshape parity) skills**
   * select the combinations of shapes you would like to train
   * a random scramble is generated for you. Solve away!
+* **Train algorithms**
+  * like with cubeshape cases, select the cases you want to train
+  * currently supports **edge permutation (EP) cases**.
 * **Learn and remember all different shapes and their names**
 * **Inspect a scramble**
   * check whether the scramble gives an odd or even **parity count** and see
@@ -92,6 +95,6 @@ will show up as changed in your `git status`. Commit the changed file to the
 repository so that the app works online with the newest version.
 
 [logolink]: https://rawgit.com/sp3ctum/squanmate/master/resources/public/readme/logo.png
-[applink]: https://cdn.rawgit.com/sp3ctum/squanmate/5.2/resources/public/index.html#/
+[applink]: https://cdn.rawgit.com/sp3ctum/squanmate/5.3/resources/public/index.html#/
 [my-algs]: https://docs.google.com/spreadsheets/d/1r0LN41RGKI4oAvD9rCmmc-A5UBpNPvsEOb7eWaEtIFo/edit?usp=sharing
 [my-lin-algs]: https://docs.google.com/spreadsheets/d/1VxhlAqf0z91Cqqo-EEmUuZhJP4NjlA741fjOOZLrcns/edit?usp=sharing

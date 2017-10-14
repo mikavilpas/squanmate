@@ -1,7 +1,7 @@
 (ns squanmate.scramblers.shape-scrambler
   (:require [reagent.core :as reagent]
             [squanmate.pages.links :as links]
-            [squanmate.scramblers.actions :as a]
+            [squanmate.scramblers.shape-scrambler.actions :as a]
             [squanmate.ui.color-chooser :as color-chooser]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
@@ -31,7 +31,7 @@
 (defn settings [state]
   [common/accordion {:default-active-key 1}
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :cog}]
-                                               " Settings"])
+                                               " Cases"])
                   :event-key 1}
     [shape-selection-settings state]]
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :tint}]
@@ -52,10 +52,10 @@
     (a/new-scramble! state)
     state))
 
-(defn- repeat-scramble-button [state]
+(defn- repeat-case-button [state]
   [common/button {:on-click #(a/set-new-scramble state [(:chosen-shapes @state)])}
    [:span [common/glyphicon {:glyph :repeat}]]
-   " Repeat scramble"])
+   " Repeat case"])
 
 (defn- new-scramble-button [state]
   [common/button {:on-click #(a/set-new-scramble state)
@@ -69,7 +69,7 @@
 
 (defn- action-buttons [state]
   [:div.center
-   [repeat-scramble-button state]
+   [repeat-case-button state]
    [new-scramble-button state]
    [inspect-scramble-button state]])
 

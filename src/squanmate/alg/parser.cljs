@@ -65,10 +65,46 @@
 (defn- non-nils [coll]
   (filterv (comp not nil?) coll))
 
+(defn- face-move-letter-to-rotations [move reverse?]
+  (letfn [(convert [amount]
+            (if reverse?
+              (- amount)
+              amount))]
+    (condp = move
+      "U" (types/->Rotations (convert 3) 0)
+      "D" (types/->Rotations 0 (convert 3))
+      "U2" (types/->Rotations 6 0)
+      "D2" (types/->Rotations 0 6))))
+
+(defparser face-notation-move []
+  (let->> [_ (whitespace)
+           move (p/choice (p/attempt (p/string "U2"))
+                          (p/attempt (p/string "D2"))
+                          (p/char "U")
+                          (p/char "D"))
+           reverse? (optional (p/either (p/char "'")
+                                        (p/char "’")))
+           _ (whitespace)]
+    (let [rotations (face-move-letter-to-rotations move reverse?)]
+      (p/always rotations))))
+
+(def m2 [(types/->Rotations 1 0)
+         (types/Slice.)
+         (types/->Rotations -1 -1)
+         (types/Slice.)
+         (types/->Rotations 0 1)])
+
+(defparser m2-algorithm []
+  (let->> [_ (whitespace)
+           _ (p/string "M2")
+           _ (whitespace)]
+    (p/always m2)))
+
 (defparser rotations []
   (let->> [_ (whitespace)
-           rotations (p/either (p/attempt (in-parens-maybe
-                                           (rotation-instruction)))
+           rotations (p/choice (p/attempt (in-parens-maybe (rotation-instruction)))
+                               (p/attempt (face-notation-move))
+                               (p/attempt (m2-algorithm))
                                (in-parens-maybe
                                 (rotation-instruction-top-layer-only)))
            _ (whitespace)]
@@ -86,15 +122,18 @@
 
 (defparser algorithm []
   (p/let->> [alg-steps (p/choice (p/attempt (p/many1 (step)))
-                                 (p/attempt (empty-alg)))
+                                 (empty-alg))
              _ (whitespace)]
-    (p/always alg-steps)))
+    (p/always (flatten alg-steps))))
 
 (defn parse
   "Supported formats:
   - / 1, -2 /
   - / 1 / (allows leaving out bottom layer rotation)
   - / (1, -2) /
+  - U / D' / U2' / D2 /
+  - U2 M2 U2 M2
+      in this case M2 means the alg 1,0/-1,-1/0,1
   "
   [algorithm-string]
   (let [result (either/try-either

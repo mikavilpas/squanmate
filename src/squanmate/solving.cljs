@@ -1,5 +1,6 @@
 (ns squanmate.solving
-  (:require [cats.monad.either :as either]
+  (:require [cats.core :as m]
+            [cats.monad.either :as either]
             [reagent.core :as reagent]
             [squanmate.alg.manipulation :as manipulation]
             [squanmate.alg.parser :as parser]
@@ -45,8 +46,9 @@
                      (reset! result-atom
                              (serialization/alg-to-str result-steps))))))
 
-(defn solve-state-string [starting-state-string & {:keys [initial-rotation result-atom]}]
-  (let [solver (new-solver)]
+(defn solve-state-string [starting-state-string & {:keys [initial-rotation]}]
+  (let [solver (new-solver)
+        result-atom (reagent/atom nil)]
     (solver starting-state-string
             (fn callback [err, result-alg]
               (when err
@@ -93,17 +95,26 @@
           rotations (types/->Rotations top-rotation bottom-rotation)]
       [rotations new-puzzle])))
 
-;; this is the intended public api
-(defn solve
-  ([puzzle]
-   (solve puzzle (reagent/atom nil)))
-
-  ([puzzle result-atom]
+(defn solve [puzzle]
    (let [[rotation puzzle] (rotation-to-slice-position puzzle)]
      ;; This is a limitation of Jaap's solver: the puzzle must be at a
      ;; sliceable position when a solution is calculated. To work around
      ;; this, twist the puzzle with a random rotation so that it's sliceable,
      ;; and include that random rotation in the scramble.
      (solve-state-string (convert-to-state-string puzzle)
-                         :initial-rotation rotation
-                         :result-atom result-atom))))
+                         :initial-rotation rotation)))
+
+(defn solve-and-generate-scramble
+  "Creates a scramble for the given puzzle. When generating it is ready, puts
+  the scramble to :scramble-algorithm inside the given state"
+  ([puzzle]
+   (solve-and-generate-scramble puzzle (reagent/atom nil)))
+  ([puzzle state]
+   (let [solution-atom (solve puzzle)]
+     (add-watch solution-atom nil
+                (fn [_key _ref _old-value solution-algorithm]
+                  (let [steps (m/extract (parser/parse solution-algorithm))
+                        reverse-steps (manipulation/reverse-steps steps)
+                        scramble-string (serialization/alg-to-str reverse-steps)]
+                    (swap! state assoc :scramble-algorithm scramble-string))))
+     state)))
