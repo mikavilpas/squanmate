@@ -21,8 +21,7 @@
   (when-let [alg (:scramble-algorithm @state)]
     (let [puzzle (puzzle-for-alg alg)
           draw-settings (assoc (:draw-settings @state)
-                               :size 180
-                               :monochrome? false)]
+                               :size 180)]
       [newmonochrome/monochrome-puzzle puzzle draw-settings])))
 
 (defn- scramble-preview [s]
@@ -84,7 +83,8 @@
     [color-chooser/color-chooser (reagent/cursor state [:draw-settings])]]])
 
 (defn new-default-state []
-  (reagent/atom {:selected-cases #{}}))
+  (reagent/atom {:selected-cases #{}
+                 :draw-settings {:monochrome? false}}))
 
 (defn trainer-component [state]
   [:div
