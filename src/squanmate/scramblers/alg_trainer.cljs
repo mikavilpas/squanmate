@@ -110,4 +110,4 @@
    [:div.center.vertical [action-buttons state]]
    [:div.center.top17 [puzzle-preview state]]
    [:div.center.top17 [scramble-preview (:scramble-algorithm @state)]]
-   [:div.center [settings state]]])
+   [settings state]])
