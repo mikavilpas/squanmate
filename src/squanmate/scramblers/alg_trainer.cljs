@@ -18,9 +18,8 @@
        :puzzle))
 
 (defn- puzzle-preview [state]
-  (when-let [alg (:scramble-algorithm @state)]
-    (let [puzzle (puzzle-for-alg alg)
-          draw-settings (assoc (:draw-settings @state)
+  (when-let [puzzle (:puzzle @state)]
+    (let [draw-settings (assoc (:draw-settings @state)
                                :size 180)]
       [newmonochrome/monochrome-puzzle puzzle draw-settings])))
 

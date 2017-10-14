@@ -21,6 +21,7 @@
 
 (defn- set-scramble-for-start-position! [state end-step-result]
   (let [puzzle (:puzzle end-step-result)]
+    (swap! state assoc :puzzle puzzle)
     (solving/solve-and-generate-scramble puzzle state)))
 
 (defn- random-case [state]
