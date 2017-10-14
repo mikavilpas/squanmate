@@ -33,6 +33,9 @@
   (defroute "/" []
     (set-route! app-state :trainer))
 
+  (defroute "/algorithm-trainer" []
+    (set-route! app-state :algorithm-trainer))
+
   (defroute "/shapes" []
     (set-route! app-state :shapes))
 

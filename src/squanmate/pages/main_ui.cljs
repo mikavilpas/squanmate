@@ -9,6 +9,7 @@
             [squanmate.pages.count-positions :as count-positions]
             [squanmate.pages.parity-game :as parity-game]
             [squanmate.pages.scramble-inspector :as scramble-inspector]
+            [squanmate.pages.algorithm-trainer :as algorithm-trainer]
             ))
 
 (defmulti page-content (fn [app-state]
@@ -23,6 +24,10 @@
 (defmethod page-content :trainer []
   [:div
    [trainer/content]])
+
+(defmethod page-content :algorithm-trainer []
+  [:div
+   [algorithm-trainer/content]])
 
 (defmethod page-content :shape-visualizer []
   [shape-visualizer/content])
@@ -62,12 +67,13 @@
 
    [common/navbar-collapse
     [common/nav
-     [common/nav-item {:event-key 1 :href "#/shapes"} "All shapes"]
-     [common/nav-item {:event-key 2 :href "#/scramble-inspector"} "Scramble inspector"]
-     [common/nav-item {:event-key 3 :href "#/shape-visualizer"} "Algorithm shape visualizer"]
-     [common/nav-item {:event-key 4 :href "#/importer"} "Cubeshape algorithm importer"]
-     [common/nav-item {:event-key 5 :href "#/count-positions"} "Parity count positions"]
-     [common/nav-item {:event-key 6 :href "#/parity-game"} "Parity game"]]]])
+     [common/nav-item {:event-key 1 :href "#/algorithm-trainer"} "Algorithm trainer"]
+     [common/nav-item {:event-key 2 :href "#/shapes"} "All shapes"]
+     [common/nav-item {:event-key 3 :href "#/scramble-inspector"} "Scramble inspector"]
+     [common/nav-item {:event-key 4 :href "#/shape-visualizer"} "Algorithm shape visualizer"]
+     [common/nav-item {:event-key 5 :href "#/importer"} "Cubeshape algorithm importer"]
+     [common/nav-item {:event-key 6 :href "#/count-positions"} "Parity count positions"]
+     [common/nav-item {:event-key 7 :href "#/parity-game"} "Parity game"]]]])
 
 (defn- footer []
   ;; just some vertical space to make the page feel better
