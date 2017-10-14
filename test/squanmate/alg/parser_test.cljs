@@ -122,17 +122,26 @@
   (is (= (either/right [(rotate 6 0)])
          (a/parse "U2")))
   (is (= (either/right [(rotate 0 6)])
-         (a/parse "D2"))))
+         (a/parse "D2")))
+
+  (is (= (either/right [(rotate -3 0)])
+         (a/parse "U’"))
+      "special curved single quote (’)")
+  (is (= (either/right [(rotate 0 -3)])
+         (a/parse "D’"))
+      "special curved single quote (’)"))
 
 (deftest parse-m2-test []
-  (is (= (either/right (concat [(rotate 6 0)
-                                slice]
-                               M2-steps
-                               [slice
-                                (rotate 6 0)
-                                slice]
+  (is (= (either/right (concat M2-steps
                                M2-steps))
-         (a/parse "U2 / M2 / U2 / M2"))))
+         (a/parse "M2 M2")))
+
+  (is (= (either/right (concat M2-steps
+                               [(rotate -3 0)]
+                               M2-steps
+                               [(rotate 3 0)]
+                               M2-steps))
+         (a/parse "M2 U’ M2 U M2"))))
 
 (deftest parser-fails-test []
   (is (either/left? (a/parse "not an algorithm"))))

@@ -82,7 +82,8 @@
                           (p/attempt (p/string "D2"))
                           (p/char "U")
                           (p/char "D"))
-           reverse? (optional (p/char "'"))
+           reverse? (optional (p/either (p/char "'")
+                                        (p/char "’")))
            _ (whitespace)]
     (let [rotations (face-move-letter-to-rotations move reverse?)]
       (p/always rotations))))
@@ -95,7 +96,8 @@
 
 (defparser m2-algorithm []
   (let->> [_ (whitespace)
-           _ (p/string "M2")]
+           _ (p/string "M2")
+           _ (whitespace)]
     (p/always m2)))
 
 (defparser rotations []
@@ -130,7 +132,7 @@
   - / 1 / (allows leaving out bottom layer rotation)
   - / (1, -2) /
   - U / D' / U2' / D2 /
-  - U2 / M2 / U2 / M2
+  - U2 M2 U2 M2
       in this case M2 means the alg 1,0/-1,-1/0,1
   "
   [algorithm-string]
