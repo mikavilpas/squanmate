@@ -4,7 +4,8 @@
             [squanmate.puzzle :as p]
             [squanmate.rotation :as rotation]
             [squanmate.solving :as solving]
-            [squanmate.scramblers.algsets.edge-permutation :as ep]))
+            [squanmate.scramblers.algsets.edge-permutation :as ep]
+            [squanmate.services.google-analytics :as ga]))
 
 (defn- apply-starting-rotation [puzzle]
   (letfn [(rotate [layer]
@@ -47,3 +48,7 @@
      (either/branch alg-starting-state
                     #(report-error-for-case alg %)
                     #(set-scramble-for-start-position! state %)))))
+
+(defn set-new-scramble! [& args]
+  (apply new-scramble args)
+  (ga/send-page-view :algorithm-trainer/new-scramble))

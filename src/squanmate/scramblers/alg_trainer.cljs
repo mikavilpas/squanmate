@@ -83,7 +83,7 @@
   [:div
    (if (empty? (:selected-cases @state))
      [common/alert "Select some algs below to get started."]
-     [common/button {:on-click #(scramble-generation/new-scramble state)
+     [common/button {:on-click #(scramble-generation/set-new-scramble! state)
                      :bs-style :success}
       "New scramble"])])
 
