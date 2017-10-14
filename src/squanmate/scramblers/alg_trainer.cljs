@@ -59,7 +59,7 @@
 
       [:div "With parity"
        [case-selections state ep/cases-with-parity]]]]
-    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :th}]
+    #_[common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :th}]
                                                 " Permute last layer (PLL)"])
                    :event-key 2}
      [:div "todo"]]]])
