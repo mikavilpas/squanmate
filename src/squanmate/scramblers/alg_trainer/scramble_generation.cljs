@@ -26,7 +26,7 @@
     (solving/solve-and-generate-scramble puzzle state)))
 
 (defn get-case [case-name]
-  (let [alg (get ep/all-cases-unordered case-name)]
+  (let [alg (get ep/all-cases case-name)]
     [case-name alg]))
 
 (defn- random-case [state]
