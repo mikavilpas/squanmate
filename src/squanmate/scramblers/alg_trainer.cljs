@@ -32,10 +32,12 @@
   (let [[case-name alg] case
         selected? (selection/case-selected? state case-name)]
     [:div.col-xs-4
-     [common/checkbox {:inline true
-                       :checked selected?
-                       :on-change #(selection/select-or-deselect! state case-name)}
-      case-name]]))
+     [:div.selected-wrapper
+      {:class (when selected? "selected-case")}
+      [common/checkbox {:inline true
+                        :checked selected?
+                        :on-change #(selection/select-or-deselect! state case-name)}
+       case-name]]]))
 
 (defn- case-selections [state cases]
   [:div
@@ -77,7 +79,7 @@
 (defn- new-scramble-button [state]
   [:div
    (if (empty? (:selected-cases @state))
-     [common/alert "Select some algs below to get started."]
+     [common/alert "Select some cases below to get started."]
      [common/button {:on-click #(scramble-generation/set-new-scramble! state)
                      :bs-style :success}
       "New scramble"])])
