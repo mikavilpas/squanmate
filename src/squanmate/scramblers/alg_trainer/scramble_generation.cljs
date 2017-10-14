@@ -12,9 +12,9 @@
                                                  layer
                                                  [0 3 -3 6]))]
               new-layer))]
-    (update puzzle
-            :top-layer rotate
-            :bottom-layer rotate)))
+    (-> puzzle
+        (update :top-layer rotate)
+        (update :bottom-layer rotate))))
 
 (defn- report-error-for-case [alg e]
   (js/console.log "Error setting up case for alg: " alg ". Description: " e))
