@@ -67,7 +67,7 @@
 (defn- settings [state]
   [common/accordion {:default-active-key 1}
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :cog}]
-                                               " Settings"])
+                                               " Algorithm sets"])
                   :event-key 1}
     [alg-selection-settings state]]
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :tint}]

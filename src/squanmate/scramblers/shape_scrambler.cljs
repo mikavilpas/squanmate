@@ -31,7 +31,7 @@
 (defn settings [state]
   [common/accordion {:default-active-key 1}
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :cog}]
-                                               " Settings"])
+                                               " Cases"])
                   :event-key 1}
     [shape-selection-settings state]]
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :tint}]
