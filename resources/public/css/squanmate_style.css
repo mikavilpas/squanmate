@@ -56,9 +56,11 @@ table.parity-count-analysis td {
     padding-right: 10px;
 }
 
+.selected-wrapper {
+    padding: 2px 5px;
+    display: inline;
+}
 .selected-wrapper.selected-case {
     background-color: lightgray;
     border-radius: 10px;
-    display: inline;
-    padding: 2px;
 }
