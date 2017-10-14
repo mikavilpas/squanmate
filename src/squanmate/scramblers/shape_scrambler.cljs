@@ -52,10 +52,10 @@
     (a/new-scramble! state)
     state))
 
-(defn- repeat-scramble-button [state]
+(defn- repeat-case-button [state]
   [common/button {:on-click #(a/set-new-scramble state [(:chosen-shapes @state)])}
    [:span [common/glyphicon {:glyph :repeat}]]
-   " Repeat scramble"])
+   " Repeat case"])
 
 (defn- new-scramble-button [state]
   [common/button {:on-click #(a/set-new-scramble state)
@@ -69,7 +69,7 @@
 
 (defn- action-buttons [state]
   [:div.center
-   [repeat-scramble-button state]
+   [repeat-case-button state]
    [new-scramble-button state]
    [inspect-scramble-button state]])
 

@@ -9,7 +9,8 @@
             [squanmate.scramblers.algsets.edge-permutation :as ep]
             [squanmate.ui.color-chooser :as color-chooser]
             [squanmate.ui.common :as common]
-            [squanmate.ui.drawing.newmonochrome :as newmonochrome]))
+            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
+            [squanmate.pages.links :as links]))
 
 (defn- puzzle-for-alg [alg]
   (->> alg
@@ -26,13 +27,6 @@
 (defn- scramble-preview [s]
   (when (not (str/blank? s))
     [:div.col-xs-10.col-md-6.col-lg-6.scramble [common/well s]]))
-
-(defn- new-scramble-button [state]
-  [:div
-   (if (empty? (:selected-cases @state))
-     [common/alert "Select some algs below to get started."]
-     [common/button {:on-click #(scramble-generation/new-scramble state)}
-      "New scramble"])])
 
 (defn- case-selection-component [state case]
   (let [[case-name alg] case
@@ -85,12 +79,35 @@
   (reagent/atom {:selected-cases #{}
                  :draw-settings {:monochrome? false}}))
 
+(defn- new-scramble-button [state]
+  [:div
+   (if (empty? (:selected-cases @state))
+     [common/alert "Select some algs below to get started."]
+     [common/button {:on-click #(scramble-generation/new-scramble state)
+                     :bs-style :success}
+      "New scramble"])])
+
+(defn- inspect-scramble-button [state]
+  (when (:chosen-case-name @state)
+    [common/button {:on-click #(links/set-link-to-scramble (:scramble-algorithm @state))}
+     [common/glyphicon {:glyph :search}]
+     " Inspect"]))
+
+(defn- repeat-scramble-button [state]
+  (when (:chosen-case-name @state)
+    [common/button {:on-click #(scramble-generation/new-scramble state (:chosen-case-name @state))}
+     [:span [common/glyphicon {:glyph :repeat}]]
+     " Repeat case"]))
+
+(defn- action-buttons [state]
+  [:div.center
+   [repeat-scramble-button state]
+   [new-scramble-button state]
+   [inspect-scramble-button state]])
+
 (defn trainer-component [state]
   [:div
-   [:div.center.vertical
-    [new-scramble-button state]
-    [puzzle-preview state]]
-   [:div.center.top17
-    [scramble-preview (:scramble-algorithm @state)]]
-   [:div.center
-    [settings state]]])
+   [:div.center.vertical [action-buttons state]]
+   [:div.center.top17 [puzzle-preview state]]
+   [:div.center.top17 [scramble-preview (:scramble-algorithm @state)]]
+   [:div.center [settings state]]])
