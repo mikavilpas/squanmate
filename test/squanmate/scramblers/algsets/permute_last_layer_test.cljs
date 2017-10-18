@@ -5,10 +5,10 @@
   (:require-macros [devcards.core :as dc :refer [deftest]]))
 
 (deftest parse-all-cases-test []
-  (is (empty? (av/non-parseable-cases pll/all-cases-unordered))))
+  (is (empty? (av/non-parseable-cases pll/all-cases))))
 
 (deftest execute-all-cases-test []
-  (is (empty? (av/non-executable-cases pll/all-cases-unordered))))
+  (is (empty? (av/non-executable-cases pll/all-cases))))
 
 (deftest all-cases-are-aligned-test []
-  (is (empty? (av/non-aligned-cases pll/all-cases-unordered))))
+  (is (empty? (av/non-aligned-cases pll/all-cases))))

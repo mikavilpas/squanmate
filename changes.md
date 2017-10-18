@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.4
+- new feature: add PLL algorithms to the algorithm trainer
+
 ## 5.3
 - new feature: algorithm trainer. Support for all edge permutation (EP) cases.
   See the readme for more info.

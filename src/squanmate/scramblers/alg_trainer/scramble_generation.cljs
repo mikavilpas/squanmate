@@ -25,26 +25,22 @@
     (swap! state assoc :puzzle puzzle)
     (solving/solve-and-generate-scramble puzzle state)))
 
-(defn get-case [case-name]
-  (let [alg (get ep/all-cases case-name)]
-    [case-name alg]))
-
 (defn- random-case [state]
   (let [cases (:selected-cases @state)
-        case-name (rand-nth (seq cases))]
-    case-name))
+        case (rand-nth (seq cases))]
+    case))
 
 (defn new-scramble
   ([state]
    (new-scramble state (random-case state)))
-  ([state case-name]
+  ([state case]
    ;; a starting rotation makes it possible to get the same EP case in all
    ;; different orientations
-   (let [[case-name alg] (get-case case-name)
+   (let [[case-name alg] case
          start (apply-starting-rotation p/square-square)
          alg-starting-state (execution/transformation-result-reverse start alg)]
      (swap! state assoc :scramble-algorithm ""
-            :chosen-case-name case-name)
+            :chosen-case case)
      (either/branch alg-starting-state
                     #(report-error-for-case alg %)
                     #(set-scramble-for-start-position! state %)))))
