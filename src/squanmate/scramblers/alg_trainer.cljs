@@ -10,7 +10,8 @@
             [squanmate.ui.color-chooser :as color-chooser]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
-            [squanmate.pages.links :as links]))
+            [squanmate.pages.links :as links]
+            [squanmate.scramblers.algsets.permute-last-layer :as pll]))
 
 (defn- puzzle-for-alg [alg]
   (->> alg
@@ -30,13 +31,13 @@
 
 (defn- case-selection-component [state case]
   (let [[case-name alg] case
-        selected? (selection/case-selected? state case-name)]
+        selected? (selection/case-selected? state case)]
     [:div.col-xs-4
      [:div.selected-wrapper
       {:class (when selected? "selected-case")}
       [common/checkbox {:inline true
                         :checked selected?
-                        :on-change #(selection/select-or-deselect! state case-name)}
+                        :on-change #(selection/select-or-deselect! state [case-name alg])}
        case-name]]]))
 
 (defn- case-selections [state cases]
@@ -49,17 +50,18 @@
     [common/button {:on-click #(selection/select-cases! state cases)} "Select all"]
     [common/button {:on-click #(selection/deselect-cases! state cases)} "Select none"]]])
 
+(defn- algset-header [title]
+  (reagent/as-element [:span [common/glyphicon {:glyph :th}]
+                       " " title]))
+
 (defn- alg-selection-settings [state]
-  [:div
-   [common/accordion {:default-active-key 1}
-    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :th}]
-                                                " Edge permutation (EP)"])
-                   :event-key 1}
-     [case-selections state ep/all-cases]]
-    #_[common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :th}]
-                                                " Permute last layer (PLL)"])
-                   :event-key 2}
-     [:div "todo"]]]])
+  [common/accordion {:default-active-key 1}
+   [common/panel {:header (algset-header "Edge permutation (EP)")
+                  :event-key 1}
+    [case-selections state ep/all-cases]]
+   [common/panel {:header (algset-header "Permute last layer (PLL)")
+                  :event-key 2}
+    [case-selections state pll/all-cases]]])
 
 (defn- settings [state]
   [common/accordion {:default-active-key 1}
@@ -85,14 +87,14 @@
       "New scramble"])])
 
 (defn- inspect-scramble-button [state]
-  (when (:chosen-case-name @state)
+  (when (:chosen-case @state)
     [common/button {:on-click #(links/set-link-to-scramble (:scramble-algorithm @state))}
      [common/glyphicon {:glyph :search}]
      " Inspect"]))
 
 (defn- repeat-scramble-button [state]
-  (when (:chosen-case-name @state)
-    [common/button {:on-click #(scramble-generation/new-scramble state (:chosen-case-name @state))}
+  (when (:chosen-case @state)
+    [common/button {:on-click #(scramble-generation/new-scramble state (:chosen-case @state))}
      [:span [common/glyphicon {:glyph :repeat}]]
      " Repeat case"]))
 
