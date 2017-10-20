@@ -54,7 +54,7 @@
               (when err
                 (reset! result-atom (str "failed: " err)))
               (when result-alg
-                (println "Initial rotation: " initial-rotation ", Solution: " result-alg)
+                (println "state string: " starting-state-string ", Initial rotation: " initial-rotation ", Solution: " result-alg)
                 (set-solution result-alg initial-rotation result-atom))))
     result-atom))
 
@@ -70,8 +70,9 @@
 (defn convert-to-state-string [puzzle]
   (let [pieces (into (-> puzzle :top-layer :pieces)
                      (-> puzzle :bottom-layer :pieces))]
-    (apply str
-           (mapv convert-piece pieces))))
+    (str (apply str
+                (mapv convert-piece pieces))
+         "/")))
 
 (defn- rotate-layer-to-slice-position [layer]
   (let [rotation-tries (rotation/random-layer-rotations layer)
