@@ -3,15 +3,15 @@
             [clojure.string :as str]
             [reagent.core :as reagent]
             [squanmate.alg.execution :as execution]
+            [squanmate.pages.links :as links]
             [squanmate.puzzle :as p]
             [squanmate.scramblers.alg-trainer.case-selection :as selection]
             [squanmate.scramblers.alg-trainer.scramble-generation :as scramble-generation]
             [squanmate.scramblers.algsets.edge-permutation :as ep]
+            [squanmate.scramblers.algsets.permute-last-layer :as pll]
             [squanmate.ui.color-chooser :as color-chooser]
             [squanmate.ui.common :as common]
-            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
-            [squanmate.pages.links :as links]
-            [squanmate.scramblers.algsets.permute-last-layer :as pll]))
+            [squanmate.ui.drawing.newmonochrome :as newmonochrome]))
 
 (defn- puzzle-for-alg [alg]
   (->> alg
