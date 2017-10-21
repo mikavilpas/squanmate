@@ -54,7 +54,9 @@
               (when err
                 (reset! result-atom (str "failed: " err)))
               (when result-alg
-                (println "state string: " starting-state-string ", Initial rotation: " initial-rotation ", Solution: " result-alg)
+                (println "puzzle: " starting-state-string
+                         ", Initial rotation: " initial-rotation
+                         ", Solution: " result-alg)
                 (set-solution result-alg initial-rotation result-atom))))
     result-atom))
 
@@ -67,12 +69,15 @@
          piece-id
          (str "oops! piece " (pr-str p) " could not be converted!"))))
 
-(defn convert-to-state-string [puzzle]
+(defn convert-to-state-string [puzzle flip-middle?]
   (let [pieces (into (-> puzzle :top-layer :pieces)
-                     (-> puzzle :bottom-layer :pieces))]
+                     (-> puzzle :bottom-layer :pieces))
+        middle (if flip-middle?
+                 "/"
+                 "-")]
     (str (apply str
                 (mapv convert-piece pieces))
-         "/")))
+         middle)))
 
 (defn- rotate-layer-to-slice-position [layer]
   (let [rotation-tries (rotation/random-layer-rotations layer)
@@ -96,14 +101,26 @@
           rotations (types/->Rotations top-rotation bottom-rotation)]
       [rotations new-puzzle])))
 
-(defn solve [puzzle]
+(defn- should-flip-middle? [state]
+  (let [mode (-> @state
+                 :middle-layer-settings
+                 :flip-mode)]
+    (condp = mode
+      :random (rand-nth [true false])
+      :always true
+      false)))
+
+(defn solve
+  ([puzzle]
+   (solve false))
+  ([puzzle flip-middle?]
    (let [[rotation puzzle] (rotation-to-slice-position puzzle)]
      ;; This is a limitation of Jaap's solver: the puzzle must be at a
      ;; sliceable position when a solution is calculated. To work around
      ;; this, twist the puzzle with a random rotation so that it's sliceable,
      ;; and include that random rotation in the scramble.
-     (solve-state-string (convert-to-state-string puzzle)
-                         :initial-rotation rotation)))
+     (solve-state-string (convert-to-state-string puzzle flip-middle?)
+                         :initial-rotation rotation))))
 
 (defn solve-and-generate-scramble
   "Creates a scramble for the given puzzle. When generating it is ready, puts
@@ -111,7 +128,8 @@
   ([puzzle]
    (solve-and-generate-scramble puzzle (reagent/atom nil)))
   ([puzzle state]
-   (let [solution-atom (solve puzzle)]
+   (let [solution-atom (solve puzzle
+                              (should-flip-middle? state))]
      (add-watch solution-atom nil
                 (fn [_key _ref _old-value solution-algorithm]
                   (let [steps (m/extract (parser/parse solution-algorithm))

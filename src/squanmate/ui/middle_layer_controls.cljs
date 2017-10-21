@@ -3,14 +3,14 @@
             [squanmate.ui.common :as common]))
 
 (defn default-state []
-  (reagent/atom {:middle-layer-settings {:flip-mode :random}}))
+  (reagent/atom {:flip-mode :random}))
 
 (defn- radio-for [state-atom flip-mode label]
   [common/radio {:checked (-> @state-atom
-                              :middle-layer-settings :flip-mode
+                              :flip-mode
                               (= flip-mode))
                  :name "middle-layer"
-                 :on-change #(swap! state-atom assoc-in [:middle-layer-settings :flip-mode] flip-mode)}
+                 :on-change #(swap! state-atom assoc :flip-mode flip-mode)}
    label])
 
 (defn controls [state]
