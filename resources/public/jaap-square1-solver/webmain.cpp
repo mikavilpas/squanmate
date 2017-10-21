@@ -19,7 +19,7 @@ class [[cheerp::jsexport]] Square1Solver
   // The class is allowed to have member variables
   // but they should all be trivially destructible
   int depth = 20;
-  int mode = -2;
+  int mode = 0;
   ostream* output=NULL; // not used when reading from input position
 
  public:
@@ -45,8 +45,6 @@ class [[cheerp::jsexport]] Square1Solver
     {
       return new client::String("something wrong with input, see js console for details");
     }
-
-    position.IgnoreMiddle();
 
     eng->DoSearch(position,depth,mode,output);
 

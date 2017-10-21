@@ -5,7 +5,8 @@
             [squanmate.ui.color-chooser :as color-chooser]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
-            [squanmate.ui.layer-selector :as layer-selector]))
+            [squanmate.ui.layer-selector :as layer-selector]
+            [squanmate.ui.middle-layer-controls :as middle-layer-controls]))
 
 (defn- selected-shapes-counter [state]
   (let [[layer-count percentage] (a/selected-shapes-count state)]
@@ -34,9 +35,13 @@
                                                " Cases"])
                   :event-key 1}
     [shape-selection-settings state]]
+   [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :wrench}]
+                                               " Scramble options"])
+                  :event-key 2}
+    [middle-layer-controls/controls (reagent/cursor state [:middle-layer-settings])]]
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :tint}]
                                                " Colors"])
-                  :event-key 2}
+                  :event-key 3}
     [color-chooser/color-chooser (reagent/cursor state [:draw-settings])]]])
 
 ;; let this module own its state schema by having it defined inside this file
@@ -48,7 +53,8 @@
                 :chosen-shapes nil
                 :selected-shapes #{(set ["square" "square"])}
                 :scramble-algorithm nil
-                :draw-settings (deref (color-chooser/default-color-chooser-state))})]
+                :draw-settings (deref (color-chooser/default-color-chooser-state))
+                :middle-layer-settings (deref (middle-layer-controls/default-state))})]
     (a/new-scramble! state)
     state))
 

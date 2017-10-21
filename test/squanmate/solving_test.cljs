@@ -45,7 +45,7 @@
 
 (deftest convert-to-state-string-test []
   (is (= "A1B2C3D45E6F7G8H"
-         (solving/convert-to-state-string puzzle/square-square))
+         (solving/convert-to-state-string puzzle/square-square false))
       "should be able to convert square square to solver notation"))
 
 (deftest worker-poc-test []

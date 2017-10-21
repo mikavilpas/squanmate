@@ -11,7 +11,8 @@
             [squanmate.scramblers.algsets.permute-last-layer :as pll]
             [squanmate.ui.color-chooser :as color-chooser]
             [squanmate.ui.common :as common]
-            [squanmate.ui.drawing.newmonochrome :as newmonochrome]))
+            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
+            [squanmate.ui.middle-layer-controls :as middle-layer-controls]))
 
 (defn- puzzle-for-alg [alg]
   (->> alg
@@ -69,14 +70,19 @@
                                                " Algorithm sets"])
                   :event-key 1}
     [alg-selection-settings state]]
+   [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :wrench}]
+                                               " Scramble options"])
+                  :event-key 2}
+    [middle-layer-controls/controls (reagent/cursor state [:middle-layer-settings])]]
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :tint}]
                                                " Colors"])
-                  :event-key 2}
+                  :event-key 3}
     [color-chooser/color-chooser (reagent/cursor state [:draw-settings])]]])
 
 (defn new-default-state []
   (reagent/atom {:selected-cases #{}
-                 :draw-settings {:monochrome? false}}))
+                 :draw-settings {:monochrome? false}
+                 :middle-layer-settings (deref (middle-layer-controls/default-state))}))
 
 (defn- new-scramble-button [state]
   [:div
