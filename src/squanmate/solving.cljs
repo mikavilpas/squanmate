@@ -108,7 +108,8 @@
     (condp = mode
       :random (rand-nth [true false])
       :always true
-      false)))
+      :never false
+      (rand-nth [true false]))))
 
 (defn solve
   ([puzzle]
