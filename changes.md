@@ -1,5 +1,13 @@
 # Changelog
 
+## 5.5
+- new feature: both trainers now allow choosing whether the middle layer should
+  be flipped in the scrambles. The default is to have a random middle layer
+  orientation in both trainers.
+- new feature: algorithm trainer now generates cases in random orientations.
+  Previously the cases were generated only at the position the algorithm (that
+  solves the case) would start at. 
+
 ## 5.4
 - new feature: add PLL algorithms to the algorithm trainer
 
