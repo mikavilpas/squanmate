@@ -22,7 +22,9 @@
 (defn swap-top-and-bottom [cs]
   (assoc cs
          :top (:bottom cs)
-         :bottom (:top cs)))
+         :bottom (:top cs)
+         :left (:right cs)
+         :right (:left cs)))
 
 (defn turn-y2 [cs]
   (assoc cs
