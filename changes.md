@@ -3,6 +3,8 @@
 ## upcoming
 - new feature: "Repeat case with same/opposite parity" in cubeshape trainer. See
   the readme for more info.
+- bugfix: fix "Swap top and bottom colors" resulting in non-standard color
+  scheme
 
 ## 5.5
 - new feature: both trainers now allow choosing whether the middle layer should
