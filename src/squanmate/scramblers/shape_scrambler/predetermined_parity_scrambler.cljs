@@ -64,14 +64,9 @@
          :bottom-layer (:top-layer puzzle)))
 
 (defn- randomly-switch-top-and-bottom-layers [puzzle]
-  ;; at this point the puzzle's layers must be in a sliceable position!
-  (if (not (slicing/sliceable? puzzle))
-    (throw (new js/Error "Cannot create a new scramble, because the generated
-                          puzzle is not at a sliceable position."))
-
-    (if (rand-nth [true false])
-      (switch-layers puzzle)
-      puzzle)))
+  (if (rand-nth [true false])
+    (switch-layers puzzle)
+    puzzle))
 
 (defrecord PredeterminedParityScrambler [ref-puzzle relative-parity-type]
   scrambler/ShapeScrambler
