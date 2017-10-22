@@ -73,6 +73,7 @@
   [common/split-button {:on-click #(a/set-new-random-scramble state)
                         :id "new-scramble"
                         :title "New scramble"
+                        :disabled (a/no-cases-selected? state)
                         :bs-style :success}
    [common/menu-item {:on-click #(a/deselect-case-and-generate-new-scramble! state)}
     "Deselect this case and generate a new scramble"]])

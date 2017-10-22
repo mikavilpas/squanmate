@@ -20,6 +20,10 @@
                        (.toFixed 2))]
     [layer-count percentage]))
 
+(defn no-cases-selected? [state]
+  (let [[selected-layers-count _] (selected-shapes-count state)]
+    (<= selected-layers-count 0)))
+
 (defn selected-shapes-counter [state]
   ;; there are 90 total shape combinations
   (let [layer-count (-> @state :selected-shapes count)
