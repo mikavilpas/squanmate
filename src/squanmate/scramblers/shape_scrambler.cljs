@@ -6,7 +6,8 @@
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [squanmate.ui.layer-selector :as layer-selector]
-            [squanmate.ui.middle-layer-controls :as middle-layer-controls]))
+            [squanmate.ui.middle-layer-controls :as middle-layer-controls]
+            [squanmate.scramblers.shape-scrambler.default-scrambler :as default-scrambler]))
 
 (defn- selected-shapes-counter [state]
   (let [[layer-count percentage] (a/selected-shapes-count state)]
@@ -55,16 +56,21 @@
                 :scramble-algorithm nil
                 :draw-settings (deref (color-chooser/default-color-chooser-state))
                 :middle-layer-settings (deref (middle-layer-controls/default-state))})]
-    (a/new-scramble! state)
+    (a/new-scramble! state (default-scrambler/new-default-shape-scrambler (:selected-shapes @state)))
     state))
 
 (defn- repeat-case-button [state]
-  [common/button {:on-click #(a/set-new-scramble state [(:chosen-shapes @state)])}
-   [:span [common/glyphicon {:glyph :repeat}]]
-   " Repeat case"])
+  [common/split-button {:on-click #(a/set-new-repeat-scramble state)
+                        :id "repeat-case"
+                        :title (reagent/as-element [:span [common/glyphicon {:glyph :repeat}]
+                                                    " Repeat case"])}
+   [common/menu-item {:on-select #(a/set-new-scramble-with-parity state :same-relative-parity)}
+    "Repeat with same parity"]
+   [common/menu-item {:on-select #(a/set-new-scramble-with-parity state :opposite-relative-parity)}
+    "Repeat with opposite parity"]])
 
 (defn- new-scramble-button [state]
-  [common/button {:on-click #(a/set-new-scramble state)
+  [common/button {:on-click #(a/set-new-random-scramble state)
                   :bs-style :success}
    "New scramble"])
 

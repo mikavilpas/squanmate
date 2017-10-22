@@ -16,6 +16,8 @@ Squanmate can help you:
 * **Train your cubeshape (or cubeshape parity) skills**
   * select the combinations of shapes you would like to train
   * a random scramble is generated for you. Solve away!
+  * repeat the selected case with the same/opposite parity, to train both cases
+    effectively!
 * **Train algorithms**
   * like with cubeshape cases, select the cases you want to train
   * currently supports **edge permutation (EP)** and **permute last layer
