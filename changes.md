@@ -1,5 +1,9 @@
 # Changelog
 
+## upcoming
+- new feature: cubeshape trainer now allows deselecting the current case and
+  generating a new one.
+
 ## 5.6
 - new feature: "Repeat case with same/opposite parity" in cubeshape trainer. See
   the readme for more info.
