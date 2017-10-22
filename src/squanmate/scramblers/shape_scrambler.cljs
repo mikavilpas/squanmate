@@ -70,9 +70,12 @@
     "Repeat with opposite parity"]])
 
 (defn- new-scramble-button [state]
-  [common/button {:on-click #(a/set-new-random-scramble state)
-                  :bs-style :success}
-   "New scramble"])
+  [common/split-button {:on-click #(a/set-new-random-scramble state)
+                        :id "new-scramble"
+                        :title "New scramble"
+                        :bs-style :success}
+   [common/menu-item {:on-click #(a/deselect-case-and-generate-new-scramble! state)}
+    "Deselect this case and generate a new scramble"]])
 
 (defn- inspect-scramble-button [state]
   [common/button {:on-click #(links/set-link-to-scramble (:scramble-algorithm @state))}

@@ -6,7 +6,8 @@
             [squanmate.scramblers.shape-scrambler.scrambler :as scrambler]
             [squanmate.services.google-analytics :as ga]
             [squanmate.shape-combinations :as shape-combinations]
-            [squanmate.solving :as solving]))
+            [squanmate.solving :as solving]
+            [clojure.set :as set]))
 
 (defonce all-layers (->> shape-combinations/possible-layers
                          (map set)
@@ -57,3 +58,8 @@
                                               relative-parity-type)]
     (new-scramble! state s)
     (ga/send-page-view :trainer/new-scramble)))
+
+(defn deselect-case-and-generate-new-scramble! [state]
+  (let [this-case (:chosen-shapes @state)]
+    (swap! state update :selected-shapes set/difference #{this-case}))
+  (set-new-random-scramble state))
