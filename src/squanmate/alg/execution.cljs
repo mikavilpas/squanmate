@@ -72,3 +72,9 @@
 
 (defn transformation-result-reverse [starting-puzzle algorithm-string]
   (last (transformations-reverse starting-puzzle algorithm-string)))
+
+(defn puzzle-of-result
+  "Only use this if you know the transformation should have been successful (no
+  chance of error basically). Throws a strange error if a problem occurs."
+  [transformation-result-either]
+  (:puzzle (m/extract transformation-result-either)))

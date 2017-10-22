@@ -1,15 +1,14 @@
 (ns squanmate.scramblers.shape-scrambler.predetermined-parity-scrambler
-  (:require [squanmate.alg.parity-counter :as parity-counter]
+  (:require [cats.core :as m]
+            [squanmate.alg.execution :as execution]
+            [squanmate.alg.manipulation :as manipulation]
+            [squanmate.alg.parity-counter :as parity-counter]
+            [squanmate.alg.serialization :as serialization]
             [squanmate.puzzle :as p]
             [squanmate.scramblers.shape-scrambler.default-scrambler
              :as
              default-scrambler]
             [squanmate.scramblers.shape-scrambler.scrambler :as scrambler]
-            [squanmate.alg.serialization :as serialization]
-            [squanmate.alg.execution :as execution]
-            [squanmate.alg.manipulation :as manipulation]
-            [cats.core :as m]
-            [squanmate.rotation :as rotation]
             [squanmate.slicing :as slicing]))
 
 (def ^:private base-scrambler (default-scrambler/new-default-shape-scrambler))
@@ -24,17 +23,17 @@
 (defn- reorient-to-default-layer-positions [puzzle]
   (let [{:keys [initial-rotation]} (serialization/puzzle-specification puzzle)
         rotation-to-default-positions (manipulation/reverse-alg initial-rotation)]
-    (execution/transformation-result puzzle
-                                     rotation-to-default-positions)))
+
+    ;; consider Left results unrecoverable internal errors
+    (execution/puzzle-of-result
+     (execution/transformation-result puzzle
+                                      rotation-to-default-positions))))
 
 (defn puzzle-parity-at-default-layer-positions [puzzle]
-  (let [result-either
-        (m/mlet [puzzle-at-default-positions (-> puzzle
-                                                 reorient-to-default-layer-positions)]
-                (m/return (parity-counter/parity-count (:puzzle puzzle-at-default-positions))))
-
-        ;; consider Left results unrecoverable internal errors
-        [parity? _] (m/extract result-either)]
+  (let [[parity? _]
+        (-> puzzle
+            reorient-to-default-layer-positions
+            parity-counter/parity-count)]
     parity?))
 
 (defn- same-parity? [reference-parity puzzle]
@@ -59,6 +58,11 @@
       :same-relative-parity (first (filter (partial same-parity? reference-parity)
                                            new-puzzles)))))
 
+(defn- switch-layers [puzzle]
+  (assoc puzzle
+         :top-layer (:bottom-layer puzzle)
+         :bottom-layer (:top-layer puzzle)))
+
 (defn- randomly-switch-top-and-bottom-layers [puzzle]
   ;; at this point the puzzle's layers must be in a sliceable position!
   (if (not (slicing/sliceable? puzzle))
@@ -66,9 +70,7 @@
                           puzzle is not at a sliceable position."))
 
     (if (rand-nth [true false])
-      (assoc puzzle
-             :top-layer (:bottom-layer puzzle)
-             :bottom-layer (:top-layer puzzle)))))
+      (switch-layers puzzle))))
 
 (defrecord PredeterminedParityScrambler [ref-puzzle relative-parity-type]
   scrambler/ShapeScrambler
