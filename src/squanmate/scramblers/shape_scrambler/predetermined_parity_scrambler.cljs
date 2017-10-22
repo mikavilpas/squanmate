@@ -1,6 +1,5 @@
 (ns squanmate.scramblers.shape-scrambler.predetermined-parity-scrambler
-  (:require [cats.core :as m]
-            [squanmate.alg.execution :as execution]
+  (:require [squanmate.alg.execution :as execution]
             [squanmate.alg.manipulation :as manipulation]
             [squanmate.alg.parity-counter :as parity-counter]
             [squanmate.alg.serialization :as serialization]
@@ -9,6 +8,7 @@
              :as
              default-scrambler]
             [squanmate.scramblers.shape-scrambler.scrambler :as scrambler]
+            [squanmate.shapes :as shapes]
             [squanmate.slicing :as slicing]))
 
 (def ^:private base-scrambler (default-scrambler/new-default-shape-scrambler))
@@ -70,12 +70,14 @@
                           puzzle is not at a sliceable position."))
 
     (if (rand-nth [true false])
-      (switch-layers puzzle))))
+      (switch-layers puzzle)
+      puzzle)))
 
 (defrecord PredeterminedParityScrambler [ref-puzzle relative-parity-type]
   scrambler/ShapeScrambler
-  (create-scramble [this]
-    (let [puzzle (create-puzzle-with-relative-parity ref-puzzle relative-parity-type)]
-      (-> puzzle
-          randomly-switch-top-and-bottom-layers
-          default-scrambler/apply-random-rotations))))
+  (create-scramble [self]
+    (let [puzzle (-> (create-puzzle-with-relative-parity ref-puzzle relative-parity-type)
+                     randomly-switch-top-and-bottom-layers
+                     default-scrambler/apply-random-rotations)
+          puzzle-layer-names (shapes/puzzle-layer-shape-names puzzle)]
+      [puzzle-layer-names puzzle])))
