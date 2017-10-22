@@ -1,5 +1,9 @@
 # Changelog
 
+## upcoming
+- new feature: "Repeat case with same/opposite parity" in cubeshape trainer. See
+  the readme for more info.
+
 ## 5.5
 - new feature: both trainers now allow choosing whether the middle layer should
   be flipped in the scrambles. The default is to have a random middle layer
