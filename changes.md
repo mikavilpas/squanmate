@@ -1,6 +1,6 @@
 # Changelog
 
-## upcoming
+## 5.6
 - new feature: "Repeat case with same/opposite parity" in cubeshape trainer. See
   the readme for more info.
 - bugfix: fix "Swap top and bottom colors" resulting in non-standard color
