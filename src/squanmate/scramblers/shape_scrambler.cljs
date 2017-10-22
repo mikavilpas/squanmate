@@ -65,7 +65,9 @@
                         :title (reagent/as-element [:span [common/glyphicon {:glyph :repeat}]
                                                     " Repeat case"])}
    [common/menu-item {:on-select #(a/set-new-scramble-with-parity state :same-relative-parity)}
-    "Repeat with same parity"]])
+    "Repeat with same parity"]
+   [common/menu-item {:on-select #(a/set-new-scramble-with-parity state :opposite-relative-parity)}
+    "Repeat with opposite parity"]])
 
 (defn- new-scramble-button [state]
   [common/button {:on-click #(a/set-new-random-scramble state)

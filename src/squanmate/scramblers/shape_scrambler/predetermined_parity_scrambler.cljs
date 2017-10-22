@@ -56,7 +56,9 @@
         new-puzzles (repeatedly #(puzzle-with-same-layers ref-puzzle))]
     (condp = relative-parity-type
       :same-relative-parity (first (filter (partial same-parity? reference-parity)
-                                           new-puzzles)))))
+                                           new-puzzles))
+      :opposite-relative-parity (first (filter (complement (partial same-parity? reference-parity))
+                                               new-puzzles)))))
 
 (defn- switch-layers [puzzle]
   (assoc puzzle

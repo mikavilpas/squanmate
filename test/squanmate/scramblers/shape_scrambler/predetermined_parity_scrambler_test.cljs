@@ -27,7 +27,13 @@
 (deftest scrambler-test []
   (is (let [s (sut/->PredeterminedParityScrambler p/square-square
                                                   :same-relative-parity)]
-        (scrambler/create-scramble s))))
+        (scrambler/create-scramble s))
+      "creates puzzle with same parity")
+
+  (is (let [s (sut/->PredeterminedParityScrambler p/square-square
+                                                  :opposite-relative-parity)]
+        (scrambler/create-scramble s))
+      "creates with opposite parity"))
 
 (deftest reorient-to-default-layer-positions-test []
   (is (shapes/same-shape-and-orientation?
