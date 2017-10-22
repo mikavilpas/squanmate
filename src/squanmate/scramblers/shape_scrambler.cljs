@@ -59,9 +59,10 @@
     state))
 
 (defn- repeat-case-button [state]
-  [common/button {:on-click #(a/set-new-scramble state [(:chosen-shapes @state)])}
-   [:span [common/glyphicon {:glyph :repeat}]]
-   " Repeat case"])
+  [common/split-button {:on-click #(a/set-new-scramble state [(:chosen-shapes @state)])
+                        :title (reagent/as-element [:span [common/glyphicon {:glyph :repeat}]
+                                                    " Repeat case"])}
+   [common/menu-item "Repeat with opposite parity"]])
 
 (defn- new-scramble-button [state]
   [common/button {:on-click #(a/set-new-scramble state)

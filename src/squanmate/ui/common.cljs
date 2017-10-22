@@ -30,6 +30,7 @@
 (def well (reagent/adapt-react-class js/ReactBootstrap.Well))
 (def alert (reagent/adapt-react-class js/ReactBootstrap.Alert))
 
+(def split-button (reagent/adapt-react-class js/ReactBootstrap.SplitButton))
 (def dropdown-button (reagent/adapt-react-class js/ReactBootstrap.DropdownButton))
 (def menu-item (reagent/adapt-react-class js/ReactBootstrap.MenuItem))
 
