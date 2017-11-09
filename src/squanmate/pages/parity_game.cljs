@@ -1,7 +1,8 @@
 (ns squanmate.pages.parity-game
   (:require [squanmate.ui.parity-sequences :as ps]
             [reagent.core :as reagent]
-            [squanmate.pages.page-content :as page-content]))
+            [squanmate.pages.page-content :as page-content]
+            [squanmate.services.keyboard :as keyboard]))
 
 (defonce state (ps/default-state))
 
@@ -16,4 +17,6 @@
      [ps/parity-game state]]]])
 
 (defmethod page-content/page :parity-game []
+  (keyboard/bind! "left" #(ps/answer-parity state))
+  (keyboard/bind! "right" #(ps/answer-no-parity state))
   [content])
