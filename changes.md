@@ -1,6 +1,11 @@
 # Changelog
 
-## upcoming
+## 5.8
+- new feature: parity game: use the left and right arrow to answer which parity
+  is shown.
+- bugfix: parity game sometimes gave the same case again after a correct answer
+
+## 5.7
 - new feature: cubeshape trainer now allows deselecting the current case and
   generating a new one.
 

@@ -3,7 +3,8 @@
             [squanmate.ui.alg-visualizer :as v]
             [reagent.core :as reagent]
             [squanmate.puzzle :as p]
-            [squanmate.shapes :as shapes])
+            [squanmate.shapes :as shapes]
+            [squanmate.pages.page-content :as page-content])
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg]]))
 
@@ -66,3 +67,11 @@
       ;; is opened or reloaded with these args in the url.
       ;; Will have to experiment if this is desirable.
       [content local-state])))
+
+(defmethod page-content/page :shape-visualizer []
+  [content])
+
+(defmethod page-content/page :shape-visualizer-from-args [app-state-atom]
+  [content-from-args (-> @app-state-atom
+                         :page
+                         :route-args)])

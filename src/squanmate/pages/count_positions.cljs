@@ -1,6 +1,7 @@
 (ns squanmate.pages.count-positions
   (:require [squanmate.ui.count-position-finder :as count-positions-finder]
-            [squanmate.ui.common :as common]))
+            [squanmate.ui.common :as common]
+            [squanmate.pages.page-content :as page-content]))
 
 (defonce state (count-positions-finder/default-state))
 
@@ -25,3 +26,6 @@
       follow the shape instead of the group colors."]
 
      [count-positions-finder/count-position-finder state]]]])
+
+(defmethod page-content/page :count-positions []
+  [content])

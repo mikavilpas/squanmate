@@ -6,7 +6,8 @@
             [goog.events :as events]
             [goog.history.EventType :as EventType]
             [reagent.core :as reagent]
-            [squanmate.pages.main-ui :as main-ui]))
+            [squanmate.pages.main-ui :as main-ui]
+            [squanmate.services.keyboard :as keyboard]))
 
 (defonce browser-setup? (reagent/atom false))
 
@@ -25,7 +26,8 @@
   ([app-state page route-args]
    (swap! app-state assoc :page {:name page
                                  :route-args route-args})
-   (ga/send-page-view page)))
+   (ga/send-page-view page)
+   (keyboard/reset-bindings!)))
 
 (defn app-routes [app-state]
   (secretary/set-config! :prefix "#")
