@@ -1,5 +1,6 @@
 (ns squanmate.pages.main-ui
-  (:require [reagent.core :as reagent]
+  (:require [squanmate.pages.page-content :as page-content]
+            [reagent.core :as reagent]
             [squanmate.pages.all-possible-shapes :as all-possible-shapes]
             [squanmate.pages.shape-visualizer :as shape-visualizer]
             [squanmate.ui.common :as common]
@@ -9,53 +10,47 @@
             [squanmate.pages.count-positions :as count-positions]
             [squanmate.pages.parity-game :as parity-game]
             [squanmate.pages.scramble-inspector :as scramble-inspector]
-            [squanmate.pages.algorithm-trainer :as algorithm-trainer]
-            ))
-
-(defmulti page-content (fn [app-state]
-                         (-> @app-state
-                             :page
-                             :name)))
+            [squanmate.pages.algorithm-trainer :as algorithm-trainer]))
 
 ;; todo move this to shapes page
-(defmethod page-content :shapes []
+(defmethod page-content/page :shapes []
   [all-possible-shapes/content])
 
-(defmethod page-content :trainer []
+(defmethod page-content/page :trainer []
   [:div
    [trainer/content]])
 
-(defmethod page-content :algorithm-trainer []
+(defmethod page-content/page :algorithm-trainer []
   [:div
    [algorithm-trainer/content]])
 
-(defmethod page-content :shape-visualizer []
+(defmethod page-content/page :shape-visualizer []
   [shape-visualizer/content])
 
-(defmethod page-content :shape-visualizer-from-args [app-state-atom]
+(defmethod page-content/page :shape-visualizer-from-args [app-state-atom]
   [shape-visualizer/content-from-args (-> @app-state-atom
                                           :page
                                           :route-args)])
 
-(defmethod page-content :importer []
+(defmethod page-content/page :importer []
   [importer/content])
 
-(defmethod page-content :count-positions []
+(defmethod page-content/page :count-positions []
   [count-positions/content])
 
-(defmethod page-content :parity-game []
+(defmethod page-content/page :parity-game []
   [parity-game/content])
 
-(defmethod page-content :scramble-inspector []
+(defmethod page-content/page :scramble-inspector []
   [scramble-inspector/content])
 
-(defmethod page-content :scramble-inspector-from-args [app-state-atom]
+(defmethod page-content/page :scramble-inspector-from-args [app-state-atom]
   [scramble-inspector/content-from-args (-> @app-state-atom
                                             :page
                                             :route-args)])
 
-(defmethod page-content :default [app-state]
-  [:div "warning: page content not found"])
+(defmethod page-content/page :default [app-state]
+  [:div "warning: page-content/page content not found"])
 
 (defn navigation []
   [common/navbar
@@ -76,7 +71,7 @@
      [common/nav-item {:event-key 7 :href "#/parity-game"} "Parity game"]]]])
 
 (defn- footer []
-  ;; just some vertical space to make the page feel better
+  ;; just some vertical space to make the page-content/page feel better
   [:div.bottom30])
 
 (defn main-ui [app-state]
@@ -84,6 +79,6 @@
    [:div.content
     [navigation]
     [:div.container
-     [page-content app-state]]]
+     [page-content/page app-state]]]
 
    [footer]])
