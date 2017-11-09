@@ -4,6 +4,11 @@
             [clojure.string :as str]
             [squanmate.services.parity-sequences :as parity-sequences]))
 
+(defn- new-unique-sequence [state]
+  (let [current-sequence (:parity-sequence @state)]
+    (first (filter #(not (= current-sequence %))
+                   (repeatedly parity-sequences/new-sequence)))))
+
 (defn default-state []
   (reagent/atom {:parity-sequence (parity-sequences/new-sequence)}))
 
@@ -24,7 +29,8 @@
        [color c]])))
 
 (defn- new-question! [state]
-  (swap! state assoc :parity-sequence (parity-sequences/new-sequence)))
+  (swap! state assoc :parity-sequence
+         (new-unique-sequence state)))
 
 (defn- has-parity? [parity-sequence]
   (let [s (apply str parity-sequence)
