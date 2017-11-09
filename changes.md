@@ -1,6 +1,6 @@
 # Changelog
 
-## upcoming
+## 5.7
 - new feature: cubeshape trainer now allows deselecting the current case and
   generating a new one.
 
