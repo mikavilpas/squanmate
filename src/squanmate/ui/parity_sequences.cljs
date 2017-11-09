@@ -38,24 +38,18 @@
         parity? (not (nil? res))]
     parity?))
 
-(defn- answer! [parity? state]
+(defn answer! [parity? state]
   (when (= parity?
            (has-parity? (:parity-sequence @state)))
     (new-question! state)))
 
-(defn answer-parity [state]
-  (answer! true state))
-
-(defn answer-no-parity [state]
-  (answer! false state))
-
 (defn- buttons [state]
   [:div.center.top17
    [common/button {:bs-size "large"
-                   :on-click #(answer-parity state)}
+                   :on-click #(answer! true state)}
     "Odd"]
    [common/button {:bs-size "large"
-                   :on-click #(answer-no-parity state)}
+                   :on-click #(answer! false state)}
     "Even"]])
 
 (defn parity-game [state]

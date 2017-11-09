@@ -3,7 +3,8 @@
             [reagent.core :as reagent]
             [squanmate.pages.page-content :as page-content]
             [squanmate.services.keyboard :as keyboard]
-            [squanmate.ui.common :as common]))
+            [squanmate.ui.common :as common]
+            [squanmate.services.google-analytics :as ga]))
 
 (defonce state (ps/default-state))
 
@@ -19,7 +20,11 @@
       " You can use the left and right keys to answer too"]
      [ps/parity-game state]]]])
 
+(defn answer! [parity? state]
+  (ga/send-page-view :parity-game-answer)
+  (ps/answer! parity? state))
+
 (defmethod page-content/page :parity-game []
-  (keyboard/bind! "left" #(ps/answer-parity state))
-  (keyboard/bind! "right" #(ps/answer-no-parity state))
+  (keyboard/bind! "left" #(answer! true state))
+  (keyboard/bind! "right" #(answer! false state))
   [content])
