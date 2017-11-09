@@ -1,6 +1,9 @@
 # Changelog
 
 ## upcoming
+- bugfix: parity game sometimes gave the same case again after a correct answer
+
+## 5.7
 - new feature: cubeshape trainer now allows deselecting the current case and
   generating a new one.
 
