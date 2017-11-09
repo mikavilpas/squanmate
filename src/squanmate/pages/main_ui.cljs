@@ -1,6 +1,10 @@
 (ns squanmate.pages.main-ui
   (:require [squanmate.pages.page-content :as page-content]
             [reagent.core :as reagent]
+
+            ;; note: all pages need to be referenced here, so that their page
+            ;; definition is loaded!
+
             [squanmate.pages.all-possible-shapes :as all-possible-shapes]
             [squanmate.pages.shape-visualizer :as shape-visualizer]
             [squanmate.ui.common :as common]
@@ -11,43 +15,6 @@
             [squanmate.pages.parity-game :as parity-game]
             [squanmate.pages.scramble-inspector :as scramble-inspector]
             [squanmate.pages.algorithm-trainer :as algorithm-trainer]))
-
-;; todo move this to shapes page
-(defmethod page-content/page :shapes []
-  [all-possible-shapes/content])
-
-(defmethod page-content/page :trainer []
-  [:div
-   [trainer/content]])
-
-(defmethod page-content/page :algorithm-trainer []
-  [:div
-   [algorithm-trainer/content]])
-
-(defmethod page-content/page :shape-visualizer []
-  [shape-visualizer/content])
-
-(defmethod page-content/page :shape-visualizer-from-args [app-state-atom]
-  [shape-visualizer/content-from-args (-> @app-state-atom
-                                          :page
-                                          :route-args)])
-
-(defmethod page-content/page :importer []
-  [importer/content])
-
-(defmethod page-content/page :count-positions []
-  [count-positions/content])
-
-(defmethod page-content/page :parity-game []
-  [parity-game/content])
-
-(defmethod page-content/page :scramble-inspector []
-  [scramble-inspector/content])
-
-(defmethod page-content/page :scramble-inspector-from-args [app-state-atom]
-  [scramble-inspector/content-from-args (-> @app-state-atom
-                                            :page
-                                            :route-args)])
 
 (defmethod page-content/page :default [app-state]
   [:div "warning: page-content/page content not found"])

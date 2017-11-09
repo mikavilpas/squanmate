@@ -1,6 +1,7 @@
 (ns squanmate.pages.parity-game
   (:require [squanmate.ui.parity-sequences :as ps]
-            [reagent.core :as reagent]))
+            [reagent.core :as reagent]
+            [squanmate.pages.page-content :as page-content]))
 
 (defonce state (ps/default-state))
 
@@ -13,3 +14,6 @@
      This is a very useful skill in the Cale Schoon parity method, one that you
      will have to master if you intend to use it."]
      [ps/parity-game state]]]])
+
+(defmethod page-content/page :parity-game []
+  [content])

@@ -1,7 +1,8 @@
 (ns squanmate.pages.all-possible-shapes
   (:require [squanmate.shapes :as s]
             [squanmate.ui.common :as common]
-            [squanmate.ui.shape-preview :as sp]))
+            [squanmate.ui.shape-preview :as sp]
+            [squanmate.pages.page-content :as page-content]))
 
 (defn- flowers []
   [:div
@@ -73,3 +74,6 @@
    [common/panel [five-corners]]
    [common/panel [six-corners]]
    [source]])
+
+(defmethod page-content/page :shapes []
+  [content])
