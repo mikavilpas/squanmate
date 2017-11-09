@@ -1,6 +1,8 @@
 # Changelog
 
 ## upcoming
+- new feature: parity game: use the left and right arrow to answer which parity
+  is shown.
 - bugfix: parity game sometimes gave the same case again after a correct answer
 
 ## 5.7
