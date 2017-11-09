@@ -113,7 +113,7 @@
 
 (defn solve
   ([puzzle]
-   (solve false))
+   (solve puzzle false))
   ([puzzle flip-middle?]
    (let [[rotation puzzle] (rotation-to-slice-position puzzle)]
      ;; This is a limitation of Jaap's solver: the puzzle must be at a

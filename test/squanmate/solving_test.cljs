@@ -44,7 +44,7 @@
     [:li "combine the initial rotation with the algorithm received from Jaap's solver"]]])
 
 (deftest convert-to-state-string-test []
-  (is (= "A1B2C3D45E6F7G8H"
+  (is (= "A1B2C3D45E6F7G8H-"
          (solving/convert-to-state-string puzzle/square-square false))
       "should be able to convert square square to solver notation"))
 
@@ -67,7 +67,7 @@
 
 (defn should-be-solved-with [scramble-alg expected-solve-alg done]
   (go
-    (let [result-atom (solving/solve (scrambled-puzzle scramble-alg))]
+    (let [result-atom (solving/solve (scrambled-puzzle scramble-alg) true)]
       (<! (timeout 500))
       (is (= expected-solve-alg @result-atom)
           (str "should solve " scramble-alg " with " expected-solve-alg))
