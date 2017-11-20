@@ -7,7 +7,8 @@
             [squanmate.services.google-analytics :as ga]
             [squanmate.shape-combinations :as shape-combinations]
             [squanmate.solving :as solving]
-            [clojure.set :as set]))
+            [clojure.set :as set]
+            [squanmate.services.storage :as storage]))
 
 (defonce all-layers (->> shape-combinations/possible-layers
                          (map set)
@@ -30,6 +31,19 @@
         percentage (-> (* 100 (/ layer-count 90))
                        (.toFixed 2))]
     [:div (str layer-count " / 90 total shapes selected (" percentage " %).")]))
+
+(defn try-load-settings
+  "If the user has previously saved settings, loads them and returns them (as a map)."
+  []
+  (when-let [state (storage/get-value "trainer-settings")]
+    state))
+
+(defn save-settings! [state-map]
+  (let [settings (->> (select-keys state-map [:selected-shapes
+                                              :draw-settings
+                                              :middle-layer-settings])
+                      (into {}))]
+    (storage/save "trainer-settings" settings)))
 
 (defn select-all-shapes [state]
   (swap! state assoc :selected-shapes all-layers))

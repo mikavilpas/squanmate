@@ -31,6 +31,7 @@
             squanmate.scramblers.alg-trainer.scramble-generation-test
             squanmate.scramblers.algsets.permute-last-layer-test
             squanmate.ui.middle-layer-controls-test
-            squanmate.scramblers.shape-scrambler.predetermined-parity-scrambler-test))
+            squanmate.scramblers.shape-scrambler.predetermined-parity-scrambler-test
+            squanmate.services.storage-test))
 
 (devtools/install! [:formatters :hints :async])
