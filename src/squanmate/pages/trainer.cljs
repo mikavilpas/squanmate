@@ -1,7 +1,6 @@
 (ns squanmate.pages.trainer
-  (:require [squanmate.scramblers.shape-scrambler :as shape-scrambler]
-            [squanmate.pages.page-content :as page-content]
-            [squanmate.services.storage :as storage]
+  (:require [squanmate.pages.page-content :as page-content]
+            [squanmate.scramblers.shape-scrambler :as shape-scrambler]
             [squanmate.scramblers.shape-scrambler.actions :as a]))
 
 (defn initial-state []
