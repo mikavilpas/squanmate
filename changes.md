@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.9
+- new feature: cubeshape trainer and algorithm trainer now remember their
+  settings across page reloads / closing the browser etc.
+
 ## 5.8
 - new feature: parity game: use the left and right arrow to answer which parity
   is shown.
