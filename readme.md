@@ -4,7 +4,7 @@
 
 ![logo][logolink]
 
-*Squanmate* is a Square-1 training tool.
+*Squanmate* is a Square-1 trainer, analysis and general learning tool.
 
 **You can run it with a modern web browser right now.
 Try it [here][applink]!** (the link will change with every release,
