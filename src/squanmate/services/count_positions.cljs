@@ -59,7 +59,7 @@
   parity."
   [layer]
   (let [puzzle (puzzle-with-top-layer layer)
-        rotation-results-and-amounts (rac/sliceable-rotations
+        rotation-results-and-amounts (rotation/sliceable-rotations
                                       (:top-layer puzzle))
         parities-and-rotations (map #(parity?-and-rotation-amount puzzle %)
                                     rotation-results-and-amounts)]

@@ -2,7 +2,8 @@
   (:require [cats.monad.either :as either]
             [squanmate.puzzle :as p]
             [cats.core :as m]
-            [squanmate.puzzle :as puzzle]))
+            [squanmate.puzzle :as puzzle]
+            [squanmate.slicing :as slicing]))
 
 (defprotocol LayerRotationStrategy
   (first-piece [this layer])
@@ -79,3 +80,9 @@
 
 (defn random-layer-rotations [layer]
   (shuffle (possible-rotations layer)))
+
+(defn sliceable-rotations [layer]
+  (let [possible-rotations (possible-rotations layer)]
+    (->> possible-rotations
+         (filter (fn [[result amount]]
+                   (slicing/layer-sliceable? result))))))
