@@ -22,8 +22,8 @@
   (p/pieces-str (get shapes/all-shapes shape-name)))
 
 (defn apply-random-rotations [puzzle]
-  (let [[new-top _] (-> puzzle :top-layer rotation/random-layer-rotations first)
-        [new-bottom _] (-> puzzle :bottom-layer rotation/random-layer-rotations first)]
+  (let [[new-top _] (-> puzzle :top-layer rotation/random-sliceable-rotations first)
+        [new-bottom _] (-> puzzle :bottom-layer rotation/random-sliceable-rotations first)]
     (assoc puzzle
            :top-layer new-top
            :bottom-layer new-bottom)))
