@@ -28,7 +28,6 @@
             squanmate.scramblers.alg-trainer-test
             squanmate.scramblers.algsets.edge-permutation-test
             squanmate.services.cube-aligner-test
-            squanmate.scramblers.alg-trainer.scramble-generation-test
             squanmate.scramblers.algsets.permute-last-layer-test
             squanmate.ui.middle-layer-controls-test
             squanmate.scramblers.shape-scrambler.predetermined-parity-scrambler-test
