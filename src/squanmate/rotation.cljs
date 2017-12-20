@@ -86,3 +86,6 @@
     (->> possible-rotations
          (filter (fn [[result amount]]
                    (slicing/layer-sliceable? result))))))
+
+(defn random-sliceable-rotations [layer]
+  (shuffle (sliceable-rotations layer)))
