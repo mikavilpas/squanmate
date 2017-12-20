@@ -72,6 +72,13 @@ figwheel, then start hacking something!
         (figwheel-sidecar.repl-api/cljs-repl))
 ```
 
+## Java 9
+
+If you’re using JDK 9, you need to include the JVM options `"--add-modules" "java.xml.bind"` 
+in your _project.clj_. Add it just to the existing one that the line fully reads 
+`:jvm-opts ["--add-modules" "java.xml.bind" "-Xmx1G"]`. Do not commit this, as it breaks 
+<Java 9 JVMs. 
+
 ## Development environments
 You have the option of choosing between two development environments:
 - *devcards* shows tests and isolated reagent components, allowing you to
