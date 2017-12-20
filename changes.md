@@ -1,6 +1,6 @@
 # Changelog
 
-## upcoming
+## 5.9.1
 - bugfix: it was impossible to open setting panels by clicking on them, except
   by clicking exactly on the text. Now they can be opened from any position.
   This fix isn't perfect - there are some areas above and below the level of the
