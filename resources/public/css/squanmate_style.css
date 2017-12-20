@@ -64,3 +64,14 @@ table.parity-count-analysis td {
     background-color: lightgray;
     border-radius: 10px;
 }
+
+/* Allow clicking a panel's heading at any position. The default behavior is
+   that only clicking the panel header text collapses the panel. */
+/* https://stackoverflow.com/a/44274589/1336788 */
+.panel-heading {
+    padding: 0;
+    cursor: pointer;
+}
+.panel-title a {
+    display: block;
+}
