@@ -7,14 +7,8 @@
             [squanmate.slicing :as slicing]
             [squanmate.ui.common :as common]))
 
-(defn sliceable-rotations [layer]
-  (let [possible-rotations (rotation/possible-rotations layer)]
-    (->> possible-rotations
-         (filter (fn [[result amount]]
-                   (slicing/layer-sliceable? result))))))
-
 (defn possible-sliceable-rotations [layer]
-  (let [possible-rotations (sliceable-rotations layer)
+  (let [possible-rotations (rotation/sliceable-rotations layer)
         positive (for [[result amount] possible-rotations
                        :when (pos? amount)]
                    amount)

@@ -1,5 +1,14 @@
 # Changelog
 
+## 5.9.1
+- bugfix: it was impossible to open setting panels by clicking on them, except
+  by clicking exactly on the text. Now they can be opened from any position.
+  This fix isn't perfect - there are some areas above and below the level of the
+  text that still don't work.
+- bugfix: force all cubeshape parity trainer scrambles to have a sliceable
+  starting position. This is something that I understand is not in the actual
+  regulations, but it seems in practice all scrambles work this way already.
+
 ## 5.9
 - new feature: cubeshape trainer and algorithm trainer now remember their
   settings across page reloads / closing the browser etc.
