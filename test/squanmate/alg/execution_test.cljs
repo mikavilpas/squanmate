@@ -57,7 +57,7 @@
    "this should do an alg and then reverse it. so it should show a solved
    puzzle. It uses the same alg as the test below, which is: "
    sample-alg
-   [newmonochrome/monochrome-puzzle (:puzzle (m/extract (apply-alg-and-its-reverse-alg sample-alg)))
+   [newmonochrome/monochrome-puzzle (e/puzzle-of-result (apply-alg-and-its-reverse-alg sample-alg))
     {:monochrome? false}]])
 
 (deftest transformation-result-reverse-test []
