@@ -5,7 +5,8 @@
             [squanmate.puzzle :as puzzle]
             [cats.monad.either :as either]
             [squanmate.alg.serialization :as serialization]
-            [squanmate.alg.prettification :as prettification]))
+            [squanmate.alg.prettification :as prettification]
+            [squanmate.rotation :as rotation]))
 
 (defn combine-rotations [a b]
   (-> a
@@ -13,28 +14,32 @@
       (update :bottom-amount #(prettification/prettify-value (+ % (:bottom-amount b))))))
 
 (defn append-final-rotation [rotation alg-steps]
-  (let [s (last alg-steps)]
-    (cond
-      (nil? rotation)
-      alg-steps
+  (if (= rotation/empty-rotation rotation)
+    alg-steps
+    (let [s (last alg-steps)]
+      (cond
+        (nil? rotation)
+        alg-steps
 
-      (= types/Rotations (type s))
-      (let [new-last-step (combine-rotations s rotation)]
-        (conj (vec (butlast alg-steps)) new-last-step))
+        (= types/Rotations (type s))
+        (let [new-last-step (combine-rotations s rotation)]
+          (conj (vec (butlast alg-steps)) new-last-step))
 
-      :else (conj (vec alg-steps) rotation))))
+        :else (conj (vec alg-steps) rotation)))))
 
 (defn prepend-initial-rotation [rotation alg-steps]
-  (let [s (first alg-steps)]
-    (cond
-      (nil? rotation)
-      alg-steps
+  (if (= rotation/empty-rotation rotation)
+    alg-steps
+    (let [s (first alg-steps)]
+      (cond
+        (nil? rotation)
+        alg-steps
 
-      (= types/Rotations (type s))
-      (let [new-first-step (combine-rotations s rotation)]
-        (into [new-first-step] (rest alg-steps)))
+        (= types/Rotations (type s))
+        (let [new-first-step (combine-rotations s rotation)]
+          (into [new-first-step] (rest alg-steps)))
 
-      :else (into [rotation] alg-steps))))
+        :else (into [rotation] alg-steps)))))
 
 (defn negate-step [step]
   (if (= types/Slice (type step))
