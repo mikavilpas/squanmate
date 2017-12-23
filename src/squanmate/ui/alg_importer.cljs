@@ -9,14 +9,14 @@
             [squanmate.shapes :as shapes]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
-            [squanmate.ui.parity :as parity]
-            [squanmate.slicing :as slicing]))
+            [squanmate.slicing :as slicing]
+            [squanmate.services.alg-parity :as alg-parity]))
 
 (defn default-alg-importer-state []
   (reagent/atom {:algorithm nil}))
 
 (defn starting-puzzle-for-alg [alg-string]
-  (m/mlet [transformation-steps (parity/cubeshape-start-&-end-positions alg-string)]
+  (m/mlet [transformation-steps (alg-parity/cubeshape-start-&-end-positions alg-string)]
           (m/return (-> transformation-steps last))))
 
 (defn import-alg [alg-string]

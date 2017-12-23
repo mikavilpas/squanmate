@@ -8,13 +8,8 @@
             [squanmate.pages.links :as links]
             [squanmate.puzzle :as puzzle]
             [squanmate.shapes :as shapes]
-            [squanmate.ui.common :as common]))
-
-(defn- square-square? [puzzle]
-  (let [layers (shapes/puzzle-layer-shape-names puzzle)
-        result (= layers
-                  ["square" "square"])]
-    result))
+            [squanmate.ui.common :as common]
+            [squanmate.services.alg-parity :as alg-parity]))
 
 (defn- parity-explanation []
   [:div
@@ -37,8 +32,8 @@
    controls, or look at all possible count positions on the " [:strong "parity
    count positions"] " page."]])
 
-(defn- parity-count-component [puzzle]
-  (let [[parity? parity-data] (parity-counter/parity-count puzzle)]
+(defn- parity-count-component [parity-count-result]
+  (let [[parity? parity-data] parity-count-result]
 
     [common/overlay-trigger
      {:overlay (reagent/as-element [common/popover {:id "test"
@@ -51,38 +46,6 @@
                        :bs-size "xsmall"} "Odd parity algorithm"]
        [common/button {:bs-style "warning"
                        :bs-size "xsmall"} "Even parity algorithm"])]))
-
-(def misaligned-square-square (-> puzzle/square-square
-                                  (execution/transformation-result "1,-1")
-                                  m/extract
-                                  :puzzle))
-
-(defn cubeshape-start-&-end-positions [alg-string]
-  ;; Most cubeshape algs end up in either the positions 1,-1 or 0 (just the
-  ;; solved puzzle). To make things easier, the user doesn't have to add a final
-  ;; -1,1 to their algorithm in order to get a parity count.
-  (let [steps1 (execution/transformations-reverse puzzle/square-square
-                                                  alg-string)
-        steps2 (execution/transformations-reverse misaligned-square-square
-                                                  alg-string)
-        first-successful-steps (->> [steps1 steps2]
-                                    (filter #(every? either/right? %))
-                                    first)
-        successful-transformations (mapv m/extract first-successful-steps)]
-    (if-not (empty? successful-transformations)
-      (either/right successful-transformations)
-      (either/left "Doesn't seem like a cubeshape algorithm"))))
-
-(defn- alg-parity-switched-at-cubeshape? [alg-string]
-  (m/mlet [steps (cubeshape-start-&-end-positions alg-string)
-           start-step (either/right (first steps))
-           end-step (either/right (last steps))]
-          ;; double check - this is a precondition for calling this
-          ;; component
-          (if (= ["square" "square"]
-                 (shapes/puzzle-layer-shape-names (:puzzle start-step)))
-            (either/right [parity-count-component (:puzzle end-step)])
-            (either/left "not at cubeshape"))))
 
 (defn alg-parity-switched-at-cubeshape?-component
   ;; TODO comments can be moved to the UI in case we need to explain stuff to the user!
@@ -101,6 +64,6 @@
   "
   [alg-string]
   (when (not (str/blank? alg-string))
-    (either/branch (alg-parity-switched-at-cubeshape? alg-string)
+    (either/branch (alg-parity/alg-parity-switched-at-cubeshape? alg-string)
                    #(println "could not determine parity of alg '" alg-string "': " %)
-                   identity)))
+                   parity-count-component)))
