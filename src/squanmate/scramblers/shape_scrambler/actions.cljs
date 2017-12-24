@@ -1,7 +1,5 @@
 (ns squanmate.scramblers.shape-scrambler.actions
-  (:require [squanmate.scramblers.shape-scrambler.default-scrambler
-             :as
-             default-scrambler]
+  (:require [squanmate.scramblers.shape-scrambler.default-scrambler :as default-scrambler]
             [squanmate.scramblers.shape-scrambler.predetermined-parity-scrambler :as pps]
             [squanmate.scramblers.shape-scrambler.scrambler :as scrambler]
             [squanmate.services.google-analytics :as ga]
@@ -14,23 +12,9 @@
                          (map set)
                          set))
 
-(defn selected-shapes-count [state]
-  ;; there are 90 total shape combinations
-  (let [layer-count (-> @state :selected-shapes count)
-        percentage (-> (* 100 (/ layer-count 90))
-                       (.toFixed 2))]
-    [layer-count percentage]))
-
 (defn no-cases-selected? [state]
-  (let [[selected-layers-count _] (selected-shapes-count state)]
+  (let [selected-layers-count (-> @state :selected-shapes count)]
     (<= selected-layers-count 0)))
-
-(defn selected-shapes-counter [state]
-  ;; there are 90 total shape combinations
-  (let [layer-count (-> @state :selected-shapes count)
-        percentage (-> (* 100 (/ layer-count 90))
-                       (.toFixed 2))]
-    [:div (str layer-count " / 90 total shapes selected (" percentage " %).")]))
 
 (defn try-load-settings
   "If the user has previously saved settings, loads them and returns them (as a map)."
