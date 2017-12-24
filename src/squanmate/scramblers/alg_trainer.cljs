@@ -88,7 +88,9 @@
       "All even parity"]
      [common/button
       {:on-click #(selection/select-cases! state (:odd-cases alg-set))}
-      "All odd parity"]]]])
+      "All odd parity"]]
+    [:div.center.top10
+     [alg-group-selection-counter (algset/all-cases alg-set) state]]]])
 
 (defn- algset-header [title]
   (reagent/as-element [:span [common/glyphicon {:glyph :th}]
