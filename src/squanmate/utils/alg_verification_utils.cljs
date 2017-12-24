@@ -53,11 +53,11 @@
              end (last steps)
              start-parity (pps/puzzle-parity-at-default-layer-positions (:puzzle start))
              end-parity (pps/puzzle-parity-at-default-layer-positions (:puzzle end))
-             switches-parity? (either/right (= start-parity end-parity))]
+             keeps-parity? (either/right (= start-parity end-parity))]
             (m/return
-             (if switches-parity?
-               :switches-parity
-               :preserves-parity)))))
+             (if keeps-parity?
+               :preserves-parity
+               :switches-parity)))))
 
 (defn parity-and-non-parity-cases [cases]
   (group-by (fn [[case-name alg]]

@@ -5,7 +5,7 @@
 ;; Square-1 Full PLL (with Parity - New Algorithms)
 ;; https://www.youtube.com/watch?v=DIx9vKQxCw8
 
-(def even-cases
+(def ^:private even-cases
   [["1. Ua" "/3,0/1,0/0,-3/-1,0/-3,0/1,0/0,3/-1"]
    ["2. Ub" "1,0/0,-3/-1,0/3,0/1,0/0,3/-1,0/-3,0/"]
    ["3. Z" "M2 U’ M2 U M2 M2"]
@@ -28,7 +28,7 @@
    ["20. Gd" "/0,3/0,-3/0,3/0,-3/1,0/-3,3/3,-3/-1"]
    ["21. V" "1,0/3,0/-4,-1/0,-3/3,0/1,-2/0,3/0,3/-4,-1/0,1*"]])
 
-(def odd-cases
+(def ^:private odd-cases
   [["22. Adj" "/-3,0/0,3/0,-3/0,3/2,0/0,2/-2,0/4,0/0,-2/ 0,2/-1,4/0,-3/*"]
    ["23. Opp" "/3,3/1,0/-2,-2/2,0/2,2/0,-2/-1,-1/0,3/-3,-3/ 0,2/-2,-2/-1"]
    ["24. Oa" "/3,3/1,0/-2,-2/-2,0/2,2/-1,0/-3,-3/1,0/2,2/0,1"]
@@ -53,7 +53,7 @@
    ["43. Pb" "/-3,0/4,-1/0,-2/0,2/-4,0/2,0/0,-2/1,0/-3,0/ -3,3/3,0/"]])
 
 (def pll-algset
-  (algset/->AlgSet even-cases odd-cases))
+  (algset/->AlgSet odd-cases even-cases))
 
 (def all-cases
   (into even-cases odd-cases))
