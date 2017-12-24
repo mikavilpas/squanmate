@@ -12,4 +12,4 @@
                               total-cases]
   (let [percentage (selected-cases-percentage selected-cases
                                               total-cases)]
-    [:div (str selected-cases " / 90 total cases selected (" percentage " %).")]))
+    [:div (str selected-cases " / " total-cases " cases selected (" percentage " %).")]))
