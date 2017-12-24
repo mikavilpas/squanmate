@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.11
+- new feature: algorithm trainer's algorithm sets now display the count and
+  percentage of selected cases
+
 ## 5.10
 - new feature: algorithm trainer now allows selecting even or odd parity cases
   only.

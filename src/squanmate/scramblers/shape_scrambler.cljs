@@ -7,11 +7,13 @@
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [squanmate.ui.layer-selector :as layer-selector]
             [squanmate.ui.middle-layer-controls :as middle-layer-controls]
-            [squanmate.scramblers.shape-scrambler.default-scrambler :as default-scrambler]))
+            [squanmate.scramblers.shape-scrambler.default-scrambler :as default-scrambler]
+            [squanmate.ui.case-counter :as case-counter]))
 
-(defn- selected-shapes-counter [state]
-  (let [[layer-count percentage] (a/selected-shapes-count state)]
-    [:div (str layer-count " / 90 total shapes selected (" percentage " %).")]))
+(defn selected-shapes-counter [state]
+  ;; there are 90 total shape combinations
+  (let [layer-count (-> @state :selected-shapes count)]
+    [case-counter/selected-cases-counter layer-count 90]))
 
 (defn- scramble-preview [s]
   [:div.col-xs-10.col-md-6.col-lg-6.scramble [common/well s]])

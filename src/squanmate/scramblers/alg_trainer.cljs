@@ -14,7 +14,9 @@
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [squanmate.ui.middle-layer-controls :as middle-layer-controls]
             [squanmate.services.storage :as storage]
-            [squanmate.scramblers.algsets.algset :as algset]))
+            [squanmate.scramblers.algsets.algset :as algset]
+            [squanmate.ui.case-counter :as case-counter]
+            [clojure.set :as set]))
 
 (defn- puzzle-for-alg [alg]
   (->> alg
@@ -49,12 +51,27 @@
      ^{:key case-name}
      [case-selection-component state [case-name alg]])])
 
+(defn- alg-group-selected-cases [cases state]
+  (->> cases
+       (into (hash-set))
+       (set/intersection (:selected-cases @state))
+       count))
+
+(defn- alg-group-selection-counter [cases state]
+  (let [selected-count (alg-group-selected-cases cases state)]
+    (when (pos-int? selected-count)
+      [case-counter/selected-cases-counter selected-count (count cases)])))
+
 (defn- case-selections [state alg-set]
   [:div
 
    [:div.container-fluid [case-group (:even-cases alg-set) state]]
+   [:div.center.top10
+    [alg-group-selection-counter (:even-cases alg-set) state]]
    [:hr]
    [:div.container-fluid [case-group (:odd-cases alg-set) state]]
+   [:div.center.top10
+    [alg-group-selection-counter (:odd-cases alg-set) state]]
 
    [:hr]
    [:div.center.vertical
@@ -71,7 +88,9 @@
       "All even parity"]
      [common/button
       {:on-click #(selection/select-cases! state (:odd-cases alg-set))}
-      "All odd parity"]]]])
+      "All odd parity"]]
+    [:div.center.top10
+     [alg-group-selection-counter (algset/all-cases alg-set) state]]]])
 
 (defn- algset-header [title]
   (reagent/as-element [:span [common/glyphicon {:glyph :th}]
