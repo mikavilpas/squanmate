@@ -1,3 +1,3 @@
 (ns squanmate.scramblers.algsets.algset)
 
-(deftype AlgSet [odd-cases even-cases])
+(defrecord AlgSet [odd-cases even-cases])
