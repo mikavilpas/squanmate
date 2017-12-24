@@ -9,14 +9,15 @@
              default-scrambler]
             [squanmate.scramblers.shape-scrambler.scrambler :as scrambler]
             [squanmate.shapes :as shapes]
-            [squanmate.slicing :as slicing]))
+            [squanmate.slicing :as slicing]
+            [cats.core :as m]
+            [cats.monad.either :as either]))
 
 (def ^:private base-scrambler (default-scrambler/new-default-shape-scrambler))
 
 (defn- puzzle-with-same-layers [puzzle]
   (let [top-pieces-str (p/pieces-str (:top-layer puzzle))
         bottom-pieces-str (p/pieces-str (:bottom-layer puzzle))]
-    (println "creating a new puzzle")
     (p/puzzle-with-shapes top-pieces-str
                           bottom-pieces-str)))
 
@@ -24,17 +25,13 @@
   (let [{:keys [initial-rotation]} (serialization/puzzle-specification puzzle)
         rotation-to-default-positions (manipulation/reverse-alg initial-rotation)]
 
-    ;; consider Left results unrecoverable internal errors
-    (execution/puzzle-of-result
-     (execution/transformation-result puzzle
-                                      rotation-to-default-positions))))
+    (execution/transformation-result puzzle
+                                     rotation-to-default-positions)))
 
 (defn puzzle-parity-at-default-layer-positions [puzzle]
-  (let [[parity? _]
-        (-> puzzle
-            reorient-to-default-layer-positions
-            parity-counter/parity-count)]
-    parity?))
+  (m/mlet [p (reorient-to-default-layer-positions puzzle)
+           [parity? _] (either/right (parity-counter/parity-count (:puzzle p)))]
+          (m/return parity?)))
 
 (defn- same-parity? [reference-parity puzzle]
   (= reference-parity

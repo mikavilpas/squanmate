@@ -13,7 +13,8 @@
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [squanmate.ui.middle-layer-controls :as middle-layer-controls]
-            [squanmate.services.storage :as storage]))
+            [squanmate.services.storage :as storage]
+            [squanmate.scramblers.algsets.algset :as algset]))
 
 (defn- puzzle-for-alg [alg]
   (->> alg
@@ -42,15 +43,35 @@
                         :on-change #(selection/select-or-deselect! state [case-name alg])}
        case-name]]]))
 
-(defn- case-selections [state cases]
+(defn- case-group [cases state]
   [:div
-   [:div.container-fluid
-    (for [[case-name alg] cases]
-      ^{:key case-name}
-      [case-selection-component state [case-name alg]])]
-   [:div.center
-    [common/button {:on-click #(selection/select-cases! state cases)} "Select all"]
-    [common/button {:on-click #(selection/deselect-cases! state cases)} "Select none"]]])
+   (for [[case-name alg] cases]
+     ^{:key case-name}
+     [case-selection-component state [case-name alg]])])
+
+(defn- case-selections [state alg-set]
+  [:div
+
+   [:div.container-fluid [case-group (:even-cases alg-set) state]]
+   [:hr]
+   [:div.container-fluid [case-group (:odd-cases alg-set) state]]
+
+   [:hr]
+   [:div.center.vertical
+    [:div "Select:"]
+    [:div
+     [common/button
+      {:on-click #(selection/select-cases! state (algset/all-cases alg-set))}
+      "All"]
+     [common/button
+      {:on-click #(selection/deselect-cases! state (algset/all-cases alg-set))}
+      "None"]
+     [common/button
+      {:on-click #(selection/select-cases! state (:even-cases alg-set))}
+      "All even parity"]
+     [common/button
+      {:on-click #(selection/select-cases! state (:odd-cases alg-set))}
+      "All odd parity"]]]])
 
 (defn- algset-header [title]
   (reagent/as-element [:span [common/glyphicon {:glyph :th}]
@@ -60,10 +81,10 @@
   [common/accordion {:default-active-key 1}
    [common/panel {:header (algset-header "Edge permutation (EP)")
                   :event-key 1}
-    [case-selections state ep/all-cases]]
+    [case-selections state ep/ep-algset]]
    [common/panel {:header (algset-header "Permute last layer (PLL)")
                   :event-key 2}
-    [case-selections state pll/all-cases]]])
+    [case-selections state pll/pll-algset]]])
 
 (defn- settings [state]
   [common/accordion {:default-active-key 1}

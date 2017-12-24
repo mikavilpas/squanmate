@@ -18,11 +18,13 @@
 (deftest puzzle-parity-at-default-layer-positions-test []
   "the main takeaway from this test is that the two parity counts should be the
   opposite"
-  (is (false? (sut/puzzle-parity-at-default-layer-positions
-               p/square-square)))
+  (is (= (either/right false)
+         (sut/puzzle-parity-at-default-layer-positions
+          p/square-square)))
 
-  (is (true? (sut/puzzle-parity-at-default-layer-positions
-              parity-alg-applied))))
+  (is (= (either/right true)
+         (sut/puzzle-parity-at-default-layer-positions
+          parity-alg-applied))))
 
 (deftest scrambler-test []
   (is (let [s (sut/->PredeterminedParityScrambler p/square-square

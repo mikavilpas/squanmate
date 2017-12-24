@@ -6,7 +6,10 @@
             [squanmate.puzzle :as p]
             [cats.core :as m]
             [squanmate.services.cube-aligner :as cube-aligner]
-            [squanmate.alg.types :as types]))
+            [squanmate.alg.types :as types]
+            [squanmate.ui.parity :as parity]
+            [squanmate.scramblers.shape-scrambler.predetermined-parity-scrambler :as pps]
+            [squanmate.alg.execution :as e]))
 
 (defn- parse [[case-name alg]]
   [case-name (parser/parse alg)])
@@ -39,3 +42,25 @@
         :let [rotations (rotations-for-alg alg)]
         :when (not (= rotations (types/Rotations. 0 0)))]
     [case-name rotations]))
+
+(defn alg-switches-parity-at-layer-default-positions?
+  "For an algorithm that is known to start and end at square square, returns an
+  Either[keyword] describing whether the algorithm has caused the puzzle to
+  switch parity."
+  [alg-string]
+  (let [steps (e/transformations p/square-square alg-string)]
+    (m/mlet [start (first steps)
+             end (last steps)
+             start-parity (pps/puzzle-parity-at-default-layer-positions (:puzzle start))
+             end-parity (pps/puzzle-parity-at-default-layer-positions (:puzzle end))
+             keeps-parity? (either/right (= start-parity end-parity))]
+            (m/return
+             (if keeps-parity?
+               :preserves-parity
+               :switches-parity)))))
+
+(defn parity-and-non-parity-cases [cases]
+  (group-by (fn [[case-name alg]]
+              (m/extract
+               (alg-switches-parity-at-layer-default-positions? alg)))
+            cases))
