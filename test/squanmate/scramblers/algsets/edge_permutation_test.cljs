@@ -14,6 +14,8 @@
   (is (empty? (av/non-aligned-cases ep/all-cases))))
 
 (deftest parity-of-cases []
+  "This tests that all of the algset's reported even and odd algs are actually
+  even or odd respectively."
   (let [results (av/parity-and-non-parity-cases ep/all-cases)
         odd-cases (get results :switches-parity)
         even-cases (get results :preserves-parity)]
