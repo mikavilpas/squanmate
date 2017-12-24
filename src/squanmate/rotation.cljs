@@ -3,11 +3,14 @@
             [squanmate.puzzle :as p]
             [cats.core :as m]
             [squanmate.puzzle :as puzzle]
-            [squanmate.slicing :as slicing]))
+            [squanmate.slicing :as slicing]
+            [squanmate.alg.types :as types]))
 
 (defprotocol LayerRotationStrategy
   (first-piece [this layer])
   (rotate-one-piece [this layer]))
+
+(def empty-rotation (types/->Rotations 0 0))
 
 (defn- rotate-layer-worker [rotation-strategy layer amount]
   (if (zero? amount)

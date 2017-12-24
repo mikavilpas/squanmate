@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.10
+- new feature: algorithm trainer now allows selecting even or odd parity cases
+  only.
+
 ## 5.9.1
 - bugfix: it was impossible to open setting panels by clicking on them, except
   by clicking exactly on the text. Now they can be opened from any position.

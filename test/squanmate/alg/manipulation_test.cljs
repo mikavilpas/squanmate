@@ -61,4 +61,20 @@
          (manipulation/append-final-rotation (rotate 1 2)
                                              [(rotate 5 5)
                                               slice]))
-      "can append in case the last step is a slice"))
+      "can append in case the last step is a slice")
+
+  (is (= []
+         (manipulation/append-final-rotation (rotate 0 0)
+                                             []))
+      "ignore empty rotation"))
+
+(deftest prepend-initial-rotation-test []
+  (is (= [(rotate 1 2)]
+         (manipulation/prepend-initial-rotation (rotate 1 2)
+                                                []))
+      "append to empty steps")
+
+  (is (= []
+         (manipulation/prepend-initial-rotation (rotate 0 0)
+                                                []))
+      "ignore empty rotation"))
