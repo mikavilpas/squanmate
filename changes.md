@@ -1,6 +1,6 @@
 # Changelog
 
-## upcoming
+## 5.10
 - new feature: algorithm trainer now allows selecting even or odd parity cases
   only.
 
