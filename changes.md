@@ -1,6 +1,6 @@
 # Changelog
 
-## upcoming
+## 5.11
 - new feature: algorithm trainer's algorithm sets now display the count and
   percentage of selected cases
 
