@@ -107,8 +107,5 @@
    ["98. H / W" "/-3,0/3,3/3,0/1,0/-2,4/2,-4/0,4/-1,-1/-1,-1/-2,1/3,3/"]
    ["99. W / H" "/0,3/-3,-3/0,-3/0,-1/-4,2/4,-2/-4,0/1,1/1,1/-1,2/-3,-3/"]])
 
-(def all-cases
-  (into even-cases odd-cases))
-
 (def ep-algset
   (algset/->AlgSet odd-cases even-cases))

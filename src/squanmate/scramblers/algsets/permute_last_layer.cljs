@@ -54,6 +54,3 @@
 
 (def pll-algset
   (algset/->AlgSet odd-cases even-cases))
-
-(def all-cases
-  (into even-cases odd-cases))
