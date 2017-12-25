@@ -62,6 +62,9 @@ Squanmate can help you:
   take a look, here are [my Lin method algs][my-lin-algs]
 
 # Development instructions
+
+[![Build Status](https://travis-ci.org/sp3ctum/squanmate.svg?branch=master)](https://travis-ci.org/sp3ctum/squanmate)
+
 As for dependencies, you need a clojure development environment. Check out
 figwheel, then start hacking something!
 
