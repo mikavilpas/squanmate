@@ -92,6 +92,13 @@ You have the option of choosing between two development environments:
   in the place of the *dev* build. Do a `ctrl+f5` reload to force a change
   between the *prod* and *dev* "environments" just to be sure.
 
+## How to run tests
+The tests are compiled to JavaScript and then run in a headless environment. To
+run the tests,
+
+- Install PhantomJS from http://phantomjs.org/download.html
+- `lein doo`
+
 ## How to preview live changes on multiple devices
 It's possible, thanks to figwheel magic, to hot reload your code changes e.g. on
 your main development desktop/laptop and your mobile device at the same time.
