@@ -45,7 +45,7 @@
   :cljsbuild {
               :builds [{:id "devcards"
                         :source-paths ["src" "test"]
-                        :figwheel { :devcards true ;; <- note this
+                        :figwheel {:devcards true ;; <- note this
                                    ;; :open-urls will pop open your application
                                    ;; in the default browser once Figwheel has
                                    ;; started and complied your application.
@@ -59,9 +59,10 @@
                                    :source-map-timestamp true }}
 
                        {:id "test"
-                        :source-paths ["src" "test"]
+                        :source-paths ["src" "test" "test_runner"]
                         :compiler {:output-to "resources/public/js/testable.js"
                                    :main squanmate.test-runner
+                                   :output-dir "resources/public/js/compiled/test_runner_out"
                                    :optimizations :none}}
 
                        {:id "dev"

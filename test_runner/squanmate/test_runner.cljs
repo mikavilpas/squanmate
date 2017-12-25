@@ -4,7 +4,7 @@
    ;; load all test namespaces
    squanmate.test-loader
 
-   [doo.runner :refer-macros [doo-tests]]))
+   [doo.runner :refer-macros [doo-all-tests]]))
 
 ;; now all test namespaces are loaded, and this can discover all tests in them
-(doo.runner/doo-all-tests)
+(doo-all-tests)
