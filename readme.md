@@ -63,7 +63,10 @@ Squanmate can help you:
 
 # Development instructions
 
-[![Build Status](https://travis-ci.org/sp3ctum/squanmate.svg?branch=master)](https://travis-ci.org/sp3ctum/squanmate)
+Master:
+[![Build Status: master](https://travis-ci.org/sp3ctum/squanmate.svg?branch=master)](https://travis-ci.org/sp3ctum/squanmate)
+Develop:
+[![Build Status: develop](https://travis-ci.org/sp3ctum/squanmate.svg?branch=develop)](https://travis-ci.org/sp3ctum/squanmate)
 
 As for dependencies, you need a clojure development environment. Check out
 figwheel, then start hacking something!
