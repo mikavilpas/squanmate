@@ -94,7 +94,7 @@ You have the option of choosing between two development environments:
 
 ## How to run tests
 The tests are compiled to JavaScript and then run in a headless environment. To
-run the tests,
+run the tests:
 
 - Install PhantomJS from http://phantomjs.org/download.html
 - `lein doo`
