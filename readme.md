@@ -62,6 +62,12 @@ Squanmate can help you:
   take a look, here are [my Lin method algs][my-lin-algs]
 
 # Development instructions
+
+Master:
+[![Build Status: master](https://travis-ci.org/sp3ctum/squanmate.svg?branch=master)](https://travis-ci.org/sp3ctum/squanmate)
+Develop:
+[![Build Status: develop](https://travis-ci.org/sp3ctum/squanmate.svg?branch=develop)](https://travis-ci.org/sp3ctum/squanmate)
+
 As for dependencies, you need a clojure development environment. Check out
 figwheel, then start hacking something!
 
@@ -91,6 +97,15 @@ You have the option of choosing between two development environments:
   anyway. If you build prod with `(build-once prod)`, it will actually be shown
   in the place of the *dev* build. Do a `ctrl+f5` reload to force a change
   between the *prod* and *dev* "environments" just to be sure.
+
+## How to run tests
+The tests are compiled to JavaScript and then run in a headless environment. To
+run the tests:
+
+- Install PhantomJS from http://phantomjs.org/download.html
+- `lein doo once`
+- you can also run `lein doo` to keep running the tests whenever the files'
+  contents change
 
 ## How to preview live changes on multiple devices
 It's possible, thanks to figwheel magic, to hot reload your code changes e.g. on
