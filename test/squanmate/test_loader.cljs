@@ -4,6 +4,8 @@
   command line test environments."
   (:require [devtools.core :as devtools]
 
+            ;; Only these namespaces are loaded. If you add a new test file, it
+            ;; must be added here.
             squanmate.ui.alg-visualizer-test
             squanmate.alg.execution-test
             squanmate.alg.parser-test
