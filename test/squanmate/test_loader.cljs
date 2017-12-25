@@ -1,4 +1,7 @@
 (ns squanmate.test-loader
+  "This namespace loads all test namespaces (they cannot be discovered unless
+  explicitly loaded). The same loading can be shared between the devcards and
+  command line test environments."
   (:require [devtools.core :as devtools]
 
             squanmate.ui.alg-visualizer-test
