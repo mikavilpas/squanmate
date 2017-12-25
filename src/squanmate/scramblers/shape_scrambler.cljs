@@ -58,7 +58,6 @@
                 :scramble-algorithm nil
                 :draw-settings (deref (color-chooser/default-color-chooser-state))
                 :middle-layer-settings (deref (middle-layer-controls/default-state))})]
-    (a/new-scramble! state (default-scrambler/new-default-shape-scrambler (:selected-shapes @state)))
     state))
 
 (defn- repeat-case-button [state]
