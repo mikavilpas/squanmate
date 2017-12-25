@@ -1,3 +1,2 @@
 language: clojure
-lein: leiningen
 script: lein doo
