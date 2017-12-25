@@ -58,7 +58,6 @@
                 :scramble-algorithm nil
                 :draw-settings (deref (color-chooser/default-color-chooser-state))
                 :middle-layer-settings (deref (middle-layer-controls/default-state))})]
-    (a/new-scramble! state (default-scrambler/new-default-shape-scrambler (:selected-shapes @state)))
     state))
 
 (defn- repeat-case-button [state]
@@ -91,6 +90,11 @@
    [new-scramble-button state]
    [inspect-scramble-button state]])
 
+(defn- puzzle-preview [state draw-settings]
+  (if-let [p (:puzzle @state)]
+    [newmonochrome/monochrome-puzzle p draw-settings]
+    [common/alert "Select some cases and click 'New scramble' to get started."]))
+
 (defn scramble-component [state]
   (let [draw-settings (assoc (:draw-settings @state)
                              :size 180)]
@@ -98,7 +102,7 @@
      [:div.bottom17
       [action-buttons state]]
      [:div.center
-      [newmonochrome/monochrome-puzzle (:puzzle @state) draw-settings]]
+      [puzzle-preview state draw-settings]]
      [:div.center
       [scramble-preview (:scramble-algorithm @state)]]
      [settings state]]))

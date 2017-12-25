@@ -31,7 +31,11 @@
                  [hodgepodge "0.1.3"]]
 
   :plugins [[lein-figwheel "0.5.13"]
-            [lein-cljsbuild "1.1.5" :exclusions [org.clojure/clojure]]]
+            [lein-cljsbuild "1.1.5" :exclusions [org.clojure/clojure]]
+            [lein-doo "0.1.8"]]
+
+  :doo {:build "test"
+        :alias {:default [:phantom]}}
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled"
                                     "target"]
@@ -41,18 +45,26 @@
   :cljsbuild {
               :builds [{:id "devcards"
                         :source-paths ["src" "test"]
-                        :figwheel { :devcards true ;; <- note this
+                        :figwheel {:devcards true ;; <- note this
                                    ;; :open-urls will pop open your application
                                    ;; in the default browser once Figwheel has
                                    ;; started and complied your application.
                                    ;; Comment this out once it no longer serves you.
                                    :open-urls ["http://localhost:3449/cards.html"]
                                    :websocket-host :js-client-host}
-                        :compiler { :main       "squanmate.test-loader"
+                        :compiler {:main       "squanmate.test-loader"
                                    :asset-path "js/compiled/devcards_out"
                                    :output-to  "resources/public/js/compiled/squanmate_devcards.js"
                                    :output-dir "resources/public/js/compiled/devcards_out"
-                                   :source-map-timestamp true }}
+                                   :source-map-timestamp true}}
+
+                       {:id "test"
+                        :source-paths ["src" "test" "test_runner"]
+                        :compiler {:output-to "resources/public/js/testable.js"
+                                   :main squanmate.test-runner
+                                   :output-dir "resources/public/js/compiled/test_runner_out"
+                                   :optimizations :none}}
+
                        {:id "dev"
                         :source-paths ["src"]
                         :figwheel {:websocket-host :js-client-host}
