@@ -56,7 +56,7 @@
                                    :asset-path "js/compiled/devcards_out"
                                    :output-to  "resources/public/js/compiled/squanmate_devcards.js"
                                    :output-dir "resources/public/js/compiled/devcards_out"
-                                   :source-map-timestamp true }}
+                                   :source-map-timestamp true}}
 
                        {:id "test"
                         :source-paths ["src" "test" "test_runner"]
