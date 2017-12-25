@@ -97,7 +97,9 @@ The tests are compiled to JavaScript and then run in a headless environment. To
 run the tests:
 
 - Install PhantomJS from http://phantomjs.org/download.html
-- `lein doo`
+- `lein doo once`
+- you can also run `lein doo` to keep running the tests whenever the files'
+  contents change
 
 ## How to preview live changes on multiple devices
 It's possible, thanks to figwheel magic, to hot reload your code changes e.g. on
