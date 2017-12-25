@@ -2,9 +2,14 @@
   "This is the main namespace for running command line tests."
   (:require
    ;; load all test namespaces
-   squanmate.test-loader
+   [squanmate.test-loader :as test-loader]
 
-   [doo.runner :refer-macros [doo-all-tests]]))
+   [doo.runner :as runner]
+   [cljs.test :as test]))
 
-;; now all test namespaces are loaded, and this can discover all tests in them
-(doo-all-tests)
+(enable-console-print!)
+
+;; needs to be executed when this file is evaluated. This is required by
+(runner/set-entry-point!
+ (fn []
+   (test/run-all-tests #"^(?!(squanmate.solving-test)$).*$")))
