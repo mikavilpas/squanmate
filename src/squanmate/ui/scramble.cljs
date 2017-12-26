@@ -53,7 +53,6 @@
 
 (defn- parity-analysis-component [puzzle state]
   (let [colors (color-chooser-service/make-color-settings (:draw-settings @state))]
-    (js/console.log (pr-str colors))
     [:div.center.space-around
      (if (slicing/sliceable? puzzle)
        [:div
