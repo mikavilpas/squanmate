@@ -1,5 +1,16 @@
 # Changelog
 
+## upcoming
+- change: a scramble is no longer generated automatically when Squanmate is
+  opened
+- new feature: scramble inspector's parity analysis box now shows the sequence
+  of colors in pieces that make up the parity
+- new feature: that same box now explains why the "Swap top and bottom colors"
+  color selection seemingly reports odd color sequences as even, and vice versa.
+  I believe this is not strictly the case (ask me separately if you'd like to
+  know), but having a message like this should help people understand how to use
+  the feature quickly with minimal confusion
+
 ## 5.11
 - new feature: algorithm trainer's algorithm sets now display the count and
   percentage of selected cases
