@@ -51,15 +51,27 @@
    (reagent/cursor state [:scramble :scramble-algorithm])
    final-rotation-adjustment-for-scramble-visualization])
 
+(defn- parity-disclaimer []
+  [common/help-block
+   [:div.center
+    [common/glyphicon {:glyph :info-sign}]
+    "The parity is calculated for Squanmate's default color scheme (orange blue
+   red green clockwise). If your puzzle has a different color scheme, the total
+   parity will be correct but the color sequences' parities might be the wrong
+   way round."]])
+
 (defn- parity-analysis-component [puzzle state]
-  (let [colors (color-chooser-service/make-color-settings (:draw-settings @state))]
-    [:div.center.space-around
-     (if (slicing/sliceable? puzzle)
-       [:div
-        [parity-analysis/parity-analysis puzzle colors]]
-       [common/alert {:bs-style :warning}
-        "Parity analysis not available. Rotate the puzzle to enable it."])
-     [rotation-controls puzzle state]]))
+  [:div
+   [:div.center.space-around
+    (let [colors (color-chooser-service/make-color-settings (:draw-settings @state))]
+      (if (slicing/sliceable? puzzle)
+        [:div
+         [parity-analysis/parity-analysis puzzle colors]]
+        [common/alert {:bs-style :warning}
+         "Parity analysis not available. Rotate the puzzle to enable it."]))
+    [rotation-controls puzzle state]]
+   [:div.top17
+    [parity-disclaimer]]])
 
 (defn- settings [puzzle state]
   [common/accordion {:default-active-key 1}

@@ -1,6 +1,6 @@
 # Changelog
 
-## upcoming
+## 5.12
 - change: a scramble is no longer generated automatically when Squanmate is
   opened
 - new feature: scramble inspector's parity analysis box now shows the sequence
