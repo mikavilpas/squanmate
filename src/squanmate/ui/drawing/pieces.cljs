@@ -3,7 +3,7 @@
             [quil.middleware :as m]
             [squanmate.slicing :as slicing]
             [squanmate.puzzle :as puzzle]
-            [squanmate.ui.drawing.color-settings :as color-settings]))
+            [squanmate.services.color-settings :as color-settings]))
 
 (defrecord DrawLayerState [layer size])
 

@@ -1,45 +1,67 @@
 (ns squanmate.ui.parity-analysis
   (:require [squanmate.alg.parity-counter :as parity-counter]
-            [squanmate.ui.common :as common]))
+            [squanmate.ui.common :as common]
+            [squanmate.services.color-converter :as color-converter]))
 
 (defn- parity-tag [parity?]
   (if parity?
     [common/label {:bs-style :info} "Odd parity count"]
     [common/label {:bs-style :warning} "Even parity count"]))
 
-(defn- parity-factor
-  ([section-name piece-order]
-   (parity-factor section-name piece-order false))
-  ([section-name piece-order show-number?]
-   (let [parity-count (:parity-count piece-order)]
-     [:tr
-      [:td [common/help-block section-name]]
-      [:td
-       ;; "TODO show colors"
-       (when show-number?
-         [:span {:class "piece-count-badge"}
-          [common/badge parity-count]])
-       " "
-       (if (odd? parity-count)
-         [common/label {:bs-style :info} "Odd"]
-         [common/label {:bs-style :warning} "Even"])]])))
+(defn- odd-positioned-pieces-factor [section-name piece-order]
+  (let [parity-count (:parity-count piece-order)]
+    [:tr
+     [:td [common/help-block section-name]]
+     [:td.center
+      [:span {:class "piece-count-badge"}
+       [common/badge parity-count]]]
+     [:td
+      (if (odd? parity-count)
+        [common/label {:bs-style :info} "Odd"]
+        [common/label {:bs-style :warning} "Even"])]]))
 
-(defn- parity-count-analysis [[parity? pc]]
+(defn parity-color->hex [color-settings piece]
+  ;; Only one side of the piece affects parity.
+  ;; This is always the first side when going clockwise, so it is always the
+  ;; first side (that is, :a)
+  (let [side (-> piece :colors :a)
+        color (get color-settings side)]
+    (color-converter/color->hex color)))
+
+(defn- colors [color-settings pieces]
+  [:div
+   (for [p pieces]
+     ^{:key (pr-str p)}
+     [:div.color {:style {:background-color (parity-color->hex color-settings
+                                                               p)}}])])
+
+(defn- color-sequence-factor [color-settings section-name piece-order]
+  (let [parity-count (:parity-count piece-order)]
+    [:tr
+     [:td [common/help-block section-name]]
+     [:td
+      [:div.center
+       [colors color-settings (:pieces piece-order)]]]
+     [:td
+      (if (odd? parity-count)
+        [common/label {:bs-style :info} "Odd"]
+        [common/label {:bs-style :warning} "Even"])]]))
+
+(defn- parity-count-analysis [[parity? pc] color-settings]
   [:div
    [parity-tag parity?]
    [:table.parity-count-analysis
-    [:tbody
-     [parity-factor "Top corners" (:top-corner-order pc)]
-     [parity-factor "Top edges" (:top-edge-order pc)]
+    (let [color-factor (partial color-sequence-factor color-settings)]
+      [:tbody
+       [color-factor "Top corners" (:top-corner-order pc)]
+       [color-factor "Top edges" (:top-edge-order pc)]
 
-     [parity-factor "Bottom corners" (:bottom-corner-order pc)]
-     [parity-factor "Bottom edges" (:bottom-edge-order pc)]
+       [color-factor "Bottom corners" (:bottom-corner-order pc)]
+       [color-factor "Bottom edges" (:bottom-edge-order pc)]
 
-     [parity-factor "Top odd positioned edges" (:top-edges-in-odd-edge-positions pc) true]
-     [parity-factor "Top odd positioned corners" (:top-corners-in-odd-corner-positions pc) true]]]])
+       [odd-positioned-pieces-factor "Top odd positioned edges" (:top-edges-in-odd-edge-positions pc)]
+       [odd-positioned-pieces-factor "Top odd positioned corners" (:top-corners-in-odd-corner-positions pc)]])]])
 
-(defn parity-analysis [puzzle]
+(defn parity-analysis [puzzle color-settings]
   (let [pc (parity-counter/parity-count puzzle)]
-    [parity-count-analysis pc]))
-
-;; todo have the colors in some module, so they are shared across all modules.
+    [parity-count-analysis pc color-settings]))
