@@ -4,23 +4,9 @@
             [squanmate.puzzle :as p]
             [squanmate.shapes :as shapes]
             [squanmate.ui.common :as common]
-            [squanmate.ui.drawing.color-settings :as color-settings]
             [squanmate.ui.drawing.details.main :as main]
-            [squanmate.ui.drawing.util.quil-reagent :as quil-reagent]))
-
-(defn- make-color-settings [{:keys [monochrome?
-                                    use-back-as-front
-                                    swap-top-and-bottom]
-                             :or {monochrome? true}}]
-  (cond-> color-settings/defaults
-    monochrome?
-    color-settings/make-monochrome
-
-    use-back-as-front
-    color-settings/turn-y2
-
-    swap-top-and-bottom
-    color-settings/swap-top-and-bottom))
+            [squanmate.ui.drawing.util.quil-reagent :as quil-reagent]
+            [squanmate.services.color-chooser :as color-chooser]))
 
 (defn layer-component [initial-layer settings]
   (let [my-state (reagent/atom {:layer initial-layer
@@ -30,7 +16,7 @@
       ;; It's a bit unfortunate but I can't get quil to see a change in the
       ;; given layer without a local state
       (let [shape-name (shapes/layer-shape-name (-> @my-state :layer))
-            color-settings (make-color-settings settings)
+            color-settings (color-chooser/make-color-settings settings)
             size (or (:size settings) 100)]
         (swap! my-state assoc
                :layer layer
