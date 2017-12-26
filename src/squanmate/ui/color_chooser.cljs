@@ -1,8 +1,8 @@
 (ns squanmate.ui.color-chooser
   (:require [reagent.core :as reagent]
+            [squanmate.puzzle :as puzzle]
             [squanmate.ui.common :as common]
-            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
-            [squanmate.puzzle :as puzzle]))
+            [squanmate.ui.drawing.newmonochrome :as newmonochrome]))
 
 (defn default-color-chooser-state []
   (reagent/atom {:swap-top-and-bottom false

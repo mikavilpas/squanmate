@@ -1,18 +1,20 @@
 (ns squanmate.ui.scramble
-  (:require [reagent.core :as reagent]
-            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
-            [squanmate.ui.common :as common]
+  (:require [cats.monad.either :as either]
             [clojure.string :as str]
+            [reagent.core :as reagent]
             [squanmate.alg.execution :as execution]
-            [squanmate.puzzle :as puzzle]
-            [cats.monad.either :as either]
-            [squanmate.scramblers.shape-scrambler :as shape-scrambler]
             [squanmate.alg.manipulation :as manipulation]
-            [squanmate.ui.rotation-adjuster-controls :as rac]
-            [squanmate.ui.color-chooser :as color-chooser]
             [squanmate.pages.links :as links]
+            [squanmate.puzzle :as puzzle]
+            [squanmate.scramblers.shape-scrambler :as shape-scrambler]
+            [squanmate.services.color-settings :as color-settings]
+            [squanmate.slicing :as slicing]
+            [squanmate.ui.color-chooser :as color-chooser]
+            [squanmate.services.color-chooser :as color-chooser-service]
+            [squanmate.ui.common :as common]
+            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [squanmate.ui.parity-analysis :as parity-analysis]
-            [squanmate.slicing :as slicing]))
+            [squanmate.ui.rotation-adjuster-controls :as rac]))
 
 (defn default-state []
   (let [draw-settings-state (deref (color-chooser/default-color-chooser-state))]
@@ -50,13 +52,14 @@
    final-rotation-adjustment-for-scramble-visualization])
 
 (defn- parity-analysis-component [puzzle state]
-  [:div.center.space-around
-   (if (slicing/sliceable? puzzle)
-     [:div
-      [parity-analysis/parity-analysis puzzle]]
-     [common/alert {:bs-style :warning}
-      "Parity analysis not available. Rotate the puzzle to enable it."])
-   [rotation-controls puzzle state]])
+  (let [colors (color-chooser-service/make-color-settings (:draw-settings @state))]
+    [:div.center.space-around
+     (if (slicing/sliceable? puzzle)
+       [:div
+        [parity-analysis/parity-analysis puzzle colors]]
+       [common/alert {:bs-style :warning}
+        "Parity analysis not available. Rotate the puzzle to enable it."])
+     [rotation-controls puzzle state]]))
 
 (defn- settings [puzzle state]
   [common/accordion {:default-active-key 1}
