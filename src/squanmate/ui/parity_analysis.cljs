@@ -47,9 +47,20 @@
         [common/label {:bs-style :info} "Odd"]
         [common/label {:bs-style :warning} "Even"])]]))
 
+(defn- parity-disclaimer []
+  [common/help-block
+   [:span.col-xs-1
+    [common/glyphicon {:glyph :info-sign}]]
+   [:span.col-xs-11
+    "The parity is calculated for Squanmate's default color scheme (orange blue
+   red green clockwise). If your puzzle has a different color scheme, the total
+   parity will be correct but the color sequences' parities might be the wrong
+   way round."]])
+
 (defn- parity-count-analysis [[parity? pc] color-settings]
   [:div
    [parity-tag parity?]
+   [parity-disclaimer]
    [:table.parity-count-analysis
     (let [color-factor (partial color-sequence-factor color-settings)]
       [:tbody
