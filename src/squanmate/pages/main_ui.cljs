@@ -16,7 +16,7 @@
             [squanmate.pages.algorithm-trainer :as algorithm-trainer]))
 
 (defmethod page-content/page :default [app-state]
-  [:div "warning: page-content/page content not found"])
+  [:div "warning: page content not found"])
 
 (defn navigation []
   [common/navbar
