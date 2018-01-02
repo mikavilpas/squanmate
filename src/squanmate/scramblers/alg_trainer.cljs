@@ -135,7 +135,7 @@
 
 (defn new-default-state []
   (reagent/atom {:selected-cases #{}
-                 :draw-settings {:monochrome? false}
+                 :draw-settings newmonochrome/default-settings
                  :middle-layer-settings (deref (middle-layer-controls/default-state))}))
 
 (defn- new-scramble-button [state]

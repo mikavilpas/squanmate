@@ -7,9 +7,7 @@
             [squanmate.services.color-chooser :as color-chooser]))
 
 (defn default-color-chooser-state []
-  ;; todo the structure should be defined in some other module
-  (reagent/atom {:color-settings color-settings/defaults
-                 :draw-mode {:monochrome? false}}))
+  (reagent/atom newmonochrome/default-settings))
 
 (defn- draw-mode [setting-key label state-atom]
   [common/checkbox {:checked (get-in @state-atom [:draw-mode setting-key])

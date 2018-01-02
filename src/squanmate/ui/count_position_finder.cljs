@@ -42,7 +42,8 @@
   (let [count-position-groups (count-positions/count-positions layer)
         visual-settings {:size 200
                          :count-positions count-position-groups}]
-    [newmonochrome/layer-component layer visual-settings]))
+    [newmonochrome/layer-component layer
+     (merge newmonochrome/default-settings visual-settings)]))
 
 (defn count-position-finder [state]
   [:div
