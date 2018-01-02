@@ -2,25 +2,36 @@
   (:require [reagent.core :as reagent]
             [squanmate.puzzle :as puzzle]
             [squanmate.ui.common :as common]
-            [squanmate.ui.drawing.newmonochrome :as newmonochrome]))
+            [squanmate.ui.drawing.newmonochrome :as newmonochrome]
+            [squanmate.services.color-settings :as color-settings]
+            [squanmate.services.color-chooser :as color-chooser]))
 
 (defn default-color-chooser-state []
-  (reagent/atom {:swap-top-and-bottom false
-                 :use-back-as-front false
-                 :monochrome? false}))
+  ;; todo the structure should be defined in some other module
+  (reagent/atom {:color-settings color-settings/defaults
+                 :draw-mode {:monochrome? false}}))
 
-(defn- checkbox-for [setting-key label state-atom]
-  [common/checkbox {:checked (get @state-atom setting-key)
-                    :on-change #(swap! state-atom update setting-key not)}
+(defn- draw-mode [setting-key label state-atom]
+  [common/checkbox {:checked (get-in @state-atom [:draw-mode setting-key])
+                    :on-change #(swap! state-atom update-in [:draw-mode setting-key] not)}
    label])
+
+(defn- swap-top-and-bottom-button [state-atom]
+  [common/button {:on-click #(swap! state-atom update :color-settings color-chooser/do-swap-top-and-bottom)}
+   "Swap top and bottom colors"])
+
+(defn- use-back-as-front-button [state-atom]
+  [common/button {:on-click #(swap! state-atom update :color-settings color-chooser/turn-y2)}
+   "Use back face as front face (rotate Y2)"])
 
 (defn- option-controls [state-atom]
   [common/form
    [common/form-group
     [common/control-label "Color options"]
-    [checkbox-for :monochrome? "Only gray" state-atom]
-    [checkbox-for :swap-top-and-bottom "Swap top and bottom colors" state-atom]
-    [checkbox-for :use-back-as-front "Use back face as front face (rotate Y2)" state-atom]]])
+    [draw-mode :monochrome? "Only gray" state-atom]
+
+    [swap-top-and-bottom-button state-atom]
+    [use-back-as-front-button state-atom]]])
 
 (defn- puzzle-preview [state-atom]
   [newmonochrome/monochrome-puzzle puzzle/square-square @state-atom])
