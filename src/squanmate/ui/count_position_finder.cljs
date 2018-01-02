@@ -38,12 +38,16 @@
                      (fn [layer-result]
                        layer-result)))))
 
+(def ^:private visual-settings
+  (-> newmonochrome/default-settings
+      (assoc :size 200)
+      (assoc-in [:draw-mode :monochrome?] true)))
+
 (defn- visualization [layer]
-  (let [count-position-groups (count-positions/count-positions layer)
-        visual-settings {:size 200
-                         :count-positions count-position-groups}]
+  (let [count-position-groups (count-positions/count-positions layer)]
     [newmonochrome/layer-component layer
-     (merge newmonochrome/default-settings visual-settings)]))
+     (merge newmonochrome/default-settings (assoc visual-settings
+                                                  :count-positions count-position-groups))]))
 
 (defn count-position-finder [state]
   [:div
