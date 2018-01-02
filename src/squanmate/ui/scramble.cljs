@@ -63,10 +63,9 @@
 (defn- parity-analysis-component [puzzle state]
   [:div
    [:div.center.space-around
-    (js/console.log @state)
     (if (slicing/sliceable? puzzle)
       [:div
-       #_[parity-analysis/parity-analysis puzzle colors]]
+       [parity-analysis/parity-analysis puzzle (-> @state :draw-settings :color-settings)]]
       [common/alert {:bs-style :warning}
        "Parity analysis not available. Rotate the puzzle to enable it."])
     [rotation-controls puzzle state]]
