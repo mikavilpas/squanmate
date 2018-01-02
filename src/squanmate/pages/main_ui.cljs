@@ -5,10 +5,9 @@
             ;; note: all pages need to be referenced here, so that their page
             ;; definition is loaded!
 
+            [squanmate.ui.common :as common]
             [squanmate.pages.all-possible-shapes :as all-possible-shapes]
             [squanmate.pages.shape-visualizer :as shape-visualizer]
-            [squanmate.ui.common :as common]
-            [squanmate.scramblers.shape-scrambler :as shape-scrambler]
             [squanmate.pages.trainer :as trainer]
             [squanmate.pages.importer :as importer]
             [squanmate.pages.count-positions :as count-positions]
