@@ -122,6 +122,9 @@
 
 (defn new-default-state []
   (reagent/atom {:selected-cases #{}
+                 ;; :draw-settings are needed so this can work without using
+                 ;; global colors (in testing), but can be overridden with
+                 ;; global colors
                  :draw-settings newmonochrome/default-settings
                  :middle-layer-settings (deref (middle-layer-controls/default-state))}))
 

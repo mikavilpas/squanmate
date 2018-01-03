@@ -56,7 +56,11 @@
                 :chosen-shapes nil
                 :selected-shapes #{(set ["square" "square"])}
                 :scramble-algorithm nil
-                :draw-settings (deref (color-chooser/default-color-chooser-state))
+
+                ;; :draw-settings are needed so this can work without using
+                ;; global colors (in testing), but can be overridden with global
+                ;; colors
+                :draw-settings newmonochrome/default-settings
                 :middle-layer-settings (deref (middle-layer-controls/default-state))})]
     state))
 

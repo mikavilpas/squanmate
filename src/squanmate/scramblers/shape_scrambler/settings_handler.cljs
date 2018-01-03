@@ -15,6 +15,5 @@
                                               :middle-layer-settings])
                       (into {}))
         color-settings (:draw-settings state-map)]
-    (storage/save "trainer-settings" settings)
-
-    (global-colors-store/save! color-settings)))
+    ;; colors are saved only on their own page
+    (storage/save "trainer-settings" settings)))
