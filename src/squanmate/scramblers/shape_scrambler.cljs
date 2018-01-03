@@ -41,11 +41,7 @@
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :wrench}]
                                                " Scramble options"])
                   :event-key 2}
-    [middle-layer-controls/controls (reagent/cursor state [:middle-layer-settings])]]
-   [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :tint}]
-                                               " Colors"])
-                  :event-key 3}
-    [color-chooser/color-chooser (reagent/cursor state [:draw-settings])]]])
+    [middle-layer-controls/controls (reagent/cursor state [:middle-layer-settings])]]])
 
 ;; let this module own its state schema by having it defined inside this file
 (defn new-state []

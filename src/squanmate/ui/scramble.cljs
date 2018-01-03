@@ -10,7 +10,6 @@
             [squanmate.services.color-settings :as color-settings]
             [squanmate.slicing :as slicing]
             [squanmate.ui.color-chooser :as color-chooser]
-            [squanmate.services.color-chooser :as color-chooser-service]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [squanmate.ui.parity-analysis :as parity-analysis]
@@ -84,11 +83,7 @@
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :pushpin}]
                                                " Parity"])
                   :event-key 2}
-    [parity-analysis-component puzzle state]]
-   [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :tint}]
-                                               " Colors"])
-                  :event-key 3}
-    [color-chooser/color-chooser (reagent/cursor state [:draw-settings])]]])
+    [parity-analysis-component puzzle state]]])
 
 (defn- show-successful-scramble [puzzle state]
   (let [draw-settings (merge (:draw-settings @state)
