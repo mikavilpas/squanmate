@@ -116,10 +116,6 @@
 
 (defn new-default-state []
   (reagent/atom {:selected-cases #{}
-                 ;; :draw-settings are needed so this can work without using
-                 ;; global colors (in testing), but can be overridden with
-                 ;; global colors
-                 :draw-settings newmonochrome/default-settings
                  :middle-layer-settings (deref (middle-layer-controls/default-state))}))
 
 (defn- new-scramble-button [state]
@@ -148,9 +144,12 @@
    [new-scramble-button state]
    [inspect-scramble-button state]])
 
-(defn trainer-component [state]
-  [:div
-   [:div.center.vertical [action-buttons state]]
-   [:div.center.top17 [puzzle-preview state]]
-   [:div.center.top17 [scramble-preview (:scramble-algorithm @state)]]
-   [settings state]])
+(defn trainer-component
+  ([state]
+   [trainer-component state newmonochrome/default-settings])
+  ([state draw-settings]
+   [:div
+    [:div.center.vertical [action-buttons state]]
+    [:div.center.top17 [puzzle-preview state]]
+    [:div.center.top17 [scramble-preview (:scramble-algorithm @state)]]
+    [settings state]]))

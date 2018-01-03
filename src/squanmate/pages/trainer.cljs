@@ -2,7 +2,8 @@
   (:require [squanmate.pages.page-content :as page-content]
             [squanmate.scramblers.shape-scrambler :as shape-scrambler]
             [squanmate.scramblers.shape-scrambler.actions :as a]
-            [squanmate.scramblers.shape-scrambler.settings-handler :as settings]))
+            [squanmate.scramblers.shape-scrambler.settings-handler :as settings]
+            [squanmate.services.global-colors-store :as global-colors-store]))
 
 (defn initial-state []
   (let [settings-atom (shape-scrambler/new-state)
@@ -23,7 +24,7 @@
 
 (defn content []
   [:div
-   [shape-scrambler/scramble-component page-state]])
+   [shape-scrambler/scramble-component page-state @global-colors-store/settings-atom]])
 
 (defmethod page-content/page :trainer []
   [:div

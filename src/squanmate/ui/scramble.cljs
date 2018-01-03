@@ -85,8 +85,8 @@
                   :event-key 2}
     [parity-analysis-component puzzle state]]])
 
-(defn- show-successful-scramble [puzzle state]
-  (let [draw-settings (merge (:draw-settings @state)
+(defn- show-successful-scramble [puzzle state draw-settings-map]
+  (let [draw-settings (merge draw-settings-map
                              {:size 200})]
     [:div
      [:div.center
@@ -100,7 +100,7 @@
                   :bs-style :danger
                   :on-click #(swap! state assoc :imported? false)} "Clear"])
 
-(defn- puzzle-view [state]
+(defn- puzzle-view [state draw-settings]
   (let [scramble-alg (-> @state :scramble :scramble-algorithm)
         puzzle-either (execution/transformation-result puzzle/square-square
                                                        scramble-alg)]
@@ -112,7 +112,10 @@
                      (fn [error]
                        [invalid-scramble scramble-alg error])
                      (fn [transformation-result]
-                       [show-successful-scramble (:puzzle transformation-result) state]))]]))
+                       [show-successful-scramble
+                        (:puzzle transformation-result)
+                        state
+                        draw-settings]))]]))
 
 (defn mark-alg-imported [state]
   (swap! state #(-> %
@@ -130,8 +133,11 @@
                         :on-click #(mark-alg-imported state)}
          "Import"]])]))
 
-(defn component [state]
-  [:div
-   (if (:imported? @state)
-     [puzzle-view state]
-     [enter-alg-view state])])
+(defn component
+  ([state]
+   [component state newmonochrome/default-settings])
+  ([state draw-settings-map]
+   [:div
+    (if (:imported? @state)
+      [puzzle-view state draw-settings-map]
+      [enter-alg-view state])]))

@@ -47,18 +47,12 @@
 (defn new-state []
   ;; Allowed shapes are stored as sets of their layers. This makes adding and
   ;; removing them very easy in code.
-  (let [state (reagent/atom
-               {:puzzle nil
-                :chosen-shapes nil
-                :selected-shapes #{(set ["square" "square"])}
-                :scramble-algorithm nil
-
-                ;; :draw-settings are needed so this can work without using
-                ;; global colors (in testing), but can be overridden with global
-                ;; colors
-                :draw-settings newmonochrome/default-settings
-                :middle-layer-settings (deref (middle-layer-controls/default-state))})]
-    state))
+  (reagent/atom
+   {:puzzle nil
+    :chosen-shapes nil
+    :selected-shapes #{(set ["square" "square"])}
+    :scramble-algorithm nil
+    :middle-layer-settings (deref (middle-layer-controls/default-state))}))
 
 (defn- repeat-case-button [state]
   [common/split-button {:on-click #(a/set-new-repeat-scramble state)
@@ -95,14 +89,17 @@
     [newmonochrome/monochrome-puzzle p draw-settings]
     [common/alert "Select some cases and click 'New scramble' to get started."]))
 
-(defn scramble-component [state]
-  (let [draw-settings (assoc (:draw-settings @state)
-                             :size 180)]
-    [:div
-     [:div.bottom17
-      [action-buttons state]]
-     [:div.center
-      [puzzle-preview state draw-settings]]
-     [:div.center
-      [scramble-preview (:scramble-algorithm @state)]]
-     [settings state]]))
+(defn scramble-component
+  ([state]
+   [scramble-component state newmonochrome/default-settings])
+  ([state draw-settings-map]
+   (let [draw-settings (assoc draw-settings-map
+                              :size 180)]
+     [:div
+      [:div.bottom17
+       [action-buttons state]]
+      [:div.center
+       [puzzle-preview state draw-settings]]
+      [:div.center
+       [scramble-preview (:scramble-algorithm @state)]]
+      [settings state]])))

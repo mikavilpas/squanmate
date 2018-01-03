@@ -5,22 +5,22 @@
             [squanmate.services.global-colors-store :as global-colors-store]))
 
 (defn- new-state []
-  (let [state (scramble/default-state)
-        global-colors (global-colors-store/get-or-default!)]
-    (swap! state merge {:draw-settings global-colors})
-    state))
+  (scramble/default-state))
 
 (defonce state (new-state))
 
-(defn content []
-  [scramble/component state])
+(defn content
+  ([]
+   [content state])
+  ([state-arg]
+   [scramble/component state-arg @global-colors-store/settings-atom]))
 
 (defn content-from-args [{:keys [scramble-algorithm]}]
   (let [local-state (new-state)
         scramble-algorithm (manipulation/format-alg scramble-algorithm)]
     (swap! local-state assoc-in [:scramble :scramble-algorithm] scramble-algorithm)
     (scramble/mark-alg-imported local-state)
-    [scramble/component local-state]))
+    [content local-state]))
 
 (defmethod page-content/page :scramble-inspector []
   [content])
