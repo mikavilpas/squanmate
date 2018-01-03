@@ -22,9 +22,9 @@
        m/extract
        :puzzle))
 
-(defn- puzzle-preview [state]
+(defn- puzzle-preview [state draw-settings-map]
   (when-let [puzzle (:puzzle @state)]
-    (let [draw-settings (assoc (:draw-settings @state)
+    (let [draw-settings (assoc draw-settings-map
                                :size 180)]
       [newmonochrome/monochrome-puzzle puzzle draw-settings])))
 
@@ -147,9 +147,9 @@
 (defn trainer-component
   ([state]
    [trainer-component state newmonochrome/default-settings])
-  ([state draw-settings]
+  ([state draw-settings-map]
    [:div
     [:div.center.vertical [action-buttons state]]
-    [:div.center.top17 [puzzle-preview state]]
+    [:div.center.top17 [puzzle-preview state draw-settings-map]]
     [:div.center.top17 [scramble-preview (:scramble-algorithm @state)]]
     [settings state]]))
