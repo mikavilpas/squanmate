@@ -120,19 +120,6 @@
                   :event-key 3}
     [color-chooser/color-chooser (reagent/cursor state [:draw-settings])]]])
 
-(defn try-load-settings
-  "If the user has previously saved settings, loads them and returns them (as a map)."
-  []
-  (when-let [state (storage/get-value "alg-trainer-settings")]
-    state))
-
-(defn save-settings! [state-map]
-  (let [settings (->> (select-keys state-map [:selected-cases
-                                              :draw-settings
-                                              :middle-layer-settings])
-                      (into {}))]
-    (storage/save "alg-trainer-settings" settings)))
-
 (defn new-default-state []
   (reagent/atom {:selected-cases #{}
                  :draw-settings newmonochrome/default-settings
