@@ -10,7 +10,9 @@
 (defn- shapes-selected? [state-atom shape-names]
   (contains? (:selected-shapes @state-atom) shape-names))
 
-(defn- select-or-deselect! [state-atom shape-names]
+(defn select-or-deselect! [state-atom shape-names]
+  ;; shape-names should be a set like #{"square" "kite"}
+
   (if (shapes-selected? state-atom shape-names)
     (swap! state-atom update-in [:selected-shapes] disj shape-names)
     (swap! state-atom update-in [:selected-shapes] conj shape-names)))
@@ -34,15 +36,18 @@
       [:div.center
        name]]]))
 
-(defn- select-all-filtered-shapes! [state filter-shape]
-  (let [shape-names (map #(set [filter-shape %])
-                         (shape-combinations/filtered-possible-shapes filter-shape))]
+(defn- filtered-possible-shapes-as-set [filter-shape]
+  (->> (shape-combinations/filtered-possible-shapes filter-shape)
+       (map #(set [filter-shape %]))
+       (into #{})))
+
+(defn select-all-filtered-shapes! [state filter-shape]
+  (let [shape-names (filtered-possible-shapes-as-set filter-shape)]
     (swap! state update :selected-shapes
            into shape-names)))
 
-(defn- select-no-filtered-shapes! [state filter-shape]
-  (let [shape-names (map #(set [filter-shape %])
-                         (shape-combinations/filtered-possible-shapes filter-shape))]
+(defn select-no-filtered-shapes! [state filter-shape]
+  (let [shape-names (filtered-possible-shapes-as-set filter-shape)]
     (swap! state update :selected-shapes
            #(set/difference % shape-names))))
 
