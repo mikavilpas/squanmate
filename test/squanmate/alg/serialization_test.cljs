@@ -14,6 +14,9 @@
   (let [s (m/extract (rotation/rotate-layer shapes/mushroom -5))]
     (puzzle/->TopLayer (:pieces s))))
 
+(def settings (merge newmonochrome/default-settings
+                     {:draw-mode {:monochrome? true}}))
+
 (defcard-rg mushroom-rotated-preview
   [:div
    "This is used in a test below."
@@ -21,9 +24,11 @@
     (let [m (:top-layer (shapes/puzzle-with-layers "mushroom" "mushroom"))]
       [:div
        "normal:"
-       [newmonochrome/layer-component m]
+
+       [newmonochrome/layer-component m settings]
+
        (puzzle/pieces-str m)])
-    "rotated:" [newmonochrome/layer-component mushroom-rotated]
+    "rotated:" [newmonochrome/layer-component mushroom-rotated settings]
     (puzzle/pieces-str mushroom-rotated)]])
 
 (deftest rotation-specification-test []

@@ -1,5 +1,12 @@
 # Changelog
 
+## 6.0
+- `BREAKING`: puzzle colors are now defined on a dedicated Settings page.
+  Previously the colors had to be defined in three separate places (cubeshape
+  trainer, algorithm trainer and scramble inspector).
+- bugfix: cubeshape trainer's "choose none" button worked only when all of the
+  visible shape cases were selected
+
 ## 5.12
 - change: a scramble is no longer generated automatically when Squanmate is
   opened

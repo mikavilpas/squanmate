@@ -20,7 +20,7 @@
 
 (defcard-rg pieces-in-count-order
   [:div
-   [newmonochrome/monochrome-puzzle cube {:monochrome? false}]
+   [newmonochrome/monochrome-puzzle cube]
 
    "pieces in count order:"
    [:pre (pprint (c/pieces-in-count-order cube))]])
@@ -42,7 +42,7 @@
   [:div
    "Here we inspect the kite kite shape, in order to debug the parity count. The
    result can be tested in a unit test below separately."
-   [newmonochrome/monochrome-puzzle kite-kite {:monochrome? false}]
+   [newmonochrome/monochrome-puzzle kite-kite]
 
    "pieces in count order:"
    [:pre (pprint (c/pieces-in-count-order kite-kite))]])

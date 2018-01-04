@@ -10,7 +10,6 @@
             [squanmate.services.color-settings :as color-settings]
             [squanmate.slicing :as slicing]
             [squanmate.ui.color-chooser :as color-chooser]
-            [squanmate.services.color-chooser :as color-chooser-service]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [squanmate.ui.parity-analysis :as parity-analysis]
@@ -63,12 +62,11 @@
 (defn- parity-analysis-component [puzzle state]
   [:div
    [:div.center.space-around
-    (let [colors (color-chooser-service/make-color-settings (:draw-settings @state))]
-      (if (slicing/sliceable? puzzle)
-        [:div
-         [parity-analysis/parity-analysis puzzle colors]]
-        [common/alert {:bs-style :warning}
-         "Parity analysis not available. Rotate the puzzle to enable it."]))
+    (if (slicing/sliceable? puzzle)
+      [:div
+       [parity-analysis/parity-analysis puzzle (-> @state :draw-settings :color-settings)]]
+      [common/alert {:bs-style :warning}
+       "Parity analysis not available. Rotate the puzzle to enable it."])
     [rotation-controls puzzle state]]
    [:div.top17
     [parity-disclaimer]]])
@@ -85,14 +83,10 @@
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :pushpin}]
                                                " Parity"])
                   :event-key 2}
-    [parity-analysis-component puzzle state]]
-   [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :tint}]
-                                               " Colors"])
-                  :event-key 3}
-    [color-chooser/color-chooser (reagent/cursor state [:draw-settings])]]])
+    [parity-analysis-component puzzle state]]])
 
-(defn- show-successful-scramble [puzzle state]
-  (let [draw-settings (merge (:draw-settings @state)
+(defn- show-successful-scramble [puzzle state draw-settings-map]
+  (let [draw-settings (merge draw-settings-map
                              {:size 200})]
     [:div
      [:div.center
@@ -106,7 +100,7 @@
                   :bs-style :danger
                   :on-click #(swap! state assoc :imported? false)} "Clear"])
 
-(defn- puzzle-view [state]
+(defn- puzzle-view [state draw-settings]
   (let [scramble-alg (-> @state :scramble :scramble-algorithm)
         puzzle-either (execution/transformation-result puzzle/square-square
                                                        scramble-alg)]
@@ -118,7 +112,10 @@
                      (fn [error]
                        [invalid-scramble scramble-alg error])
                      (fn [transformation-result]
-                       [show-successful-scramble (:puzzle transformation-result) state]))]]))
+                       [show-successful-scramble
+                        (:puzzle transformation-result)
+                        state
+                        draw-settings]))]]))
 
 (defn mark-alg-imported [state]
   (swap! state #(-> %
@@ -136,8 +133,11 @@
                         :on-click #(mark-alg-imported state)}
          "Import"]])]))
 
-(defn component [state]
-  [:div
-   (if (:imported? @state)
-     [puzzle-view state]
-     [enter-alg-view state])])
+(defn component
+  ([state]
+   [component state newmonochrome/default-settings])
+  ([state draw-settings-map]
+   [:div
+    (if (:imported? @state)
+      [puzzle-view state draw-settings-map]
+      [enter-alg-view state])]))

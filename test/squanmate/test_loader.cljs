@@ -37,6 +37,8 @@
             squanmate.ui.middle-layer-controls-test
             squanmate.scramblers.shape-scrambler.predetermined-parity-scrambler-test
             squanmate.services.storage-test
-            squanmate.services.color-converter-test))
+            squanmate.services.color-converter-test
+            squanmate.services.global-colors-store-test
+            squanmate.ui.layer-selector-test))
 
 (devtools/install! [:formatters :hints :async])

@@ -9,5 +9,7 @@
                 :bs-size "small"}
    [:div.center [newmonochrome/layer-component
                  (puzzle/TopLayer. (:pieces shape))
-                 {:size size}]]
+                 (merge newmonochrome/default-settings
+                        {:size size
+                         :draw-mode {:monochrome? true}})]]
    [:div.center (:name shape)]])

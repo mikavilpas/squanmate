@@ -13,10 +13,9 @@
 
 (defcard-rg square-square-to-kite-kite
   [:div
-   (newmonochrome/monochrome-puzzle p/square-square {:monochrome? false})
+   (newmonochrome/monochrome-puzzle p/square-square)
    (m/mlet [result (slicing/slice p/square-square)]
-           (newmonochrome/monochrome-puzzle result
-                                            {:monochrome? false}))])
+           (newmonochrome/monochrome-puzzle result))])
 
 (deftest slice-square-square-to-kite-kite-test []
   (m/mlet [result (slicing/slice p/square-square)]

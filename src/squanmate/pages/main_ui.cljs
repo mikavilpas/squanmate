@@ -5,19 +5,19 @@
             ;; note: all pages need to be referenced here, so that their page
             ;; definition is loaded!
 
+            [squanmate.ui.common :as common]
             [squanmate.pages.all-possible-shapes :as all-possible-shapes]
             [squanmate.pages.shape-visualizer :as shape-visualizer]
-            [squanmate.ui.common :as common]
-            [squanmate.scramblers.shape-scrambler :as shape-scrambler]
             [squanmate.pages.trainer :as trainer]
             [squanmate.pages.importer :as importer]
             [squanmate.pages.count-positions :as count-positions]
             [squanmate.pages.parity-game :as parity-game]
             [squanmate.pages.scramble-inspector :as scramble-inspector]
-            [squanmate.pages.algorithm-trainer :as algorithm-trainer]))
+            [squanmate.pages.algorithm-trainer :as algorithm-trainer]
+            [squanmate.pages.settings]))
 
 (defmethod page-content/page :default [app-state]
-  [:div "warning: page-content/page content not found"])
+  [:div "warning: page content not found"])
 
 (defn navigation []
   [common/navbar
@@ -35,7 +35,9 @@
      [common/nav-item {:event-key 4 :href "#/shape-visualizer"} "Algorithm shape visualizer"]
      [common/nav-item {:event-key 5 :href "#/importer"} "Cubeshape algorithm importer"]
      [common/nav-item {:event-key 6 :href "#/count-positions"} "Parity count positions"]
-     [common/nav-item {:event-key 7 :href "#/parity-game"} "Parity game"]]]])
+     [common/nav-item {:event-key 7 :href "#/parity-game"} "Parity game"]
+     [common/nav-item {:event-key 7 :href "#/settings"}
+      [common/glyphicon {:glyph :cog}] " Settings"]]]])
 
 (defn- footer []
   ;; just some vertical space to make the page-content/page feel better
