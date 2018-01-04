@@ -1,6 +1,6 @@
 # Changelog
 
-## upcoming
+## 6.0
 - `BREAKING`: puzzle colors are now defined on a dedicated Settings page.
   Previously the colors had to be defined in three separate places (cubeshape
   trainer, algorithm trainer and scramble inspector).
