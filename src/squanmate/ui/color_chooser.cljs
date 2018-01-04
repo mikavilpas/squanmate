@@ -25,7 +25,6 @@
 (defn- option-controls [state-atom]
   [common/form
    [common/form-group
-    [common/control-label "Color options"]
     [draw-mode :monochrome? "Only gray" state-atom]
 
     [swap-top-and-bottom-button state-atom]
