@@ -1,5 +1,6 @@
 (ns squanmate.scramblers.alg-trainer
   (:require [cats.core :as m]
+            [clojure.set :as set]
             [clojure.string :as str]
             [reagent.core :as reagent]
             [squanmate.alg.execution :as execution]
@@ -7,16 +8,13 @@
             [squanmate.puzzle :as p]
             [squanmate.scramblers.alg-trainer.case-selection :as selection]
             [squanmate.scramblers.alg-trainer.scramble-generation :as scramble-generation]
+            [squanmate.scramblers.algsets.algset :as algset]
             [squanmate.scramblers.algsets.edge-permutation :as ep]
             [squanmate.scramblers.algsets.permute-last-layer :as pll]
-            [squanmate.ui.color-chooser :as color-chooser]
+            [squanmate.ui.case-counter :as case-counter]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
-            [squanmate.ui.middle-layer-controls :as middle-layer-controls]
-            [squanmate.services.storage :as storage]
-            [squanmate.scramblers.algsets.algset :as algset]
-            [squanmate.ui.case-counter :as case-counter]
-            [clojure.set :as set]))
+            [squanmate.ui.middle-layer-controls :as middle-layer-controls]))
 
 (defn- puzzle-for-alg [alg]
   (->> alg
@@ -24,9 +22,9 @@
        m/extract
        :puzzle))
 
-(defn- puzzle-preview [state]
+(defn- puzzle-preview [state draw-settings-map]
   (when-let [puzzle (:puzzle @state)]
-    (let [draw-settings (assoc (:draw-settings @state)
+    (let [draw-settings (assoc draw-settings-map
                                :size 180)]
       [newmonochrome/monochrome-puzzle puzzle draw-settings])))
 
@@ -114,28 +112,10 @@
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :wrench}]
                                                " Scramble options"])
                   :event-key 2}
-    [middle-layer-controls/controls (reagent/cursor state [:middle-layer-settings])]]
-   [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :tint}]
-                                               " Colors"])
-                  :event-key 3}
-    [color-chooser/color-chooser (reagent/cursor state [:draw-settings])]]])
-
-(defn try-load-settings
-  "If the user has previously saved settings, loads them and returns them (as a map)."
-  []
-  (when-let [state (storage/get-value "alg-trainer-settings")]
-    state))
-
-(defn save-settings! [state-map]
-  (let [settings (->> (select-keys state-map [:selected-cases
-                                              :draw-settings
-                                              :middle-layer-settings])
-                      (into {}))]
-    (storage/save "alg-trainer-settings" settings)))
+    [middle-layer-controls/controls (reagent/cursor state [:middle-layer-settings])]]])
 
 (defn new-default-state []
   (reagent/atom {:selected-cases #{}
-                 :draw-settings {:monochrome? false}
                  :middle-layer-settings (deref (middle-layer-controls/default-state))}))
 
 (defn- new-scramble-button [state]
@@ -164,9 +144,12 @@
    [new-scramble-button state]
    [inspect-scramble-button state]])
 
-(defn trainer-component [state]
-  [:div
-   [:div.center.vertical [action-buttons state]]
-   [:div.center.top17 [puzzle-preview state]]
-   [:div.center.top17 [scramble-preview (:scramble-algorithm @state)]]
-   [settings state]])
+(defn trainer-component
+  ([state]
+   [trainer-component state newmonochrome/default-settings])
+  ([state draw-settings-map]
+   [:div
+    [:div.center.vertical [action-buttons state]]
+    [:div.center.top17 [puzzle-preview state draw-settings-map]]
+    [:div.center.top17 [scramble-preview (:scramble-algorithm @state)]]
+    [settings state]]))

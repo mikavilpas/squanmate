@@ -43,10 +43,13 @@
       (=
        ["square" "square"])))
 
+(def ^:private default-settings (-> newmonochrome/default-settings
+                                    (assoc-in [:draw-mode :monochrome?] true)))
+
 (defn algorithm-visualization
 
   ([puzzle alg-string]
-   [algorithm-visualization puzzle alg-string {}])
+   [algorithm-visualization puzzle alg-string default-settings])
 
   ([puzzle alg-string settings]
    (let [step-eithers (execution/transformations puzzle alg-string)]

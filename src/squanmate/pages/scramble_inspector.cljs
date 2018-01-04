@@ -1,19 +1,26 @@
 (ns squanmate.pages.scramble-inspector
   (:require [squanmate.ui.scramble :as scramble]
             [squanmate.alg.manipulation :as manipulation]
-            [squanmate.pages.page-content :as page-content]))
+            [squanmate.pages.page-content :as page-content]
+            [squanmate.services.global-colors-store :as global-colors-store]))
 
-(defonce state (scramble/default-state))
+(defn- new-state []
+  (scramble/default-state))
 
-(defn content []
-  [scramble/component state])
+(defonce state (new-state))
+
+(defn content
+  ([]
+   [content state])
+  ([state-arg]
+   [scramble/component state-arg @global-colors-store/settings-atom]))
 
 (defn content-from-args [{:keys [scramble-algorithm]}]
-  (let [local-state (scramble/default-state)
+  (let [local-state (new-state)
         scramble-algorithm (manipulation/format-alg scramble-algorithm)]
     (swap! local-state assoc-in [:scramble :scramble-algorithm] scramble-algorithm)
     (scramble/mark-alg-imported local-state)
-    [scramble/component local-state]))
+    [content local-state]))
 
 (defmethod page-content/page :scramble-inspector []
   [content])

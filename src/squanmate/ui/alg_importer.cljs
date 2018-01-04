@@ -59,6 +59,9 @@
      "If you want, you can manually add an initial rotation after the algorithm
      has been imported."]]])
 
+(def ^:private draw-settings (-> newmonochrome/default-settings
+                                 (assoc-in [:draw-mode :monochrome?] true)))
+
 (defn- success-box [spec]
   (let [p (puzzle-from-spec spec)]
     (either/branch
@@ -70,7 +73,7 @@
        [common/alert {:bs-style :success}
         [:strong "Success!"]
         [:div "Looks like the algorithm starts at this state:"]
-        [newmonochrome/monochrome-puzzle starting-puzzle]
+        [newmonochrome/monochrome-puzzle starting-puzzle draw-settings]
         (if (slicing/sliceable? starting-puzzle)
           [import-button spec]
           [non-sliceable-notification])]))))

@@ -16,19 +16,6 @@
   (let [selected-layers-count (-> @state :selected-shapes count)]
     (<= selected-layers-count 0)))
 
-(defn try-load-settings
-  "If the user has previously saved settings, loads them and returns them (as a map)."
-  []
-  (when-let [state (storage/get-value "trainer-settings")]
-    state))
-
-(defn save-settings! [state-map]
-  (let [settings (->> (select-keys state-map [:selected-shapes
-                                              :draw-settings
-                                              :middle-layer-settings])
-                      (into {}))]
-    (storage/save "trainer-settings" settings)))
-
 (defn select-all-shapes [state]
   (swap! state assoc :selected-shapes all-layers))
 

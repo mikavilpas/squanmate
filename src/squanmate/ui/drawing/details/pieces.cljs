@@ -50,16 +50,19 @@
 
 (defn- draw-edge-at [piece
                      position
-                     {:keys [bot edge-width monochrome? color-settings]
+                     {:keys [bot edge-width draw-mode color-settings]
                       :as data}]
   (with-temporary-rotation (* (+ 1 position) 30)
-    #(do
+    #(let [monochrome? (:monochrome? draw-mode)
+           top-color (if monochrome?
+                       (color-name->color :gray)
+                       (get-color color-settings piece :top))]
        (piece-stroke)
-       (apply q/fill (get-color color-settings piece :top))
+       (apply q/fill top-color)
        (q/triangle 0 0
                    (- edge-width) bot
                    edge-width bot)
-       (when (not (:monochrome? color-settings))
+       (when-not monochrome?
          (q/stroke-weight 1)
          (let [edge-color (get-color color-settings piece :a)]
            (apply q/stroke edge-color)
@@ -74,7 +77,7 @@
        (q/line (- c) 0 c 0))))
 
 (defn- draw-corner-colors [piece
-                           {:keys [size bot edge-width monochrome? color-settings]
+                           {:keys [color-settings]
                             :as data}
                            {:keys [a b c] :as magic}]
   (q/stroke-weight 1)
@@ -91,7 +94,7 @@
 
 (defn- draw-corner-at [piece
                        position
-                       {:keys [size bot edge-width color-settings]
+                       {:keys [size bot edge-width color-settings draw-mode]
                         :as data}]
   (let [{:keys [a b c] :as magic} (magic-numbers data)
         rotation-amount (* (+ 1 position) 30)]
@@ -100,10 +103,13 @@
     ;; empty stroke that appears as white (the background color-name->color). Work around
     ;; this by using the fill color-name->color as the stroke color-name->color
     (with-temporary-rotation rotation-amount
-      #(do
+      #(let [monochrome? (:monochrome? draw-mode)
+             top-color (if monochrome?
+                         (color-name->color :gray)
+                         (get-color color-settings piece :top))]
          (piece-stroke)
-         (apply q/stroke (get-color color-settings piece :top))
-         (apply q/fill (get-color color-settings piece :top))
+         (apply q/stroke top-color)
+         (apply q/fill top-color)
          ;; these triangles should be used to set the fill color. not currently
          ;; used, but planned in the future
          ;; (q/fill 150 205 105 200)
@@ -122,5 +128,5 @@
          (q/line b c edge-width bot)
          (q/line edge-width bot 0 0)
 
-         (when (not (:monochrome? color-settings))
+         (when-not monochrome?
            (draw-corner-colors piece data magic))))))
