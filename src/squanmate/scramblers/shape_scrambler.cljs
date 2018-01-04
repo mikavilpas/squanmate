@@ -32,7 +32,7 @@
     "Select available shapes for scrambles by filtering:"]
    [layer-selector/layer-selector state]])
 
-(defn settings [state]
+(defn settings-component [state]
   [common/accordion {:default-active-key 1}
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :cog}]
                                                " Cases"])
@@ -102,4 +102,4 @@
        [puzzle-preview state draw-settings]]
       [:div.center
        [scramble-preview (:scramble-algorithm @state)]]
-      [settings state]])))
+      [settings-component state]])))
