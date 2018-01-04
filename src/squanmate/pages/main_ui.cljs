@@ -13,7 +13,8 @@
             [squanmate.pages.count-positions :as count-positions]
             [squanmate.pages.parity-game :as parity-game]
             [squanmate.pages.scramble-inspector :as scramble-inspector]
-            [squanmate.pages.algorithm-trainer :as algorithm-trainer]))
+            [squanmate.pages.algorithm-trainer :as algorithm-trainer]
+            [squanmate.pages.settings]))
 
 (defmethod page-content/page :default [app-state]
   [:div "warning: page content not found"])
@@ -34,7 +35,9 @@
      [common/nav-item {:event-key 4 :href "#/shape-visualizer"} "Algorithm shape visualizer"]
      [common/nav-item {:event-key 5 :href "#/importer"} "Cubeshape algorithm importer"]
      [common/nav-item {:event-key 6 :href "#/count-positions"} "Parity count positions"]
-     [common/nav-item {:event-key 7 :href "#/parity-game"} "Parity game"]]]])
+     [common/nav-item {:event-key 7 :href "#/parity-game"} "Parity game"]
+     [common/nav-item {:event-key 7 :href "#/settings"}
+      [common/glyphicon {:glyph :cog}] " Settings"]]]])
 
 (defn- footer []
   ;; just some vertical space to make the page-content/page feel better
