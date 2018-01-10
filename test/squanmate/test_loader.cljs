@@ -40,6 +40,7 @@
             squanmate.services.color-converter-test
             squanmate.services.global-colors-store-test
             squanmate.ui.layer-selector-test
-            squanmate.services.alg-insights-test))
+            squanmate.services.alg-insights-test
+            squanmate.utils.either-utils-test))
 
 (devtools/install! [:formatters :hints :async])
