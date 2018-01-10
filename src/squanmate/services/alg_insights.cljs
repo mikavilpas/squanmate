@@ -12,14 +12,14 @@
     [names step-result]))
 
 ;; markers for cubeshape statuses
-(defrecord InCubeshape [steps])
-(defrecord OutOfCubeshape [steps])
+(defrecord InCubeshape [step-count])
+(defrecord ShapeShifted [step-count])
 
 (defn- wrap-in-cubeshape-marker [group]
   (let [step-count (count group)]
     (if (in-cubeshape? (first group))
       (->InCubeshape step-count)
-      (->OutOfCubeshape step-count))))
+      (->ShapeShifted step-count))))
 
 (defn entered-and-left-cubeshape
   "When you have an algorithm, it can be partially done in cubeshape (square

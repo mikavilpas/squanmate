@@ -16,5 +16,5 @@
       "starting step, rotations, slice, rotations")
 
   (is (= [(sut/->InCubeshape 1)
-          (sut/->OutOfCubeshape 3)]
+          (sut/->ShapeShifted 3)]
          (sut/entered-and-left-cubeshape (execute "/6/")))))
