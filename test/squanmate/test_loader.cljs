@@ -39,6 +39,7 @@
             squanmate.services.storage-test
             squanmate.services.color-converter-test
             squanmate.services.global-colors-store-test
-            squanmate.ui.layer-selector-test))
+            squanmate.ui.layer-selector-test
+            squanmate.services.alg-insights-test))
 
 (devtools/install! [:formatters :hints :async])
