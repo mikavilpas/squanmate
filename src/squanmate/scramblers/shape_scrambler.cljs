@@ -15,7 +15,7 @@
   (let [layer-count (-> @state :selected-shapes count)]
     [case-counter/selected-cases-counter layer-count 90]))
 
-(defn- scramble-preview [s]
+(defn scramble-preview [s]
   [:div.col-xs-10.col-md-6.col-lg-6.scramble [common/well s]])
 
 (defn- all-shapes-selection-buttons [state]
