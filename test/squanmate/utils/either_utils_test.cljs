@@ -1,5 +1,6 @@
 (ns squanmate.utils.either-utils-test
   (:require [cats.monad.either :as either]
+            [clojure.test :as t :refer [is]]
             [squanmate.utils.either-utils :as sut])
   (:require-macros [devcards.core :as dc :refer [deftest]]))
 

@@ -20,8 +20,8 @@
 
 (defn- execute-reverse [[case-name alg]]
   [case-name
-   (execution/transformation-result-reverse p/square-square
-                                            alg)])
+   (e/transformation-result-reverse p/square-square
+                                    alg)])
 
 (defn non-executable-cases [cases]
   (let [execution-results (map execute-reverse cases)]
@@ -30,8 +30,8 @@
                    (either/left? result))))))
 
 (defn- rotations-for-alg [alg]
-  (m/mlet [end-step (execution/transformation-result p/square-square
-                                                     alg)
+  (m/mlet [end-step (e/transformation-result p/square-square
+                                             alg)
            rotations (cube-aligner/rotations-to-align-cube (:puzzle end-step))]
           rotations))
 
