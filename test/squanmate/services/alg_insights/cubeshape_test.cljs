@@ -10,11 +10,23 @@
   (let [step-result-eithers (execution/transformations p/square-square alg-string)]
     (map m/extract step-result-eithers)))
 
+(def in-cubeshape sut/in-cubeshape)
+(def shape-shifted sut/shape-shifted)
+
 (deftest entered-and-left-cubeshape-test []
-  (is (= {0 sut/in-cubeshape}
+  (is (= {0 in-cubeshape
+          1 in-cubeshape
+          2 in-cubeshape
+          3 in-cubeshape}
          (sut/entered-and-left-cubeshape (execute "1/-1")))
       "starting step, rotations, slice, rotations")
 
-  (is (= {0 sut/in-cubeshape
-          1 sut/shape-shifted}
-         (sut/entered-and-left-cubeshape (execute "/6/")))))
+  (is (= {0 in-cubeshape
+          1 shape-shifted
+          2 shape-shifted
+          3 shape-shifted
+          4 shape-shifted
+          5 in-cubeshape}
+         (sut/entered-and-left-cubeshape (execute "/6/6/")))
+      "This is the common alg that fixes the middle layer. It goes to kite kite
+      and returns to cubeshape"))

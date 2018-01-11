@@ -21,8 +21,10 @@
       (let [step-count (count g)
             marker (if (in-cubeshape? (first g))
                      in-cubeshape
-                     shape-shifted)]
-        (recur (assoc markers index marker)
+                     shape-shifted)
+            group-steps (zipmap (range index (+ index step-count))
+                                (repeat marker))]
+        (recur (into markers group-steps)
                (next groups)
                (+ index step-count)))
       markers)))
