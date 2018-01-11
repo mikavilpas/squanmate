@@ -1,27 +1,16 @@
 (ns squanmate.ui.drawing.details.pieces
   (:require [quil.core :as q]
-            [squanmate.ui.drawing.details.utils :refer [with-temporary-rotation]]))
+            [squanmate.ui.drawing.details.utils :refer [with-temporary-rotation]]
+            [squanmate.services.color-converter :as color-converter]))
 
 (defn- piece-stroke []
   (q/stroke-weight 1)
   (q/stroke 0))
 
-(defn- color-name->color [name-key]
-  (let [colors {:gray [169]
-                :white [253]
-                :yellow [255, 254, 69]
-
-                :orange [255, 166, 69]
-                :blue [99, 96, 255]
-                :red [255, 69, 69]
-                :green [69, 245, 69]}
-        color-value (get colors name-key)]
-    color-value))
-
 (defn- get-color [color-settings piece side]
   (let [piece-side (-> piece :colors side)
         color-name (get color-settings piece-side)
-        color-value (color-name->color color-name)]
+        color-value (color-converter/color-name->color color-name)]
     color-value))
 
 (def ^:private magic-numbers "( ͡° ͜ʖ ͡°)"
@@ -55,7 +44,7 @@
   (with-temporary-rotation (* (+ 1 position) 30)
     #(let [monochrome? (:monochrome? draw-mode)
            top-color (if monochrome?
-                       (color-name->color :gray)
+                       (color-converter/color-name->color :gray)
                        (get-color color-settings piece :top))]
        (piece-stroke)
        (apply q/fill top-color)
@@ -82,12 +71,12 @@
                            {:keys [a b c] :as magic}]
   (q/stroke-weight 1)
 
-  ;; first color-name->color
+  ;; first color
   (apply q/stroke (get-color color-settings piece :a))
   (apply q/fill (get-color color-settings piece :a))
   (apply q/quad (:corner-color-a-edges magic))
 
-  ;; second color-name->color
+  ;; second color
   (apply q/stroke (get-color color-settings piece :b))
   (apply q/fill (get-color color-settings piece :b))
   (apply q/quad (:corner-color-b-edges magic)))
@@ -99,13 +88,13 @@
   (let [{:keys [a b c] :as magic} (magic-numbers data)
         rotation-amount (* (+ 1 position) 30)]
 
-    ;; drawing triangles without a store color-name->color makes them have a 1px wide
-    ;; empty stroke that appears as white (the background color-name->color). Work around
-    ;; this by using the fill color-name->color as the stroke color-name->color
+    ;; drawing triangles without a store color makes them have a 1px wide
+    ;; empty stroke that appears as white (the background color). Work around
+    ;; this by using the fill color as the stroke color
     (with-temporary-rotation rotation-amount
       #(let [monochrome? (:monochrome? draw-mode)
              top-color (if monochrome?
-                         (color-name->color :gray)
+                         (color-converter/color-name->color :gray)
                          (get-color color-settings piece :top))]
          (piece-stroke)
          (apply q/stroke top-color)

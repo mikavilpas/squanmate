@@ -86,6 +86,10 @@ table.parity-count-analysis td {
     border-radius: 3px;
 }
 
+.color.color-button {
+    border: 1px solid lightgray;
+}
+
 /* algorithm insights */
 
 .insight.shape-shifted {

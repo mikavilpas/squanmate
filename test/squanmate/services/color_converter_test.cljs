@@ -6,10 +6,10 @@
 
 
 (deftest convert-color-names []
-  (is (= "#ffffff" (sut/color->hex :white)))
-  (is (= "#fffe44" (sut/color->hex :yellow)))
-  (is (= "#625fff" (sut/color->hex :blue)))
-  (is (= "#47f543" (sut/color->hex :green)))
-  (is (= "#ffa743" (sut/color->hex :orange)))
-  (is (= "#ff4343" (sut/color->hex :red)))
-  (is (= "#aaaaaa" (sut/color->hex :gray))))
+  (is (= "#fdfdfd" (sut/color->hex :white)))
+  (is (= "#fffe45" (sut/color->hex :yellow)))
+  (is (= "#6360ff" (sut/color->hex :blue)))
+  (is (= "#45f545" (sut/color->hex :green)))
+  (is (= "#ffa645" (sut/color->hex :orange)))
+  (is (= "#ff4545" (sut/color->hex :red)))
+  (is (= "#a9a9a9" (sut/color->hex :gray))))
