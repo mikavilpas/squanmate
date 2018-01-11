@@ -9,10 +9,10 @@
    [:div (str error)]])
 
 (defn- insight-class [marker]
-  (str "insight." (name marker)))
+  (str "insight " (name marker)))
 
 (defn- insight-classes [token]
-  (str/join "." (map insight-class (:markers token))))
+  (str/join " " (map insight-class (:markers token))))
 
 (defn- algorithm-step [token]
   [:span {:class (insight-classes token)}

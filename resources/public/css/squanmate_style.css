@@ -85,3 +85,14 @@ table.parity-count-analysis td {
     display: inline-block;
     border-radius: 3px;
 }
+
+/* algorithm insights */
+.insight {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.insight.shape-shifted {
+    /* darken steps that are out of cubeshape */
+    background-color: #33333336;
+}
