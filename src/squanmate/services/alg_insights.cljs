@@ -1,7 +1,12 @@
 (ns squanmate.services.alg-insights
   "Functions for analyzing an algorithm and finding out the points of it where
   interesting things happen. These things can be e.g. highlighted to the user."
-  (:require [squanmate.shapes :as shapes]))
+  (:require [squanmate.shapes :as shapes]
+            [cats.core :as m]
+            [squanmate.alg.parser :as parser]
+            [squanmate.utils.either-utils :as eu]
+            [squanmate.alg.execution :as execution]
+            [squanmate.puzzle :as p]))
 
 (defn- in-cubeshape?
   ([[names step-result]]
@@ -12,14 +17,22 @@
     [names step-result]))
 
 ;; markers for cubeshape statuses
-(defrecord InCubeshape [step-count])
-(defrecord ShapeShifted [step-count])
+(def in-cubeshape :in-cubeshape)
+(def shape-shifted :shape-shifted)
 
-(defn- wrap-in-cubeshape-marker [group]
-  (let [step-count (count group)]
-    (if (in-cubeshape? (first group))
-      (->InCubeshape step-count)
-      (->ShapeShifted step-count))))
+(defn- convert-to-cubeshape-markers-by-index [groups]
+  (loop [markers (hash-map)
+         groups groups
+         index 0]
+    (if-let [g (first groups)]
+      (let [step-count (count g)
+            marker (if (in-cubeshape? (first g))
+                     in-cubeshape
+                     shape-shifted)]
+        (recur (assoc markers index marker)
+               (next groups)
+               (+ index step-count)))
+      markers)))
 
 (defn entered-and-left-cubeshape
   "When you have an algorithm, it can be partially done in cubeshape (square
@@ -36,4 +49,21 @@
   (->> alg-steps
        (map add-layer-names)
        (partition-by in-cubeshape?)
-       (map wrap-in-cubeshape-marker)))
+       convert-to-cubeshape-markers-by-index))
+
+(defn- alg-with-markers
+  "Combines the parsed parts of the scramble algorithm "
+  [display-tokens markers]
+  )
+
+(defn- scramble-steps [alg-string]
+  (let [alg-steps (execution/transformations p/square-square alg-string)
+        steps-either (eu/list-of-eithers->either-list alg-steps)]
+    steps-either))
+
+(defn alg-with-cubeshape-status-highlighted [alg-string]
+  (m/mlet [display-tokens (parser/parse alg-string)
+           execution-steps (scramble-steps alg-string)]
+          (m/return
+           (let [markers (entered-and-left-cubeshape execution-steps)]
+             (alg-with-markers display-tokens markers)))))

@@ -11,10 +11,10 @@
     (map m/extract step-result-eithers)))
 
 (deftest entered-and-left-cubeshape-test []
-  (is (= [(sut/->InCubeshape 4)]
+  (is (= {0 sut/in-cubeshape}
          (sut/entered-and-left-cubeshape (execute "1/-1")))
       "starting step, rotations, slice, rotations")
 
-  (is (= [(sut/->InCubeshape 1)
-          (sut/->ShapeShifted 3)]
+  (is (= {0 sut/in-cubeshape
+          1 sut/shape-shifted}
          (sut/entered-and-left-cubeshape (execute "/6/")))))
