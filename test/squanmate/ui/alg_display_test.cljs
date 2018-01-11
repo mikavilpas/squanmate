@@ -4,4 +4,6 @@
    [devcards.core :as dc :refer [defcard-rg deftest]]))
 
 (defcard-rg rich-scramble-display
-  [sut/rich-scramble-display "1/-1"])
+  [:div
+   [sut/rich-scramble-display "1/-1"]
+   [sut/rich-scramble-display "/6/6/"]])
