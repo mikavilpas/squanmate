@@ -1,5 +1,10 @@
 # Changelog
 
+## 6.1
+- new feature: both trainers' scrambles now highlight the part of the scramble
+  that is out of cubeshape (square square). The idea is that it is easier to
+  follow along.
+
 ## 6.0
 - `BREAKING`: puzzle colors are now defined on a dedicated Settings page.
   Previously the colors had to be defined in three separate places (cubeshape
