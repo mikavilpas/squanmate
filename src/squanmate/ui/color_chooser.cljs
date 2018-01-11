@@ -20,9 +20,13 @@
                              js/ReactColor.SketchPicker))
 
 (defn- picker-color->rgb [picker-color]
-  [(.. picker-color -rgb -r)
-   (.. picker-color -rgb -g)
-   (.. picker-color -rgb -b)])
+  ;; These fields don't have the required externs so they will be munged by
+  ;; advanced compilation. Using aget will prevent the optimizer from seeing
+  ;; these field names, so they can be accessed.
+  (let [c (aget picker-color "rgb")]
+    [(aget c "r")
+     (aget c "g")
+     (aget c "b")]))
 
 (defn custom-color-chooser
   "The given cursor or atom must have a squanmate color name or color, or nil."
