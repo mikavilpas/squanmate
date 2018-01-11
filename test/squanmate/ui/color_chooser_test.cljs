@@ -5,8 +5,7 @@
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg deftest]]))
 
-;; it supports html color names too
-(defonce color-picker-state (reagent/atom {:color "limegreen"}))
+(defonce color-picker-state (reagent/atom {:color :green}))
 
 (defcard-rg color-picker
   [color-chooser/custom-color-chooser (reagent/cursor color-picker-state [:color])]

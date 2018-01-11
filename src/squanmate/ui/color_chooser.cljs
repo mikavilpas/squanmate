@@ -19,10 +19,17 @@
 (def ^:private color-picker (reagent/adapt-react-class
                              js/ReactColor.SketchPicker))
 
-(defn custom-color-chooser [cursor]
+(defn- picker-color->rgb [picker-color]
+  [(.. picker-color -rgb -r)
+   (.. picker-color -rgb -g)
+   (.. picker-color -rgb -b)])
+
+(defn custom-color-chooser
+  "The given cursor or atom must have a squanmate color name or color, or nil."
+  [cursor]
   [color-picker {:disable-alpha true
-                 :color @cursor
-                 :on-change-complete #(reset! cursor %)}])
+                 :color (color-converter/color->hex @cursor)
+                 :on-change-complete #(reset! cursor (picker-color->rgb %))}])
 
 (defn- color-preview [color-value]
   [:span.color.color-button
@@ -30,20 +37,26 @@
     {:background-color (color-converter/color->hex color-value)}}])
 
 (defn- color [label cursor]
-  [common/button
-   [:div.center.vertical [color-preview @cursor] label]])
+  [common/overlay-trigger
+   {:overlay (reagent/as-element [common/popover {:id "pick-color"
+                                                  :title "Pick a color"}
+                                  [custom-color-chooser cursor]])
+    :trigger "click"
+    :placement "right"}
+   [common/button
+    [:div.center.vertical [color-preview @cursor] label]]])
 
 (defn- custom-colors-component [state-atom]
   [:div "Custom colors"
    (letfn [(color-of [side]
              (reagent/cursor state-atom [:color-settings side]))]
      [:div.center.space-around
-      [color "Top" (color-of :top)]
+      [color "Top"    (color-of :top)]
       [color "Bottom" (color-of :bottom)]
-      [color "Left" (color-of :left)]
-      [color "Right" (color-of :right)]
-      [color "Front" (color-of :front)]
-      [color "Back" (color-of :back)]])])
+      [color "Left"   (color-of :left)]
+      [color "Right"  (color-of :right)]
+      [color "Front"  (color-of :front)]
+      [color "Back"   (color-of :back)]])])
 
 (defn- swap-top-and-bottom-button [state-atom]
   [common/button {:on-click #(swap! state-atom update :color-settings color-chooser/do-swap-top-and-bottom)}
