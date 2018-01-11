@@ -1,5 +1,9 @@
 # Changelog
 
+## upcoming
+- new feature: choose custom colors for any side of your puzzle. The colors will
+  be used anywhere a puzzle is drawn.
+
 ## 6.1
 - new feature: both trainers' scrambles now highlight the part of the scramble
   that is out of cubeshape (square square). The idea is that it is easier to
