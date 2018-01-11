@@ -54,7 +54,7 @@
   [:div "Custom colors"
    (letfn [(color-of [side]
              (reagent/cursor state-atom [:color-settings side]))]
-     [:div.center.space-around
+     [:div
       [color "Top"    (color-of :top)]
       [color "Bottom" (color-of :bottom)]
       [color "Left"   (color-of :left)]
@@ -75,9 +75,9 @@
    [common/form-group
     [draw-mode :monochrome? "Only gray" state-atom]
 
-    [swap-top-and-bottom-button state-atom]
-    [use-back-as-front-button state-atom]
-    [reset-defaults-button state-atom]]])
+    [:div [swap-top-and-bottom-button state-atom]]
+    [:div [use-back-as-front-button state-atom]]
+    [:div [reset-defaults-button state-atom]]]])
 
 (defn- puzzle-preview [state-atom]
   [newmonochrome/monochrome-puzzle puzzle/square-square @state-atom])
@@ -85,7 +85,8 @@
 (defn color-chooser [state-atom]
   [:div.row
    [:div.col-xs-6
-    [quick-option-controls state-atom]
-    [custom-colors-component state-atom]]
+    [quick-option-controls state-atom]]
    [:div.col-xs-6
-    [puzzle-preview state-atom]]])
+    [puzzle-preview state-atom]]
+   [:div.col-xs-12
+    [custom-colors-component state-atom]]])
