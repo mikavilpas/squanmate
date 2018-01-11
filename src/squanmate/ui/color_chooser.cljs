@@ -46,6 +46,10 @@
    [common/button
     [:div.center.vertical [color-preview @cursor] label]]])
 
+(defn- reset-defaults-button [state-atom]
+  [common/button {:on-click #(reset! state-atom (deref (default-color-chooser-state)))}
+   "Defaults"])
+
 (defn- custom-colors-component [state-atom]
   [:div "Custom colors"
    (letfn [(color-of [side]
@@ -72,7 +76,8 @@
     [draw-mode :monochrome? "Only gray" state-atom]
 
     [swap-top-and-bottom-button state-atom]
-    [use-back-as-front-button state-atom]]])
+    [use-back-as-front-button state-atom]
+    [reset-defaults-button state-atom]]])
 
 (defn- puzzle-preview [state-atom]
   [newmonochrome/monochrome-puzzle puzzle/square-square @state-atom])
