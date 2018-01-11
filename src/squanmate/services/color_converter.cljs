@@ -1,5 +1,8 @@
 (ns squanmate.services.color-converter
-  (:require [cljsjs.tinycolor]))
+  ;; NB: Cannot require tinycolor! it will not compile under advanced
+  ;; optimizations. The "tinycolor" global is available though, it comes from
+  ;; cljsjs/react-color
+  (:require [cljsjs.react-color]))
 
 ;; a color can be either a named color or an RGB value like [r g b]
 
@@ -16,7 +19,7 @@
    :green [69, 245, 69]})
 
 (defn- rgb->tinycolor [[r g b]]
-  (js/tinycolor (str "rgb " r " " g " " b)))
+  (new js/tinycolor (str "rgb " r " " g " " b)))
 
 (defn color-name->color [color]
   (get named-colors color

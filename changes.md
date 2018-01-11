@@ -1,6 +1,6 @@
 # Changelog
 
-## upcoming
+## 6.2
 - new feature: choose custom colors for any side of your puzzle. The colors will
   be used anywhere a puzzle is drawn.
 
