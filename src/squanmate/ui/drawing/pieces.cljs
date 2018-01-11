@@ -3,7 +3,7 @@
             [quil.middleware :as m]
             [squanmate.slicing :as slicing]
             [squanmate.puzzle :as puzzle]
-            [squanmate.services.color-settings :as color-settings]))
+            [squanmate.services.color-converter :as color-converter]))
 
 (defrecord DrawLayerState [layer size])
 
@@ -27,22 +27,10 @@
   (q/stroke-weight 1)
   (q/stroke 0))
 
-(defn- color-name->color [name-key]
-  (let [colors {:gray [169]
-                :white [253]
-                :yellow [255, 254, 69]
-
-                :orange [255, 166, 69]
-                :blue [99, 96, 255]
-                :red [255, 69, 69]
-                :green [69, 245, 69]}
-        color-value (get colors name-key)]
-    color-value))
-
 (defn- get-color [draw-settings piece side]
   (let [piece-side (-> piece :colors side)
         color-name (get draw-settings piece-side)
-        color-value (color-name->color color-name)]
+        color-value (color-converter/color-name->color color-name)]
     color-value))
 
 (def ^:private magic-numbers "( ͡° ͜ʖ ͡°)"
