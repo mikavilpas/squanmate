@@ -4,7 +4,7 @@
 ;; a color can be either a named color or an RGB value like [r g b]
 
 (def ^:private named-colors
-  ;; internally this namespace stores colors as rgba vectors because these are
+  ;; internally this namespace stores colors as rgb vectors because these are
   ;; what are used for rendering by quil.
   {:gray [169 169 169]
    :white [253 253 253]
@@ -19,7 +19,9 @@
   (js/tinycolor (str "rgb " r " " g " " b)))
 
 (defn color-name->color [color]
-  (get named-colors color))
+  (get named-colors color
+       ;; If not found, the color must be a literal rgb value. Return it.
+       color))
 
 (defn color->hex [color]
   (let [tc (-> color

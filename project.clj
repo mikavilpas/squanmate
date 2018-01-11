@@ -29,7 +29,8 @@
                  [cljsjs/google-analytics "2015.04.13-0"]
                  [cljsjs/mousetrap "1.5.3-0"]
                  [hodgepodge "0.1.3"]
-                 [cljsjs/tinycolor "1.3.0-0"]]
+                 [cljsjs/tinycolor "1.3.0-0"]
+                 [cljsjs/react-color "2.13.1-0"]]
 
   :plugins [[lein-figwheel "0.5.13"]
             [lein-cljsbuild "1.1.5" :exclusions [org.clojure/clojure]]
