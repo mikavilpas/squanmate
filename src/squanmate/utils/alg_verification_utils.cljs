@@ -1,15 +1,13 @@
 (ns squanmate.utils.alg-verification-utils
   "Tools for verifying the validity of algorithms."
-  (:require [squanmate.alg.parser :as parser]
+  (:require [cats.core :as m]
             [cats.monad.either :as either]
-            [squanmate.alg.execution :as execution]
+            [squanmate.alg.execution :as e]
+            [squanmate.alg.parser :as parser]
             [squanmate.puzzle :as p]
-            [cats.core :as m]
-            [squanmate.services.cube-aligner :as cube-aligner]
-            [squanmate.alg.types :as types]
-            [squanmate.ui.parity :as parity]
+            [squanmate.rotation :as rotation]
             [squanmate.scramblers.shape-scrambler.predetermined-parity-scrambler :as pps]
-            [squanmate.alg.execution :as e]))
+            [squanmate.services.cube-aligner :as cube-aligner]))
 
 (defn- parse [[case-name alg]]
   [case-name (parser/parse alg)])
@@ -22,8 +20,8 @@
 
 (defn- execute-reverse [[case-name alg]]
   [case-name
-   (execution/transformation-result-reverse p/square-square
-                                            alg)])
+   (e/transformation-result-reverse p/square-square
+                                    alg)])
 
 (defn non-executable-cases [cases]
   (let [execution-results (map execute-reverse cases)]
@@ -32,15 +30,15 @@
                    (either/left? result))))))
 
 (defn- rotations-for-alg [alg]
-  (m/mlet [end-step (execution/transformation-result p/square-square
-                                                     alg)
+  (m/mlet [end-step (e/transformation-result p/square-square
+                                             alg)
            rotations (cube-aligner/rotations-to-align-cube (:puzzle end-step))]
           rotations))
 
 (defn non-aligned-cases [cases]
   (for [[case-name alg] cases
         :let [rotations (rotations-for-alg alg)]
-        :when (not (= rotations (types/Rotations. 0 0)))]
+        :when (not (= rotations rotation/empty-rotation))]
     [case-name rotations]))
 
 (defn alg-switches-parity-at-layer-default-positions?
