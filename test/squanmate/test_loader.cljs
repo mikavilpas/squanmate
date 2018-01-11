@@ -41,6 +41,8 @@
             squanmate.services.global-colors-store-test
             squanmate.ui.layer-selector-test
             squanmate.services.alg-insights-test
-            squanmate.utils.either-utils-test))
+            squanmate.services.alg-insights.cubeshape-test
+            squanmate.utils.either-utils-test
+            squanmate.ui.alg-display-test))
 
 (devtools/install! [:formatters :hints :async])
