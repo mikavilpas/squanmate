@@ -14,7 +14,8 @@
             [squanmate.ui.case-counter :as case-counter]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
-            [squanmate.ui.middle-layer-controls :as middle-layer-controls]))
+            [squanmate.ui.middle-layer-controls :as middle-layer-controls]
+            [squanmate.ui.alg-display :as alg-display]))
 
 (defn- puzzle-for-alg [alg]
   (->> alg
@@ -30,7 +31,9 @@
 
 (defn- scramble-preview [s]
   (when (not (str/blank? s))
-    [:div.col-xs-10.col-md-6.col-lg-6.scramble [common/well s]]))
+    [:div.col-xs-10.col-md-6.col-lg-6.scramble
+     [common/well (when s
+                    [alg-display/rich-scramble-display s])]]))
 
 (defn- case-selection-component [state case]
   (let [[case-name alg] case
