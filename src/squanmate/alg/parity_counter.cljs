@@ -1,6 +1,6 @@
 (ns squanmate.alg.parity-counter
   (:require [squanmate.puzzle :as p]
-            [squanmate.slicing :as slicing]
+            [squanmate.alg.slicing :as slicing]
             [clojure.string :as str]
             [squanmate.shapes :as shapes]))
 

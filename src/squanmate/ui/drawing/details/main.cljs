@@ -1,7 +1,7 @@
 (ns squanmate.ui.drawing.details.main
   (:require [quil.core :as q]
             [squanmate.puzzle :as puzzle]
-            [squanmate.slicing :as slicing]
+            [squanmate.alg.slicing :as slicing]
             [squanmate.ui.drawing.details.pieces :as pieces]
             [squanmate.ui.drawing.details.count-positions :as count-positions]
             [squanmate.shapes :as shapes]))

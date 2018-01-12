@@ -7,7 +7,7 @@
             [squanmate.alg.serialization :as serialization]
             [squanmate.alg.types :as types]
             [squanmate.alg.rotation :as rotation]
-            [squanmate.slicing :as slicing]))
+            [squanmate.alg.slicing :as slicing]))
 
 (def conversions {[:top :front :left] "A"
                   [:top :left] "1"

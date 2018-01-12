@@ -9,7 +9,7 @@
              default-scrambler]
             [squanmate.scramblers.shape-scrambler.scrambler :as scrambler]
             [squanmate.shapes :as shapes]
-            [squanmate.slicing :as slicing]
+            [squanmate.alg.slicing :as slicing]
             [cats.core :as m]
             [cats.monad.either :as either]))
 

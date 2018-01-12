@@ -3,7 +3,7 @@
             [cats.monad.either :as either]
             [squanmate.alg.types :as types]
             [squanmate.puzzle :as p]
-            [squanmate.slicing :as slicing]))
+            [squanmate.alg.slicing :as slicing]))
 
 (defprotocol LayerRotationStrategy
   (first-piece [this layer])

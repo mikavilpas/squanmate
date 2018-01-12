@@ -8,7 +8,7 @@
             [squanmate.puzzle :as puzzle]
             [squanmate.scramblers.shape-scrambler :as shape-scrambler]
             [squanmate.services.color-settings :as color-settings]
-            [squanmate.slicing :as slicing]
+            [squanmate.alg.slicing :as slicing]
             [squanmate.ui.color-chooser :as color-chooser]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]

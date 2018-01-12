@@ -4,7 +4,7 @@
             [squanmate.alg.types :as types]
             [squanmate.puzzle :as puzzle]
             [squanmate.alg.rotation :as rotation]
-            [squanmate.slicing :as slicing]
+            [squanmate.alg.slicing :as slicing]
             [squanmate.ui.common :as common]
             [squanmate.ui.rotation-adjuster-controls :as rac]))
 

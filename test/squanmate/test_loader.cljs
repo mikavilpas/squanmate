@@ -11,7 +11,7 @@
             squanmate.alg.parser-test
             squanmate.puzzle-test
             squanmate.alg.rotation-test
-            squanmate.slicing-test
+            squanmate.alg.slicing-test
             squanmate.shapes-test
             squanmate.ui.drawing.newmonochrome-test
             squanmate.ui.shape-chooser-test

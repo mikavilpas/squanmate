@@ -1,5 +1,5 @@
-(ns squanmate.slicing-test
-  (:require [squanmate.slicing :as slicing]
+(ns squanmate.alg.slicing-test
+  (:require [squanmate.alg.slicing :as slicing]
             [clojure.test :as t :refer [is run-tests]]
             [squanmate.puzzle :as p]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
