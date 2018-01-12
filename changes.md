@@ -1,5 +1,9 @@
 # Changelog
 
+## upcoming
+- bugfix: color chooser component was not always visible on mobile devices
+  because it was drawn outside the screen boundaries
+
 ## 6.2.1
 - use local styles for "select shape" components. They used to use styles
   provided externally, but the provider is currently down.
