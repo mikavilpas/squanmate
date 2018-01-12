@@ -1,6 +1,6 @@
 # Changelog
 
-## upcoming
+## 6.2.2
 - bugfix: color chooser component was not always visible on mobile devices
   because it was drawn outside the screen boundaries
 
