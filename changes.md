@@ -1,6 +1,6 @@
 # Changelog
 
-## upcoming
+## 6.3
 - new feature: "Set single case" button for cubeshape trainer. Clicking this
   will ask you for the layers of the case you want, and then generate a scramble
   for that case. The case is not added to your selected cases, so it is lost
