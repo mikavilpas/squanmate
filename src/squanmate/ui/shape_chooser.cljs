@@ -5,8 +5,16 @@
             [squanmate.puzzle :as puzzle]
             [squanmate.shape-combinations :as shape-combinations]
             [squanmate.shapes :as shapes]
-            [squanmate.ui.common :as common]
-            [squanmate.slicing :as slicing]))
+            [squanmate.ui.common :as common]))
+
+(defn get-both-layers-or-nil [state-map]
+  (let [top (-> state-map :puzzle-chooser-layer-names :top)
+        bottom (-> state-map :puzzle-chooser-layer-names :bottom)]
+    (when (and top bottom)
+      [top bottom])))
+
+;; alias
+(def both-layers-selected? get-both-layers-or-nil)
 
 ;; based on example code from
 ;; https://gist.github.com/pesterhazy/4a4198a9cc040bf6fe13a476f25bac2c
