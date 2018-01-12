@@ -1,10 +1,9 @@
 (ns squanmate.alg.rotation
-  (:require [cats.monad.either :as either]
+  (:require [cats.core :as m]
+            [cats.monad.either :as either]
+            [squanmate.alg.types :as types]
             [squanmate.puzzle :as p]
-            [cats.core :as m]
-            [squanmate.puzzle :as puzzle]
-            [squanmate.slicing :as slicing]
-            [squanmate.alg.types :as types]))
+            [squanmate.slicing :as slicing]))
 
 (defprotocol LayerRotationStrategy
   (first-piece [this layer])
