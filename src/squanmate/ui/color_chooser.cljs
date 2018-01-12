@@ -41,14 +41,20 @@
     {:background-color (color-converter/color->hex color-value)}}])
 
 (defn- color [label cursor]
-  [common/overlay-trigger
-   {:overlay (reagent/as-element [common/popover {:id "pick-color"
-                                                  :title "Pick a color"}
-                                  [custom-color-chooser cursor]])
-    :trigger "click"
-    :placement "right"}
-   [common/button
-    [:div.center.vertical [color-preview @cursor] label]]])
+  (let [shown? (reagent/atom false)
+        show! #(reset! shown? true)
+        close! #(reset! shown? false)]
+    (fn [label cursor]
+      [:span
+       [common/modal {:show @shown?
+                      :on-hide close!
+                      :bs-size "small"}
+        [common/modal-header {:close-button true} "Pick a color - " label " side"]
+        [common/modal-body
+         [:div.center
+          [custom-color-chooser cursor]]]]
+       [common/button {:on-click show!}
+        [:div.center.vertical [color-preview @cursor] label]]])))
 
 (defn- reset-defaults-button [state-atom]
   [common/button {:on-click #(reset! state-atom (deref (default-color-chooser-state)))}

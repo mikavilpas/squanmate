@@ -30,6 +30,13 @@
 (def well (reagent/adapt-react-class js/ReactBootstrap.Well))
 (def alert (reagent/adapt-react-class js/ReactBootstrap.Alert))
 
+(def modal (reagent/adapt-react-class js/ReactBootstrap.Modal))
+(def modal-dialog (reagent/adapt-react-class js/ReactBootstrap.Modal.Dialog))
+(def modal-title (reagent/adapt-react-class js/ReactBootstrap.Modal.Title))
+(def modal-header (reagent/adapt-react-class js/ReactBootstrap.Modal.Header))
+(def modal-body (reagent/adapt-react-class js/ReactBootstrap.Modal.Body))
+(def modal-footer (reagent/adapt-react-class js/ReactBootstrap.Modal.Footer))
+
 (def split-button (reagent/adapt-react-class js/ReactBootstrap.SplitButton))
 (def dropdown-button (reagent/adapt-react-class js/ReactBootstrap.DropdownButton))
 (def menu-item (reagent/adapt-react-class js/ReactBootstrap.MenuItem))
