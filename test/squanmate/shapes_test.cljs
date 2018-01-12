@@ -3,7 +3,7 @@
             [clojure.test :as t :refer [is]]
             [cats.monad.either :as either]
             [squanmate.puzzle :as p]
-            [squanmate.rotation :as r])
+            [squanmate.alg.rotation :as r])
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg deftest]]))
 

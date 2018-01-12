@@ -1,8 +1,8 @@
-(ns squanmate.rotation-test
+(ns squanmate.alg.rotation-test
   (:require [clojure.test :as t :refer [is]]
             [cats.monad.either :as either]
             [squanmate.puzzle :as p]
-            [squanmate.rotation :as r]
+            [squanmate.alg.rotation :as r]
             [squanmate.shapes :as shapes]
             [cats.core :as m]
             [squanmate.puzzle :as puzzle])

@@ -1,7 +1,7 @@
 (ns squanmate.services.count-positions
   (:require [squanmate.puzzle :as p]
             [squanmate.shapes :as shapes]
-            [squanmate.rotation :as rotation]
+            [squanmate.alg.rotation :as rotation]
             [squanmate.alg.parity-counter :as parity-counter]
             [squanmate.services.shape-combinations :as shape-combinations]
             [squanmate.ui.initial-rotation-adjuster :as initial-rotation-adjuster]

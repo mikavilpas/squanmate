@@ -5,7 +5,7 @@
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [cats.monad.either :as either]
             [cats.core :as m]
-            [squanmate.rotation :as r]
+            [squanmate.alg.rotation :as r]
             [squanmate.alg.execution :as execution]
             [squanmate.shapes :as shapes])
   (:require-macros

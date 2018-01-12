@@ -1,4 +1,4 @@
-(ns squanmate.rotation
+(ns squanmate.alg.rotation
   (:require [cats.monad.either :as either]
             [squanmate.puzzle :as p]
             [cats.core :as m]

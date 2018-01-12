@@ -4,7 +4,7 @@
             [squanmate.services.cube-aligner :as sut]
             [squanmate.shapes :as shapes]
             [squanmate.alg.types :as types]
-            [squanmate.rotation :as rotation]
+            [squanmate.alg.rotation :as rotation]
             [squanmate.alg.execution :as execution]
             [squanmate.puzzle :as p]
             [cats.core :as m])

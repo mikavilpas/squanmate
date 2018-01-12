@@ -3,7 +3,7 @@
             [cats.monad.either :as either]
             [reagent.core :as reagent]
             [squanmate.alg.parser :as parser]
-            [squanmate.rotation :as rotation]
+            [squanmate.alg.rotation :as rotation]
             [squanmate.services.count-positions :as count-positions]
             [squanmate.shapes :as shapes]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]

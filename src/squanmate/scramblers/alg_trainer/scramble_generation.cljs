@@ -2,7 +2,7 @@
   (:require [cats.monad.either :as either]
             [squanmate.alg.execution :as execution]
             [squanmate.puzzle :as p]
-            [squanmate.rotation :as rotation]
+            [squanmate.alg.rotation :as rotation]
             [squanmate.solving :as solving]
             [squanmate.scramblers.algsets.edge-permutation :as ep]
             [squanmate.services.google-analytics :as ga]

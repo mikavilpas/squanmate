@@ -2,7 +2,7 @@
   (:require [clojure.string :as str]
             [squanmate.alg.prettification :as prettification]
             [squanmate.alg.types :as types]
-            [squanmate.rotation :as rotation]
+            [squanmate.alg.rotation :as rotation]
             [squanmate.shapes :as shapes]))
 
 (defn step-to-str [s]

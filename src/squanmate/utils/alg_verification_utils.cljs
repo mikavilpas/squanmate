@@ -5,7 +5,7 @@
             [squanmate.alg.execution :as e]
             [squanmate.alg.parser :as parser]
             [squanmate.puzzle :as p]
-            [squanmate.rotation :as rotation]
+            [squanmate.alg.rotation :as rotation]
             [squanmate.scramblers.shape-scrambler.predetermined-parity-scrambler :as pps]
             [squanmate.services.cube-aligner :as cube-aligner]))
 

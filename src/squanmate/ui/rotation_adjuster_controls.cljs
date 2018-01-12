@@ -3,7 +3,7 @@
             [squanmate.alg.manipulation :as manipulation]
             [squanmate.alg.types :as types]
             [squanmate.puzzle :as puzzle]
-            [squanmate.rotation :as rotation]
+            [squanmate.alg.rotation :as rotation]
             [squanmate.slicing :as slicing]
             [squanmate.ui.common :as common]))
 

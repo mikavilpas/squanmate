@@ -10,7 +10,7 @@
             squanmate.alg.execution-test
             squanmate.alg.parser-test
             squanmate.puzzle-test
-            squanmate.rotation-test
+            squanmate.alg.rotation-test
             squanmate.slicing-test
             squanmate.shapes-test
             squanmate.ui.drawing.newmonochrome-test

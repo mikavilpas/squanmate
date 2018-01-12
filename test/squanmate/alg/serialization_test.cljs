@@ -4,7 +4,7 @@
             [squanmate.puzzle :as puzzle]
             [squanmate.alg.execution :as execution]
             [cats.core :as m]
-            [squanmate.rotation :as rotation]
+            [squanmate.alg.rotation :as rotation]
             [squanmate.shapes :as shapes]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome])
   (:require-macros

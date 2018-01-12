@@ -3,7 +3,7 @@
             [cats.monad.either :as either]
             [squanmate.alg.parser :as parser]
             [squanmate.alg.types :as types]
-            [squanmate.rotation :as rotation]
+            [squanmate.alg.rotation :as rotation]
             [squanmate.slicing :as slicing]
             [squanmate.alg.manipulation :as manipulation]))
 

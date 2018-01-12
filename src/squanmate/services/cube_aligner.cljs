@@ -2,7 +2,7 @@
   (:require [cats.monad.either :as either]
             [squanmate.shapes :as shapes]
             [squanmate.puzzle :as p]
-            [squanmate.rotation :as rotation]
+            [squanmate.alg.rotation :as rotation]
             [squanmate.alg.types :as types]))
 
 (defn- oriented? [layer]
