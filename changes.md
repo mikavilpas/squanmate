@@ -1,6 +1,6 @@
 # Changelog
 
-## upcoming
+## 6.2.1
 - use local styles for "select shape" components. They used to use styles
   provided externally, but the provider is currently down.
 
