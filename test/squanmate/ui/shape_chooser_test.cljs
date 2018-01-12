@@ -28,17 +28,14 @@
 
 (deftest get-both-layers-or-nil-test []
   (is (= ["square" "kite"]
-         (sut/get-both-layers-or-nil (reagent/atom
-                                      {:puzzle-chooser-layer-names {:top "square"
-                                                                    :bottom "kite"}}))))
+         (sut/get-both-layers-or-nil {:puzzle-chooser-layer-names {:top "square"
+                                                                   :bottom "kite"}})))
   (is (nil?
-       (sut/get-both-layers-or-nil (reagent/atom
-                                    {:puzzle-chooser-layer-names {:top "square"
-                                                                  :bottom nil}})))
+       (sut/get-both-layers-or-nil {:puzzle-chooser-layer-names {:top "square"
+                                                                 :bottom nil}}))
       "missing bottom")
 
   (is (nil?
-       (sut/get-both-layers-or-nil (reagent/atom
-                                    {:puzzle-chooser-layer-names {:top nil
-                                                                  :bottom "square"}})))
+       (sut/get-both-layers-or-nil {:puzzle-chooser-layer-names {:top nil
+                                                                 :bottom "square"}}))
       "missing top"))
