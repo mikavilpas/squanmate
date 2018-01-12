@@ -38,9 +38,12 @@
   (let [s (default-scrambler/new-default-shape-scrambler (:selected-shapes @state))]
     (set-new-scramble state s)))
 
-(defn set-new-repeat-scramble [state]
-  (let [s (default-scrambler/new-default-shape-scrambler [(:chosen-shapes @state)])]
+(defn set-specific-shapes-scramble [state shapes-sets]
+  (let [s (default-scrambler/new-default-shape-scrambler shapes-sets)]
     (set-new-scramble state s)))
+
+(defn set-new-repeat-scramble [state]
+  (set-specific-shapes-scramble state [(:chosen-shapes @state)]))
 
 (defn set-new-scramble-with-parity [state relative-parity-type]
   (let [s (pps/->PredeterminedParityScrambler (:puzzle @state)
