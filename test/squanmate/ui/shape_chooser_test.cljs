@@ -1,9 +1,10 @@
 (ns squanmate.ui.shape-chooser-test
   (:require [squanmate.ui.shape-chooser :as sut]
             [reagent.core :as reagent]
+            [clojure.test :as t :refer [is]]
             [clojure.walk :as walk])
   (:require-macros
-   [devcards.core :as dc :refer [defcard-rg]]))
+   [devcards.core :as dc :refer [defcard-rg deftest]]))
 
 (defonce test-state (reagent/atom nil))
 
@@ -24,3 +25,20 @@
    [sut/puzzle-chooser test-state3]]
   test-state3
   {:inspect-data true})
+
+(deftest get-both-layers-or-nil-test []
+  (is (= ["square" "kite"]
+         (sut/get-both-layers-or-nil (reagent/atom
+                                      {:puzzle-chooser-layer-names {:top "square"
+                                                                    :bottom "kite"}}))))
+  (is (nil?
+       (sut/get-both-layers-or-nil (reagent/atom
+                                    {:puzzle-chooser-layer-names {:top "square"
+                                                                  :bottom nil}})))
+      "missing bottom")
+
+  (is (nil?
+       (sut/get-both-layers-or-nil (reagent/atom
+                                    {:puzzle-chooser-layer-names {:top nil
+                                                                  :bottom "square"}})))
+      "missing top"))
