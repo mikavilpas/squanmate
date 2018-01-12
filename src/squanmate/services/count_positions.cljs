@@ -3,7 +3,7 @@
             [squanmate.shapes :as shapes]
             [squanmate.rotation :as rotation]
             [squanmate.alg.parity-counter :as parity-counter]
-            [squanmate.shape-combinations :as shape-combinations]
+            [squanmate.services.shape-combinations :as shape-combinations]
             [squanmate.ui.initial-rotation-adjuster :as initial-rotation-adjuster]
             [squanmate.ui.rotation-adjuster-controls :as rac]
             [squanmate.alg.prettification :as prettification]))

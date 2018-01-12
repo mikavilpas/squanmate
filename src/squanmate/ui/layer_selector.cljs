@@ -2,7 +2,7 @@
   (:require [clojure.set :as set]
             [reagent.core :as reagent]
             [squanmate.puzzle :as puzzle]
-            [squanmate.shape-combinations :as shape-combinations]
+            [squanmate.services.shape-combinations :as shape-combinations]
             [squanmate.shapes :as shapes]
             [squanmate.ui.common :as common]
             [squanmate.ui.shape-chooser :as shape-chooser]))

@@ -1,4 +1,4 @@
-(ns squanmate.shape-combinations
+(ns squanmate.services.shape-combinations
   (:require [clojure.math.combinatorics :as combo]
             [squanmate.shapes :as shapes]))
 

@@ -1,5 +1,5 @@
-(ns squanmate.shape-combinations-test
-  (:require [squanmate.shape-combinations :as shape-combinations]
+(ns squanmate.services.shape-combinations-test
+  (:require [squanmate.services.shape-combinations :as shape-combinations]
             [clojure.test :as t :refer [is]])
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg deftest]]))

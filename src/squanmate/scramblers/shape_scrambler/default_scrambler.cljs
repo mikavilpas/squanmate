@@ -2,7 +2,7 @@
   (:require [squanmate.puzzle :as p]
             [squanmate.rotation :as rotation]
             [squanmate.scramblers.shape-scrambler.scrambler :as scrambler]
-            [squanmate.shape-combinations :as shape-combinations]
+            [squanmate.services.shape-combinations :as shape-combinations]
             [squanmate.shapes :as shapes]))
 
 (defn- random-top-and-bottom-shape-names [possible-layers]
