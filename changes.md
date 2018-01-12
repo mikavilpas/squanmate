@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.2.1
+- use local styles for "select shape" components. They used to use styles
+  provided externally, but the provider is currently down.
+
 ## 6.2
 - new feature: choose custom colors for any side of your puzzle. The colors will
   be used anywhere a puzzle is drawn.
