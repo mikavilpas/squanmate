@@ -13,15 +13,18 @@
                  ;; upgrading from reagent 0.7.0 to 0.8.0-alpha1 didn't work
                  ;; unless I paste its react dependencies here too.
                  [reagent "0.8.0-alpha1"]
-                 [cljsjs/react "15.6.1-2"]
-                 [cljsjs/react-dom "15.6.1-2"]
-                 ;; [cljsjs/react-dom-server "15.6.1-2"]
+
+                 ;; these two were upgraded based on the values required by react-bootstrap here
+                 ;; https://github.com/cljsjs/packages/commit/7e7671634e3114c7822f6091ced99bfdfed39898
+                 [cljsjs/react "15.6.2-1"]
+                 [cljsjs/react-dom "15.6.2-1"]
+
                  [cljsjs/create-react-class "15.6.0-3"]
 
                  [funcool/cats "2.1.0"]
                  [the/parsatron "0.0.7"]
                  [cljsjs/react-select "1.0.0-rc.3"]
-                 [cljsjs/react-bootstrap "0.31.0-0"]
+                 [cljsjs/react-bootstrap "0.31.5-0"]
                  [quil "2.6.0"]
                  [cljsjs/download "1.4.6-0"]
                  [secretary "1.2.3"]
