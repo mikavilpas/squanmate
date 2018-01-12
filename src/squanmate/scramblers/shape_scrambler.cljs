@@ -9,7 +9,8 @@
             [squanmate.ui.middle-layer-controls :as middle-layer-controls]
             [squanmate.scramblers.shape-scrambler.default-scrambler :as default-scrambler]
             [squanmate.ui.case-counter :as case-counter]
-            [squanmate.ui.alg-display :as alg-display]))
+            [squanmate.ui.alg-display :as alg-display]
+            [squanmate.ui.shape-chooser :as shape-chooser]))
 
 (defn selected-shapes-counter [state]
   ;; there are 90 total shape combinations
@@ -28,13 +29,43 @@
    " "
    [common/button {:on-click #(a/select-no-shapes state)} "Select none"]])
 
+(defn- set-selected-single-case! [state chooser-state]
+  (when-let [[top bottom] (shape-chooser/get-both-layers-or-nil @chooser-state)]
+    (a/set-specific-shapes-scramble state [(hash-set top bottom)])))
+
+(defn- select-single-case-component [state]
+  (let [shown? (reagent/atom false)
+        show! #(reset! shown? true)
+        close! #(reset! shown? false)
+        chooser-state (reagent/atom {:puzzle-chooser-layer-names nil})]
+    (fn [state]
+      [:div
+       [common/modal {:show @shown?
+                      :on-hide close!}
+        [common/modal-header {:close-button true} "Select a case"]
+        [common/modal-body
+         [:div.container-fluid
+          [shape-chooser/puzzle-chooser chooser-state]
+          [:div.top10
+           [common/button {:on-click #(do (set-selected-single-case! state chooser-state)
+                                          (close!))
+                           :bs-style "success"
+                           :disabled (not (shape-chooser/both-layers-selected?
+                                           @chooser-state))}
+            "Set this case"]]]]]
+
+       [common/button {:on-click show!}
+        "Set single case"]])))
+
 (defn- shape-selection-settings [state]
   [:div
    [selected-shapes-counter state]
    [all-shapes-selection-buttons state]
    [:div.top30
-    "Select available shapes for scrambles by filtering:"]
-   [layer-selector/layer-selector state]])
+    "Select available shapes for scrambles by filtering:"
+    [layer-selector/layer-selector state]]
+   [:div.top30
+    [select-single-case-component state]]])
 
 (defn settings-component [state]
   [common/accordion {:default-active-key 1}
