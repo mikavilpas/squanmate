@@ -4,7 +4,7 @@
             [squanmate.alg.execution :as execution]
             [cats.core :as m]
             [cats.monad.either :as either]
-            [squanmate.shapes :as shapes]
+            [squanmate.services.shapes :as shapes]
             [squanmate.alg.parity-counter :as parity-counter]))
 
 (def misaligned-square-square (-> puzzle/square-square

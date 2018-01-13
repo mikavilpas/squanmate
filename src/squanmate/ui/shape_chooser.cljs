@@ -4,7 +4,7 @@
             [squanmate.alg.manipulation :as manipulation]
             [squanmate.puzzle :as puzzle]
             [squanmate.services.shape-combinations :as shape-combinations]
-            [squanmate.shapes :as shapes]
+            [squanmate.services.shapes :as shapes]
             [squanmate.ui.common :as common]))
 
 (defn get-both-layers-or-nil [state-map]

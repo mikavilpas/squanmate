@@ -5,7 +5,7 @@
             [squanmate.alg.parser :as parser]
             [squanmate.alg.rotation :as rotation]
             [squanmate.services.count-positions :as count-positions]
-            [squanmate.shapes :as shapes]
+            [squanmate.services.shapes :as shapes]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [squanmate.ui.initial-rotation-adjuster :as ira]
             [squanmate.ui.shape-chooser :as shape-chooser]

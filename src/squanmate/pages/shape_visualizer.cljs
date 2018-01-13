@@ -3,7 +3,7 @@
             [squanmate.ui.alg-visualizer :as v]
             [reagent.core :as reagent]
             [squanmate.puzzle :as p]
-            [squanmate.shapes :as shapes]
+            [squanmate.services.shapes :as shapes]
             [squanmate.pages.page-content :as page-content])
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg]]))

@@ -2,7 +2,7 @@
   (:require [cats.monad.either :as either]
             [cljs.test :as t :refer [is]]
             [squanmate.services.cube-aligner :as sut]
-            [squanmate.shapes :as shapes]
+            [squanmate.services.shapes :as shapes]
             [squanmate.alg.types :as types]
             [squanmate.alg.rotation :as rotation]
             [squanmate.alg.execution :as execution]

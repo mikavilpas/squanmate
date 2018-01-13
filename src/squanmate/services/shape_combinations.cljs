@@ -1,6 +1,6 @@
 (ns squanmate.services.shape-combinations
   (:require [clojure.math.combinatorics :as combo]
-            [squanmate.shapes :as shapes]))
+            [squanmate.services.shapes :as shapes]))
 
 (defn- pieces [piece-type a b]
   (let [all-pieces (into (:pieces a)

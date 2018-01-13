@@ -3,7 +3,7 @@
             [reagent.core :as reagent]
             [squanmate.puzzle :as puzzle]
             [squanmate.services.shape-combinations :as shape-combinations]
-            [squanmate.shapes :as shapes]
+            [squanmate.services.shapes :as shapes]
             [squanmate.ui.common :as common]
             [squanmate.ui.shape-chooser :as shape-chooser]))
 

@@ -3,7 +3,7 @@
             [cats.monad.either :as either]
             [squanmate.puzzle :as p]
             [squanmate.alg.rotation :as r]
-            [squanmate.shapes :as shapes]
+            [squanmate.services.shapes :as shapes]
             [cats.core :as m]
             [squanmate.puzzle :as puzzle])
   (:require-macros

@@ -2,7 +2,7 @@
   (:require [quil.middleware :as m]
             [reagent.core :as reagent]
             [squanmate.puzzle :as p]
-            [squanmate.shapes :as shapes]
+            [squanmate.services.shapes :as shapes]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.details.main :as main]
             [squanmate.ui.drawing.util.quil-reagent :as quil-reagent]

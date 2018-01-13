@@ -3,7 +3,7 @@
             [squanmate.alg.prettification :as prettification]
             [squanmate.alg.types :as types]
             [squanmate.alg.rotation :as rotation]
-            [squanmate.shapes :as shapes]))
+            [squanmate.services.shapes :as shapes]))
 
 (defn step-to-str [s]
   (condp = (type s)

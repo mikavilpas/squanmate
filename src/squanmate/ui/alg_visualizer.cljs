@@ -6,7 +6,7 @@
             [reagent.core :as reagent]
             [squanmate.alg.execution :as execution]
             [squanmate.puzzle :as puzzle]
-            [squanmate.shapes :as shapes]
+            [squanmate.services.shapes :as shapes]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [squanmate.ui.initial-rotation-adjuster :as initial-rotation-adjuster]

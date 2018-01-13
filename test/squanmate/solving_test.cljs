@@ -5,7 +5,7 @@
             [cljs.core.async :refer [<! timeout]]
             [squanmate.puzzle :as puzzle]
             [squanmate.alg.execution :as execution]
-            [squanmate.shapes :as shapes]
+            [squanmate.services.shapes :as shapes]
             [cats.monad.either :as either]
             [cats.core :as m]
             [squanmate.puzzle :as p]

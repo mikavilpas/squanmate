@@ -2,7 +2,7 @@
   (:require [squanmate.ui.drawing.newmonochrome :as draw]
             [clojure.test :as t]
             [squanmate.puzzle :as p]
-            [squanmate.shapes :as shapes])
+            [squanmate.services.shapes :as shapes])
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg]]))
 

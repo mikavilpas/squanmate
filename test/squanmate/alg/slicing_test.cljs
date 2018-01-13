@@ -7,7 +7,7 @@
             [cats.core :as m]
             [squanmate.alg.rotation :as r]
             [squanmate.alg.execution :as execution]
-            [squanmate.shapes :as shapes])
+            [squanmate.services.shapes :as shapes])
   (:require-macros
    [devcards.core :as dc :refer [deftest defcard-rg]]))
 

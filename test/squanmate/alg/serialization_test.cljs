@@ -5,7 +5,7 @@
             [squanmate.alg.execution :as execution]
             [cats.core :as m]
             [squanmate.alg.rotation :as rotation]
-            [squanmate.shapes :as shapes]
+            [squanmate.services.shapes :as shapes]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome])
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg deftest]]))

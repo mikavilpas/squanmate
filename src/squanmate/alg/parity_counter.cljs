@@ -2,7 +2,7 @@
   (:require [squanmate.puzzle :as p]
             [squanmate.alg.slicing :as slicing]
             [clojure.string :as str]
-            [squanmate.shapes :as shapes]))
+            [squanmate.services.shapes :as shapes]))
 
 (defrecord ParityCount[top-corner-order
                        top-edge-order

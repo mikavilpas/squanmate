@@ -1,4 +1,4 @@
-(ns squanmate.shapes
+(ns squanmate.services.shapes
   (:require [squanmate.puzzle :as puzzle]))
 
 (defrecord Shape [name pieces])

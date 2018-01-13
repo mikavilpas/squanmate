@@ -3,7 +3,7 @@
             [squanmate.alg.rotation :as rotation]
             [squanmate.scramblers.shape-scrambler.scrambler :as scrambler]
             [squanmate.services.shape-combinations :as shape-combinations]
-            [squanmate.shapes :as shapes]))
+            [squanmate.services.shapes :as shapes]))
 
 (defn- random-top-and-bottom-shape-names [possible-layers]
   ;; possible-layers like square square are just represented as #{"square"},

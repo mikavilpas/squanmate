@@ -12,7 +12,7 @@
             squanmate.puzzle-test
             squanmate.alg.rotation-test
             squanmate.alg.slicing-test
-            squanmate.shapes-test
+            squanmate.services.shapes-test
             squanmate.ui.drawing.newmonochrome-test
             squanmate.ui.shape-chooser-test
             squanmate.alg.parity-counter-test

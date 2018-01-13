@@ -1,7 +1,7 @@
 (ns squanmate.services.alg-insights
   "Functions for analyzing an algorithm and finding out the points of it where
   interesting things happen. These things can be e.g. highlighted to the user."
-  (:require [squanmate.shapes :as shapes]
+  (:require [squanmate.services.shapes :as shapes]
             [cats.core :as m]
             [squanmate.alg.parser :as parser]
             [squanmate.utils.either-utils :as eu]

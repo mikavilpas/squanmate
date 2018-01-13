@@ -4,7 +4,7 @@
             [squanmate.alg.slicing :as slicing]
             [squanmate.ui.drawing.details.pieces :as pieces]
             [squanmate.ui.drawing.details.count-positions :as count-positions]
-            [squanmate.shapes :as shapes]))
+            [squanmate.services.shapes :as shapes]))
 
 (defrecord DrawLayerState [layer size])
 
