@@ -5,6 +5,7 @@
    [squanmate.test-loader :as test-loader]
 
    [doo.runner :as runner]
+   [pjstadig.humane-test-output]
    [cljs.test :as test]))
 
 (enable-console-print!)
