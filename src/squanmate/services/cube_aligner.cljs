@@ -1,8 +1,8 @@
 (ns squanmate.services.cube-aligner
   (:require [cats.monad.either :as either]
-            [squanmate.shapes :as shapes]
-            [squanmate.puzzle :as p]
-            [squanmate.rotation :as rotation]
+            [squanmate.services.shapes :as shapes]
+            [squanmate.alg.puzzle :as p]
+            [squanmate.alg.rotation :as rotation]
             [squanmate.alg.types :as types]))
 
 (defn- oriented? [layer]

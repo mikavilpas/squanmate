@@ -6,10 +6,10 @@
             [squanmate.alg.execution :as execution]
             [squanmate.alg.serialization :as serialization]
             [squanmate.pages.links :as links]
-            [squanmate.shapes :as shapes]
+            [squanmate.services.shapes :as shapes]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
-            [squanmate.slicing :as slicing]
+            [squanmate.alg.slicing :as slicing]
             [squanmate.services.alg-parity :as alg-parity]))
 
 (defn default-alg-importer-state []

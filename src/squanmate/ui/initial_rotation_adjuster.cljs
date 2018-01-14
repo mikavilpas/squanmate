@@ -2,9 +2,9 @@
   (:require [reagent.core :as reagent]
             [squanmate.alg.manipulation :as manipulation]
             [squanmate.alg.types :as types]
-            [squanmate.puzzle :as puzzle]
-            [squanmate.rotation :as rotation]
-            [squanmate.slicing :as slicing]
+            [squanmate.alg.puzzle :as puzzle]
+            [squanmate.alg.rotation :as rotation]
+            [squanmate.alg.slicing :as slicing]
             [squanmate.ui.common :as common]
             [squanmate.ui.rotation-adjuster-controls :as rac]))
 

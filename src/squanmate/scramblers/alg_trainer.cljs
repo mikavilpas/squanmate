@@ -5,7 +5,7 @@
             [reagent.core :as reagent]
             [squanmate.alg.execution :as execution]
             [squanmate.pages.links :as links]
-            [squanmate.puzzle :as p]
+            [squanmate.alg.puzzle :as p]
             [squanmate.scramblers.alg-trainer.case-selection :as selection]
             [squanmate.scramblers.alg-trainer.scramble-generation :as scramble-generation]
             [squanmate.scramblers.algsets.algset :as algset]

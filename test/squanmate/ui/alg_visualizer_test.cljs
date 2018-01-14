@@ -1,8 +1,8 @@
 (ns squanmate.ui.alg-visualizer-test
   (:require [squanmate.ui.alg-visualizer :as v]
             [clojure.test :as t]
-            [squanmate.puzzle :as p]
-            [squanmate.puzzle :as puzzle]
+            [squanmate.alg.puzzle :as p]
+            [squanmate.alg.puzzle :as puzzle]
             [reagent.core :as reagent]
             [cljs.test :refer [is]]
             [squanmate.alg.execution :as execution])

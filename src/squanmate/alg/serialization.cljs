@@ -2,8 +2,8 @@
   (:require [clojure.string :as str]
             [squanmate.alg.prettification :as prettification]
             [squanmate.alg.types :as types]
-            [squanmate.rotation :as rotation]
-            [squanmate.shapes :as shapes]))
+            [squanmate.alg.rotation :as rotation]
+            [squanmate.services.shapes :as shapes]))
 
 (defn step-to-str [s]
   (condp = (type s)

@@ -2,8 +2,8 @@
   (:require [squanmate.ui.common :as common]
             [squanmate.ui.alg-visualizer :as v]
             [reagent.core :as reagent]
-            [squanmate.puzzle :as p]
-            [squanmate.shapes :as shapes]
+            [squanmate.alg.puzzle :as p]
+            [squanmate.services.shapes :as shapes]
             [squanmate.pages.page-content :as page-content])
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg]]))

@@ -1,5 +1,5 @@
 (ns squanmate.services.alg-insights.cubeshape
-  (:require [squanmate.shapes :as shapes]))
+  (:require [squanmate.services.shapes :as shapes]))
 
 (defn- in-cubeshape?
   ([[names step-result]]

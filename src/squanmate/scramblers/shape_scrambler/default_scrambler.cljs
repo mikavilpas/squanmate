@@ -1,9 +1,9 @@
 (ns squanmate.scramblers.shape-scrambler.default-scrambler
-  (:require [squanmate.puzzle :as p]
-            [squanmate.rotation :as rotation]
+  (:require [squanmate.alg.puzzle :as p]
+            [squanmate.alg.rotation :as rotation]
             [squanmate.scramblers.shape-scrambler.scrambler :as scrambler]
-            [squanmate.shape-combinations :as shape-combinations]
-            [squanmate.shapes :as shapes]))
+            [squanmate.services.shape-combinations :as shape-combinations]
+            [squanmate.services.shapes :as shapes]))
 
 (defn- random-top-and-bottom-shape-names [possible-layers]
   ;; possible-layers like square square are just represented as #{"square"},

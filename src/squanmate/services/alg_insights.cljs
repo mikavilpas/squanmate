@@ -1,12 +1,12 @@
 (ns squanmate.services.alg-insights
   "Functions for analyzing an algorithm and finding out the points of it where
   interesting things happen. These things can be e.g. highlighted to the user."
-  (:require [squanmate.shapes :as shapes]
+  (:require [squanmate.services.shapes :as shapes]
             [cats.core :as m]
             [squanmate.alg.parser :as parser]
             [squanmate.utils.either-utils :as eu]
             [squanmate.alg.execution :as execution]
-            [squanmate.puzzle :as p]
+            [squanmate.alg.puzzle :as p]
             [squanmate.services.alg-insights.cubeshape :as cubeshape]))
 
 (defrecord Token [move markers])

@@ -1,4 +1,4 @@
-(ns squanmate.solving
+(ns squanmate.services.solving
   (:require [cats.core :as m]
             [cats.monad.either :as either]
             [reagent.core :as reagent]
@@ -6,8 +6,8 @@
             [squanmate.alg.parser :as parser]
             [squanmate.alg.serialization :as serialization]
             [squanmate.alg.types :as types]
-            [squanmate.rotation :as rotation]
-            [squanmate.slicing :as slicing]))
+            [squanmate.alg.rotation :as rotation]
+            [squanmate.alg.slicing :as slicing]))
 
 (def conversions {[:top :front :left] "A"
                   [:top :left] "1"

@@ -1,6 +1,6 @@
 (ns squanmate.core
   (:require [reagent.core :as reagent]
-            [squanmate.routing :as routing]
+            [squanmate.http.routing :as routing]
             [squanmate.pages.main-ui :as main-ui]))
 
 (enable-console-print!)
