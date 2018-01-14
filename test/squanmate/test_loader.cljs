@@ -16,7 +16,7 @@
             squanmate.ui.drawing.newmonochrome-test
             squanmate.ui.shape-chooser-test
             squanmate.alg.parity-counter-test
-            squanmate.solving-test
+            squanmate.services.solving-test
             squanmate.alg.manipulation-test
             squanmate.scramblers.shape-scrambler-test
             squanmate.services.shape-combinations-test

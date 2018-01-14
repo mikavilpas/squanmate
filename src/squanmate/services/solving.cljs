@@ -1,4 +1,4 @@
-(ns squanmate.solving
+(ns squanmate.services.solving
   (:require [cats.core :as m]
             [cats.monad.either :as either]
             [reagent.core :as reagent]

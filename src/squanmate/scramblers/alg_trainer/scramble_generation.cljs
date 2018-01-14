@@ -3,7 +3,7 @@
             [squanmate.alg.execution :as execution]
             [squanmate.puzzle :as p]
             [squanmate.alg.rotation :as rotation]
-            [squanmate.solving :as solving]
+            [squanmate.services.solving :as solving]
             [squanmate.scramblers.algsets.edge-permutation :as ep]
             [squanmate.services.google-analytics :as ga]
             [squanmate.alg.manipulation :as manipulation]
