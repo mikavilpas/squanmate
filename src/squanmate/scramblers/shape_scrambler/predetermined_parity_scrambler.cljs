@@ -3,7 +3,7 @@
             [squanmate.alg.manipulation :as manipulation]
             [squanmate.alg.parity-counter :as parity-counter]
             [squanmate.alg.serialization :as serialization]
-            [squanmate.puzzle :as p]
+            [squanmate.alg.puzzle :as p]
             [squanmate.scramblers.shape-scrambler.default-scrambler
              :as
              default-scrambler]

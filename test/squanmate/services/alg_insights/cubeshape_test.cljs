@@ -2,7 +2,7 @@
   (:require [cats.core :as m]
             [cljs.test :as t :refer [is]]
             [squanmate.alg.execution :as execution]
-            [squanmate.puzzle :as p]
+            [squanmate.alg.puzzle :as p]
             [squanmate.services.alg-insights.cubeshape :as sut])
   (:require-macros [devcards.core :as dc :refer [deftest]]))
 

@@ -1,7 +1,7 @@
 (ns squanmate.alg.slicing-test
   (:require [squanmate.alg.slicing :as slicing]
             [clojure.test :as t :refer [is run-tests]]
-            [squanmate.puzzle :as p]
+            [squanmate.alg.puzzle :as p]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [cats.monad.either :as either]
             [cats.core :as m]

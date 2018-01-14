@@ -2,7 +2,7 @@
   (:require [cljsjs.react-select]
             [reagent.core :as reagent]
             [squanmate.alg.manipulation :as manipulation]
-            [squanmate.puzzle :as puzzle]
+            [squanmate.alg.puzzle :as puzzle]
             [squanmate.services.shape-combinations :as shape-combinations]
             [squanmate.services.shapes :as shapes]
             [squanmate.ui.common :as common]))

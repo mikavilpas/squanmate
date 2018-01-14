@@ -2,7 +2,7 @@
   (:require [squanmate.services.shapes :as shapes]
             [clojure.test :as t :refer [is]]
             [cats.monad.either :as either]
-            [squanmate.puzzle :as p]
+            [squanmate.alg.puzzle :as p]
             [squanmate.alg.rotation :as r])
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg deftest]]))

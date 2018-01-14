@@ -1,6 +1,6 @@
 (ns squanmate.alg.slicing
   (:require [cats.monad.either :as either]
-            [squanmate.puzzle :as p]))
+            [squanmate.alg.puzzle :as p]))
 
 (defn pieces-and-their-positions [layer]
   ;; to get the pieces' positions return the piece count before each piece

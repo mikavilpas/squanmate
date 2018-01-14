@@ -6,7 +6,7 @@
             [squanmate.alg.parser :as parser]
             [squanmate.utils.either-utils :as eu]
             [squanmate.alg.execution :as execution]
-            [squanmate.puzzle :as p]
+            [squanmate.alg.puzzle :as p]
             [squanmate.services.alg-insights.cubeshape :as cubeshape]))
 
 (defrecord Token [move markers])

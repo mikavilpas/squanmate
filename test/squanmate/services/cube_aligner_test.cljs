@@ -6,7 +6,7 @@
             [squanmate.alg.types :as types]
             [squanmate.alg.rotation :as rotation]
             [squanmate.alg.execution :as execution]
-            [squanmate.puzzle :as p]
+            [squanmate.alg.puzzle :as p]
             [cats.core :as m])
   (:require-macros [devcards.core :as dc :refer [deftest]]))
 

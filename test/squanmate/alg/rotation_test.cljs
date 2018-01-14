@@ -1,11 +1,11 @@
 (ns squanmate.alg.rotation-test
   (:require [clojure.test :as t :refer [is]]
             [cats.monad.either :as either]
-            [squanmate.puzzle :as p]
+            [squanmate.alg.puzzle :as p]
             [squanmate.alg.rotation :as r]
             [squanmate.services.shapes :as shapes]
             [cats.core :as m]
-            [squanmate.puzzle :as puzzle])
+            [squanmate.alg.puzzle :as puzzle])
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg deftest]]))
 

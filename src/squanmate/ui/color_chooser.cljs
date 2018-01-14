@@ -1,6 +1,6 @@
 (ns squanmate.ui.color-chooser
   (:require [reagent.core :as reagent]
-            [squanmate.puzzle :as puzzle]
+            [squanmate.alg.puzzle :as puzzle]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [squanmate.services.color-settings :as color-settings]

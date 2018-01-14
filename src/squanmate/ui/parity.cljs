@@ -6,7 +6,7 @@
             [squanmate.alg.execution :as execution]
             [squanmate.alg.parity-counter :as parity-counter]
             [squanmate.pages.links :as links]
-            [squanmate.puzzle :as puzzle]
+            [squanmate.alg.puzzle :as puzzle]
             [squanmate.services.shapes :as shapes]
             [squanmate.ui.common :as common]
             [squanmate.services.alg-parity :as alg-parity]))

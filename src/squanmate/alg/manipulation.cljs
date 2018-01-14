@@ -2,7 +2,7 @@
   (:require [squanmate.alg.types :as types]
             [squanmate.alg.parser :as parser]
             [cats.core :as m]
-            [squanmate.puzzle :as puzzle]
+            [squanmate.alg.puzzle :as puzzle]
             [cats.monad.either :as either]
             [squanmate.alg.serialization :as serialization]
             [squanmate.alg.prettification :as prettification]

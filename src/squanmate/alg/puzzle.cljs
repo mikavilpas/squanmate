@@ -1,4 +1,4 @@
-(ns squanmate.puzzle)
+(ns squanmate.alg.puzzle)
 
 (defrecord Puzzle [top-layer bottom-layer])
 

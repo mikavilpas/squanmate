@@ -1,5 +1,5 @@
 (ns squanmate.scramblers.shape-scrambler.default-scrambler
-  (:require [squanmate.puzzle :as p]
+  (:require [squanmate.alg.puzzle :as p]
             [squanmate.alg.rotation :as rotation]
             [squanmate.scramblers.shape-scrambler.scrambler :as scrambler]
             [squanmate.services.shape-combinations :as shape-combinations]

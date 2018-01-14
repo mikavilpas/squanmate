@@ -1,5 +1,5 @@
 (ns squanmate.services.count-positions-test
-  (:require [squanmate.puzzle :as p]
+  (:require [squanmate.alg.puzzle :as p]
             [squanmate.services.count-positions :as count-positions]
             [cljs.test :as t :refer [is]]
             [cats.monad.either :as either]

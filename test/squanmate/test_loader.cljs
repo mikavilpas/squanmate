@@ -9,7 +9,7 @@
             squanmate.ui.alg-visualizer-test
             squanmate.alg.execution-test
             squanmate.alg.parser-test
-            squanmate.puzzle-test
+            squanmate.alg.puzzle-test
             squanmate.alg.rotation-test
             squanmate.alg.slicing-test
             squanmate.services.shapes-test

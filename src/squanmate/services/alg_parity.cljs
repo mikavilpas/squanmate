@@ -1,6 +1,6 @@
 (ns squanmate.services.alg-parity
   "Functions for defining whether a given algorithm swaps parity or not."
-  (:require [squanmate.puzzle :as puzzle]
+  (:require [squanmate.alg.puzzle :as puzzle]
             [squanmate.alg.execution :as execution]
             [cats.core :as m]
             [cats.monad.either :as either]

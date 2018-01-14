@@ -5,7 +5,7 @@
             [squanmate.pages.links :as links]
             [reagent.core :as reagent]
             [squanmate.alg.execution :as execution]
-            [squanmate.puzzle :as puzzle]
+            [squanmate.alg.puzzle :as puzzle]
             [squanmate.services.shapes :as shapes]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]

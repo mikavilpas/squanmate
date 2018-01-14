@@ -5,7 +5,7 @@
             [squanmate.alg.execution :as execution]
             [squanmate.alg.manipulation :as manipulation]
             [squanmate.pages.links :as links]
-            [squanmate.puzzle :as puzzle]
+            [squanmate.alg.puzzle :as puzzle]
             [squanmate.scramblers.shape-scrambler :as shape-scrambler]
             [squanmate.services.color-settings :as color-settings]
             [squanmate.alg.slicing :as slicing]

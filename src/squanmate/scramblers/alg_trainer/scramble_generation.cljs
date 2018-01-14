@@ -1,7 +1,7 @@
 (ns squanmate.scramblers.alg-trainer.scramble-generation
   (:require [cats.monad.either :as either]
             [squanmate.alg.execution :as execution]
-            [squanmate.puzzle :as p]
+            [squanmate.alg.puzzle :as p]
             [squanmate.alg.rotation :as rotation]
             [squanmate.services.solving :as solving]
             [squanmate.scramblers.algsets.edge-permutation :as ep]

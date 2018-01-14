@@ -3,7 +3,7 @@
             [clojure.test :as t :refer [is]]
             [cats.monad.either :as either]
             [squanmate.alg.types :as types]
-            [squanmate.puzzle :as puzzle]
+            [squanmate.alg.puzzle :as puzzle]
             [cats.core :as m]
             [reagent.core :as reagent]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome])

@@ -2,7 +2,7 @@
   (:require [reagent.core :as reagent]
             [squanmate.alg.manipulation :as manipulation]
             [squanmate.alg.types :as types]
-            [squanmate.puzzle :as puzzle]
+            [squanmate.alg.puzzle :as puzzle]
             [squanmate.alg.rotation :as rotation]
             [squanmate.alg.slicing :as slicing]
             [squanmate.ui.common :as common]))

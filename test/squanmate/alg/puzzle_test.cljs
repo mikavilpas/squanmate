@@ -1,5 +1,5 @@
-(ns squanmate.puzzle-test
-  (:require [squanmate.puzzle :as p]
+(ns squanmate.alg.puzzle-test
+  (:require [squanmate.alg.puzzle :as p]
             [clojure.test :as t :refer [is]]
             [cats.monad.either :as either])
   (:require-macros

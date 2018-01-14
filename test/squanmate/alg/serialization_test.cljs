@@ -1,7 +1,7 @@
 (ns squanmate.alg.serialization-test
   (:require [squanmate.alg.serialization :as serialization]
             [clojure.test :refer [is]]
-            [squanmate.puzzle :as puzzle]
+            [squanmate.alg.puzzle :as puzzle]
             [squanmate.alg.execution :as execution]
             [cats.core :as m]
             [squanmate.alg.rotation :as rotation]

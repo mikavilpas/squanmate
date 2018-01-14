@@ -1,7 +1,7 @@
 (ns squanmate.ui.shape-preview
   (:require [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [squanmate.ui.common :as common]
-            [squanmate.puzzle :as puzzle]
+            [squanmate.alg.puzzle :as puzzle]
             [squanmate.services.shapes :as shapes]))
 
 (defn shape-preview [shape {:keys [size]}]
