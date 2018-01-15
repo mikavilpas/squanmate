@@ -43,6 +43,7 @@
             squanmate.services.alg-insights-test
             squanmate.services.alg-insights.cubeshape-test
             squanmate.utils.either-utils-test
-            squanmate.ui.alg-display-test))
+            squanmate.ui.alg-display-test
+            squanmate.services.alg-insights.alignment-test))
 
 (devtools/install! [:formatters :hints :async])
