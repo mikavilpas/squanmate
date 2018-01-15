@@ -1,9 +1,9 @@
 (ns squanmate.services.cube-aligner
   (:require [cats.monad.either :as either]
-            [squanmate.services.shapes :as shapes]
             [squanmate.alg.puzzle :as p]
             [squanmate.alg.rotation :as rotation]
-            [squanmate.alg.types :as types]))
+            [squanmate.alg.types :as types]
+            [squanmate.services.shapes :as shapes]))
 
 (defn- oriented? [layer]
   (condp = (type layer)
@@ -24,10 +24,16 @@
                 amount))
          first)))
 
-(defn- rotations-to-aligned [puzzle]
+(defn rotations-to-aligned [puzzle]
   (let [top-amount (rotation-to-align-square-layer (:top-layer puzzle))
         bottom-amount (rotation-to-align-square-layer (:bottom-layer puzzle))]
     (types/Rotations. top-amount bottom-amount)))
+
+(defn aligned?
+  "Precondition: the puzzle must be at square square"
+  [puzzle]
+  (= rotation/empty-rotation
+     (rotations-to-aligned puzzle)))
 
 (defn rotations-to-align-cube [puzzle]
   (let [layer-names (shapes/puzzle-layer-shape-names puzzle)]
