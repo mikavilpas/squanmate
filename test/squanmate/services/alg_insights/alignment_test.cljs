@@ -14,37 +14,44 @@
        eu/list-of-eithers->either-list
        m/extract))
 
+;; test dsl
+(def left-aligned (sut/->LeftCubeshape true))
+(def left-misaligned (sut/->LeftCubeshape false))
+
+(def entered-aligned (sut/->EnteredCubeshape true))
+(def entered-misaligned (sut/->EnteredCubeshape false))
+
 (deftest alignments-when-entering-or-leaving-cubeshape-test []
-  (is (= {0 (sut/->LeftCubeshape true)}
+  (is (= {0 left-aligned}
          (sut/alignments-when-entering-or-leaving-cubeshape
-             (execute "/")))
+          (execute "/")))
       "only leave cubeshape")
 
-  (is (= {0 (sut/->LeftCubeshape true)
-          3 (sut/->EnteredCubeshape true)}
+  (is (= {0 left-aligned
+          3 entered-aligned}
          (sut/alignments-when-entering-or-leaving-cubeshape
-             (execute "/0/")))
+          (execute "/0/")))
       "leave and enter back right away")
 
-  (is (= {1 (sut/->LeftCubeshape false)}
+  (is (= {1 left-misaligned}
          (sut/alignments-when-entering-or-leaving-cubeshape
-             (execute "1,-1/")))
+          (execute "1,-1/")))
       "leave misaligned")
 
-  (is (= {1 (sut/->LeftCubeshape false)
-          4 (sut/->EnteredCubeshape false)}
+  (is (= {1 left-misaligned
+          4 entered-misaligned}
          (sut/alignments-when-entering-or-leaving-cubeshape
-             (execute "1,-1/0/")))
+          (execute "1,-1/0/")))
       "leave misaligned and enter back misaligned")
 
-  (is (= {1 (sut/->LeftCubeshape false)
-          4 (sut/->EnteredCubeshape true)}
+  (is (= {1 left-misaligned
+          4 entered-aligned}
          (sut/alignments-when-entering-or-leaving-cubeshape
-             (execute "1,-1/6,6/")))
+          (execute "1,-1/6,6/")))
       "leave misaligned and enter back aligned")
 
-  (is (= {0 (sut/->LeftCubeshape true)
-          3 (sut/->EnteredCubeshape false)}
+  (is (= {0 left-aligned
+          3 entered-misaligned}
          (sut/alignments-when-entering-or-leaving-cubeshape
-             (execute "/6,6/")))
+          (execute "/6,6/")))
       "leave aligned and enter back misaligned"))
