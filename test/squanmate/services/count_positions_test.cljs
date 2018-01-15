@@ -1,9 +1,9 @@
 (ns squanmate.services.count-positions-test
-  (:require [squanmate.puzzle :as p]
+  (:require [squanmate.alg.puzzle :as p]
             [squanmate.services.count-positions :as count-positions]
             [cljs.test :as t :refer [is]]
             [cats.monad.either :as either]
-            [squanmate.shapes :as shapes]
+            [squanmate.services.shapes :as shapes]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome])
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg deftest]]))

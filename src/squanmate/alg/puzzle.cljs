@@ -1,6 +1,4 @@
-(ns squanmate.puzzle
-  (:require [cats.monad.either :as either]
-            [cats.core :as m]))
+(ns squanmate.alg.puzzle)
 
 (defrecord Puzzle [top-layer bottom-layer])
 

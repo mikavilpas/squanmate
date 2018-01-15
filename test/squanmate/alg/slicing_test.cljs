@@ -1,13 +1,13 @@
-(ns squanmate.slicing-test
-  (:require [squanmate.slicing :as slicing]
+(ns squanmate.alg.slicing-test
+  (:require [squanmate.alg.slicing :as slicing]
             [clojure.test :as t :refer [is run-tests]]
-            [squanmate.puzzle :as p]
+            [squanmate.alg.puzzle :as p]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [cats.monad.either :as either]
             [cats.core :as m]
-            [squanmate.rotation :as r]
+            [squanmate.alg.rotation :as r]
             [squanmate.alg.execution :as execution]
-            [squanmate.shapes :as shapes])
+            [squanmate.services.shapes :as shapes])
   (:require-macros
    [devcards.core :as dc :refer [deftest defcard-rg]]))
 

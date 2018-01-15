@@ -1,10 +1,10 @@
 (ns squanmate.ui.drawing.details.main
   (:require [quil.core :as q]
-            [squanmate.puzzle :as puzzle]
-            [squanmate.slicing :as slicing]
+            [squanmate.alg.puzzle :as puzzle]
+            [squanmate.alg.slicing :as slicing]
             [squanmate.ui.drawing.details.pieces :as pieces]
             [squanmate.ui.drawing.details.count-positions :as count-positions]
-            [squanmate.shapes :as shapes]))
+            [squanmate.services.shapes :as shapes]))
 
 (defrecord DrawLayerState [layer size])
 

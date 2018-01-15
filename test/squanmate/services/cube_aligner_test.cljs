@@ -2,12 +2,13 @@
   (:require [cats.monad.either :as either]
             [cljs.test :as t :refer [is]]
             [squanmate.services.cube-aligner :as sut]
-            [squanmate.shapes :as shapes]
+            [squanmate.services.shapes :as shapes]
             [squanmate.alg.types :as types]
-            [squanmate.rotation :as rotation]
+            [squanmate.alg.rotation :as rotation]
             [squanmate.alg.execution :as execution]
-            [squanmate.puzzle :as p]
-            [cats.core :as m])
+            [squanmate.alg.puzzle :as p]
+            [cats.core :as m]
+            [squanmate.services.alg-parity :as alg-parity])
   (:require-macros [devcards.core :as dc :refer [deftest]]))
 
 (defn- rotate-solved-puzzle [top bottom]
@@ -32,3 +33,9 @@
 
   (is (= (either/right (types/Rotations. -1 1))
          (sut/rotations-to-align-cube (rotate-solved-puzzle -2 2)))))
+
+(deftest aligned?-test []
+  (is (true?
+       (sut/aligned? p/square-square)))
+  (is (false?
+       (sut/aligned? alg-parity/misaligned-square-square))))

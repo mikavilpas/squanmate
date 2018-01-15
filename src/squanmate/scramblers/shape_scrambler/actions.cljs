@@ -3,8 +3,8 @@
             [squanmate.scramblers.shape-scrambler.predetermined-parity-scrambler :as pps]
             [squanmate.scramblers.shape-scrambler.scrambler :as scrambler]
             [squanmate.services.google-analytics :as ga]
-            [squanmate.shape-combinations :as shape-combinations]
-            [squanmate.solving :as solving]
+            [squanmate.services.shape-combinations :as shape-combinations]
+            [squanmate.services.solving :as solving]
             [clojure.set :as set]
             [squanmate.services.storage :as storage]))
 

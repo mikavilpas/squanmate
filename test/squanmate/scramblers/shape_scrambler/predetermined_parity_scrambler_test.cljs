@@ -1,12 +1,12 @@
 (ns squanmate.scramblers.shape-scrambler.predetermined-parity-scrambler-test
   (:require [squanmate.scramblers.shape-scrambler.predetermined-parity-scrambler :as sut]
             [clojure.test :as t :refer [is]]
-            [squanmate.puzzle :as p]
+            [squanmate.alg.puzzle :as p]
             [cats.monad.either :as either]
             [cats.core :as m]
             [squanmate.scramblers.shape-scrambler.scrambler :as scrambler]
             [squanmate.alg.execution :as execution]
-            [squanmate.shapes :as shapes])
+            [squanmate.services.shapes :as shapes])
   (:require-macros [devcards.core :as dc :refer [defcard-rg deftest]]))
 
 ;; adjacent parity algorithm

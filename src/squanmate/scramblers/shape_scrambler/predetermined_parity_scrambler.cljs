@@ -3,13 +3,13 @@
             [squanmate.alg.manipulation :as manipulation]
             [squanmate.alg.parity-counter :as parity-counter]
             [squanmate.alg.serialization :as serialization]
-            [squanmate.puzzle :as p]
+            [squanmate.alg.puzzle :as p]
             [squanmate.scramblers.shape-scrambler.default-scrambler
              :as
              default-scrambler]
             [squanmate.scramblers.shape-scrambler.scrambler :as scrambler]
-            [squanmate.shapes :as shapes]
-            [squanmate.slicing :as slicing]
+            [squanmate.services.shapes :as shapes]
+            [squanmate.alg.slicing :as slicing]
             [cats.core :as m]
             [cats.monad.either :as either]))
 

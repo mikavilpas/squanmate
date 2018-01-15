@@ -1,5 +1,5 @@
 (ns squanmate.pages.all-possible-shapes
-  (:require [squanmate.shapes :as s]
+  (:require [squanmate.services.shapes :as s]
             [squanmate.ui.common :as common]
             [squanmate.ui.shape-preview :as sp]
             [squanmate.pages.page-content :as page-content]))

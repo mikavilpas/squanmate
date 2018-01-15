@@ -1,9 +1,9 @@
-(ns squanmate.shapes-test
-  (:require [squanmate.shapes :as shapes]
+(ns squanmate.services.shapes-test
+  (:require [squanmate.services.shapes :as shapes]
             [clojure.test :as t :refer [is]]
             [cats.monad.either :as either]
-            [squanmate.puzzle :as p]
-            [squanmate.rotation :as r])
+            [squanmate.alg.puzzle :as p]
+            [squanmate.alg.rotation :as r])
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg deftest]]))
 

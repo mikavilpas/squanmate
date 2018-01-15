@@ -1,7 +1,7 @@
 (ns squanmate.ui.rotation-adjuster-controls-test
   (:require [squanmate.ui.rotation-adjuster-controls :as rac]
             [clojure.test :as t :refer [is]]
-            [squanmate.shapes :as shapes])
+            [squanmate.services.shapes :as shapes])
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg deftest]]))
 

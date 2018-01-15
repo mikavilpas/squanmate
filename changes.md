@@ -1,5 +1,12 @@
 # Changelog
 
+## upcoming
+- new feature: in the trainers, the current algorithm is analyzed and useful
+  parts of it are highlighted with tooltips (when clicked/mouseovered) in
+  addition to extra styling on the algorithm
+- new feature: show a marker in the trainers when an algorithm enters or leaves
+  cubeshape with the puzzle misaligned (at position 1,-1)
+
 ## 6.3
 - new feature: "Set single case" button for cubeshape trainer. Clicking this
   will ask you for the layers of the case you want, and then generate a scramble

@@ -1,4 +1,4 @@
-(ns squanmate.routing
+(ns squanmate.http.routing
   (:require-macros [secretary.core :refer [defroute]])
   (:import goog.History)
   (:require [secretary.core :as secretary]

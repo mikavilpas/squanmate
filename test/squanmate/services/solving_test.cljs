@@ -1,14 +1,14 @@
-(ns squanmate.solving-test
-  (:require [squanmate.solving :as solving]
+(ns squanmate.services.solving-test
+  (:require [squanmate.services.solving :as solving]
             [clojure.test :as t :refer [is async]]
             [cljs.test :as t :include-macros true]
             [cljs.core.async :refer [<! timeout]]
-            [squanmate.puzzle :as puzzle]
+            [squanmate.alg.puzzle :as puzzle]
             [squanmate.alg.execution :as execution]
-            [squanmate.shapes :as shapes]
+            [squanmate.services.shapes :as shapes]
             [cats.monad.either :as either]
             [cats.core :as m]
-            [squanmate.puzzle :as p]
+            [squanmate.alg.puzzle :as p]
             [reagent.core :as reagent])
   (:require-macros
    [devcards.core :as dc :refer [deftest defcard-rg]]

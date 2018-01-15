@@ -9,17 +9,17 @@
             squanmate.ui.alg-visualizer-test
             squanmate.alg.execution-test
             squanmate.alg.parser-test
-            squanmate.puzzle-test
-            squanmate.rotation-test
-            squanmate.slicing-test
-            squanmate.shapes-test
+            squanmate.alg.puzzle-test
+            squanmate.alg.rotation-test
+            squanmate.alg.slicing-test
+            squanmate.services.shapes-test
             squanmate.ui.drawing.newmonochrome-test
             squanmate.ui.shape-chooser-test
             squanmate.alg.parity-counter-test
-            squanmate.solving-test
+            squanmate.services.solving-test
             squanmate.alg.manipulation-test
             squanmate.scramblers.shape-scrambler-test
-            squanmate.shape-combinations-test
+            squanmate.services.shape-combinations-test
             squanmate.ui.rotation-adjuster-controls-test
             squanmate.ui.alg-importer-test
             squanmate.alg.serialization-test
@@ -43,6 +43,7 @@
             squanmate.services.alg-insights-test
             squanmate.services.alg-insights.cubeshape-test
             squanmate.utils.either-utils-test
-            squanmate.ui.alg-display-test))
+            squanmate.ui.alg-display-test
+            squanmate.services.alg-insights.alignment-test))
 
 (devtools/install! [:formatters :hints :async])

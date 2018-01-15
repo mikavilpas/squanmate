@@ -3,7 +3,7 @@
             [squanmate.ui.alg-visualizer :as alg-visualizer]
             [clojure.test :as t :refer [is]]
             [cats.core :as m]
-            [squanmate.shapes :as shapes])
+            [squanmate.services.shapes :as shapes])
   (:require-macros
    [devcards.core :as dc :refer [defcard-rg deftest]]))
 

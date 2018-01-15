@@ -1,10 +1,10 @@
 (ns squanmate.alg.parity-counter-test
   (:require [squanmate.alg.parity-counter :as c]
             [clojure.test :as t :refer [is]]
-            [squanmate.puzzle :as p]
+            [squanmate.alg.puzzle :as p]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [cljs.pprint :as pprint]
-            [squanmate.shapes :as shapes]
+            [squanmate.services.shapes :as shapes]
             [squanmate.alg.execution :as execution]
             [cats.core :as m])
   (:require-macros
