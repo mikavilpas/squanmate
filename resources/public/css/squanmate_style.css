@@ -97,11 +97,11 @@ table.parity-count-analysis td {
     background-color: #33333336;
 }
 
-/* Only show when leaving cubeshape misaligned, since that is rarer */
-.insight.entered-cubeshape.misaligned::before {
+/* Only show when leaving/entering cubeshape misaligned, since that is rarer */
+.insight.entered-cubeshape.misaligned::after {
     content: " *";
     font-weight: bolder;
-    color: lightblue;
+    color: red;
 }
 
 .insight.leaving-cubeshape.misaligned::before {
