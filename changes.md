@@ -1,6 +1,6 @@
 # Changelog
 
-## upcoming
+## 6.4
 - new feature: in the trainers, the current algorithm is analyzed and useful
   parts of it are highlighted with tooltips (when clicked/mouseovered) in
   addition to extra styling on the algorithm
