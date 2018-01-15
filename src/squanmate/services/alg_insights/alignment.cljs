@@ -1,14 +1,29 @@
 (ns squanmate.services.alg-insights.alignment
   (:require [squanmate.services.alg-insights.cubeshape :as cubeshape]
             [squanmate.services.shapes :as shapes]
-            [squanmate.services.cube-aligner :as cube-aligner]))
+            [squanmate.services.cube-aligner :as cube-aligner]
+            [squanmate.services.alg-insights.types :as t]))
 
 (defn- in-cubeshape? [step]
   (= ["square" "square"]
      (:layer-names step)))
 
-(defrecord LeavingCubeshape [aligned?])
-(defrecord EnteredCubeshape [aligned?])
+(defn- aligned-description [aligned?]
+  (if aligned? "aligned" "misaligned"))
+
+(defrecord LeavingCubeshape [aligned?]
+  t/InsightMarker
+  (id [_]
+    (str "leaving-cubeshape " (aligned-description aligned?)))
+  (description [_]
+    (str "Leaving cubeshape with the puzzle " (aligned-description aligned?))))
+
+(defrecord EnteredCubeshape [aligned?]
+  t/InsightMarker
+  (id [_]
+    (str "entered-cubeshape " (aligned-description aligned?)))
+  (description [_]
+    (str "Entered cubeshape with the puzzle " (aligned-description aligned?))))
 
 (defn- leaving-or-entered-cubeshape? [[a b]]
   (or (in-cubeshape? a)
@@ -37,8 +52,9 @@
   (and (in-cubeshape? step-a)
        (not (in-cubeshape? step-b))))
 
-(def ^:private entered-cubeshape?
-  (complement leaving-cubeshape?))
+(defn- entered-cubeshape? [[step-a step-b]]
+  (and (not (in-cubeshape? step-a))
+       (in-cubeshape? step-b)))
 
 (defn- aligned? [step]
   (let [puzzle (-> step :step :puzzle)]
@@ -57,7 +73,9 @@
 
       (entered-cubeshape? step-pair)
       [(:index b),
-       (->EnteredCubeshape (aligned? b))])))
+       (->EnteredCubeshape (aligned? b))]
+
+      :else nil)))
 
 (defn alignments-when-entering-or-leaving-cubeshape
   "There are two ways of entering or leaving cubeshape (square square):

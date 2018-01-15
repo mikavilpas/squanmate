@@ -4,7 +4,8 @@
             [squanmate.alg.types :as types]
             [squanmate.services.alg-insights.types :as t]
             [squanmate.services.alg-insights :as sut]
-            [squanmate.services.alg-insights.cubeshape :as cs])
+            [squanmate.services.alg-insights.cubeshape :as cs]
+            [squanmate.services.alg-insights.alignment :as alignment])
   (:require-macros [devcards.core :as dc :refer [deftest]]))
 
 (def slice (types/->Slice))
@@ -14,11 +15,13 @@
 (def token t/map->Token)
 
 (deftest alg-with-cubeshape-status-highlighted-test []
-  (is (= [(token {:move slice, :markers [(cs/->InCubeshape)]})
+  (is (= [(token {:move slice, :markers [(cs/->InCubeshape)
+                                         (alignment/->LeavingCubeshape true)]})
           (token {:move (rotations 6 0), :markers [(cs/->ShapeShifted)]})
           (token {:move slice, :markers [(cs/->ShapeShifted)]})
           (token {:move (rotations 6 0), :markers [(cs/->ShapeShifted)]})
-          (token {:move slice, :markers [(cs/->ShapeShifted)]})]
+          (token {:move slice, :markers [(cs/->ShapeShifted)
+                                         (alignment/->EnteredCubeshape true)]})]
          (m/extract
           (sut/alg-with-cubeshape-status-highlighted "/6/6/")))
       "returns a sequence of algorithm moves and their associated insight markers"))

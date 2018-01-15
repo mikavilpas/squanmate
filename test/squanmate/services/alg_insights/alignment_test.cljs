@@ -48,4 +48,12 @@
   (is (= {0 leaving-aligned
           3 entered-misaligned}
          (sut/alignments-when-entering-or-leaving-cubeshape (execute "/6,6/")))
-      "leave aligned and enter back misaligned"))
+      "leave aligned and enter back misaligned")
+
+  (is (= {}
+         (sut/alignments-when-entering-or-leaving-cubeshape (execute "1/3/")))
+      "don't leave cubeshape at all")
+
+  (is (= {5 leaving-aligned}
+         (sut/alignments-when-entering-or-leaving-cubeshape (execute "1/3/-1/")))
+      "some rotations in cubeshape and then leave"))

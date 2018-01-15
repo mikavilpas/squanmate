@@ -2,14 +2,15 @@
   (:require [cats.monad.either :as either]
             [clojure.string :as str]
             [squanmate.alg.serialization :as serialization]
-            [squanmate.services.alg-insights :as alg-insights]))
+            [squanmate.services.alg-insights :as alg-insights]
+            [squanmate.services.alg-insights.types :as t]))
 
 (defn- failed-scramble [error]
   [:div "scramble error:"
    [:div (str error)]])
 
 (defn- insight-class [marker]
-  (str "insight " (name marker)))
+  (str "insight " (name (t/id marker))))
 
 (defn- insight-classes [token]
   (str/join " " (map insight-class (:markers token))))
