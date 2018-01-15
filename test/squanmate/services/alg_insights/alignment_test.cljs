@@ -23,35 +23,29 @@
 
 (deftest alignments-when-entering-or-leaving-cubeshape-test []
   (is (= {0 left-aligned}
-         (sut/alignments-when-entering-or-leaving-cubeshape
-          (execute "/")))
+         (sut/alignments-when-entering-or-leaving-cubeshape (execute "/")))
       "only leave cubeshape")
 
   (is (= {0 left-aligned
           3 entered-aligned}
-         (sut/alignments-when-entering-or-leaving-cubeshape
-          (execute "/0/")))
+         (sut/alignments-when-entering-or-leaving-cubeshape (execute "/0/")))
       "leave and enter back right away")
 
   (is (= {1 left-misaligned}
-         (sut/alignments-when-entering-or-leaving-cubeshape
-          (execute "1,-1/")))
+         (sut/alignments-when-entering-or-leaving-cubeshape (execute "1,-1/")))
       "leave misaligned")
 
   (is (= {1 left-misaligned
           4 entered-misaligned}
-         (sut/alignments-when-entering-or-leaving-cubeshape
-          (execute "1,-1/0/")))
+         (sut/alignments-when-entering-or-leaving-cubeshape (execute "1,-1/0/")))
       "leave misaligned and enter back misaligned")
 
   (is (= {1 left-misaligned
           4 entered-aligned}
-         (sut/alignments-when-entering-or-leaving-cubeshape
-          (execute "1,-1/6,6/")))
+         (sut/alignments-when-entering-or-leaving-cubeshape (execute "1,-1/6,6/")))
       "leave misaligned and enter back aligned")
 
   (is (= {0 left-aligned
           3 entered-misaligned}
-         (sut/alignments-when-entering-or-leaving-cubeshape
-          (execute "/6,6/")))
+         (sut/alignments-when-entering-or-leaving-cubeshape (execute "/6,6/")))
       "leave aligned and enter back misaligned"))
