@@ -2,6 +2,7 @@
 
 (defprotocol InsightMarker
   (id [this])
-  (description [this]))
+  (description [this])
+  (class-names [this]))
 
 (defrecord Token [move markers])

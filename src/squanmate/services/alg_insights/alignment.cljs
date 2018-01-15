@@ -14,16 +14,22 @@
 (defrecord LeavingCubeshape [aligned?]
   t/InsightMarker
   (id [_]
-    (str "leaving-cubeshape " (aligned-description aligned?)))
+    (str "leaving-cubeshape-" (aligned-description aligned?)))
   (description [_]
-    (str "Leaving cubeshape with the puzzle " (aligned-description aligned?))))
+    (str "Leaving cubeshape with the puzzle " (aligned-description aligned?)))
+  (class-names [_]
+    ["leaving-cubeshape"
+     (aligned-description aligned?)]))
 
 (defrecord EnteredCubeshape [aligned?]
   t/InsightMarker
   (id [_]
-    (str "entered-cubeshape " (aligned-description aligned?)))
+    (str "entered-cubeshape-" (aligned-description aligned?)))
   (description [_]
-    (str "Entered cubeshape with the puzzle " (aligned-description aligned?))))
+    (str "Entered cubeshape with the puzzle " (aligned-description aligned?)))
+  (class-names [_]
+    ["entered-cubeshape"
+     (aligned-description aligned?)]))
 
 (defn- leaving-or-entered-cubeshape? [[a b]]
   (or (in-cubeshape? a)

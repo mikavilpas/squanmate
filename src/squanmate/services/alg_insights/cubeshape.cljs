@@ -6,12 +6,16 @@
 (defrecord InCubeshape []
   t/InsightMarker
   (id [_] :in-cubeshape)
-  (description [_] "Here the puzzle is at cubeshape"))
+  (description [_] "At cubeshape")
+  (class-names [this]
+    [(name (t/id this))]))
 
 (defrecord ShapeShifted []
   t/InsightMarker
   (id [_] :shape-shifted)
-  (description [_] "Here the puzzle is shape shifted"))
+  (description [_] "Shape shifted")
+  (class-names [this]
+    [(name (t/id this))]))
 
 (defn- in-cubeshape? [puzzle]
   (= ["square" "square"] (shapes/puzzle-layer-shape-names puzzle)))
