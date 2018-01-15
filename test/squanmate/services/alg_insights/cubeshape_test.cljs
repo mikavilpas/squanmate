@@ -10,8 +10,8 @@
   (let [step-result-eithers (execution/transformations p/square-square alg-string)]
     (map m/extract step-result-eithers)))
 
-(def in-cubeshape sut/in-cubeshape)
-(def shape-shifted sut/shape-shifted)
+(def in-cubeshape (sut/->InCubeshape))
+(def shape-shifted (sut/->ShapeShifted))
 
 (deftest entered-and-left-cubeshape-test []
   (is (= {0 in-cubeshape

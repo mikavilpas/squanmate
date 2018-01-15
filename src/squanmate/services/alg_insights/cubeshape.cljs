@@ -1,5 +1,6 @@
 (ns squanmate.services.alg-insights.cubeshape
-  (:require [squanmate.services.shapes :as shapes]))
+  (:require [squanmate.services.shapes :as shapes]
+            [squanmate.services.alg-insights.types :as t]))
 
 (defn- in-cubeshape?
   ([[names step-result]]
@@ -10,8 +11,15 @@
     [names step-result]))
 
 ;; markers for cubeshape statuses
-(def in-cubeshape :in-cubeshape)
-(def shape-shifted :shape-shifted)
+(defrecord InCubeshape []
+  t/InsightMarker
+  (id [_] :in-cubeshape)
+  (description [_] "Here the puzzle is at cubeshape"))
+
+(defrecord ShapeShifted []
+  t/InsightMarker
+  (id [_] :shape-shifted)
+  (description [_] "Here the puzzle is shape shifted"))
 
 (defn- convert-to-cubeshape-markers-by-index [groups]
   (loop [markers (hash-map)
@@ -20,8 +28,8 @@
     (if-let [g (first groups)]
       (let [step-count (count g)
             marker (if (in-cubeshape? (first g))
-                     in-cubeshape
-                     shape-shifted)
+                     (->InCubeshape)
+                     (->ShapeShifted))
             group-steps (zipmap (range index (+ index step-count))
                                 (repeat marker))]
         (recur (into markers group-steps)
