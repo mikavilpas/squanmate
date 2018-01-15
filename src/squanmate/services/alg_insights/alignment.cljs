@@ -71,14 +71,13 @@
   (let [[a b] step-pair]
     ;; Get the alignment of the step that is in cubeshape.
     ;; Notice this step is either the first or second step each time.
-    ;; Notice also that the index will change depending on the case.
     (cond
       (leaving-cubeshape? step-pair)
       [(:index a),
        (->LeavingCubeshape (aligned? a))]
 
       (entered-cubeshape? step-pair)
-      [(:index b),
+      [(:index a),
        (->EnteredCubeshape (aligned? b))]
 
       :else nil)))

@@ -8,5 +8,12 @@
    [sut/rich-scramble-display "1/-1"]
    [sut/rich-scramble-display "/6/6/"]
 
-   ;; an alg that sets up parity and returns to square square
-   [sut/rich-scramble-display "(3,-4)/ (-3,6)/ (0,-3)/ (4,-5)/ (2,-1)/ (-3,0)/ (4,-2)/ (5,0)/ (-3,0)/ (4,-1)/ (2,-2)/ (4,-4)/ (4,-1)/ (0,-3)/ (0,-2)"]])
+   "an alg that sets up parity and returns to square square"
+   [sut/rich-scramble-display "(3,-4)/ (-3,6)/ (0,-3)/ (4,-5)/ (2,-1)/ (-3,0)/ (4,-2)/ (5,0)/ (-3,0)/ (4,-1)/ (2,-2)/ (4,-4)/ (4,-1)/ (0,-3)/ (0,-2)"]
+
+   "leave misaligned and return aligned"
+   [sut/rich-scramble-display "1,-1/6,6/"]
+
+   "leave misaligned and enter back misaligned"
+   [sut/rich-scramble-display "1,-1/0/"]
+   ])

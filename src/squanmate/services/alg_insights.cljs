@@ -21,9 +21,9 @@
   (for [[index token] (zipmap (range) display-tokens)]
     (let [markers (->> markers-maps
                        (map #(get % index))
-                       vec)]
-      (types/->Token token (filter #(not (nil? %))
-                                   markers)))))
+                       vec
+                       (filter #(not (nil? %))))]
+      (types/->Token token markers))))
 
 (defn- execution-steps [alg-string]
   (let [alg-steps (execution/transformations p/square-square alg-string)
@@ -36,5 +36,7 @@
           (m/return
            (combine-alg-with-markers
             display-tokens
-            [(cubeshape/entered-and-left-cubeshape steps)
-             (alignment/alignments-when-entering-or-leaving-cubeshape steps)]))))
+            (let [cubeshape-status (cubeshape/entered-and-left-cubeshape steps)
+                  leaving-or-entering (alignment/alignments-when-entering-or-leaving-cubeshape steps)]
+              [cubeshape-status
+               leaving-or-entering])))))
