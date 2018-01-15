@@ -104,12 +104,7 @@
 
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.2"]
                                   [figwheel-sidecar "0.5.13"]
-                                  [pjstadig/humane-test-output "0.8.3"]
                                   [com.cemerick/piggieback "0.2.1"]]
-
-                   :injections [(require 'pjstadig.humane-test-output)
-                                (pjstadig.humane-test-output/activate!)]
-
                    ;; need to add dev source path here to get user.clj loaded
                    :source-paths ["src" "dev"]
                    ;; for CIDER
