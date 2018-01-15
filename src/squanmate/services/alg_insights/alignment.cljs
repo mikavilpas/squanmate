@@ -7,10 +7,10 @@
   (= ["square" "square"]
      (:layer-names step)))
 
-(defrecord LeftCubeshape [aligned?])
+(defrecord LeavingCubeshape [aligned?])
 (defrecord EnteredCubeshape [aligned?])
 
-(defn- left-or-entered-cubeshape? [[a b]]
+(defn- leaving-or-entered-cubeshape? [[a b]]
   (or (in-cubeshape? a)
       (in-cubeshape? b)))
 
@@ -31,14 +31,14 @@
 
 (defn- get-cubeshape-entering-or-leaving-steps [steps]
   (let [successive-step-pairs (partition 2 1 steps)]
-    (filter left-or-entered-cubeshape? successive-step-pairs)))
+    (filter leaving-or-entered-cubeshape? successive-step-pairs)))
 
-(defn- left-cubeshape? [[step-a step-b]]
+(defn- leaving-cubeshape? [[step-a step-b]]
   (and (in-cubeshape? step-a)
        (not (in-cubeshape? step-b))))
 
 (def ^:private entered-cubeshape?
-  (complement left-cubeshape?))
+  (complement leaving-cubeshape?))
 
 (defn- aligned? [step]
   (let [puzzle (-> step :step :puzzle)]
@@ -51,9 +51,9 @@
     ;; Notice this step is either the first or second step each time.
     ;; Notice also that the index will change depending on the case.
     (cond
-      (left-cubeshape? step-pair)
+      (leaving-cubeshape? step-pair)
       [(:index a),
-       (->LeftCubeshape (aligned? a))]
+       (->LeavingCubeshape (aligned? a))]
 
       (entered-cubeshape? step-pair)
       [(:index b),
