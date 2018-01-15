@@ -1,29 +1,29 @@
 (ns squanmate.services.alg-insights
   "Functions for analyzing an algorithm and finding out the points of it where
-  interesting things happen. These things can be e.g. highlighted to the user."
-  (:require [squanmate.services.shapes :as shapes]
-            [cats.core :as m]
-            [squanmate.alg.parser :as parser]
-            [squanmate.utils.either-utils :as eu]
+  interesting things happen. These things can be e.g. highlighted to the user or
+  used as part of some other computation."
+  (:require [cats.core :as m]
             [squanmate.alg.execution :as execution]
+            [squanmate.alg.parser :as parser]
             [squanmate.alg.puzzle :as p]
-            [squanmate.services.alg-insights.cubeshape :as cubeshape]))
-
-(defrecord Token [move markers])
+            [squanmate.services.alg-insights.types :as types]
+            [squanmate.services.alg-insights.cubeshape :as cubeshape]
+            [squanmate.services.alg-insights.alignment :as alignment]
+            [squanmate.utils.either-utils :as eu]))
 
 (defn- combine-alg-with-markers
   "Combines the parsed parts of the scramble algorithm with markers that will be
   attached to each specific algorithm token.
 
-  `markers-maps` should be a sequence of maps in the insights format. It must be
-  as long as `display-tokens`.
+  `markers-maps` should be a sequence of maps in the insights format.
   "
   [display-tokens markers-maps]
   (for [[index token] (zipmap (range) display-tokens)]
     (let [markers (->> markers-maps
                        (map #(get % index))
-                       vec)]
-      (->Token token markers))))
+                       vec
+                       (filter #(not (nil? %))))]
+      (types/->Token token markers))))
 
 (defn- execution-steps [alg-string]
   (let [alg-steps (execution/transformations p/square-square alg-string)
@@ -34,5 +34,9 @@
   (m/mlet [display-tokens (parser/parse alg-string)
            steps (execution-steps alg-string)]
           (m/return
-           (let [markers (cubeshape/entered-and-left-cubeshape steps)]
-             (combine-alg-with-markers display-tokens [markers])))))
+           (combine-alg-with-markers
+            display-tokens
+            (let [cubeshape-status (cubeshape/entered-and-left-cubeshape steps)
+                  leaving-or-entering (alignment/alignments-when-entering-or-leaving-cubeshape steps)]
+              [cubeshape-status
+               leaving-or-entering])))))

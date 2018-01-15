@@ -96,3 +96,16 @@ table.parity-count-analysis td {
     /* darken steps that are out of cubeshape */
     background-color: #33333336;
 }
+
+/* Only show when leaving/entering cubeshape misaligned, since that is rarer */
+.insight.entered-cubeshape.misaligned::after {
+    content: " *";
+    font-weight: bolder;
+    color: red;
+}
+
+.insight.leaving-cubeshape.misaligned::before {
+    content: " *";
+    font-weight: bolder;
+    color: lightblue;
+}
