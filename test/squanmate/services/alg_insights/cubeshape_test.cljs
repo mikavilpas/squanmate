@@ -3,12 +3,15 @@
             [cljs.test :as t :refer [is]]
             [squanmate.alg.execution :as execution]
             [squanmate.alg.puzzle :as p]
-            [squanmate.services.alg-insights.cubeshape :as sut])
+            [squanmate.services.alg-insights.cubeshape :as sut]
+            [squanmate.utils.either-utils :as eu])
   (:require-macros [devcards.core :as dc :refer [deftest]]))
 
 (defn- execute [alg-string]
-  (let [step-result-eithers (execution/transformations p/square-square alg-string)]
-    (map m/extract step-result-eithers)))
+  (->> alg-string
+       (execution/transformations p/square-square)
+       eu/list-of-eithers->either-list
+       m/extract))
 
 (def in-cubeshape (sut/->InCubeshape))
 (def shape-shifted (sut/->ShapeShifted))
