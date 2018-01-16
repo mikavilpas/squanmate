@@ -1,27 +1,17 @@
 (ns squanmate.scramblers.alg-trainer
-  (:require [cats.core :as m]
-            [clojure.set :as set]
+  (:require [clojure.set :as set]
             [clojure.string :as str]
             [reagent.core :as reagent]
-            [squanmate.alg.execution :as execution]
             [squanmate.pages.links :as links]
-            [squanmate.alg.puzzle :as p]
+            [squanmate.scramblers.alg-trainer.algset-scrambler :as algset-scrambler]
             [squanmate.scramblers.alg-trainer.case-selection :as selection]
             [squanmate.scramblers.alg-trainer.scramble-generation :as scramble-generation]
-            [squanmate.scramblers.algsets.algset :as algset]
             [squanmate.scramblers.algsets.edge-permutation :as ep]
-            [squanmate.scramblers.algsets.permute-last-layer :as pll]
+            [squanmate.ui.alg-display :as alg-display]
             [squanmate.ui.case-counter :as case-counter]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
-            [squanmate.ui.middle-layer-controls :as middle-layer-controls]
-            [squanmate.ui.alg-display :as alg-display]))
-
-(defn- puzzle-for-alg [alg]
-  (->> alg
-       (execution/transformation-result p/square-square)
-       m/extract
-       :puzzle))
+            [squanmate.ui.middle-layer-controls :as middle-layer-controls]))
 
 (defn- puzzle-preview [state draw-settings-map]
   (when-let [puzzle (:puzzle @state)]
@@ -79,10 +69,10 @@
     [:div "Select:"]
     [:div
      [common/button
-      {:on-click #(selection/select-cases! state (algset/all-cases alg-set))}
+      {:on-click #(selection/select-cases! state (algset-scrambler/all-cases alg-set))}
       "All"]
      [common/button
-      {:on-click #(selection/deselect-cases! state (algset/all-cases alg-set))}
+      {:on-click #(selection/deselect-cases! state (algset-scrambler/all-cases alg-set))}
       "None"]
      [common/button
       {:on-click #(selection/select-cases! state (:even-cases alg-set))}
@@ -91,20 +81,20 @@
       {:on-click #(selection/select-cases! state (:odd-cases alg-set))}
       "All odd parity"]]
     [:div.center.top10
-     [alg-group-selection-counter (algset/all-cases alg-set) state]]]])
+     [alg-group-selection-counter (algset-scrambler/all-cases alg-set) state]]]])
 
 (defn- algset-header [title]
   (reagent/as-element [:span [common/glyphicon {:glyph :th}]
                        " " title]))
 
 (defn- alg-selection-settings [state]
-  [common/accordion {:default-active-key 1}
-   [common/panel {:header (algset-header "Edge permutation (EP)")
-                  :event-key 1}
-    [case-selections state ep/ep-algset]]
-   [common/panel {:header (algset-header "Permute last layer (PLL)")
-                  :event-key 2}
-    [case-selections state pll/pll-algset]]])
+  [common/accordion
+   (for [[index a] (zipmap (range) scramble-generation/algsets)
+         :let [{:keys [name algset]} a]]
+     ^{:key (str "algset-" name)}
+     [common/panel {:header (algset-header name)
+                    :event-key index}
+      [case-selections state algset]])])
 
 (defn- settings [state]
   [common/accordion {:default-active-key 1}

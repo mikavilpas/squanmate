@@ -1,5 +1,5 @@
 (ns squanmate.scramblers.algsets.edge-permutation
-  (:require [squanmate.scramblers.algsets.algset :as algset]))
+  (:require [squanmate.scramblers.algsets.case-by-case-algset :as algset]))
 
 ;; All edge permutation algs are from Raul Low Beattie's work! Go follow him on
 ;; YouTube: https://www.youtube.com/watch?v=jrXDdjaD9Ic
@@ -108,4 +108,4 @@
    ["99. W / H" "/0,3/-3,-3/0,-3/0,-1/-4,2/4,-2/-4,0/1,1/1,1/-1,2/-3,-3/"]])
 
 (def ep-algset
-  (algset/->AlgSet odd-cases even-cases))
+  (algset/->CaseByCaseAlgSet odd-cases even-cases))

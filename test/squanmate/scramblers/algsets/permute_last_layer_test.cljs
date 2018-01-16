@@ -3,10 +3,10 @@
             [squanmate.scramblers.algsets.permute-last-layer :as pll]
             [squanmate.utils.alg-verification-utils :as av]
             [cats.monad.either :as either]
-            [squanmate.scramblers.algsets.algset :as algset])
+            [squanmate.scramblers.alg-trainer.algset-scrambler :as algset-scrambler])
   (:require-macros [devcards.core :as dc :refer [deftest]]))
 
-(def all-cases (algset/all-cases pll/pll-algset))
+(def all-cases (algset-scrambler/all-cases pll/pll-algset))
 
 (deftest parse-all-cases-test []
   (is (empty? (av/non-parseable-cases all-cases))))
