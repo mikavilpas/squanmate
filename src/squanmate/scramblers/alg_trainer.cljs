@@ -33,14 +33,14 @@
       {:class (when selected? "selected-case")}
       [common/checkbox {:inline true
                         :checked selected?
-                        :on-change #(selection/select-or-deselect! state [case-name alg])}
+                        :on-change #(selection/select-or-deselect! state case)}
        case-name]]]))
 
 (defn- case-group [cases state]
   [:div
-   (for [[case-name alg] cases]
+   (for [[case-name alg :as c] cases]
      ^{:key case-name}
-     [case-selection-component state [case-name alg]])])
+     [case-selection-component state c])])
 
 (defn- alg-group-selected-cases [cases state]
   (->> cases
