@@ -20,7 +20,12 @@
    ["Back corners" "4,-3 / -3,0 / -1,2 / 1,-2 / -3,3 / -3,0 /-1"]))
 
 (def ^:private lin-top-edges [swapper/top-edges])
-(def ^:private lin-top-edges-and-df-edge [[:ub-edge :ur-edge :uf-edge]
+(def ^:private lin-top-edges-and-db-edge [;; don't scramble the dl edge because
+                                          ;; the algs need it
+                                          [:ub-edge :ur-edge :uf-edge]
+                                          ;; it's okay to switch the two bottom
+                                          ;; layer edges because that won't
+                                          ;; affect the Lin CP case
                                           [:db-edge :ul-edge]])
 
 (defn- create-puzzle [case]
@@ -30,7 +35,7 @@
       (partially-random-algset/create-puzzle alg lin-top-edges)
 
       (contains? cases-with-df-edge-unsolved case)
-      (partially-random-algset/create-puzzle alg lin-top-edges-and-df-edge))))
+      (partially-random-algset/create-puzzle alg lin-top-edges-and-db-edge))))
 
 (defrecord LinCornerPermutationAlgSet [odd-cases even-cases]
   algset-scrambler/AlgSetScrambler
