@@ -1,9 +1,13 @@
 (ns squanmate.scramblers.alg-trainer.scramble-generators.partially-random-algset
+  "Creates puzzle instances based on an algorithm and some pieces whose
+  positions can be randomized. Only works for algs that start at square square."
   (:require [squanmate.scramblers.algsets.scramble-generators.case-by-case-algset :as
              case-by-case-algset]
             [squanmate.alg.execution :as execution]
             [squanmate.alg.puzzle :as p]
-            [squanmate.services.cubeshape-piece-swapper :as cubeshape-piece-swapper]))
+            [squanmate.services.cubeshape-piece-swapper :as cubeshape-piece-swapper]
+            [squanmate.scramblers.shape-scrambler.predetermined-parity-scrambler :as pps]
+            [cats.monad.either :as either]))
 
 (defn randomize-piece-group [puzzle pieces-to-randomize]
   (let [substitutions (zipmap pieces-to-randomize
@@ -33,3 +37,10 @@
     (-> alg-string
         (solve-to-starting-position puzzle)
         (randomize-piece-groups piece-groups-to-randomize))))
+
+(defn create-case-with-parity [alg edges-to-randomize want-odd-parity?]
+  ;; At square square, the default positions (aligned) will report an odd parity
+  ;; count. Thus want-odd-parity? will work like intended.
+  (let [new-puzzles (repeatedly #(create-puzzle alg edges-to-randomize))]
+    (first (filter (partial pps/same-parity? (either/right want-odd-parity?))
+                   new-puzzles))))
