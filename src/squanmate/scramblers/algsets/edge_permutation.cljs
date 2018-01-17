@@ -1,5 +1,5 @@
 (ns squanmate.scramblers.algsets.edge-permutation
-  (:require [squanmate.scramblers.algsets.case-by-case-algset :as algset]))
+  (:require [squanmate.scramblers.algsets.scramble-generators.case-by-case-algset :as algset]))
 
 ;; All edge permutation algs are from Raul Low Beattie's work! Go follow him on
 ;; YouTube: https://www.youtube.com/watch?v=jrXDdjaD9Ic

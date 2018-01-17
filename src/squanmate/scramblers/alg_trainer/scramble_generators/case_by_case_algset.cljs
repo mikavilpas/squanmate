@@ -1,4 +1,4 @@
-(ns squanmate.scramblers.algsets.case-by-case-algset
+(ns squanmate.scramblers.algsets.scramble-generators.case-by-case-algset
   (:require [squanmate.scramblers.alg-trainer.algset-scrambler :as algset-scrambler]
             [squanmate.alg.puzzle :as p]
             [squanmate.alg.execution :as execution]
@@ -34,17 +34,20 @@
       (manipulation/try-update-alg-string alg-string
                                           (partial manipulation/prepend-initial-rotation rotations)))))
 
-(defn- add-initial-rotation-to-case [case]
+(defn add-initial-rotation-to-case [case]
   (let [[case-name alg] case
         rotated-alg (prepend-random-rotations alg)]
     [case-name rotated-alg]))
+
+(defn starting-puzzle []
+  (apply-starting-rotation p/square-square))
 
 (defn- create-puzzle [case]
   ;; a starting rotation makes it possible to get the same EP case in all
   ;; different orientations
   (let [case (add-initial-rotation-to-case case)
         [case-name alg] case
-        start (apply-starting-rotation p/square-square)
+        start (starting-puzzle)
         scrambled-puzzle (->> alg
                               (execution/transformation-result-reverse start)
                               execution/puzzle-of-result)]

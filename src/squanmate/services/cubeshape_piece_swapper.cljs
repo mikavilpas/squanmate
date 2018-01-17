@@ -27,6 +27,12 @@
    :db-edge :dbl-corner
    :dl-edge :dlf-corner])
 
+;; shorthands for callers
+(def top-edges [:ul-edge
+                :ub-edge
+                :ur-edge
+                :uf-edge])
+
 (def ^:private position-indices (zipmap piece-ids (range)))
 
 (defn- position [piece-id]

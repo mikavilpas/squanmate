@@ -1,5 +1,5 @@
 (ns squanmate.scramblers.algsets.permute-last-layer
-  (:require [squanmate.scramblers.algsets.case-by-case-algset :as algset]))
+  (:require [squanmate.scramblers.algsets.scramble-generators.case-by-case-algset :as algset]))
 
 ;; These algs are from Raul Low Beattie's video:
 ;; Square-1 Full PLL (with Parity - New Algorithms)
