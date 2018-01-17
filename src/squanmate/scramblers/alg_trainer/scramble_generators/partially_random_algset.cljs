@@ -18,8 +18,7 @@
 
 (defn- starting-position [alg]
   (let [start-puzzle (case-by-case-algset/starting-puzzle)]
-    (-> alg
-        (execution/transformation-result-reverse alg)
+    (-> (execution/transformation-result-reverse start-puzzle alg)
         execution/puzzle-of-result)))
 
 (defn create-puzzle
