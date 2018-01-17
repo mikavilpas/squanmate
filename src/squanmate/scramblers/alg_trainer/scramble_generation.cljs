@@ -3,7 +3,8 @@
             [squanmate.services.google-analytics :as ga]
             [squanmate.services.solving :as solving]
             [squanmate.scramblers.algsets.edge-permutation :as ep]
-            [squanmate.scramblers.algsets.permute-last-layer :as pll]))
+            [squanmate.scramblers.algsets.permute-last-layer :as pll]
+            [squanmate.scramblers.algsets.lin-corner-permutation :as lin-cp]))
 
 (defn- set-scramble-for-start-position! [state puzzle]
   (swap! state assoc :puzzle puzzle)
@@ -22,12 +23,13 @@
   [{:name "Edge permutation (EP)"
     :algset ep/ep-algset}
    {:name "Permute last layer (PLL)"
-    :algset pll/pll-algset}])
+    :algset pll/pll-algset}
+   {:name "Lin corner permutation"
+    :algset lin-cp/lin-cp-algset}])
 
 (defn- algset-for-case [case]
   (first (filter (fn [algset]
                    (let [all-cases (algset-scrambler/all-cases algset)]
-                     (js/console.log (into {} all-cases))
                      (some (partial = case) all-cases)))
                  (map :algset algsets))))
 
