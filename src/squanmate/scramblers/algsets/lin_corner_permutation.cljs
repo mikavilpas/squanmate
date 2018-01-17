@@ -42,7 +42,6 @@
 (defn- create-puzzle [case]
   (let [[name alg] case
         odd-case? (odd-parity-case? case)]
-    (println "odd case? " odd-case?)
     (cond
       (belongs-to? cases-with-bottom-solved case)
       (pra/create-case-with-parity alg
