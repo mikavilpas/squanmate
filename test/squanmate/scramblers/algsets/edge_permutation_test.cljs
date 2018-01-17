@@ -2,10 +2,10 @@
   (:require [clojure.test :as t :refer [is]]
             [squanmate.scramblers.algsets.edge-permutation :as ep]
             [squanmate.utils.alg-verification-utils :as av]
-            [squanmate.scramblers.algsets.algset :as algset])
+            [squanmate.scramblers.alg-trainer.algset-scrambler :as algset-scrambler])
   (:require-macros [devcards.core :as dc :refer [deftest]]))
 
-(def all-cases (algset/all-cases ep/ep-algset))
+(def all-cases (algset-scrambler/all-cases ep/ep-algset))
 
 (deftest parse-all-ep-cases-test []
   (is (empty? (av/non-parseable-cases all-cases))))
