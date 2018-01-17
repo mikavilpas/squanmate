@@ -16,9 +16,8 @@
           puzzle
           piece-groups-to-randomize))
 
-(defn- starting-position [alg]
-  (let [alg (case-by-case-algset/prepend-random-rotations alg)
-        start-puzzle (case-by-case-algset/starting-puzzle)]
+(defn- solve-to-starting-position [alg start-puzzle]
+  (let [alg (case-by-case-algset/prepend-random-rotations alg)]
     (-> (execution/transformation-result-reverse start-puzzle alg)
         execution/puzzle-of-result)))
 
@@ -30,6 +29,7 @@
   All of the pieces in each group will be exchanged randomly.
   "
   [alg-string piece-groups-to-randomize]
-  (-> alg-string
-      starting-position
-      (randomize-piece-groups piece-groups-to-randomize)))
+  (let [puzzle (case-by-case-algset/starting-puzzle)]
+    (-> alg-string
+        (solve-to-starting-position puzzle)
+        (randomize-piece-groups piece-groups-to-randomize))))
