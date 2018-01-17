@@ -15,3 +15,9 @@
 
 (deftest all-cases-are-aligned-test []
   (is (empty? (av/non-aligned-cases all-cases))))
+
+(deftest parity-of-cases []
+  (let [results (av/parity-and-non-parity-puzzles lin-cp/lin-cp-algset all-cases)]
+    (is (= {:even-parity-at-cubeshape (:even-cases lin-cp/lin-cp-algset)
+            :odd-parity-at-cubeshape (:odd-cases lin-cp/lin-cp-algset)}
+           results))))

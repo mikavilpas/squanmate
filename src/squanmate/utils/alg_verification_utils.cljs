@@ -7,7 +7,9 @@
             [squanmate.alg.puzzle :as p]
             [squanmate.alg.rotation :as rotation]
             [squanmate.scramblers.shape-scrambler.predetermined-parity-scrambler :as pps]
-            [squanmate.services.cube-aligner :as cube-aligner]))
+            [squanmate.services.cube-aligner :as cube-aligner]
+            [squanmate.scramblers.alg-trainer.algset-scrambler :as algset-scrambler]
+            [squanmate.scramblers.alg-trainer.scramble-generators.partially-random-algset :as pra]))
 
 (defn- parse [[case-name alg]]
   [case-name (parser/parse alg)])
@@ -62,3 +64,19 @@
               (m/extract
                (alg-switches-parity-at-layer-default-positions? alg)))
             cases))
+
+(defn algset-generates-parity-case?
+  "For an algorithm that is known to start and end at square square, returns an
+  Either[keyword] describing whether the algorithm has caused the puzzle to
+  switch parity."
+  [alg-set case]
+  (let [created-puzzle (algset-scrambler/generate-puzzle alg-set case)]
+    (m/mlet [odd-parity? (pps/puzzle-parity-at-default-layer-positions created-puzzle)]
+            (m/return (if odd-parity?
+                        :odd-parity-at-cubeshape
+                        :even-parity-at-cubeshape)))))
+
+(defn parity-and-non-parity-puzzles [alg-set algs]
+  (group-by (fn [alg]
+              (m/extract (algset-generates-parity-case? alg-set alg)))
+            algs))
