@@ -45,6 +45,7 @@
             squanmate.utils.either-utils-test
             squanmate.ui.alg-display-test
             squanmate.services.alg-insights.alignment-test
-            squanmate.services.cubeshape-piece-swapper-test))
+            squanmate.services.cubeshape-piece-swapper-test
+            squanmate.scramblers.algsets.lin-corner-permutation-test))
 
 (devtools/install! [:formatters :hints :async])

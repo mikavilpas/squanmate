@@ -7,16 +7,16 @@
 
 (def ^:private cases-with-df-edge-solved
   (sorted-set
-   ["Oriented corners (bottom solved)" "(7, 6) / (3,0) / (3,0) / (-1,-1) / (-2,1) / (-3,0) /"]
+   ["Oriented corners (bottom solved)" "(7, 6) / (3,0) / (3,0) / (-1,-1) / (-2,1) / (-3,0) /-1"]
    ["Diagonal corners (bottom solved)" "/ 3,3 / 1, -2 / 2, 2 / -3 / -3, -3 /"]))
 
 (def ^:private cases-with-df-edge-unsolved
   (sorted-set
-   ["Opposite corners" "1,0 / -4,-3 / -3,0 / -3,-3 / -3,0 / -2,-3 /"]
-   ["Left corners" "1,0 / 3,0 / 3,-3 / -1,2 / 1,-2 / 3,0 /"]
-   ["Right corners" "1,0 / 2,-1 / 0,-3 / 3,0 / -3,0 / -2,4 /"]
-   ["Front corners" "0,-1 / 4,-2 / -3,0 / 0,3 / 0,-3 / -1,2 /"]
-   ["Back corners" "4,-3 / -3,0 / -1,2 / 1,-2 / -3,3 / -3,0 /"]))
+   ["Opposite corners" "1,0 / -4,-3 / -3,0 / -3,-3 / -3,0 / -2,-3 /-1"]
+   ["Left corners" "1,0 / 3,0 / 3,-3 / -1,2 / 1,-2 / 3,0 /-1"]
+   ["Right corners" "1,0 / 2,-1 / 0,-3 / 3,0 / -3,0 / -2,4 /-1"]
+   ["Front corners" "0,-1 / 4,-2 / -3,0 / 0,3 / 0,-3 / -1,2 /0,1"]
+   ["Back corners" "4,-3 / -3,0 / -1,2 / 1,-2 / -3,3 / -3,0 /-1"]))
 
 (def ^:private top-edges swapper/top-edges)
 (def ^:private top-edges-and-df-edge (conj swapper/top-edges :df-edge))
