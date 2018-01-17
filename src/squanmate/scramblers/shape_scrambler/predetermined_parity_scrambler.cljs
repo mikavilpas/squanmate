@@ -33,9 +33,12 @@
            [parity? _] (either/right (parity-counter/parity-count (:puzzle p)))]
           (m/return parity?)))
 
-(defn- same-parity? [reference-parity puzzle]
-  (= reference-parity
-     (puzzle-parity-at-default-layer-positions puzzle)))
+(defn same-parity?
+  "`reference-parity` must be an Either[Boolean] value!"
+  [reference-parity puzzle]
+  (let [parity (puzzle-parity-at-default-layer-positions puzzle)]
+    (= reference-parity
+       parity)))
 
 (defn create-puzzle-with-relative-parity [ref-puzzle relative-parity-type]
   ;; Note: it's not possible to determine the parity of the puzzle if it is not
