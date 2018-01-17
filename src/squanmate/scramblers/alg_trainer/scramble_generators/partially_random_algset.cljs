@@ -1,7 +1,7 @@
 (ns squanmate.scramblers.alg-trainer.scramble-generators.partially-random-algset
   "Creates puzzle instances based on an algorithm and some pieces whose
   positions can be randomized. Only works for algs that start at square square."
-  (:require [squanmate.scramblers.algsets.scramble-generators.case-by-case-algset :as
+  (:require [squanmate.scramblers.alg-trainer.scramble-generators.case-by-case-algset :as
              case-by-case-algset]
             [squanmate.alg.execution :as execution]
             [squanmate.alg.puzzle :as p]

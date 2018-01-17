@@ -1,4 +1,4 @@
-(ns squanmate.scramblers.algsets.scramble-generators.case-by-case-algset
+(ns squanmate.scramblers.alg-trainer.scramble-generators.case-by-case-algset
   (:require [squanmate.scramblers.alg-trainer.algset-scrambler :as algset-scrambler]
             [squanmate.alg.puzzle :as p]
             [squanmate.alg.execution :as execution]

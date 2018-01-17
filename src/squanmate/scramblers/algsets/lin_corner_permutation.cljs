@@ -1,11 +1,11 @@
 (ns squanmate.scramblers.algsets.lin-corner-permutation
   "Each case can have even or odd parity, because only the order of corners and
   two edges is what defines each case."
-  (:require [squanmate.scramblers.alg-trainer.scramble-generators.partially-random-algset :as pra]
-            [squanmate.services.cubeshape-piece-swapper :as swapper]
-            [squanmate.scramblers.alg-trainer.algset-scrambler :as algset-scrambler]
-            [squanmate.scramblers.shape-scrambler.predetermined-parity-scrambler :as pps]
-            [clojure.string :as str]))
+  (:require [squanmate.scramblers.alg-trainer.algset-scrambler :as algset-scrambler]
+            [squanmate.scramblers.alg-trainer.scramble-generators.partially-random-algset
+             :as
+             pra]
+            [squanmate.services.cubeshape-piece-swapper :as swapper]))
 
 (def ^:private cases-with-bottom-solved
   [["Diagonal corners (bottom solved)" "/ 3,3 / 1, -2 / 2, 2 / -3 / -3, -3 /"]
