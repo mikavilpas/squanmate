@@ -7,7 +7,8 @@
 
 (def ^:private cases-with-df-edge-solved
   (sorted-set
-   ["Diagonal corners (bottom solved)" "/ 3,3 / 1, -2 / 2, 2 / -3 / -3, -3 /"]))
+   ["Diagonal corners (bottom solved)" "/ 3,3 / 1, -2 / 2, 2 / -3 / -3, -3 /"]
+   ["Front corners (bottom solved)" "/ (3,-3) / (3,0) / (-3,0) / (0,3) / (-3,0) /"]))
 
 (def ^:private cases-with-df-edge-unsolved
   (sorted-set
