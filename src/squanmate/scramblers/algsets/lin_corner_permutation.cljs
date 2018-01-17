@@ -7,11 +7,11 @@
 
 (def ^:private cases-with-df-edge-solved
   (sorted-set
-   ["Oriented corners (bottom solved)" "(7, 6) / (3,0) / (3,0) / (-1,-1) / (-2,1) / (-3,0) /-1"]
    ["Diagonal corners (bottom solved)" "/ 3,3 / 1, -2 / 2, 2 / -3 / -3, -3 /"]))
 
 (def ^:private cases-with-df-edge-unsolved
   (sorted-set
+   ["Oriented corners" "(7, 6) / (3,0) / (3,0) / (-1,-1) / (-2,1) / (-3,0) /-1"]
    ["Opposite corners" "1,0 / -4,-3 / -3,0 / -3,-3 / -3,0 / -2,-3 /-1"]
    ["Left corners" "1,0 / 3,0 / 3,-3 / -1,2 / 1,-2 / 3,0 /-1"]
    ["Right corners" "1,0 / 2,-1 / 0,-3 / 3,0 / -3,0 / -2,4 /-1"]
