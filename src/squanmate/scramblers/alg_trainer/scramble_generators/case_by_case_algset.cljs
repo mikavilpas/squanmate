@@ -23,7 +23,7 @@
         (update :top-layer rotate)
         (update :bottom-layer rotate))))
 
-(defn- prepend-random-rotations [alg-string]
+(defn prepend-random-rotations [alg-string]
   ;; note: the given alg-string must start at square-square
   (letfn [(random-rotation-amount [layer]
             (let [[_new-layer amount] (rotate-square-layer layer)]

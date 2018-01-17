@@ -17,7 +17,8 @@
           piece-groups-to-randomize))
 
 (defn- starting-position [alg]
-  (let [start-puzzle (case-by-case-algset/starting-puzzle)]
+  (let [alg (case-by-case-algset/prepend-random-rotations alg)
+        start-puzzle (case-by-case-algset/starting-puzzle)]
     (-> (execution/transformation-result-reverse start-puzzle alg)
         execution/puzzle-of-result)))
 
