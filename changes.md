@@ -3,6 +3,9 @@
 ## upcoming
 - new feature: Add Lin method corner permutation algorithms to the algorithm
   trainer
+- new feature: Add cubeshape (square square) even & odd cases to the algorithm
+  trainer. Previously getting cubeshape scrambles was possible only by using the
+  cubeshape trainer. This should make it easier.
 
 ## 6.4
 - new feature: in the trainers, the current algorithm is analyzed and useful
