@@ -19,8 +19,8 @@
 (defn- create-puzzle [[name alg :as case]]
   (let [want-odd-parity? (odd-parity-case? case)]
     (pra/create-case-with-parity alg
-                                 [swapper/top-edges
-                                  swapper/top-corners]
+                                 [swapper/edges
+                                  swapper/corners]
                                  want-odd-parity?)))
 
 (defrecord CubeshapeAlgSet [odd-cases even-cases]
