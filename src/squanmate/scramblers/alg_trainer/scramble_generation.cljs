@@ -4,7 +4,8 @@
             [squanmate.services.solving :as solving]
             [squanmate.scramblers.algsets.edge-permutation :as ep]
             [squanmate.scramblers.algsets.permute-last-layer :as pll]
-            [squanmate.scramblers.algsets.lin-corner-permutation :as lin-cp]))
+            [squanmate.scramblers.algsets.lin-corner-permutation :as lin-cp]
+            [squanmate.scramblers.algsets.cubeshape :as cubeshape]))
 
 (defn- set-scramble-for-start-position! [state puzzle]
   (swap! state assoc :puzzle puzzle)
@@ -20,7 +21,9 @@
 
 (def algsets
   "The algorithm sets the algorithm trainer supports"
-  [{:name "Edge permutation (EP)"
+  [{:name "Cubeshape"
+    :algset cubeshape/cubeshape-algset}
+   {:name "Edge permutation (EP)"
     :algset ep/ep-algset}
    {:name "Permute last layer (PLL)"
     :algset pll/pll-algset}
