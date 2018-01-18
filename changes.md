@@ -1,6 +1,6 @@
 # Changelog
 
-## upcoming
+## 6.5
 - new feature: Add Lin method corner permutation algorithms to the algorithm
   trainer
 - new feature: Add cubeshape (square square) even & odd cases to the algorithm
