@@ -29,8 +29,18 @@
 
 (defn- new-solver []
   ;; api:
-  ;; new Worker("js/solver-worker.js").proxy()("solve")("start_state_encoded", function(err,result){[]});
-  (js* "new Worker('js/solver-worker.js').proxy()('solve')"))
+  ;; var worker = new Worker("js/solver-worker.js")
+  ;; worker.proxy(worker)("solve")("start_state_encoded", function(err,result){[]});
+  (let [worker (new js/Worker "js/solver-worker.js")
+        worker-proxy-fn (-> worker (aget "proxy"))
+        worker-proxy (worker-proxy-fn worker)
+        solve-fn (worker-proxy "solve")
+        terminate-fn (aget worker "-terminate")]
+    ;; Allow solving and terminating the worker after it's done, if desired.
+    ;; Otherwise the worker will continue to live on, and eventually crash the
+    ;; browser/tab when they pile up.
+    {:solve solve-fn
+     :worker worker}))
 
 (defn- set-solution [result-alg
                      initial-rotation
@@ -47,17 +57,19 @@
                              (serialization/alg-to-str result-steps))))))
 
 (defn solve-state-string [starting-state-string & {:keys [initial-rotation]}]
-  (let [solver (new-solver)
+  (let [{:keys [solve worker]} (new-solver)
         result-atom (reagent/atom nil)]
-    (solver starting-state-string
-            (fn callback [err, result-alg]
-              (when err
-                (reset! result-atom (str "failed: " err)))
-              (when result-alg
-                (println "puzzle: " starting-state-string
-                         ", Initial rotation: " initial-rotation
-                         ", Solution: " result-alg)
-                (set-solution result-alg initial-rotation result-atom))))
+    (solve
+     starting-state-string
+     (fn callback [err, result-alg]
+       (when err
+         (reset! result-atom (str "failed: " err)))
+       (when result-alg
+         (println "puzzle: " starting-state-string
+                  ", Initial rotation: " initial-rotation
+                  ", Solution: " result-alg)
+         (set-solution result-alg initial-rotation result-atom))
+       (.terminate worker)))
     result-atom))
 
 (defn- convert-piece [p]

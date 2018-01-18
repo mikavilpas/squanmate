@@ -29,11 +29,10 @@
     return !!(obj && obj.constructor && obj.call && obj.apply)
   }
 
-  Worker.prototype.proxy = function proxy(script) {
+  Worker.prototype.proxy = function proxy(worker) {
 
-    var worker = this
-      , pendingCallbacks = {}
-      , seqNo = 0
+    var pendingCallbacks = {}
+    , seqNo = 0
 
     worker.addEventListener('message', function onmessage(evt) {
 
