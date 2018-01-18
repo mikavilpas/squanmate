@@ -28,10 +28,12 @@
    :dl-edge :dlf-corner])
 
 ;; shorthands for callers
-(def top-edges [:ul-edge
-                :ub-edge
-                :ur-edge
-                :uf-edge])
+(def top-edges [:ul-edge :ub-edge :ur-edge :uf-edge])
+(def bottom-edges [:dl-edge :db-edge :dr-edge :df-edge])
+(def edges (into top-edges bottom-edges))
+(def top-corners [:ufl-corner :ulb-corner :ubr-corner :urf-corner])
+(def bottom-corners [:dfr-corner :drb-corner :dbl-corner :dlf-corner])
+(def corners (into top-corners bottom-corners))
 
 (def ^:private position-indices (zipmap piece-ids (range)))
 
