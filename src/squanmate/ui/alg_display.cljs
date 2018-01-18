@@ -43,7 +43,6 @@
   (loop [token-groups []
          tokens tokens]
     (let [[a b] (take 2 tokens)]
-      (js/console.log (:move a) (:move b))
       (cond
         (nil? a)
         token-groups
