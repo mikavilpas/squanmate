@@ -6,10 +6,15 @@
             [squanmate.alg.execution :as execution]
             [squanmate.alg.parser :as parser]
             [squanmate.alg.puzzle :as p]
-            [squanmate.services.alg-insights.types :as types]
-            [squanmate.services.alg-insights.cubeshape :as cubeshape]
             [squanmate.services.alg-insights.alignment :as alignment]
+            [squanmate.services.alg-insights.cubeshape :as cubeshape]
+            [squanmate.services.alg-insights.types :as types]
             [squanmate.utils.either-utils :as eu]))
+
+(defn- add-indices-and-preserve-order [display-tokens]
+  (->> display-tokens
+       (interleave (range))
+       (partition 2)))
 
 (defn- combine-alg-with-markers
   "Combines the parsed parts of the scramble algorithm with markers that will be
@@ -18,7 +23,7 @@
   `markers-maps` should be a sequence of maps in the insights format.
   "
   [display-tokens markers-maps]
-  (for [[index token] (zipmap (range) display-tokens)]
+  (for [[index token] (add-indices-and-preserve-order display-tokens)]
     (let [markers (->> markers-maps
                        (map #(get % index))
                        vec

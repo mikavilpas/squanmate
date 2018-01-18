@@ -111,3 +111,17 @@
         corners (filterv corner? pieces)
         edges (filterv edge? pieces)]
     [corners edges]))
+
+(defn update-pieces [puzzle update-fn]
+  ;; monoid like interface: update contents while preserving the structure
+  (let [all-pieces (into (-> puzzle :top-layer :pieces)
+                         (-> puzzle :bottom-layer :pieces))
+        update-results (update-fn all-pieces)
+
+        top-count (count (-> puzzle :top-layer :pieces))
+        new-top-layer-pieces (->> update-results (take top-count) vec)
+        new-bottom-layer-pieces (->> update-results (drop top-count) vec)]
+
+    (-> puzzle
+        (assoc-in [:top-layer :pieces] new-top-layer-pieces)
+        (assoc-in [:bottom-layer :pieces] new-bottom-layer-pieces))))

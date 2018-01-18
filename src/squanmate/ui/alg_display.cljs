@@ -30,7 +30,8 @@
   (let [classes-string (insight-classes token)
         description (marker-descriptions (:markers token))]
     [common/overlay-trigger
-     {:overlay (reagent/as-element [common/tooltip description])
+     {:overlay (reagent/as-element [common/tooltip {:id (str token description)}
+                                    description])
       :placement "top"}
      [:span {:class classes-string}
       (serialization/step-to-str (:move token))]]))

@@ -20,8 +20,11 @@ Squanmate can help you:
     effectively!
 * **Train algorithms**
   * like with cubeshape cases, select the cases you want to train
-  * currently supports **edge permutation (EP)** and **permute last layer
-    (PLL)** cases.
+  * supported algsets:
+    * **cubeshape (square square)** even & odd parity scrambles
+    * **edge permutation (EP)**
+    * **permute last layer (PLL)**
+    * **Lin corner permutation**
   * cases are split into even and odd parity cases for your convenience.
 * **Learn and remember all different shapes and their names**
 * **Inspect a scramble**

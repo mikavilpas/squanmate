@@ -1,5 +1,16 @@
 # Changelog
 
+## 6.5
+- new feature: Add Lin method corner permutation algorithms to the algorithm
+  trainer
+- new feature: Add cubeshape (square square) even & odd cases to the algorithm
+  trainer. Previously getting cubeshape scrambles was possible only by using the
+  cubeshape trainer. This should make it easier.
+- bugfix: creating more than 30 puzzles could crash the application due to
+  leaking resources
+- bugfix: incorrect scramble order in some cases. Some scrambles showed a couple
+  of moves from the beginning of the scramble, then some from the end, etc.
+
 ## 6.4
 - new feature: in the trainers, the current algorithm is analyzed and useful
   parts of it are highlighted with tooltips (when clicked/mouseovered) in
