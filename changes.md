@@ -6,6 +6,8 @@
 - new feature: Add cubeshape (square square) even & odd cases to the algorithm
   trainer. Previously getting cubeshape scrambles was possible only by using the
   cubeshape trainer. This should make it easier.
+- bugfix: creating more than 30 puzzles could crash the application due to
+  leaking resources
 
 ## 6.4
 - new feature: in the trainers, the current algorithm is analyzed and useful
