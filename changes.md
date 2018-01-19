@@ -1,5 +1,9 @@
 # Changelog
 
+## upcoming
+- bugfix: count position finder could crash when a layer was rotated, and then a
+  new layer was selected that didn't allow for the selected rotation
+
 ## 6.6
 - change: remove extra space after slices (/ move) in trainer and inspector
   scrambles. Make sure the alg is always wrapped nicely on small displays.
