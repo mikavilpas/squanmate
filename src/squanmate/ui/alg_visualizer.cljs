@@ -92,14 +92,23 @@
                                                        :filename (str "squanmate-" (js/Date.) ".png"))}
    "Export as .PNG"])
 
-(defn- link-to-this-visualization [state]
-  [common/button
-   {:on-click #(links/set-link-to-visualization
-                {:top-name (-> state :puzzle-chooser-layer-names :top)
-                 :bottom-name (-> state :puzzle-chooser-layer-names :bottom)
-                 :initial-rotation (-> state :initial-rotation)
-                 :algorithm (-> state :algorithm)})}
-   "Link to this visualization"])
+(defn- set-link-to-visualization [state-map]
+  (links/set-link-to-visualization
+   {:top-name (-> state-map :puzzle-chooser-layer-names :top)
+    :bottom-name (-> state-map :puzzle-chooser-layer-names :bottom)
+    :initial-rotation (-> state-map :initial-rotation)
+    :algorithm (-> state-map :algorithm)}))
+
+(defn- link-to-this-visualization [state-map]
+  [common/overlay-trigger
+   {:overlay (reagent/as-element [common/popover {:id "link-message"}
+                                  "The link is set in the browser's address bar.
+                                  If you change anything, you will need to
+                                  create a new link."])
+    :placement :right}
+   [common/button
+    {:on-click #(set-link-to-visualization state-map)}
+    "Link to current visualization"]])
 
 (defn- clear-visualization [state]
   (reset! state (deref (default-alg-visualizer-state))))
