@@ -5,6 +5,8 @@
   scrambles. Make sure the alg is always wrapped nicely on small displays.
 - new feature: add simple explanation message to the "link to current
   visualization" button
+- change: display "shape shifted" parts of scrambles as blue instead of
+  highlighted gray
 
 ## 6.5
 - new feature: Add Lin method corner permutation algorithms to the algorithm
