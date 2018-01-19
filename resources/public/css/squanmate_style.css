@@ -109,3 +109,7 @@ table.parity-count-analysis td {
     font-weight: bolder;
     color: lightblue;
 }
+
+.alg-step-group {
+    display: inline-block;
+}
