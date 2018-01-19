@@ -1,5 +1,12 @@
 # Changelog
 
+## 6.6.1
+- bugfix: count position finder could crash when a layer was rotated, and then a
+  new layer was selected that didn't allow for the selected rotation
+- bugfix: fix inputted algorithms not failing when an alg contained invalid
+  input in the middle. For example, 1,0/-1,0,/-3,0/ would get recognized as
+  1,0/-1,0 (it would drop the end off completely)
+
 ## 6.6
 - change: remove extra space after slices (/ move) in trainer and inspector
   scrambles. Make sure the alg is always wrapped nicely on small displays.

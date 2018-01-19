@@ -26,11 +26,16 @@
 
 (defparser whitespace []
   (optional
-   (p/choice (p/many (p/token whitespace?))
-             ;; This character is used in some algorithms to show that
-             ;; the algorithm flips the middle layer. It's currently
-             ;; ignored by the parser.
-             (p/many (p/char "*")))))
+   (p/many (p/token whitespace?))))
+
+(defparser safe-ignore-characters []
+  ;; Characters that are considered an optional part of an algorithm, and thus
+  ;; are completely safe to ignore (they add no vital information to it)
+  (optional
+   ;; This character is used in some algorithms to show that
+   ;; the algorithm flips the middle layer. It's currently
+   ;; ignored by the parser.
+   (p/many (p/char "*"))))
 
 (defparser slice []
   (p/>> (whitespace)
@@ -110,20 +115,16 @@
            _ (whitespace)]
     (p/always rotations)))
 
-(defparser empty-alg []
-  (let->> [_ (whitespace)
-           _ (p/eof)]
-    (p/always [])))
-
 (defparser step []
   (p/>> (whitespace)
-        (p/either (p/attempt (slice))
+        (p/either (slice)
                   (rotations))))
 
 (defparser algorithm []
-  (p/let->> [alg-steps (p/choice (p/attempt (p/many1 (step)))
-                                 (empty-alg))
-             _ (whitespace)]
+  (p/let->> [alg-steps (p/many (step))
+             _ (whitespace)
+             _ (safe-ignore-characters)
+             _ (p/eof)]
     (p/always (flatten alg-steps))))
 
 (defn parse

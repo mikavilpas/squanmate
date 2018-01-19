@@ -144,4 +144,7 @@
          (a/parse "M2 U’ M2 U M2"))))
 
 (deftest parser-fails-test []
-  (is (either/left? (a/parse "not an algorithm"))))
+  (is (either/left? (a/parse "not an algorithm")))
+  (is (either/left? (a/parse ",")))
+  (is (either/left? (a/parse "1,0/-1,0,/-3,0/"))
+      "parsing a case with an extra comma in the middle should be an error"))

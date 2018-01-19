@@ -55,7 +55,7 @@
                                                          :initial-rotation nil
                                                          :result-atom (reagent/atom nil))]
              (<! (timeout 500))
-             (is (= "(0,2)/ (-5,4)/ (5,2)/ (-3,0)/ (0,3)/ (-5,1)/ (-1,2)/ (-3,-2)"
+             (is (= "(0,2)/(-5,4)/(5,2)/(-3,0)/(0,3)/(-5,1)/(-1,2)/(-3,-2)"
                     @result-atom)
                  "solve an example from the readme file of Jaap's solver")
              (done)))))
@@ -75,7 +75,7 @@
 
 (deftest solve-kite-kite []
   (async done
-         (should-be-solved-with "/3" "(-3,0)/ " done)))
+         (should-be-solved-with "/3" "(-3,0)/" done)))
 
 (deftest solve-non-sliceable-position []
   "An 'non-sliceable position' is one where the puzzle can't be sliced (a corner

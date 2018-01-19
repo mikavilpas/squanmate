@@ -8,8 +8,8 @@
             [squanmate.services.shapes :as shapes]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
             [squanmate.ui.initial-rotation-adjuster :as ira]
-            [squanmate.ui.shape-chooser :as shape-chooser]
-            [squanmate.ui.rotation-adjuster-controls :as rac]))
+            [squanmate.ui.rotation-adjuster-controls :as rac]
+            [squanmate.ui.shape-chooser :as shape-chooser]))
 
 (defn default-state []
   (reagent/atom {:initial-rotation "(0,0)"
@@ -49,9 +49,19 @@
      (merge newmonochrome/default-settings (assoc visual-settings
                                                   :count-positions count-position-groups))]))
 
+(defn- reset-rotation! [state]
+  (let [{:keys [initial-rotation
+                dummy-algorithm]} (deref (default-state))]
+    (swap! state assoc
+           :initial-rotation initial-rotation
+           :dummy-algorithm dummy-algorithm)))
+
 (defn count-position-finder [state]
   [:div
-   [shape-chooser/shape-chooser :state (reagent/cursor state [:settings :layer-name])]
+   [shape-chooser/shape-chooser
+    :state (reagent/cursor state [:settings :layer-name])
+    :callback #(reset-rotation! state)]
+
    [:div.center
     (when-let [layer (make-layer (-> @state :settings :layer-name)
                                  (:initial-rotation @state))]
