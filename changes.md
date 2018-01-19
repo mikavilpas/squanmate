@@ -1,7 +1,7 @@
 # Changelog
 
 ## 6.6
-- new feature: remove extra space after slices (/ move) in trainer and inspector
+- change: remove extra space after slices (/ move) in trainer and inspector
   scrambles. Make sure the alg is always wrapped nicely on small displays.
 - new feature: add simple explanation message to the "link to current
   visualization" button
