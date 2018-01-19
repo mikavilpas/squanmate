@@ -10,7 +10,7 @@
     ;; carefully placing spaces only outside of (a,-b)/ groups
     ;; makes the scramble to be rendered with very nice text
     ;; wrapping in the browser :)
-    types/Slice "/ "
+    types/Slice "/"
     types/Rotations (str "(" (prettification/prettify-value
                               (:top-amount s))
                          ","

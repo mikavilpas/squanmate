@@ -5,7 +5,8 @@
             [squanmate.services.alg-insights :as alg-insights]
             [squanmate.services.alg-insights.types :as t]
             [squanmate.ui.common :as common]
-            [reagent.core :as reagent]))
+            [reagent.core :as reagent]
+            [squanmate.alg.types :as types]))
 
 (defn- failed-scramble [error]
   [:div "scramble error:"
@@ -36,9 +37,36 @@
      [:span {:class classes-string}
       (serialization/step-to-str (:move token))]]))
 
+(defn- bundle-rotations-and-slice-pairs
+  "Group rotations and slices together, so they can be wrapped nicely in the UI."
+  [tokens]
+  (loop [token-groups []
+         tokens tokens]
+    (let [[a b] (take 2 tokens)]
+      (cond
+        (nil? a)
+        token-groups
+
+        (and (= types/Rotations (type (:move a)))
+             (= types/Slice (type (:move b))))
+        (recur (conj token-groups [a b])
+               (drop 2 tokens))
+
+        ;; This case means: either a is the last item, or a is a Slice and b is
+        ;; a Rotations type (so they are in the wrong order).
+        :else
+        (recur (conj token-groups [a])
+               (next tokens))))))
+
+(defn- algorithm-step-group [group-of-tokens]
+  (into [:span.alg-step-group]
+        (map algorithm-step group-of-tokens)))
+
 (defn- successful-scramble [tokens]
-  (into [:div]
-        (map algorithm-step tokens)))
+  [:div
+   (let [groups (bundle-rotations-and-slice-pairs tokens)]
+     (into [:div]
+           (map algorithm-step-group groups)))])
 
 (defn rich-scramble-display
   "Precondition: the `scramble-string` must start at square-square."
