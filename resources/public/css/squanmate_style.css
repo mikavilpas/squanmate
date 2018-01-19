@@ -93,8 +93,8 @@ table.parity-count-analysis td {
 /* algorithm insights */
 
 .insight.shape-shifted {
-    /* darken steps that are out of cubeshape */
-    background-color: #33333336;
+    /* lighten steps that are out of cubeshape */
+    color: #009bea;
 }
 
 /* Only show when leaving/entering cubeshape misaligned, since that is rarer */
