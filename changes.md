@@ -1,6 +1,6 @@
 # Changelog
 
-## upcoming
+## 6.6.1
 - bugfix: count position finder could crash when a layer was rotated, and then a
   new layer was selected that didn't allow for the selected rotation
 - bugfix: fix inputted algorithms not failing when an alg contained invalid
