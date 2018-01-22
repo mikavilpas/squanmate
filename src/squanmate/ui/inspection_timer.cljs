@@ -35,9 +35,9 @@
                              :elapsed-seconds 0
                              :completed? false
                              :start-fn #(.start tock start-ms)})]
-    (set! (.-callback tock)
+    (aset tock "callback"
           #(count-full-seconds state tock start-seconds))
-    (set! (.-complete tock)
+    (aset tock "complete"
           #(set-completed state tock))
 
     state))
