@@ -24,7 +24,7 @@
 
 (defn- run-async [w function-name args callback]
   (let [f (get-function w function-name)
-        new-args (conj args callback)]
+        new-args (conj (vec args) callback)]
     (apply f new-args)))
 
 (defn run-and-terminate [w function-name args callback]
