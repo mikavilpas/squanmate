@@ -113,3 +113,28 @@ table.parity-count-analysis td {
 .alg-step-group {
     display: inline-block;
 }
+
+button.flat {
+    /* remove button appearance. This way can style the :active state */
+    cursor: default;
+    border: none;
+    width: 100%;
+    outline: none;
+}
+
+.timer {
+    background-color: #e1e0e0;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: x-large;
+    text-align: center;
+    font-family: 'PT Sans', sans-serif;
+}
+
+.timer:active {
+    background-color: lightgreen;
+}
+
+.timer.eight-seconds {background-color: #f5f500;}
+.timer.twelve-seconds {background-color: orange;}
+.timer.fourteen-seconds {background-color: #ff3636;}

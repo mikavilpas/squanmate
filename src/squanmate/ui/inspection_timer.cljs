@@ -1,7 +1,8 @@
 (ns squanmate.ui.inspection-timer
   (:require [cljsjs.tock]
             [reagent.core :as reagent]
-            [squanmate.ui.common :as common]))
+            [squanmate.ui.common :as common]
+            [squanmate.utils.hiccup-utils :as hu]))
 
 (defn- count-full-seconds [state tock start-seconds]
   (let [elapsed-ms (.lap tock)
@@ -19,7 +20,11 @@
   (swap! state assoc :completed? true)
   (.stop tock))
 
-(defn- new-count-down-timer
+(defn- start [tock start-ms state]
+  (.start tock start-ms)
+  (swap! state assoc :started? true))
+
+(defn new-count-down-timer
   "A timer that counts down from the given amount of seconds.
 
   Returns a Reagent atom with an easily usable state for Reagent components to
@@ -34,7 +39,8 @@
         state (reagent/atom {:remaining-seconds start-seconds
                              :elapsed-seconds 0
                              :completed? false
-                             :start-fn #(.start tock start-ms)})]
+                             :started? false})]
+    (swap! state assoc :start-fn #(start tock start-ms state))
     (aset tock "callback"
           #(count-full-seconds state tock start-seconds))
     (aset tock "complete"
@@ -42,11 +48,37 @@
 
     state))
 
-(defn inspection-timer [time-s]
-  (let [timer (new-count-down-timer time-s)]
-    (fn render []
-      [:div "state: " (pr-str @timer)
-       [:div
-        [common/button
-         {:on-click (:start-fn @timer)}
-         "Start"]]])))
+(defn- time-display [timer]
+  [:div.center.vertical
+   (:elapsed-seconds @timer)])
+
+(defn- running [timer]
+  [time-display timer])
+
+(defn- waiting [timer]
+  [:div "(Click to start)"])
+
+(defn- timer-class [timer]
+  (let [t (:elapsed-seconds @timer)]
+    (cond
+      (>= t 15)
+      ""
+
+      (>= t 14)
+      "fourteen-seconds"
+
+      (>= t 12)
+      "twelve-seconds"
+
+      (>= t 8)
+      "eight-seconds"
+
+      :else
+      "")))
+
+(defn inspection-timer [timer]
+  [:button.flat.timer {:on-click (:start-fn @timer)
+                       :class (timer-class timer)}
+   (if (:started? @timer)
+     [running timer]
+     [waiting timer])])
