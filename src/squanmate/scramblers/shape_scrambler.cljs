@@ -2,16 +2,15 @@
   (:require [reagent.core :as reagent]
             [squanmate.pages.links :as links]
             [squanmate.scramblers.shape-scrambler.actions :as a]
-            [squanmate.ui.color-chooser :as color-chooser]
+            [squanmate.ui.alg-display :as alg-display]
+            [squanmate.ui.case-counter :as case-counter]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
+            [squanmate.ui.inspection-timer :as timer]
+            [squanmate.ui.inspection-timer-settings :as inspection-timer-settings]
             [squanmate.ui.layer-selector :as layer-selector]
             [squanmate.ui.middle-layer-controls :as middle-layer-controls]
-            [squanmate.scramblers.shape-scrambler.default-scrambler :as default-scrambler]
-            [squanmate.ui.case-counter :as case-counter]
-            [squanmate.ui.alg-display :as alg-display]
-            [squanmate.ui.shape-chooser :as shape-chooser]
-            [squanmate.ui.inspection-timer :as timer]))
+            [squanmate.ui.shape-chooser :as shape-chooser]))
 
 (defn selected-shapes-counter [state]
   ;; there are 90 total shape combinations
@@ -26,8 +25,12 @@
    [common/well
     (when-let [s (:scramble-algorithm @state)]
       [:div.center.vertical
+
        [alg-display/rich-scramble-display s]
-       (when (:show-inspection-timer? @state)
+
+       (when (-> @state
+                 :inspection-timer-settings
+                 :show-inspection-timer?)
          [:div.top10 {:style {:width "100%"}}
           [timer state]])])]])
 
@@ -75,16 +78,9 @@
    [:div.top30
     [select-single-case-component state]]])
 
-(defn- inspection-timer-options [state]
-  [common/form-group
-   [common/control-label "Inspection timer"]
-   [common/checkbox {:checked (-> @state :show-inspection-timer?)
-                     :on-change #(swap! state update :show-inspection-timer? not)}
-    "Show a timer with 15 seconds of inspection time"]])
-
 (defn scramble-options [state]
   [common/form
-   [inspection-timer-options state]
+   [inspection-timer-settings/inspection-timer-options (reagent/cursor state [:inspection-timer-settings])]
    [middle-layer-controls/controls (reagent/cursor state [:middle-layer-settings])]])
 
 (defn settings-component [state]
@@ -108,7 +104,7 @@
     :selected-shapes #{(set ["square" "square"])}
     :scramble-algorithm nil
     :middle-layer-settings (deref (middle-layer-controls/default-state))
-    :show-inspection-timer? false}))
+    :inspection-timer-settings (deref (inspection-timer-settings/default-state))}))
 
 (defn- repeat-case-button [state]
   [common/split-button {:on-click #(a/set-new-repeat-scramble state)
