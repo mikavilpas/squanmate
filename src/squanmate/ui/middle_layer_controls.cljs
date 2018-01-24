@@ -14,11 +14,10 @@
    label])
 
 (defn controls [state]
-  [common/form
-   [common/form-group
-    [common/control-label "Flip middle layer"]
-    [common/help-block [common/glyphicon {:glyph :info-sign}]
-     " The scramble will cause the middle layer to be flipped according to your choice"]
-    [radio-for state :random "randomly"]
-    [radio-for state :never "never"]
-    [radio-for state :always "always"]]])
+  [common/form-group
+   [common/control-label "Flip middle layer"]
+   [common/help-block [common/glyphicon {:glyph :info-sign}]
+    " The scramble will cause the middle layer to be flipped according to your choice"]
+   [radio-for state :random "randomly"]
+   [radio-for state :never "never"]
+   [radio-for state :always "always"]])

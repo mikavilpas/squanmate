@@ -21,14 +21,15 @@
 (defn- timer []
   [timer/inspection-timer (timer/new-count-down-timer 15)])
 
-(defn scramble-preview [s]
+(defn scramble-preview [state]
   [:div.col-xs-10.col-md-6.col-lg-6.scramble
    [common/well
-    (when s
+    (when-let [s (:scramble-algorithm @state)]
       [:div.center.vertical
        [alg-display/rich-scramble-display s]
-       [:div.top10 {:style {:width "100%"}}
-        [timer]]])]])
+       (when (:show-inspection-timer? @state)
+         [:div.top10 {:style {:width "100%"}}
+          [timer state]])])]])
 
 (defn- all-shapes-selection-buttons [state]
   [:div
@@ -74,6 +75,18 @@
    [:div.top30
     [select-single-case-component state]]])
 
+(defn- inspection-timer-options [state]
+  [common/form-group
+   [common/control-label "Inspection timer"]
+   [common/checkbox {:checked (-> @state :show-inspection-timer?)
+                     :on-change #(swap! state update :show-inspection-timer? not)}
+    "Show a timer with 15 seconds of inspection time"]])
+
+(defn scramble-options [state]
+  [common/form
+   [inspection-timer-options state]
+   [middle-layer-controls/controls (reagent/cursor state [:middle-layer-settings])]])
+
 (defn settings-component [state]
   [common/accordion {:default-active-key 1}
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :cog}]
@@ -83,7 +96,7 @@
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :wrench}]
                                                " Scramble options"])
                   :event-key 2}
-    [middle-layer-controls/controls (reagent/cursor state [:middle-layer-settings])]]])
+    [scramble-options state]]])
 
 ;; let this module own its state schema by having it defined inside this file
 (defn new-state []
@@ -94,7 +107,8 @@
     :chosen-shapes nil
     :selected-shapes #{(set ["square" "square"])}
     :scramble-algorithm nil
-    :middle-layer-settings (deref (middle-layer-controls/default-state))}))
+    :middle-layer-settings (deref (middle-layer-controls/default-state))
+    :show-inspection-timer? false}))
 
 (defn- repeat-case-button [state]
   [common/split-button {:on-click #(a/set-new-repeat-scramble state)
@@ -143,5 +157,5 @@
       [:div.center
        [puzzle-preview state draw-settings]]
       [:div.center
-       [scramble-preview (:scramble-algorithm @state)]]
+       [scramble-preview state]]
       [settings-component state]])))
