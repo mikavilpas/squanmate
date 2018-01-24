@@ -10,18 +10,25 @@
             [squanmate.scramblers.shape-scrambler.default-scrambler :as default-scrambler]
             [squanmate.ui.case-counter :as case-counter]
             [squanmate.ui.alg-display :as alg-display]
-            [squanmate.ui.shape-chooser :as shape-chooser]))
+            [squanmate.ui.shape-chooser :as shape-chooser]
+            [squanmate.ui.inspection-timer :as timer]))
 
 (defn selected-shapes-counter [state]
   ;; there are 90 total shape combinations
   (let [layer-count (-> @state :selected-shapes count)]
     [case-counter/selected-cases-counter layer-count 90]))
 
+(defn- timer []
+  [timer/inspection-timer (timer/new-count-down-timer 15)])
+
 (defn scramble-preview [s]
   [:div.col-xs-10.col-md-6.col-lg-6.scramble
    [common/well
     (when s
-      [alg-display/rich-scramble-display s])]])
+      [:div.center.vertical
+       [alg-display/rich-scramble-display s]
+       [:div.top10 {:style {:width "100%"}}
+        [timer]]])]])
 
 (defn- all-shapes-selection-buttons [state]
   [:div

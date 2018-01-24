@@ -49,20 +49,20 @@
     state))
 
 (defn- time-display [timer]
-  [:div.center.vertical
+  [:div
    (:elapsed-seconds @timer)])
 
 (defn- running [timer]
   [time-display timer])
 
 (defn- waiting [timer]
-  [:div "(Click to start)"])
+  [:div.waiting "(Click to start inspection)"])
 
 (defn- timer-class [timer]
   (let [t (:elapsed-seconds @timer)]
     (cond
       (>= t 15)
-      ""
+      "fifteen-seconds"
 
       (>= t 14)
       "fourteen-seconds"

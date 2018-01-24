@@ -129,6 +129,14 @@ button.flat {
     font-size: x-large;
     text-align: center;
     font-family: 'PT Sans', sans-serif;
+    width: 100%;
+    height: 2.5em;
+    color: #333;
+}
+
+.timer > .waiting {
+    font-size: small;
+    color: darkgray;
 }
 
 .timer:active {
@@ -138,3 +146,4 @@ button.flat {
 .timer.eight-seconds {background-color: #f5f500;}
 .timer.twelve-seconds {background-color: orange;}
 .timer.fourteen-seconds {background-color: #ff3636;}
+.timer.fifteen-seconds {background-color: #4c4c4c;}
