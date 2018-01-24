@@ -10,3 +10,8 @@
   [shape-scrambler/scramble-component scramble-state]
   scramble-state
   {:inspect-data true})
+
+(defcard-rg options
+  [shape-scrambler/scramble-options scramble-state]
+  scramble-state
+  {:inspect-data true})

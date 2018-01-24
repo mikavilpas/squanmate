@@ -4,10 +4,11 @@
             [reagent.core :as reagent]
             [squanmate.alg.manipulation :as manipulation]
             [squanmate.alg.parser :as parser]
-            [squanmate.alg.serialization :as serialization]
-            [squanmate.alg.types :as types]
             [squanmate.alg.rotation :as rotation]
-            [squanmate.alg.slicing :as slicing]))
+            [squanmate.alg.serialization :as serialization]
+            [squanmate.alg.slicing :as slicing]
+            [squanmate.alg.types :as types]
+            [squanmate.services.web-worker :as web-worker]))
 
 (def conversions {[:top :front :left] "A"
                   [:top :left] "1"
@@ -28,19 +29,7 @@
                   [:bottom :left :front] "H"})
 
 (defn- new-solver []
-  ;; api:
-  ;; var worker = new Worker("js/solver-worker.js")
-  ;; worker.proxy(worker)("solve")("start_state_encoded", function(err,result){[]});
-  (let [worker (new js/Worker "js/solver-worker.js")
-        worker-proxy-fn (-> worker (aget "proxy"))
-        worker-proxy (worker-proxy-fn worker)
-        solve-fn (worker-proxy "solve")
-        terminate-fn (aget worker "-terminate")]
-    ;; Allow solving and terminating the worker after it's done, if desired.
-    ;; Otherwise the worker will continue to live on, and eventually crash the
-    ;; browser/tab when they pile up.
-    {:solve solve-fn
-     :worker worker}))
+  (web-worker/new-worker "js/solver-worker.js"))
 
 (defn- set-solution [result-alg
                      initial-rotation
@@ -57,10 +46,12 @@
                              (serialization/alg-to-str result-steps))))))
 
 (defn solve-state-string [starting-state-string & {:keys [initial-rotation]}]
-  (let [{:keys [solve worker]} (new-solver)
+  (let [solver (new-solver)
         result-atom (reagent/atom nil)]
-    (solve
-     starting-state-string
+    (web-worker/run-and-terminate
+     solver
+     "solve"
+     [starting-state-string]
      (fn callback [err, result-alg]
        (when err
          (reset! result-atom (str "failed: " err)))
@@ -68,8 +59,8 @@
          (println "puzzle: " starting-state-string
                   ", Initial rotation: " initial-rotation
                   ", Solution: " result-alg)
-         (set-solution result-alg initial-rotation result-atom))
-       (.terminate worker)))
+         (set-solution result-alg initial-rotation result-atom))))
+
     result-atom))
 
 (defn- convert-piece [p]

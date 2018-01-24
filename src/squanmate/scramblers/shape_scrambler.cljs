@@ -2,14 +2,14 @@
   (:require [reagent.core :as reagent]
             [squanmate.pages.links :as links]
             [squanmate.scramblers.shape-scrambler.actions :as a]
-            [squanmate.ui.color-chooser :as color-chooser]
+            [squanmate.ui.alg-display :as alg-display]
+            [squanmate.ui.case-counter :as case-counter]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
+            [squanmate.ui.inspection-timer :as timer]
+            [squanmate.ui.inspection-timer-settings :as inspection-timer-settings]
             [squanmate.ui.layer-selector :as layer-selector]
             [squanmate.ui.middle-layer-controls :as middle-layer-controls]
-            [squanmate.scramblers.shape-scrambler.default-scrambler :as default-scrambler]
-            [squanmate.ui.case-counter :as case-counter]
-            [squanmate.ui.alg-display :as alg-display]
             [squanmate.ui.shape-chooser :as shape-chooser]))
 
 (defn selected-shapes-counter [state]
@@ -17,11 +17,22 @@
   (let [layer-count (-> @state :selected-shapes count)]
     [case-counter/selected-cases-counter layer-count 90]))
 
-(defn scramble-preview [s]
+(defn- timer []
+  [timer/inspection-timer (timer/new-count-down-timer 15)])
+
+(defn scramble-preview [state]
   [:div.col-xs-10.col-md-6.col-lg-6.scramble
    [common/well
-    (when s
-      [alg-display/rich-scramble-display s])]])
+    (when-let [s (:scramble-algorithm @state)]
+      [:div.center.vertical
+
+       [alg-display/rich-scramble-display s]
+
+       (when (-> @state
+                 :inspection-timer-settings
+                 :show-inspection-timer?)
+         [:div.top10 {:style {:width "100%"}}
+          [timer state]])])]])
 
 (defn- all-shapes-selection-buttons [state]
   [:div
@@ -67,6 +78,11 @@
    [:div.top30
     [select-single-case-component state]]])
 
+(defn scramble-options [state]
+  [common/form
+   [inspection-timer-settings/inspection-timer-options (reagent/cursor state [:inspection-timer-settings])]
+   [middle-layer-controls/controls (reagent/cursor state [:middle-layer-settings])]])
+
 (defn settings-component [state]
   [common/accordion {:default-active-key 1}
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :cog}]
@@ -76,7 +92,7 @@
    [common/panel {:header (reagent/as-element [:span [common/glyphicon {:glyph :wrench}]
                                                " Scramble options"])
                   :event-key 2}
-    [middle-layer-controls/controls (reagent/cursor state [:middle-layer-settings])]]])
+    [scramble-options state]]])
 
 ;; let this module own its state schema by having it defined inside this file
 (defn new-state []
@@ -87,7 +103,8 @@
     :chosen-shapes nil
     :selected-shapes #{(set ["square" "square"])}
     :scramble-algorithm nil
-    :middle-layer-settings (deref (middle-layer-controls/default-state))}))
+    :middle-layer-settings (deref (middle-layer-controls/default-state))
+    :inspection-timer-settings (deref (inspection-timer-settings/default-state))}))
 
 (defn- repeat-case-button [state]
   [common/split-button {:on-click #(a/set-new-repeat-scramble state)
@@ -136,5 +153,5 @@
       [:div.center
        [puzzle-preview state draw-settings]]
       [:div.center
-       [scramble-preview (:scramble-algorithm @state)]]
+       [scramble-preview state]]
       [settings-component state]])))

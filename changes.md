@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.7
+- new feature: an optional inspection timer for the cubeshape trainer. The timer
+  can be enabled from "Scramble options".
+
 ## 6.6.1
 - bugfix: count position finder could crash when a layer was rotated, and then a
   new layer was selected that didn't allow for the selected rotation
