@@ -135,15 +135,20 @@ button.flat {
 }
 
 .timer > .waiting {
+    /* make the waiting text unobtrusive */
     font-size: small;
     color: darkgray;
 }
 
 .timer:active {
-    background-color: lightgreen;
+    background-color: lightgreen !important;
+    color: #333 !important;
 }
 
 .timer.eight-seconds {background-color: #f5f500;}
 .timer.twelve-seconds {background-color: orange;}
 .timer.fourteen-seconds {background-color: #ff3636;}
-.timer.fifteen-seconds {background-color: #4c4c4c;}
+.timer.fifteen-seconds {
+    background-color: #4c4c4c;
+    color: lightgray;
+}
