@@ -4,10 +4,10 @@
             [reagent.core :as reagent]
             [squanmate.alg.manipulation :as manipulation]
             [squanmate.alg.parser :as parser]
-            [squanmate.alg.serialization :as serialization]
-            [squanmate.alg.types :as types]
             [squanmate.alg.rotation :as rotation]
+            [squanmate.alg.serialization :as serialization]
             [squanmate.alg.slicing :as slicing]
+            [squanmate.alg.types :as types]
             [squanmate.services.web-worker :as web-worker]))
 
 (def conversions {[:top :front :left] "A"

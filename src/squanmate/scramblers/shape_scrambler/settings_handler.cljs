@@ -9,7 +9,8 @@
 
 (defn save-settings! [state-map]
   (let [settings (->> (select-keys state-map [:selected-shapes
-                                              :middle-layer-settings])
+                                              :middle-layer-settings
+                                              :inspection-timer-settings])
                       (into {}))]
     ;; colors are saved only on their own page
     (storage/save "trainer-settings" settings)))

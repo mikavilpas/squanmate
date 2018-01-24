@@ -32,6 +32,7 @@
                  [cljsjs/google-analytics "2015.04.13-0"]
                  [cljsjs/mousetrap "1.5.3-0"]
                  [hodgepodge "0.1.3"]
+                 [cljsjs/tock "1.0.12-0"]
 
                  ;; provides tinycolor internally!
                  [cljsjs/react-color "2.13.1-0"]]
