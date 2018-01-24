@@ -1,6 +1,6 @@
 # Changelog
 
-## upcoming
+## 6.7
 - new feature: an optional inspection timer for the cubeshape trainer. The timer
   can be enabled from "Scramble options".
 
