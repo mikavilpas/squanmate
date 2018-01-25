@@ -4,11 +4,10 @@
             [reagent.core :as reagent]
             [squanmate.alg.execution :as execution]
             [squanmate.alg.manipulation :as manipulation]
-            [squanmate.pages.links :as links]
             [squanmate.alg.puzzle :as puzzle]
-            [squanmate.scramblers.shape-scrambler :as shape-scrambler]
-            [squanmate.services.color-settings :as color-settings]
             [squanmate.alg.slicing :as slicing]
+            [squanmate.pages.links :as links]
+            [squanmate.ui.alg-display :as alg-display]
             [squanmate.ui.color-chooser :as color-chooser]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
@@ -85,6 +84,11 @@
                   :event-key 2}
     [parity-analysis-component puzzle state]]])
 
+(defn scramble-preview [s]
+  [:div.col-xs-10.col-md-6.col-lg-6.scramble
+   [common/well
+    [alg-display/rich-scramble-display s]]])
+
 (defn- show-successful-scramble [puzzle state draw-settings-map]
   (let [draw-settings (merge draw-settings-map
                              {:size 200})]
@@ -92,7 +96,7 @@
      [:div.center
       [newmonochrome/monochrome-puzzle puzzle draw-settings]]
      [:div.center
-      [shape-scrambler/scramble-preview (-> @state :scramble :scramble-algorithm)]]
+      [scramble-preview (-> @state :scramble :scramble-algorithm)]]
      [settings puzzle state]]))
 
 (defn- clear-button [state]

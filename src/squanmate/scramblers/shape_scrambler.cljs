@@ -20,7 +20,7 @@
 (defn- timer []
   [timer/inspection-timer (timer/new-count-down-timer 15)])
 
-(defn scramble-preview [state]
+(defn- scramble-preview [state]
   [:div.col-xs-10.col-md-6.col-lg-6.scramble
    [common/well
     (when-let [s (:scramble-algorithm @state)]
