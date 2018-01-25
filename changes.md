@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.7.1
+- bugfix: opening scramble inspector crashed the app
+
 ## 6.7
 - new feature: an optional inspection timer for the cubeshape trainer. The timer
   can be enabled from "Scramble options".
