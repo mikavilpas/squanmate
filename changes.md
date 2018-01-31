@@ -1,5 +1,8 @@
 # Changelog
 
+## upcoming
+- new feature: keyboard shortcuts to cubeshape and algorithm trainers
+
 ## 6.7.1
 - bugfix: opening scramble inspector crashed the app
 
