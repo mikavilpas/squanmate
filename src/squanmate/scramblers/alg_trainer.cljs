@@ -11,7 +11,8 @@
             [squanmate.ui.case-counter :as case-counter]
             [squanmate.ui.common :as common]
             [squanmate.ui.drawing.newmonochrome :as newmonochrome]
-            [squanmate.ui.middle-layer-controls :as middle-layer-controls]))
+            [squanmate.ui.middle-layer-controls :as middle-layer-controls]
+            [squanmate.ui.shortcut-cheat-sheet :as shortcut-cheat-sheet]))
 
 (defn- puzzle-preview [state draw-settings-map]
   (when-let [puzzle (:puzzle @state)]
@@ -107,9 +108,11 @@
                   :event-key 2}
     [middle-layer-controls/controls (reagent/cursor state [:middle-layer-settings])]]])
 
-(defn new-default-state []
+(defn new-default-state [& {:keys [keybindings]}]
   (reagent/atom {:selected-cases #{}
-                 :middle-layer-settings (deref (middle-layer-controls/default-state))}))
+                 :middle-layer-settings (deref (middle-layer-controls/default-state))
+                 ;; optional
+                 :keybindings keybindings}))
 
 (defn- new-scramble-button [state]
   [:div
@@ -131,11 +134,15 @@
      [:span [common/glyphicon {:glyph :repeat}]]
      " Repeat case"]))
 
+(defn- cheat-sheet-button [state]
+  [shortcut-cheat-sheet/cheat-sheet-button (:keybindings @state)])
+
 (defn- action-buttons [state]
   [:div.center
    [repeat-scramble-button state]
    [new-scramble-button state]
-   [inspect-scramble-button state]])
+   [inspect-scramble-button state]
+   [cheat-sheet-button state]])
 
 (defn trainer-component
   ([state]
