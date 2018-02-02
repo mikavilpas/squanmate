@@ -117,7 +117,9 @@
    [common/menu-item {:on-select #(a/set-new-scramble-with-parity state :same-relative-parity)}
     "Repeat with same parity"]
    [common/menu-item {:on-select #(a/set-new-scramble-with-parity state :opposite-relative-parity)}
-    "Repeat with opposite parity"]])
+    "Repeat with opposite parity"]
+   [common/menu-item {:on-select #(a/set-new-scramble-with-flipped-layers state)}
+    "Repeat and flip top and bottom layers"]])
 
 (defn- new-scramble-button [state]
   [common/split-button {:on-click #(a/set-new-random-scramble state)

@@ -13,9 +13,7 @@
             [cats.core :as m]
             [cats.monad.either :as either]))
 
-(def ^:private base-scrambler (default-scrambler/new-default-shape-scrambler))
-
-(defn- puzzle-with-same-layers [puzzle]
+(defn puzzle-with-same-layers [puzzle]
   (let [top-pieces-str (p/pieces-str (:top-layer puzzle))
         bottom-pieces-str (p/pieces-str (:bottom-layer puzzle))]
     (p/puzzle-with-shapes top-pieces-str
