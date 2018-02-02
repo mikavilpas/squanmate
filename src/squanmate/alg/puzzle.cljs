@@ -113,7 +113,7 @@
     [corners edges]))
 
 (defn update-pieces [puzzle update-fn]
-  ;; monoid like interface: update contents while preserving the structure
+  ;; functor like interface: update contents while preserving the structure
   (let [all-pieces (into (-> puzzle :top-layer :pieces)
                          (-> puzzle :bottom-layer :pieces))
         update-results (update-fn all-pieces)
