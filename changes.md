@@ -1,5 +1,9 @@
 # Changelog
 
+## upcoming
+- new feature: the cubeshape trainer now allows repeating the current case but
+  with the top and bottom layers flipped. The shortcut for this is "r f".
+
 ## 6.8
 - new feature: keyboard shortcuts to cubeshape and algorithm trainers
 
