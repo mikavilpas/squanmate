@@ -34,7 +34,12 @@
    {:key-combination "r o"
     :description "Repeat case with opposite parity"
     :action (fn [state]
-              (a/set-new-scramble-with-parity state :opposite-relative-parity))}])
+              (a/set-new-scramble-with-parity state :opposite-relative-parity))}
+
+   {:key-combination "r f"
+    :description "Repeat and flip top and bottom layers"
+    :action (fn [state]
+              (a/set-new-scramble-with-flipped-layers state))}])
 
 (defn initial-state []
   (let [settings-atom (shape-scrambler/new-state :keybindings keybindings)
