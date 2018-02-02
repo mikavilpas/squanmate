@@ -48,6 +48,7 @@
             squanmate.services.cubeshape-piece-swapper-test
             squanmate.scramblers.algsets.lin-corner-permutation-test
             squanmate.scramblers.algsets.cubeshape-test
-            squanmate.ui.inspection-timer-test))
+            squanmate.ui.inspection-timer-test
+            squanmate.scramblers.shape-scrambler.flip-layers-scrambler-test))
 
 (devtools/install! [:formatters :hints :async])

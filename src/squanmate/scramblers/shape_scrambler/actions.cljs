@@ -6,7 +6,8 @@
             [squanmate.services.shape-combinations :as shape-combinations]
             [squanmate.services.solving :as solving]
             [clojure.set :as set]
-            [squanmate.services.storage :as storage]))
+            [squanmate.services.storage :as storage]
+            [squanmate.scramblers.shape-scrambler.flip-layers-scrambler :as flip-layers-scrambler]))
 
 (defonce all-layers (->> shape-combinations/possible-layers
                          (map set)
@@ -48,8 +49,12 @@
 (defn set-new-scramble-with-parity [state relative-parity-type]
   (let [s (pps/->PredeterminedParityScrambler (:puzzle @state)
                                               relative-parity-type)]
-    (new-scramble! state s)
-    (ga/send-page-view :trainer/new-scramble)))
+    (set-new-scramble state s)))
+
+(defn set-new-scramble-with-flipped-layers [state]
+  (let [puzzle (:puzzle @state)
+        flipper (flip-layers-scrambler/->FlipLayersScrambler puzzle)]
+    (set-new-scramble state flipper)))
 
 (defn deselect-case-and-generate-new-scramble! [state]
   (let [this-case (:chosen-shapes @state)]
