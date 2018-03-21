@@ -18,7 +18,7 @@ Squanmate can help you:
   * a random scramble is generated for you. Solve away!
   * repeat the selected case with the same/opposite parity, to train both cases
     effectively!
-  * enable an optional inspcetion timer to see if you can determine the parity
+  * enable an optional inspection timer to see if you can determine the parity
     of your puzzle within 15 seconds
 * **Train algorithms**
   * like with cubeshape cases, select the cases you want to train
