@@ -127,7 +127,7 @@ will show up as changed in your `git status`. Commit the changed file to the
 repository so that the app works online with the newest version.
 
 [logolink]: https://rawgit.com/sp3ctum/squanmate/master/resources/public/readme/logo.png
-[applink]: https://cdn.rawgit.com/sp3ctum/squanmate/6.9/resources/public/index.html#/
+[applink]: https://cdn.rawgit.com/sp3ctum/squanmate/6.10/resources/public/index.html#/
 [my-algs]: https://docs.google.com/spreadsheets/d/1r0LN41RGKI4oAvD9rCmmc-A5UBpNPvsEOb7eWaEtIFo/edit?usp=sharing
 [my-lin-algs]: https://docs.google.com/spreadsheets/d/1VxhlAqf0z91Cqqo-EEmUuZhJP4NjlA741fjOOZLrcns/edit?usp=sharing
 [lin-pll-plus-1-algs]: https://docs.google.com/document/d/1sXODF-g3CowiUr1_brwyR2JpQsu6VYb-NKaYYTP1Sd8/edit?usp=sharing
