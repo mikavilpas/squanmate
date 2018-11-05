@@ -55,34 +55,38 @@
       [case-counter/selected-cases-counter selected-count (count cases)])))
 
 (defn- case-selections [state alg-set]
-  [:div
-
-   [:div.container-fluid [case-group (:even-cases alg-set) state]]
-   [:div.center.top10
-    [alg-group-selection-counter (:even-cases alg-set) state]]
-   [:hr]
-   [:div.container-fluid [case-group (:odd-cases alg-set) state]]
-   [:div.center.top10
-    [alg-group-selection-counter (:odd-cases alg-set) state]]
-
-   [:hr]
-   [:div.center.vertical
-    [:div "Select:"]
+  (let [odd-cases-present? (not-empty (:odd-cases alg-set))]
     [:div
-     [common/button
-      {:on-click #(selection/select-cases! state (algset-scrambler/all-cases alg-set))}
-      "All"]
-     [common/button
-      {:on-click #(selection/deselect-cases! state (algset-scrambler/all-cases alg-set))}
-      "None"]
-     [common/button
-      {:on-click #(selection/select-cases! state (:even-cases alg-set))}
-      "All even parity"]
-     [common/button
-      {:on-click #(selection/select-cases! state (:odd-cases alg-set))}
-      "All odd parity"]]
-    [:div.center.top10
-     [alg-group-selection-counter (algset-scrambler/all-cases alg-set) state]]]])
+
+     [:div.container-fluid [case-group (:even-cases alg-set) state]]
+     [:div.center.top10
+      [alg-group-selection-counter (:even-cases alg-set) state]]
+     (when odd-cases-present?
+       [:div
+        [:hr]
+        [:div.container-fluid [case-group (:odd-cases alg-set) state]]])
+     [:div.center.top10
+      [alg-group-selection-counter (:odd-cases alg-set) state]]
+
+     [:hr]
+     [:div.center.vertical
+      [:div "Select:"]
+      [:div
+       [common/button
+        {:on-click #(selection/select-cases! state (algset-scrambler/all-cases alg-set))}
+        "All"]
+       [common/button
+        {:on-click #(selection/deselect-cases! state (algset-scrambler/all-cases alg-set))}
+        "None"]
+       [common/button
+        {:on-click #(selection/select-cases! state (:even-cases alg-set))}
+        "All even parity"]
+       (when odd-cases-present?
+         [common/button
+          {:on-click #(selection/select-cases! state (:odd-cases alg-set))}
+          "All odd parity"])]
+      [:div.center.top10
+       [alg-group-selection-counter (algset-scrambler/all-cases alg-set) state]]]]))
 
 (defn- algset-header [title]
   (reagent/as-element [:span [common/glyphicon {:glyph :th}]
