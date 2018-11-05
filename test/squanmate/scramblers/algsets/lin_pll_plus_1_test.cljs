@@ -24,8 +24,7 @@
   (let [results (av/parity-and-non-parity-cases all-cases)
         odd-cases (get results :switches-parity)
         even-cases (get results :preserves-parity)]
-    (js/console.dir results)
     (is (= (:even-cases algset)
            even-cases))
     (is (= (:odd-cases algset)
-           odd-cases))))
+           []))))
