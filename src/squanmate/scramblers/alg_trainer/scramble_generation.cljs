@@ -5,6 +5,7 @@
             [squanmate.scramblers.algsets.edge-permutation :as ep]
             [squanmate.scramblers.algsets.permute-last-layer :as pll]
             [squanmate.scramblers.algsets.lin-corner-permutation :as lin-cp]
+            [squanmate.scramblers.algsets.lin-pll-plus-1 :as lin-pll-plus-1]
             [squanmate.scramblers.algsets.cubeshape :as cubeshape]))
 
 (defn- set-scramble-for-start-position! [state puzzle]
@@ -28,7 +29,9 @@
    {:name "Permute last layer (PLL)"
     :algset pll/pll-algset}
    {:name "Lin corner permutation"
-    :algset lin-cp/lin-cp-algset}])
+    :algset lin-cp/lin-cp-algset}
+   {:name "Lin PLL+1"
+    :algset lin-pll-plus-1/lin-pll-plus-1-algset}])
 
 (defn- algset-for-case [case]
   (first (filter (fn [algset]
