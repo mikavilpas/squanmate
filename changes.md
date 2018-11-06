@@ -1,5 +1,7 @@
 # Changelog
 
+## 6.10
+- new feature: add Lin method PLL+1 algorithms to the trainer.
 ## 6.9
 - new feature: the cubeshape trainer now allows repeating the current case but
   with the top and bottom layers flipped. The shortcut for this is "r f".
